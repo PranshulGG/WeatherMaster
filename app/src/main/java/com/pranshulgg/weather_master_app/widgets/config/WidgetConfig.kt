@@ -22,5 +22,5 @@ data class WidgetConfig(
     val isWeatherBackground: Boolean = false,
     val isDisplayHourly: Boolean = false,
     val showPrecipitationProbability: Boolean = false,
-
-    )
+    val hideWeather: Boolean = false
+)

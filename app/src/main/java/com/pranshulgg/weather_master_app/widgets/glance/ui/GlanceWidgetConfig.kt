@@ -81,6 +81,8 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
         WidgetTextTheme.entries.filter { it != WidgetTextTheme.AUTO }
             .map { DialogOption(it.toString(), stringResource(it.label)) }
 
+    var hideWeather by remember { mutableStateOf(false) }
+
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -98,7 +100,7 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                GlanceWidgetPreview(clockSize, showClock, dateFormat, widgetTextTheme)
+                GlanceWidgetPreview(clockSize, showClock, dateFormat, widgetTextTheme, hideWeather)
             }
 
             SettingSection(
@@ -130,6 +132,14 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                             dateFormat = it
                         }
                     ),
+                    SettingTile.SwitchTile(
+                        leading = { SettingsTileIcon(R.drawable.nest_farsight_weather_24px) },
+                        title = "Hide weather",
+                        checked = hideWeather,
+                        onCheckedChange = {
+                            hideWeather = it
+                        }
+                    ),
                     SettingTile.DialogOptionTile(
                         leading = { SettingsTileIcon(R.drawable.format_paint_24px) },
                         title = stringResource(R.string.settings_widget_text_color),
@@ -156,7 +166,8 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                             clockSize = clockSize,
                             showClock = showClock,
                             dateFormat = dateFormat,
-                            widgetTextTheme = widgetTextTheme
+                            widgetTextTheme = widgetTextTheme,
+                            hideWeather = hideWeather
                         )
                     )
                 },
@@ -182,7 +193,8 @@ private fun GlanceWidgetPreview(
     clockSize: Float = 32f,
     showClock: Boolean = true,
     format: String,
-    textTheme: WidgetTextTheme
+    textTheme: WidgetTextTheme,
+    hideWeather: Boolean
 ) {
 
     val textColor = when (textTheme) {
@@ -223,12 +235,14 @@ private fun GlanceWidgetPreview(
             color = textColor,
             style = style
         )
-        Gap(5.dp)
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            WeatherIconBox(R.drawable.weather_partly_cloudy_day, size = 24.dp)
-            Gap(horizontal = 5.dp)
-            Text("29° • ", color = textColor, fontSize = 18.sp, style = style)
-            Text("Clear sky", color = textColor, fontSize = 18.sp, style = style)
+        if (!hideWeather) {
+            Gap(5.dp)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                WeatherIconBox(R.drawable.weather_partly_cloudy_day, size = 24.dp)
+                Gap(horizontal = 5.dp)
+                Text("29° • ", color = textColor, fontSize = 18.sp, style = style)
+                Text("Clear sky", color = textColor, fontSize = 18.sp, style = style)
+            }
         }
     }
 }

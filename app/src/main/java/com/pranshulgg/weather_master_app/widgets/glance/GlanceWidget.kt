@@ -85,30 +85,32 @@ class GlanceWidget : GlanceAppWidget() {
 
                         WidgetDate(config.dateFormat, context, size = 20f, color = textColor.second)
 
-                        Spacer(GlanceModifier.height(5.dp))
-                        Row() {
-                            Image(
-                                provider = ImageProvider(state.currentIcon),
-                                contentDescription = null,
-                                modifier = GlanceModifier.size(24.dp)
-                            )
-                            Spacer(GlanceModifier.width(5.dp))
-
-                            Text(
-                                "${state.currentTemp} • ",
-                                style = TextStyle(
-                                    color = textColor.first,
-                                    fontSize = 18.sp
-                                ),
-                            )
-
-                            Text(
-                                state.currentCondition,
-                                style = TextStyle(
-                                    color = textColor.first,
-                                    fontSize = 18.sp
+                        if (!config.hideWeather) {
+                            Spacer(GlanceModifier.height(5.dp))
+                            Row() {
+                                Image(
+                                    provider = ImageProvider(state.currentIcon),
+                                    contentDescription = null,
+                                    modifier = GlanceModifier.size(24.dp)
                                 )
-                            )
+                                Spacer(GlanceModifier.width(5.dp))
+
+                                Text(
+                                    "${state.currentTemp} • ",
+                                    style = TextStyle(
+                                        color = textColor.first,
+                                        fontSize = 18.sp
+                                    ),
+                                )
+
+                                Text(
+                                    state.currentCondition,
+                                    style = TextStyle(
+                                        color = textColor.first,
+                                        fontSize = 18.sp
+                                    )
+                                )
+                            }
                         }
                     }
                 } else {
