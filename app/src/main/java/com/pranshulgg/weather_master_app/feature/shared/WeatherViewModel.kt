@@ -51,8 +51,7 @@ class WeatherViewModel @Inject constructor(
     private val updateLocationSourceUseCase: UpdateLocationSourceUseCase,
     private val deleteLocationUseCase: DeleteLocationUseCase,
     private val loadWeatherBlocksUseCase: LoadWeatherBlocksUseCase,
-    private val saveWeatherBlocksUseCase: SaveWeatherBlocksUseCase,
-    @ApplicationContext private val context: Context
+    private val saveWeatherBlocksUseCase: SaveWeatherBlocksUseCase
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(MainScreenWeatherUiState())
@@ -61,10 +60,10 @@ class WeatherViewModel @Inject constructor(
     private val processLifecycleObserver = object : DefaultLifecycleObserver {
         override fun onStart(owner: LifecycleOwner) {
             val location = _uiState.value.activeLocation ?: return
-            startAutoRefresh(location = location, source = location.source)
+            startAutoRefresh(location = location)
             // isInitialized guard avoids duplicating setActiveLocation()'s cold-start fetch.
             if (_uiState.value.isInitialized) {
-                getWeather(location = location, source = location.source)
+                getWeather(location = location)
             }
         }
 
@@ -127,7 +126,6 @@ class WeatherViewModel @Inject constructor(
 
     fun getWeather(
         location: Location,
-        source: Source,
         isManualRefresh: Boolean = false,
         isForceRefresh: Boolean = false,
         isForceRefreshForAirQuality: Boolean = false,
@@ -147,15 +145,18 @@ class WeatherViewModel @Inject constructor(
 
             getWeatherUseCase(
                 location = location,
-                source = source,
                 isManualRefresh = isManualRefresh,
                 isForceRefresh = isForceRefresh,
                 isForceRefreshForAirQuality = isForceRefreshForAirQuality,
                 isForceRefreshForAlerts = isForceRefreshForAlerts,
                 weatherUnits = _uiState.value.weatherUnits,
+                onLocationUpdated = { updatedLocation ->
+                    if (updatedLocation.id == _uiState.value.activeLocation?.id) {
+                        _uiState.value = _uiState.value.copy(activeLocation = updatedLocation)
+                    }
+                },
                 onWeather = { result, effectiveLocation ->
                     if (effectiveLocation.id == _uiState.value.activeLocation?.id) {
-                        _uiState.value = _uiState.value.copy(activeLocation = effectiveLocation)
                         handleWeatherData(result, effectiveLocation)
                     }
                 },
@@ -201,7 +202,7 @@ class WeatherViewModel @Inject constructor(
 
     fun setActiveLocation(location: Location) {
         _uiState.value = _uiState.value.copy(activeLocation = location)
-        getWeather(location, location.source)
+        getWeather(location)
     }
 
 
@@ -229,7 +230,6 @@ class WeatherViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(activeLocation = updatedLocation)
             getWeather(
                 updatedLocation,
-                source,
                 isForceRefresh = allowForceRefreshForWeather,
                 isForceRefreshForAirQuality = allowForceRefreshForAirQuality,
                 isForceRefreshForAlerts = allowForceRefreshForAlerts
@@ -254,7 +254,7 @@ class WeatherViewModel @Inject constructor(
     }
 
 
-    private suspend fun handleWeatherData(result: WeatherResult, location: Location) {
+    private fun handleWeatherData(result: WeatherResult, location: Location) {
 
 
         when (result) {
@@ -265,10 +265,10 @@ class WeatherViewModel @Inject constructor(
 
             is WeatherResult.Error -> {
 
-
                 _uiState.value = _uiState.value.copy(
                     isError = true,
                     weather = result.cacheWeather,
+                    isInitialized = result.cacheWeather != null,
                     isUnsupportedSource = !location.source.isGlobal() && !location.source.isSourceSupportedFor(
                         location.countryCode?.uppercase()
                     )
@@ -282,10 +282,6 @@ class WeatherViewModel @Inject constructor(
                 SnackbarManager.show(R.string.weather_refresh_delay, messageArgs = 15)
             }
 
-        }
-
-        if (location.isDefault && !_uiState.value.isError && _uiState.value.weather != null) {
-            // Widget update handled by GetWeatherUseCase
         }
     }
 
@@ -353,8 +349,7 @@ class WeatherViewModel @Inject constructor(
     private var autoRefreshJob: Job? = null
 
     fun startAutoRefresh(
-        location: Location,
-        source: Source
+        location: Location
     ) {
 
         if (autoRefreshJob?.isActive == true) return
@@ -368,8 +363,7 @@ class WeatherViewModel @Inject constructor(
                 }
 
                 getWeather(
-                    location = location,
-                    source = source
+                    location = location
                 )
             }
         }

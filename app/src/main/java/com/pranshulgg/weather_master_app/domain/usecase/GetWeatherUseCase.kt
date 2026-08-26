@@ -4,7 +4,6 @@ package com.pranshulgg.weather_master_app.domain.usecase
 import android.content.Context
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
-import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
@@ -21,12 +20,12 @@ class GetWeatherUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         location: Location,
-        source: Source,
         isManualRefresh: Boolean = false,
         isForceRefresh: Boolean = false,
         isForceRefreshForAirQuality: Boolean = false,
         isForceRefreshForAlerts: Boolean = false,
         weatherUnits: WeatherUnits,
+        onLocationUpdated: suspend (Location) -> Unit = {},
         onWeather: suspend (WeatherResult, Location) -> Unit,
         onAlerts: suspend (AlertResult?) -> Unit,
         onAirQuality: suspend (AirQualityResult?) -> Unit
@@ -43,6 +42,7 @@ class GetWeatherUseCase @Inject constructor(
                 effectiveForceRefresh = true
                 effectiveForceRefreshForAirQuality = true
                 effectiveForceRefreshForAlerts = true
+                onLocationUpdated(effectiveLocation)
             }
         }
 

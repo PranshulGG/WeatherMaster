@@ -12,7 +12,7 @@ class SaveWeatherBlocksUseCase @Inject constructor(
         weatherBlocksRepository.saveBlocks(items.map {
             WeatherBlock(
                 type = it.type,
-                isHidden = false,
+                isHidden = it.isHidden,
                 position = it.position,
                 isDaily = isDaily,
                 id = it.id

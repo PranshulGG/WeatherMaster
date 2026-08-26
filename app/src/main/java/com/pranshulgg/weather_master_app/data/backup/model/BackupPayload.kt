@@ -185,7 +185,7 @@ fun WeatherUnitsBackup.toEntity(): AppWeatherUnitsEntity = AppWeatherUnitsEntity
 
 fun WeatherBlockEntity.toBackupDto(): WeatherBlockBackup = WeatherBlockBackup(
     isDaily = isDaily,
-    type = type.name,
+    type = type?.name ?: "",
     isHidden = isHidden,
     position = position
 )
