@@ -429,15 +429,15 @@
     <string name="error_not_found">La risorsa richiesta non è stata trovata.</string>
     <string name="error_request_timeout">Il server non ha risposto in tempo.</string>
     <string name="error_too_many_requests">È stato raggiunto il limite di richieste.</string>
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_notifications_secondary">Scheduled notifications, on-going notification, and more</string>
-    <string name="weather_precipitation_probability">Precipitation probability %1$s</string>
-    <string name="error_failed_background_updates">Failed background updates</string>
-    <string name="setting_on_going_notification">On-going notification</string>
-    <string name="setting_today_forecast_notification">Today\'s forecast notification</string>
-    <string name="setting_today_forecast_notification_set_time">Set time for today\'s forecast notification</string>
-    <string name="setting_next_day_forecast_notification">Next day forecast notification</string>
-    <string name="setting_next_day_forecast_notification_set_time">Set time for next day forecast notification</string>
-    <string name="label_disabled">Disabled</string>
+    <string name="settings_notifications">Notifiche</string>
+    <string name="settings_notifications_secondary">Notifiche programmate, notifiche persistenti e molto altro</string>
+    <string name="weather_precipitation_probability">Probabilità di precipitazioni %1$s</string>
+    <string name="error_failed_background_updates">Aggiornamenti in background non riusciti</string>
+    <string name="setting_on_going_notification">Notifica persistente</string>
+    <string name="setting_today_forecast_notification">Notifica sulle previsioni di oggi</string>
+    <string name="setting_today_forecast_notification_set_time">Imposta l\'orario per la notifica sulle previsioni di oggi</string>
+    <string name="setting_next_day_forecast_notification">Notifica sulle previsioni di domani</string>
+    <string name="setting_next_day_forecast_notification_set_time">Imposta l\'orario per la notifica sulle previsioni di domani</string>
+    <string name="label_disabled">Disattivato</string>
 </resources>
 <!--<string name=""></string>-->
