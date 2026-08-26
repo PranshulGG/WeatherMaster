@@ -78,7 +78,7 @@ fun getMoonTimings(
 
 
         /**
-         * Fix mentioned in https://github.com/PranshulGG/WeatherMaster/issues/1077 by @reveler-hub
+         * Moonrise/moonset pairing fix by https://github.com/reveler-hub
          *
          * Since the moon doesn't follow a clean 24 hr cycle, the lib can return a rise and set that don't belong
          * to the same cycle
