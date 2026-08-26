@@ -89,13 +89,13 @@ fun getMoonTimings(
          */
         val resolveSet =
             if (moonTimes.rise != null && moonTimes.set != null && moonTimes.rise!! > moonTimes.set) {
-                moonTimes.set
-            } else {
                 MoonTimes.compute()
                     .on(date.plusDays(1))
                     .at(lat, lon)
                     .timezone(safeZoneId(zoneId))
                     .execute().set
+            } else {
+                moonTimes.set
             }
 
         MoonTimings(
