@@ -31,6 +31,9 @@ import javax.inject.Inject
 // rural locations, matching breezy-weather's MGM source.
 private data class MgmStations(val dailyStationId: Long, val hourlyStationId: Long?)
 
+/**
+ * Initial MGM (Turkey) integration implemented by https://github.com/reveler-hub
+ */
 class MgmRepository @Inject constructor(
     val dao: LocationsDao,
     val weatherDao: WeatherDao,
