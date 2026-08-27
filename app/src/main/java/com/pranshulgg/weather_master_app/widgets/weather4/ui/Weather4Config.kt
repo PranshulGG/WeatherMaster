@@ -78,7 +78,7 @@ fun Weather4Config(onDone: (WidgetConfig) -> Unit = {}) {
         "EEEE, d MMMM",
         "EEEE, MMMM d",
         "EEEE MM-dd",
-        "EEE d MMMM",
+        "EEE, d MMMM",
         "EEE, MMMM d",
         "EEE MMM-dd",
         "EEE, d MMM",
