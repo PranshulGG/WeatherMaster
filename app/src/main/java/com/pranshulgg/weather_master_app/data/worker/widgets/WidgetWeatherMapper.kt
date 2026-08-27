@@ -9,6 +9,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.toFroggy
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.toWeekdayString
@@ -49,7 +50,8 @@ fun widgetWeatherMapper(
     )?.roundToInt()
 
 
-    val hourlyStartIndex = findHourlyIndexForTime(weather.hourly.map { it.time })
+    val hourlyStartIndex =
+        findHourlyIndexForTime(weather.hourly.map { it.time }, getCurrentTimeFor(timezone))
 
     val is24hr = PreferencesHelper.getBool("is24HrTimeFormat") ?: true
 

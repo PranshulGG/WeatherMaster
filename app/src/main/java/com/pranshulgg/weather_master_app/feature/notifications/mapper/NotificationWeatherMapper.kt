@@ -7,9 +7,11 @@ import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.summary.computeDaySummary
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationCurrentWeather
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationDailyWeather
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationHourlyWeather
@@ -53,6 +55,11 @@ fun notificationWeatherMapper(
         }
     }
 
+    val hourlyStartIndex = findHourlyIndexForTime(
+        weather.hourly.map { it.time },
+        getCurrentTimeFor(timezone)
+    )
+
     return NotificationWeatherModel(
         current = NotificationCurrentWeather(
             temp = "${currentTemperature}°",
@@ -86,7 +93,7 @@ fun notificationWeatherMapper(
                 pop = pop
             )
         },
-        hourly = List(weather.hourly.take(8).size) { index ->
+        hourly = List(weather.hourly.drop(hourlyStartIndex).take(8).size) { index ->
 
             val item = weather.hourly[index]
 
