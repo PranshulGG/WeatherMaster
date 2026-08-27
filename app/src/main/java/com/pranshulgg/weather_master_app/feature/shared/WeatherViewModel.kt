@@ -63,7 +63,6 @@ class WeatherViewModel @Inject constructor(
             // isInitialized guard avoids duplicating setActiveLocation()'s cold-start fetch.
             if (_uiState.value.isInitialized) {
                 getWeather(location = location, source = location.source)
-                Log.d("WeatherViewModel", "onStart: refreshing")
             }
         }
 

@@ -189,12 +189,7 @@ object SharedBottomSheet {
                                                 if (!showActions) {
                                                     onSave(currentSelectedSource)
                                                     hide()
-                                                    Log.d("CALLED", "CALLED HIDE")
-                                                } else {
-                                                    Log.d("CALLED", "DIDNT CALLED HIDE")
                                                 }
-
-
                                             }
                                         },
                                     )
