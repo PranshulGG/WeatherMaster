@@ -430,5 +430,15 @@
     <string name="error_not_found">Pyydettyä resurssia ei löytynyt.</string>
     <string name="error_request_timeout">Palvelin ei vastannut tarpeeksi nopeasti.</string>
     <string name="error_too_many_requests">Pyyntöjen yläraja on saavutettu.</string>
+    <string name="settings_notifications">Ilmoitukset</string>
+    <string name="settings_notifications_secondary">Ajastetut ilmoitukset, nykyiset ilmoitukset, jne.</string>
+    <string name="weather_precipitation_probability">Sateen todennäköisyys: %1$s</string>
+    <string name="error_failed_background_updates">Epäonnistuneet taustapäivitykset</string>
+    <string name="setting_on_going_notification">Nykyinen ilmoitus</string>
+    <string name="setting_today_forecast_notification">Päivän ennuste -ilmoitus</string>
+    <string name="setting_today_forecast_notification_set_time">Ajasta päivän ennuste -ilmoitus</string>
+    <string name="setting_next_day_forecast_notification">Huomisen ennuste -ilmoitus</string>
+    <string name="setting_next_day_forecast_notification_set_time">Ajasta huomisen ennuste -ilmoitus</string>
+    <string name="label_disabled">Pois käytöstä</string>
 </resources>
 <!--<string name=""></string>-->
