@@ -186,9 +186,9 @@ class WeatherViewModel @Inject constructor(
                 delay(minLoadingTime - elapsed)
             }
 
+            setLoading(false)
 
         }
-        setLoading(false)
 
     }
 

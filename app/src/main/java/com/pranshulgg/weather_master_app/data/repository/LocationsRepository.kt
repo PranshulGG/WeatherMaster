@@ -119,7 +119,7 @@ class LocationsRepository @Inject constructor(
     }
 
     suspend fun getWeatherForLocation(locationId: String): Weather {
-        return dao.getWeatherForLocation(locationId).toDomain()
+        return dao.getWeatherForLocation(locationId).toDomain()!!
     }
 
     suspend fun getAirQualityForLocation(locationId: String): AirQuality? {
@@ -248,7 +248,7 @@ class LocationsRepository @Inject constructor(
 
     fun getWeatherForAllLocations(): Flow<List<Weather>> {
         return dao.getAllLocationsCurrentWeather()
-            .map { list -> list.map { it.toDomain() } }
+            .map { list -> list.mapNotNull { it.toDomain() } }
     }
 
 
