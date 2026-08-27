@@ -26,5 +26,7 @@
  <li><b>JMA</b></li>
  <li><b>CWA</b></li>
  <li><b>Pirate Weather</b></li>
+ <li><b>IMET</b></li>
+ <li><b>OpenWeather</b></li>
  <li><b>And more to be added</b></li>
 </ul>

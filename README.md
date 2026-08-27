@@ -75,6 +75,8 @@
 - **CWA**
 - **Pirate Weather**
 - **JMA**
+- **IMET**
+- **OpenWeather**
 - _**And more to be added**_
 
 Some sources need a free API key from the provider before you can select them — add yours from a
