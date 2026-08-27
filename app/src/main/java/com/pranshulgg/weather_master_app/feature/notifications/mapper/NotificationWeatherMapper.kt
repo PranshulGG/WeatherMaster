@@ -12,6 +12,7 @@ import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeStrin
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.summary.computeDaySummary
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingDaily
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationCurrentWeather
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationDailyWeather
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationHourlyWeather
@@ -97,10 +98,17 @@ fun notificationWeatherMapper(
 
             val item = weather.hourly[index]
 
+            val matchingDaily = findMatchingDaily(
+                item.time,
+                weather.daily,
+                weather.location.timezone
+            )
+
             val temp = formatterTemperature(item.temperature)
 
             val icon = item.weatherCondition.toIcon(
-                targetTimeMilli = System.currentTimeMillis()
+                matchingDaily,
+                targetTimeMilli = item.time
             )
 
             val pop = item.precipitationProbability?.let {
