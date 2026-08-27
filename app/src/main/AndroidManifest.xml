@@ -207,6 +207,20 @@
                 android:resource="@xml/weather5_widget_info" />
         </receiver>
 
+        <receiver
+            android:name=".widgets.froggy.FroggyWidgetReceiver"
+            android:label="Froggy"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/froggy_widget_info" />
+        </receiver>
+
     </application>
 
     <queries>

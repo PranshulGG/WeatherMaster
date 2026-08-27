@@ -18,6 +18,9 @@ import com.pranshulgg.weather_master_app.core.ui.theme.ThemeVariantType
 import com.pranshulgg.weather_master_app.core.ui.theme.WeatherMasterTheme
 import com.pranshulgg.weather_master_app.core.ui.theme.isThemeDark
 import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
+import com.pranshulgg.weather_master_app.widgets.froggy.FroggyWidget
+import com.pranshulgg.weather_master_app.widgets.froggy.FroggyWidgetReceiver
+import com.pranshulgg.weather_master_app.widgets.froggy.ui.FroggyWidgetConfig
 import com.pranshulgg.weather_master_app.widgets.glance.GlanceWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.glance.ui.GlanceWidgetConfig
 import com.pranshulgg.weather_master_app.widgets.hourly.WidgetHourlyReceiver
@@ -150,6 +153,10 @@ class WidgetConfigActivity : ComponentActivity() {
 
                         WidgetPillReceiver::class.java.name -> {
                             WeatherPillWidgetConfig { onDone(it) }
+                        }
+
+                        FroggyWidgetReceiver::class.java.name -> {
+                            FroggyWidgetConfig { onDone(it) }
                         }
                     }
                 }
