@@ -1,8 +1,6 @@
 package com.pranshulgg.weather_master_app.widgets.pill.ui
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
@@ -10,7 +8,6 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
-import androidx.glance.LocalSize
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Box
 import androidx.glance.layout.Column
@@ -27,13 +24,25 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
 
 
 @Composable
-fun WeatherWidgetPill(state: WidgetWeather?) {
-    val textColor = GlanceTheme.colors.primary
+fun WeatherWidgetPill(
+    state: WidgetWeather?,
+    widgetConfig: WidgetConfig,
+    widgetColors: WidgetColors
+) {
+
+    val textColor = widgetColors
+        .getTextColor(widgetConfig.widgetTextTheme, widgetConfig.widgetTheme)
+        ?: Pair(GlanceTheme.colors.primary, null)
+
+    val color = widgetColors.getBackgroundColor(widgetConfig.widgetTheme)
+        ?: GlanceTheme.colors.widgetBackground
 
 
     if (state != null) {
@@ -45,7 +54,7 @@ fun WeatherWidgetPill(state: WidgetWeather?) {
                 provider = ImageProvider(R.drawable.pill_shape),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(
-                    GlanceTheme.colors.widgetBackground
+                    color
                 ),
                 modifier = GlanceModifier.fillMaxSize()
             )
@@ -55,9 +64,9 @@ fun WeatherWidgetPill(state: WidgetWeather?) {
                 Text(
                     state.currentTemp,
                     style = TextStyle(
-                        color = textColor,
+                        color = textColor.first,
                         fontWeight = FontWeight.Medium,
-                        fontSize = 58.sp,
+                        fontSize = 58.sp * widgetConfig.fontSize,
                     ),
                     modifier = GlanceModifier.padding(start = 38.dp)
                 )
@@ -74,7 +83,7 @@ fun WeatherWidgetPill(state: WidgetWeather?) {
                     provider = ImageProvider(state.currentIcon),
                     contentDescription = null,
                     modifier = GlanceModifier
-                        .size(64.dp)
+                        .size(64.dp * widgetConfig.iconSize)
                 )
                 Spacer(modifier = GlanceModifier.width(60.dp))
             }

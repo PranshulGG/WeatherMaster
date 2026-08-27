@@ -27,6 +27,7 @@ import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 import com.pranshulgg.weather_master_app.widgets.params.WidgetSizePoints
 import com.pranshulgg.weather_master_app.widgets.params.getWidgetParams
 import com.pranshulgg.weather_master_app.widgets.pill.ui.WeatherWidgetPill
+import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
 import kotlinx.serialization.json.Json
 
 
@@ -50,12 +51,14 @@ class WidgetPill : GlanceAppWidget() {
             val state = json?.let {
                 Json.decodeFromString<WidgetWeather>(it)
             }
+            val config = widgetState.config
+            val widgetColors = WidgetColors()
 
             Box(
                 GlanceModifier.fillMaxSize()
                     .clickable(actionStartActivity<MainActivity>())
             ) {
-                WeatherWidgetPill(state)
+                WeatherWidgetPill(state, config, widgetColors)
             }
         }
     }
