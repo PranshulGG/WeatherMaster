@@ -42,39 +42,57 @@ fun ChangelogContent(hideSheet: () -> Unit) {
             Gap(5.dp)
             ChangelogBox {
                 ChangelogHeader("New stuff")
-                ChangelogText("WMO Severe Weather added as alert source")
-                ChangelogText("FOSS Public Alert Server added as alert source #1004")
-                ChangelogText("You can now pick between 54 models for Open-Meteo source")
-                ChangelogText("New sources: Gismeteo (Russia) #1005, MetOffice (United Kingdom), IMD (India) #935, AEMET (Spain) by @reveler-hub")
-                ChangelogText("New Widgets: Hourly #1010,  UV index widget")
+                ChangelogText("App is now available on Google Play Store")
+                ChangelogText("Weather Notifications:")
+                ChangelogSubText("Scheduled notifications #1021")
+                ChangelogSubText("On-going notification")
+                ChangelogText("New sources:")
+                ChangelogSubText("CWA (Taiwan) by @reveler-hub")
+                ChangelogSubText("Pirate Weather by @altendorfme")
+                ChangelogSubText("JMA (Japan) by @reveler-hub")
+                ChangelogSubText("IMET (Brazil) by @altendorfme")
+                ChangelogSubText("OpenWeather (Global)")
+                ChangelogText("New layout for tablets")
+                ChangelogText("Added AMOLED theme option by @reveler-hub")
+                ChangelogText("Added Backup & Restore by @reveler-hub")
+                ChangelogText("Auto-select a self-paired alert source to match the weather source by @reveler-hub")
+                ChangelogText("Widget \"Weather 4\" now has more data formats")
+                ChangelogText("Widget \"Glance\" added option to hide the weather")
+                ChangelogText("New widget \"Weather 5\" #945")
+                ChangelogText("Widget \"Pill\" is now configurable #1053")
+                ChangelogText("New widget \"Froggy\"")
+
             }
             ChangelogBox {
                 ChangelogHeader("Fixed")
-                ChangelogText("Fixed Wrong temperature summary")
-                ChangelogText("Fixed crashes on Wind, Pressure, Humidity, Visibility screens")
-                ChangelogText("Fixed rain/snow block overflow issues #1008")
-                ChangelogText("Fixed date cutting off in German #1007")
-                ChangelogText("Fixed hourly forecast cutoff when font size is large")
-                ChangelogText("Fixed unwanted calls to alert APIs")
-                ChangelogText("Fixed wrong pressure and humidity for Meteo AM and BMKG source")
-                ChangelogText("Fix Pill widget resizing issues")
-                ChangelogText("Fix FPAS alerts to respect app language by @reveler-hub")
-                ChangelogText("Fix search-result casing and block-screen transition timing by @reveler-hub")
-                ChangelogText("Fixed weather block glitches during arrangement")
+                ChangelogText("Fixed recommended source selection")
+                ChangelogText("Fix crashes on location lookup #968")
+                ChangelogText("Fix app not being able to find current location #938 @reveler-hub")
+                ChangelogText("Fix Open-Meteo errors on some models #1039")
+                ChangelogText("Fix pressure screen using wrong units #1040")
+                ChangelogText("Fix current location not being updated when moving places #1035 by @reveler-hub")
+                ChangelogText("Fix current location sometimes not being able to get the country code making it not displaying the recommended sources correctly")
+                ChangelogText("Fix stutter/flash on every weather refresh by @reveler-hub")
+                ChangelogText("Fix BMKG forecast errors by @reveler-hub ")
+                ChangelogText("Fix device location's weather staying pinned to the old city after moving by @reveler-hub")
+                ChangelogText("Fix past-hour cache could grow indefinitely. Only keep previous 24 hrs")
+                ChangelogText("Fix Met Norway wind direction")
+                ChangelogText("Fix sun progress calculation")
+                ChangelogText("Fix mis-paired moonrise/moonset timings #1077")
+                ChangelogText("Fix overflowing caused by large font scaling")
+                ChangelogText("Fix UV index widget not working")
             }
             ChangelogBox {
                 ChangelogHeader("Improvements")
-                ChangelogText("Improved location list UI when there are active alerts")
-                ChangelogText("Keep past hour in the hourly forecast")
-                ChangelogText("Weather 3 widget now has option to display either the hourly or daily forecast")
-                ChangelogText("Units are now localized")
-                ChangelogText("Widget \"Weather 1\" now can display precipitation probability #1010")
-                ChangelogText("Added missing strings")
-                ChangelogText("Changed \"Light rain\" icon to be closer to \"Light\"")
-                ChangelogText("Past hours from the hourly forecast now will not be removed even if the source doesn't provide any")
-                ChangelogText("Add option to configure \"Weather 4\" widget date format #1018")
-                ChangelogText("Date format is now based on the app locale #744 @reveler-hub")
-                ChangelogText("Weather now auto-refreshes while the app is in the foreground #1026")
+                ChangelogText("Improved error handling")
+                ChangelogText("Improved daily weather conditions. Now correctly picks the secondary condition for the day")
+                ChangelogText("Improved weather sources architecture")
+                ChangelogText("Humidity/Dew point will be hidden if not provided by the source")
+                ChangelogText("Sun/moon block should now only be visible if valid")
+                ChangelogText("Added missing widget previews")
+                ChangelogText("Improved cache handling")
+                ChangelogText("Updated all translations")
+
             }
         }
 
@@ -102,6 +120,26 @@ private fun ChangelogText(text: String) {
         Text(
             "•",
             color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.bodyMedium
+        )
+        Text(
+            text,
+            color = MaterialTheme.colorScheme.onSurface,
+            style = MaterialTheme.typography.bodyMedium
+        )
+    }
+}
+
+@Composable
+private fun ChangelogSubText(text: String) {
+    Row(
+        verticalAlignment = Alignment.Top,
+        horizontalArrangement = Arrangement.spacedBy(5.dp),
+        modifier = Modifier.padding(start = 12.dp)
+    ) {
+        Text(
+            "•",
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             style = MaterialTheme.typography.bodyMedium
         )
         Text(
