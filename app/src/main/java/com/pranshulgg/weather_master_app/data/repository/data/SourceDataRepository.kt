@@ -33,7 +33,6 @@ class SourceDataRepository @Inject constructor(
 
         val weatherJob = async {
 
-
             weatherRepo.getWeather(
                 location,
                 isManualRefresh,

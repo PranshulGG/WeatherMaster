@@ -168,13 +168,6 @@ class LocationsRepository @Inject constructor(
             return false
         }
 
-        // Sources that resolve coordinates to a region/station/grid point once and cache it by
-        // locationId (NWS's grid points, and the composite-key cache several other sources use)
-        // have no way to know the device moved far enough to need re-resolving, since the
-        // locationId itself never changes - only clearing it here does. Without this, the device
-        // location's name/coordinates update correctly but the actual weather stays pinned to
-        // wherever it was last resolved (e.g. still showing the old city's weather under the new
-        // city's name after traveling).
         weatherDataReconcilerRepository.cleanLocationExtras(currentLocation.id)
 
         val address = try {

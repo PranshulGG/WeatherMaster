@@ -46,7 +46,7 @@ class MetNorwayRepository @Inject constructor(
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
                 else -> {}
             }
 
@@ -58,7 +58,12 @@ class MetNorwayRepository @Inject constructor(
                         location.latitude,
                         location.longitude
                     )
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
                 val domain = response.toDomain(location)
 
@@ -75,12 +80,9 @@ class MetNorwayRepository @Inject constructor(
                 WeatherResult.Success(domain)
 
             } catch (e: Exception) {
-
-                val isCacheSafe = isWeatherCacheSafe(cache)
-
                 WeatherResult.Error(
                     exception = e,
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
 
             }

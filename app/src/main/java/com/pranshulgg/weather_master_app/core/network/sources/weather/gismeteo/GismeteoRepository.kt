@@ -60,7 +60,7 @@ class GismeteoRepository @Inject constructor(
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
                 else -> {}
             }
 
@@ -73,20 +73,31 @@ class GismeteoRepository @Inject constructor(
                 if (locationId == null) {
                     locationId = safeApiCall {
                         api.fetchLocations(location.latitude, location.longitude)
-                    }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                    }.getOrElse {
+                        return@withContext WeatherResult.Error(
+                            exception = it.toAppException(),
+                            cacheWeather = cache?.toDomain()
+                        )
+                    }
                         .byteStream().use { stream ->
                             findClosestLocation(location, stream)
                         }
 
                 }
 
-                if (locationId == null) return@withContext WeatherResult.Error(exception = AppException.EmptyResponseBody())
+                if (locationId == null) return@withContext WeatherResult.Error(
+                    exception = AppException.EmptyResponseBody(),
+                    cacheWeather = cache?.toDomain()
+                )
 
 
                 val response = api.fetchForecast(id = locationId)
                 val body = response.body()?.byteStream()?.use { stream ->
                     parseXml(stream)
-                } ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+                } ?: return@withContext WeatherResult.Error(
+                    exception = AppException.Unknown(),
+                    cacheWeather = cache?.toDomain()
+                )
 
                 val domain = body.toDomain(location)
 
@@ -111,12 +122,9 @@ class GismeteoRepository @Inject constructor(
                 WeatherResult.Success(domain)
 
             } catch (e: Exception) {
-
-                val isCacheSafe = isWeatherCacheSafe(cache)
-
                 WeatherResult.Error(
                     exception = e,
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
 
             }

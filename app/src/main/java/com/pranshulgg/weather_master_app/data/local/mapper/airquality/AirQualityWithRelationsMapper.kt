@@ -3,11 +3,15 @@ package com.pranshulgg.weather_master_app.data.local.mapper.airquality
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQualityCurrent
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQualityHourly
+import com.pranshulgg.weather_master_app.core.utils.weather.cache.isCurrentAirQualitySafe
 import com.pranshulgg.weather_master_app.data.local.entity.airquality.AirQualityWithRelations
 
 
-fun AirQualityWithRelations.toDomain(): AirQuality {
-    return AirQuality(
+fun AirQualityWithRelations?.toDomain(): AirQuality? {
+
+    if (this == null) return null
+
+    val airQuality = AirQuality(
         current = AirQualityCurrent(
             usAqi = this.current?.usAqi,
             pm10 = this.current?.pm10,
@@ -30,4 +34,6 @@ fun AirQualityWithRelations.toDomain(): AirQuality {
             )
         }
     )
+
+    return if (isCurrentAirQualitySafe(airQuality)) airQuality else null
 }

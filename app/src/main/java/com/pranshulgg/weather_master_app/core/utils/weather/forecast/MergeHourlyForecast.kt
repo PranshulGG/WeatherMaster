@@ -15,6 +15,7 @@ fun mergeHourlyWeather(
     incoming: List<HourlyWeatherEntity>
 ): List<HourlyWeatherEntity> {
 
+    // Only keep the last 24 hours
     val cutoff = Clock.System.now().minus(24.hours).toEpochMilliseconds()
 
     return (existing + incoming)

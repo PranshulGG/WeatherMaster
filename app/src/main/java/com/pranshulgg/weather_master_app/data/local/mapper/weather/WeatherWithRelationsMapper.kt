@@ -8,6 +8,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
+import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherDomainSafe
 import com.pranshulgg.weather_master_app.data.local.entity.weather.DailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.WeatherWithRelations
 import java.time.Instant
@@ -15,7 +16,9 @@ import java.time.ZoneId
 import kotlin.uuid.ExperimentalUuidApi
 
 @OptIn(ExperimentalUuidApi::class)
-fun WeatherWithRelations.toDomain(): Weather {
+fun WeatherWithRelations.toDomain(): Weather? {
+
+
     val timezone = location.timezone
 
     // DROP PAST DAYS
@@ -25,7 +28,7 @@ fun WeatherWithRelations.toDomain(): Weather {
         timezone
     ).coerceAtLeast(0)
 
-    return Weather(
+    val weather = Weather(
         location = Location(
             id = location.id,
             latitude = location.lat,
@@ -51,7 +54,7 @@ fun WeatherWithRelations.toDomain(): Weather {
             uvIndex = current?.uvIndex,
             weatherCondition = current?.weatherCondition ?: WeatherCondition.NO_CONDITION_FOUND,
             feelsLike = current?.feelsLike,
-            time = current?.time ?: System.currentTimeMillis(),
+            time = current?.time ?: -1L,
             dewPoint = current?.dewPoint,
             utcOffsetSeconds = current?.utcOffsetSeconds,
             lastUpdatedInMilli = current?.lastUpdatedInMilli ?: -1L
@@ -100,6 +103,8 @@ fun WeatherWithRelations.toDomain(): Weather {
 
         }.drop(todayIndex)
     )
+
+    return if (isWeatherDomainSafe(weather)) weather else null
 }
 
 private fun getDailyIndexForToday(

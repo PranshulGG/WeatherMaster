@@ -71,16 +71,14 @@ class OpenWeatherRepository @Inject constructor(
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache?.toDomain()!!)
                 else -> {}
             }
-
-            val isCacheSafe = isWeatherCacheSafe(cache)
 
             if (apiKey?.apiKey.isNullOrBlank()) {
                 return@withContext WeatherResult.Error(
                     exception = AppException.NoApiKeyError(),
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
             }
 
@@ -91,13 +89,23 @@ class OpenWeatherRepository @Inject constructor(
                     api.fetchCurrent(
                         location.latitude, location.longitude, apiKey.apiKey
                     )
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
                 val forecast = safeApiCall {
                     api.fetchForecast(
                         location.latitude, location.longitude, apiKey.apiKey
                     )
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
                 val final = OpenWeatherJsonBundle(
                     current = current,
@@ -125,7 +133,7 @@ class OpenWeatherRepository @Inject constructor(
 
                 WeatherResult.Error(
                     exception = e,
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
 
             }
@@ -145,7 +153,7 @@ class OpenWeatherRepository @Inject constructor(
 
 
         when (shouldReturnCache) {
-            AirQualityResultType.RETURN_CACHE -> return@withContext AirQualityResult.Success(cache!!.toDomain())
+            AirQualityResultType.RETURN_CACHE -> return@withContext AirQualityResult.Success(cache!!.toDomain()!!)
             else -> {}
         }
 
@@ -162,7 +170,12 @@ class OpenWeatherRepository @Inject constructor(
         return@withContext try {
             val airQuality = safeApiCall {
                 api.fetchAirQuality(location.latitude, location.longitude, apiKey.apiKey)
-            }.getOrElse { return@withContext AirQualityResult.Error(exception = it.toAppException()) }
+            }.getOrElse {
+                return@withContext AirQualityResult.Error(
+                    exception = it.toAppException(),
+                    cacheAirQuality = cache?.toDomain()
+                )
+            }
 
 
             val domain = airQuality.toDomain(location)
@@ -176,9 +189,8 @@ class OpenWeatherRepository @Inject constructor(
             AirQualityResult.Success(domain)
         } catch (e: Exception) {
 
-            val isCacheSafe = isCurrentAirQualitySafe(cache?.toDomain())
 
-            AirQualityResult.Error(exception = e, if (isCacheSafe) cache?.toDomain() else null)
+            AirQualityResult.Error(exception = e, cache?.toDomain())
         }
     }
 }

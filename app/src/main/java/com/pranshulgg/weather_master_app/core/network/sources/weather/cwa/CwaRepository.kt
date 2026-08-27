@@ -62,18 +62,15 @@ class CwaRepository @Inject constructor(
 
         when (shouldReturnCache) {
             WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-            WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+            WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
             else -> {}
         }
-
-        val isCacheSafe = isWeatherCacheSafe(cache)
-
         val apiKey = apiKeysDao.getApiKeyForSource(location.source)
 
         if (apiKey?.apiKey.isNullOrBlank()) {
             return@withContext WeatherResult.Error(
                 exception = AppException.NoApiKeyError(),
-                if (isCacheSafe) cache?.toDomain() else null
+                cache?.toDomain()
             )
         }
         val key = apiKey.apiKey
@@ -117,7 +114,7 @@ class CwaRepository @Inject constructor(
         } catch (e: Exception) {
             WeatherResult.Error(
                 exception = e,
-                if (isCacheSafe) cache?.toDomain() else null
+                cache?.toDomain()
             )
         }
     }

@@ -55,16 +55,15 @@ class MetOfficeRepository @Inject constructor(
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
                 else -> {}
             }
 
-            val isCacheSafe = isWeatherCacheSafe(cache)
 
             if (apiKey?.apiKey.isNullOrBlank()) {
                 return@withContext WeatherResult.Error(
                     exception = AppException.NoApiKeyError(),
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
             }
 
@@ -75,13 +74,23 @@ class MetOfficeRepository @Inject constructor(
                     api.fetchHourlyForecast(
                         apiKey.apiKey, location.latitude, location.longitude
                     )
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
                 val daily = safeApiCall {
                     api.fetchDailyForecast(
                         apiKey.apiKey, location.latitude, location.longitude
                     )
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
 
                 val final = MetOfficeForecastJson(
@@ -110,7 +119,7 @@ class MetOfficeRepository @Inject constructor(
 
                 WeatherResult.Error(
                     exception = e,
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
 
             }

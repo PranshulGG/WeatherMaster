@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.feature.shared
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -62,6 +63,7 @@ class WeatherViewModel @Inject constructor(
             // isInitialized guard avoids duplicating setActiveLocation()'s cold-start fetch.
             if (_uiState.value.isInitialized) {
                 getWeather(location = location, source = location.source)
+                Log.d("WeatherViewModel", "onStart: refreshing")
             }
         }
 
@@ -130,8 +132,8 @@ class WeatherViewModel @Inject constructor(
         isForceRefreshForAirQuality: Boolean = false,
         isForceRefreshForAlerts: Boolean = false
     ) {
-        setLoading(true)
         weatherJob?.cancel()
+        setLoading(true)
         val startTime = System.currentTimeMillis()
         _uiState.value = _uiState.value.copy(
             isError = false,
@@ -185,10 +187,8 @@ class WeatherViewModel @Inject constructor(
             }
 
 
-            setLoading(false)
-
-
         }
+        setLoading(false)
 
     }
 

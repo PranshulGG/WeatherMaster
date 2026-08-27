@@ -69,16 +69,17 @@ class JmaRepository @Inject constructor(
 
         when (shouldReturnCache) {
             WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-            WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+            WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
             else -> {}
         }
-
-        val isCacheSafe = isWeatherCacheSafe(cache)
 
         return@withContext try {
 
             val (class10Code, officeCode, amedasId) = resolveLocation(location)
-                ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+                ?: return@withContext WeatherResult.Error(
+                    exception = AppException.Unknown(),
+                    cacheWeather = cache?.toDomain()
+                )
 
             val hourly = api.getHourly(class10Code)
             val forecast = api.getForecast(officeCode)
@@ -112,7 +113,7 @@ class JmaRepository @Inject constructor(
         } catch (e: Exception) {
             WeatherResult.Error(
                 exception = e,
-                if (isCacheSafe) cache?.toDomain() else null
+                cache?.toDomain()
             )
         }
     }
@@ -138,7 +139,9 @@ class JmaRepository @Inject constructor(
 
         return@withContext try {
             val (class10Code, officeCode, _) = resolveLocation(location)
-                ?: return@withContext AlertResult.Error(exception = AppException.Unknown())
+                ?: return@withContext AlertResult.Error(
+                    exception = AppException.Unknown(),
+                    cacheAlerts = cache.map { it!!.toDomain() })
 
             val domain = api.getWarnings(officeCode).toDomain(location.id, class10Code)
 

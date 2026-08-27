@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.accu
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
@@ -77,7 +78,7 @@ class AccuRepository @Inject constructor(
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
                 else -> {}
             }
 
@@ -86,22 +87,35 @@ class AccuRepository @Inject constructor(
                 val locationKey = locationKeysDao.getCityKeyForLocation(location.id)?.cityKey
                     ?: safeApiCall { api.getLocationKey("${location.latitude},${location.longitude}") }.getOrElse {
                         return@withContext WeatherResult.Error(
-                            exception = it.toAppException()
+                            exception = it.toAppException(), cacheWeather = cache?.toDomain()
                         )
                     }.key
 
                 val current = safeApiCall {
                     api.fetchCurrent(locationKey)
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
 
                 val hourly = safeApiCall {
                     api.fetchHourly(locationKey)
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
 
                 val daily = safeApiCall { api.fetchDaily(locationKey) }.getOrElse {
-                    return@withContext WeatherResult.Error(exception = it.toAppException())
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
                 }
 
 
@@ -133,12 +147,9 @@ class AccuRepository @Inject constructor(
                 WeatherResult.Success(domain)
 
             } catch (e: Exception) {
-
-                val isCacheSafe = isWeatherCacheSafe(cache)
-
                 WeatherResult.Error(
                     exception = e,
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
 
             }
@@ -157,7 +168,7 @@ class AccuRepository @Inject constructor(
         val shouldReturnCache = shouldReturnAirQualityCache(cache, isManualRefresh, isForceRefresh)
 
         when (shouldReturnCache) {
-            AirQualityResultType.RETURN_CACHE -> return@withContext AirQualityResult.Success(cache!!.toDomain())
+            AirQualityResultType.RETURN_CACHE -> return@withContext AirQualityResult.Success(cache!!.toDomain()!!)
             else -> {}
         }
 
@@ -167,18 +178,27 @@ class AccuRepository @Inject constructor(
                 locationKeysDao.getCityKeyForLocation(location.id)?.toDomain()?.cityKey
                     ?: api.getLocationKey("${location.latitude},${location.longitude}")
                         .body()?.key
-                    ?: return@withContext AirQualityResult.Error(exception = AppException.Unknown())
+                    ?: return@withContext AirQualityResult.Error(
+                        exception = AppException.Unknown(),
+                        cacheAirQuality = cache?.toDomain()
+                    )
 
 
             val responseCurrent = api.fetchCurrentAirQuality(locationKey)
 
             val bodyCurrent = responseCurrent.body()
-                ?: return@withContext AirQualityResult.Error(exception = UnknownHostException())
+                ?: return@withContext AirQualityResult.Error(
+                    exception = UnknownHostException(),
+                    cacheAirQuality = cache?.toDomain()
+                )
 
             val responseForecast = api.fetchAirQualityForecast(locationKey)
 
             val bodyForecast = responseForecast.body()
-                ?: return@withContext AirQualityResult.Error(exception = UnknownHostException())
+                ?: return@withContext AirQualityResult.Error(
+                    exception = UnknownHostException(),
+                    cacheAirQuality = cache?.toDomain()
+                )
 
             val final = AccuAqiJsonBundle(
                 current = bodyCurrent,
@@ -203,9 +223,8 @@ class AccuRepository @Inject constructor(
             AirQualityResult.Success(domain)
         } catch (e: Exception) {
 
-            val isCacheSafe = isCurrentAirQualitySafe(cache?.toDomain())
 
-            AirQualityResult.Error(exception = e, if (isCacheSafe) cache?.toDomain() else null)
+            AirQualityResult.Error(exception = e, cache?.toDomain())
         }
     }
 

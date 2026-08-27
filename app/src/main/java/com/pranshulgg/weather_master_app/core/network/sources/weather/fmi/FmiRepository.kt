@@ -59,14 +59,19 @@ class FmiRepository @Inject constructor(
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
                 else -> {}
             }
 
             return@withContext try {
                 val stationResponse = safeApiCall {
                     api.fetchStations()
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
                 val stationBody = stationResponse.byteStream().use { stream ->
                     fmiStationXml(stream, location)
@@ -80,7 +85,12 @@ class FmiRepository @Inject constructor(
                         forecastTimes.second,
                         forecastTimes.first
                     )
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
                 val times = getStartEndTime()
 
@@ -94,7 +104,12 @@ class FmiRepository @Inject constructor(
                         times.first,
                         times.second
                     )
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
                 val currentBody = currentResponse.byteStream().use { stream ->
                     fmiXml(stream)
@@ -126,11 +141,9 @@ class FmiRepository @Inject constructor(
 
             } catch (e: Exception) {
 
-                val isCacheSafe = isWeatherCacheSafe(cache)
-
                 WeatherResult.Error(
                     exception = e,
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
 
             }

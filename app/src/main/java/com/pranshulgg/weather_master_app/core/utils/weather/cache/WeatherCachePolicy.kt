@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.utils.weather.cache
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.CacheConfig.AUTO_REFRESH_MAX_MINUTES
@@ -8,6 +9,8 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.WeatherWithRe
 import java.util.concurrent.TimeUnit
 
 fun isWeatherCacheSafe(cache: WeatherWithRelations?): Boolean {
+
+
     val isSafe = cache != null &&
             cache.daily.isNotEmpty() &&
             cache.hourly.isNotEmpty() &&

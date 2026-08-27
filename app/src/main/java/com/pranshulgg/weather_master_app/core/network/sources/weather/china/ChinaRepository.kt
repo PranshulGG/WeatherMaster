@@ -50,7 +50,7 @@ class ChinaRepository @Inject constructor(
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
                 else -> {}
             }
 
@@ -58,11 +58,16 @@ class ChinaRepository @Inject constructor(
 
                 val response = safeApiCall {
                     api.getLocationKey(location.latitude, location.longitude)
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
                 val locationKey = response[0].locationKey ?: response[0].key
                 ?: return@withContext WeatherResult.Error(
-                    exception = UnknownHostException()
+                    exception = UnknownHostException(), cacheWeather = cache?.toDomain()
                 )
 
 
@@ -74,7 +79,12 @@ class ChinaRepository @Inject constructor(
                         sign = sign,
                         locationKey = locationKey
                     )
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
 
                 val domain = forecastResponse.toDomain(location)
@@ -92,12 +102,9 @@ class ChinaRepository @Inject constructor(
                 WeatherResult.Success(domain)
 
             } catch (e: Exception) {
-
-                val isCacheSafe = isWeatherCacheSafe(cache)
-
                 WeatherResult.Error(
                     exception = e,
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
 
             }

@@ -48,7 +48,9 @@ class AlertsWeatherApiRepository @Inject constructor(
 
             val response = api.fetchAlerts("${location.latitude},${location.longitude}")
             val body = response.body()
-                ?: return@withContext AlertResult.Error(exception = AppException.Unknown())
+                ?: return@withContext AlertResult.Error(
+                    exception = AppException.Unknown(),
+                    cacheAlerts = cache.map { it!!.toDomain() })
 
             val domain = body.toDomain(location.id)
 

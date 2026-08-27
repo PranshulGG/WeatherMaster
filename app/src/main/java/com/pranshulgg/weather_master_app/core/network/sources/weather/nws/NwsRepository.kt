@@ -65,7 +65,7 @@ class NwsRepository @Inject constructor(
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
                 else -> {}
             }
 
@@ -87,7 +87,12 @@ class NwsRepository @Inject constructor(
                             location.latitude,
                             location.longitude
                         )
-                    }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                    }.getOrElse {
+                        return@withContext WeatherResult.Error(
+                            exception = it.toAppException(),
+                            cacheWeather = cache?.toDomain()
+                        )
+                    }
 
 
                     val gridPointsDomain = gridPoint.toDomain(location, stationIdentifier = null)
@@ -98,7 +103,12 @@ class NwsRepository @Inject constructor(
                             gridPointsDomain.gridX,
                             gridPointsDomain.gridY
                         )
-                    }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                    }.getOrElse {
+                        return@withContext WeatherResult.Error(
+                            exception = it.toAppException(),
+                            cacheWeather = cache?.toDomain()
+                        )
+                    }
 
 
                     // Get all the stations
@@ -114,7 +124,7 @@ class NwsRepository @Inject constructor(
 
                     if (domain.stationIdentifier == null) {
                         return@withContext WeatherResult.Error(
-                            exception = AppException.Unknown(),
+                            exception = AppException.Unknown(), cacheWeather = cache?.toDomain()
                         )
                     }
 
@@ -132,7 +142,12 @@ class NwsRepository @Inject constructor(
                         nwsStationsDomain.gridX,
                         nwsStationsDomain.gridY
                     )
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
                 // GET CURRENT
                 val nwsCurrentForecastBody = if (currentObservation.value != null) {
@@ -140,10 +155,13 @@ class NwsRepository @Inject constructor(
                 } else {
                     safeApiCall { api.fetchCurrentForecast(nwsStationsDomain.stationIdentifier!!) }.getOrElse {
                         return@withContext WeatherResult.Error(
-                            exception = it.toAppException()
+                            exception = it.toAppException(), cacheWeather = cache?.toDomain()
                         )
                     }
-                } ?: return@withContext WeatherResult.Error(AppException.EmptyResponseBody())
+                } ?: return@withContext WeatherResult.Error(
+                    AppException.EmptyResponseBody(),
+                    cacheWeather = cache?.toDomain()
+                )
 
                 // GET HOURLY
                 val nwsHourlyForecast =
@@ -153,7 +171,12 @@ class NwsRepository @Inject constructor(
                             nwsStationsDomain.gridX,
                             nwsStationsDomain.gridY
                         )
-                    }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                    }.getOrElse {
+                        return@withContext WeatherResult.Error(
+                            exception = it.toAppException(),
+                            cacheWeather = cache?.toDomain()
+                        )
+                    }
 
                 // USING FOR QuantitativePrecipitation and Snowfall
                 val nwsGridPointData = safeApiCall {
@@ -162,7 +185,12 @@ class NwsRepository @Inject constructor(
                         nwsStationsDomain.gridX,
                         nwsStationsDomain.gridY
                     )
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
                 // PUT EVERYTHING TOGETHER IN A BUNDLE
                 val final = NwsWeatherJsonBundle(
@@ -194,12 +222,9 @@ class NwsRepository @Inject constructor(
                 return@withContext WeatherResult.Success(domain)
 
             } catch (e: Exception) {
-
-                val isCacheSafe = isWeatherCacheSafe(cache)
-
                 WeatherResult.Error(
                     exception = e,
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
 
             }

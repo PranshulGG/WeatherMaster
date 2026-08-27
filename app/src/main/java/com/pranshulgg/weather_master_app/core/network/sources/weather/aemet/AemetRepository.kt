@@ -56,17 +56,15 @@ class AemetRepository @Inject constructor(
 
         when (shouldReturnCache) {
             WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-            WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+            WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
             else -> {}
         }
-
-        val isCacheSafe = isWeatherCacheSafe(cache)
 
         val apiKey = apiKeysDao.getApiKeyForSource(location.source)
         if (apiKey?.apiKey.isNullOrBlank()) {
             return@withContext WeatherResult.Error(
                 exception = AppException.NoApiKeyError(),
-                if (isCacheSafe) cache?.toDomain() else null
+                cache?.toDomain()
             )
         }
         val key = apiKey.apiKey
@@ -75,43 +73,64 @@ class AemetRepository @Inject constructor(
 
             val municipio = locationKeysDao.getCityKeyForLocation(location.id)?.cityKey
                 ?: resolveMunicipio(location, key)
-                ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
+                ?: return@withContext WeatherResult.Error(
+                    exception = AppException.Unknown(),
+                    cacheWeather = cache?.toDomain()
+                )
 
             val dailyEnvelope = safeCall {
                 api.fetchDailyForecastEnvelope(municipio, key)
             }.getOrElse {
-                return@withContext WeatherResult.Error(exception = it.toAppException())
+                return@withContext WeatherResult.Error(
+                    exception = it.toAppException(),
+                    cacheWeather = cache?.toDomain()
+                )
             }
 
             val dailyDatosUrl = dailyEnvelope.datos ?: return@withContext WeatherResult.Error(
-                exception = AppException.Unknown()
+                exception = AppException.Unknown(), cacheWeather = cache?.toDomain()
             )
 
             val daily = safeCall {
                 api.fetchDailyForecastData(dailyDatosUrl)
             }.getOrElse {
-                return@withContext WeatherResult.Error(exception = it.toAppException())
+                return@withContext WeatherResult.Error(
+                    exception = it.toAppException(),
+                    cacheWeather = cache?.toDomain()
+                )
             }.firstOrNull()
-                ?: return@withContext WeatherResult.Error(exception = AppException.EmptyResponseBody())
+                ?: return@withContext WeatherResult.Error(
+                    exception = AppException.EmptyResponseBody(),
+                    cacheWeather = cache?.toDomain()
+                )
 
 
             val hourlyEnvelope = safeCall {
                 api.fetchHourlyForecastEnvelope(municipio, key)
             }.getOrElse {
-                return@withContext WeatherResult.Error(exception = it.toAppException())
+                return@withContext WeatherResult.Error(
+                    exception = it.toAppException(),
+                    cacheWeather = cache?.toDomain()
+                )
             }
 
             val hourlyDatosUrl = hourlyEnvelope.datos ?: return@withContext WeatherResult.Error(
-                exception = AppException.EmptyResponseBody()
+                exception = AppException.EmptyResponseBody(), cacheWeather = cache?.toDomain()
             )
 
 
             val hourly = safeCall {
                 api.fetchHourlyForecastData(hourlyDatosUrl)
             }.getOrElse {
-                return@withContext WeatherResult.Error(exception = it.toAppException())
+                return@withContext WeatherResult.Error(
+                    exception = it.toAppException(),
+                    cacheWeather = cache?.toDomain()
+                )
             }.firstOrNull()
-                ?: return@withContext WeatherResult.Error(exception = AppException.EmptyResponseBody())
+                ?: return@withContext WeatherResult.Error(
+                    exception = AppException.EmptyResponseBody(),
+                    cacheWeather = cache?.toDomain()
+                )
 
             val domain = AemetForecastJson(daily = daily, hourly = hourly).toDomain(location)
 
@@ -138,7 +157,7 @@ class AemetRepository @Inject constructor(
         } catch (e: Exception) {
             WeatherResult.Error(
                 exception = e,
-                if (isCacheSafe) cache?.toDomain() else null
+                cache?.toDomain()
             )
         }
     }

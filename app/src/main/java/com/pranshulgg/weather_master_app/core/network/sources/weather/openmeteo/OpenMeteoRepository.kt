@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.sources.Source
@@ -53,11 +54,12 @@ class OpenMeteoRepository @Inject constructor(
 
             val cache = dao.getWeatherDataForLocation(location.id)
 
+
             val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache?.toDomain()!!)
                 else -> {}
             }
 
@@ -73,7 +75,12 @@ class OpenMeteoRepository @Inject constructor(
                         location.timezone,
                         model = location.openMeteoModel.modelId
                     )
-                }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                }.getOrElse {
+                    return@withContext WeatherResult.Error(
+                        exception = it.toAppException(),
+                        cacheWeather = cache?.toDomain()
+                    )
+                }
 
 
                 val domain = response.toDomain(location)
@@ -91,11 +98,9 @@ class OpenMeteoRepository @Inject constructor(
 
             } catch (e: Exception) {
 
-                val isCacheSafe = isWeatherCacheSafe(cache)
-
                 WeatherResult.Error(
                     exception = e,
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
 
             }
@@ -114,7 +119,7 @@ class OpenMeteoRepository @Inject constructor(
         val shouldReturnCache = shouldReturnAirQualityCache(cache, isManualRefresh, isForceRefresh)
 
         when (shouldReturnCache) {
-            AirQualityResultType.RETURN_CACHE -> return@withContext AirQualityResult.Success(cache!!.toDomain())
+            AirQualityResultType.RETURN_CACHE -> return@withContext AirQualityResult.Success(cache!!.toDomain()!!)
             else -> {}
         }
 
@@ -122,7 +127,10 @@ class OpenMeteoRepository @Inject constructor(
             val response = airQualityApi.fetchAirQuality(location.latitude, location.longitude)
 
             val body = response.body()
-                ?: return@withContext AirQualityResult.Error(exception = UnknownHostException())
+                ?: return@withContext AirQualityResult.Error(
+                    exception = UnknownHostException(),
+                    cacheAirQuality = cache?.toDomain()
+                )
 
             val domain = body.toDomain()
 

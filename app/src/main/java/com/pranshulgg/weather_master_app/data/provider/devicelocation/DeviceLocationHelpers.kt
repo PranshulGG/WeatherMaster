@@ -118,6 +118,7 @@ fun rememberBackgroundLocationPermissionLauncher(
 
 
 // WE WILL TRY EVERYTHING TO MAKE SURE COUNTRY CODE IS AVAILABLE
+
 suspend fun getCountryCode(
     context: Context,
     latitude: Double,

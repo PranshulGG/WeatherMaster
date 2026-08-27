@@ -75,11 +75,10 @@ class InmetRepository @Inject constructor(
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
                 else -> {}
             }
 
-            val isCacheSafe = isWeatherCacheSafe(cache)
 
             return@withContext try {
                 val ibgeCode = resolveIbgeCode(location)
@@ -89,7 +88,7 @@ class InmetRepository @Inject constructor(
                 }.getOrElse {
                     return@withContext WeatherResult.Error(
                         exception = it.toAppException(),
-                        if (isCacheSafe) cache?.toDomain() else null
+                        cache?.toDomain()
                     )
                 }
 
@@ -130,7 +129,7 @@ class InmetRepository @Inject constructor(
             } catch (e: Exception) {
                 WeatherResult.Error(
                     exception = e,
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
             }
         }

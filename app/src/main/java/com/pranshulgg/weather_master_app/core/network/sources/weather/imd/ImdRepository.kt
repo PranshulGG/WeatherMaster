@@ -48,7 +48,7 @@ class ImdRepository @Inject constructor(
 
             when (shouldReturnCache) {
                 WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain())
+                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
                 else -> {}
             }
 
@@ -59,7 +59,12 @@ class ImdRepository @Inject constructor(
                 val timeStamps = imdTimeFrames.map {
                     safeApiCall {
                         api.fetchTimestamps("mmem_${it}.txt")
-                    }.getOrElse { throwable -> return@withContext WeatherResult.Error(exception = throwable.toAppException()) }
+                    }.getOrElse { throwable ->
+                        return@withContext WeatherResult.Error(
+                            exception = throwable.toAppException(),
+                            cacheWeather = cache?.toDomain()
+                        )
+                    }
                 }
 
                 val timeStampsBody = timeStamps.map {
@@ -77,7 +82,12 @@ class ImdRepository @Inject constructor(
                             longitude = longitude,
                             date = "${s}_${imdTimeFrames[index]}_0p125"
                         )
-                    }.getOrElse { return@withContext WeatherResult.Error(exception = it.toAppException()) }
+                    }.getOrElse {
+                        return@withContext WeatherResult.Error(
+                            exception = it.toAppException(),
+                            cacheWeather = cache?.toDomain()
+                        )
+                    }
                 }
 
                 val final = ImdForecastModel(
@@ -106,11 +116,10 @@ class ImdRepository @Inject constructor(
 
             } catch (e: Exception) {
 
-                val isCacheSafe = isWeatherCacheSafe(cache)
 
                 WeatherResult.Error(
                     exception = e,
-                    if (isCacheSafe) cache?.toDomain() else null
+                    cache?.toDomain()
                 )
             }
         }

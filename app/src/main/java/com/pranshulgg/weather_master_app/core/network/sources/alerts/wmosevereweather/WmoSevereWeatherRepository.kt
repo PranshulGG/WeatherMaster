@@ -56,7 +56,9 @@ class WmoSevereWeatherRepository @Inject constructor(
 
 
             val body = response.body()
-                ?: return@withContext AlertResult.Error(exception = AppException.Unknown())
+                ?: return@withContext AlertResult.Error(
+                    exception = AppException.Unknown(),
+                    cacheAlerts = cache.map { it!!.toDomain() })
 
 
             val alertsWithCap = body.features.filter {
