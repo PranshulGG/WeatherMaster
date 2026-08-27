@@ -117,7 +117,7 @@ fun NotificationsScreen(navController: NavController) {
     }
 
 
-    val pattern = if (prefs.is24HrTimeFormat) "Hh:mm" else "hh:mm a"
+    val pattern = if (prefs.is24HrTimeFormat) "HH:mm" else "hh:mm a"
 
     val handleDisableAction: (String) -> Unit = {
         NotificationScheduler.cancelScheduledNotification(
