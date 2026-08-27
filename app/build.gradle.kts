@@ -30,7 +30,7 @@ val weatherapiKey =
 val keystoreFile = file("../keystore/release.jks")
 val hasKeystore = keystoreFile.exists()
 
-val versionNameString = "3.10.2"
+val versionNameString = "3.10.3"
 
 val playStore = false
 
@@ -49,7 +49,7 @@ android {
         }
         minSdk = 26
         targetSdk = 36
-        versionCode = 63
+        versionCode = 64
         versionName = versionNameString
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
