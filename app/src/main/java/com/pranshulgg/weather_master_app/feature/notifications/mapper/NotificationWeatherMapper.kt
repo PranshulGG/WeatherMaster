@@ -94,9 +94,8 @@ fun notificationWeatherMapper(
                 pop = pop
             )
         },
-        hourly = List(weather.hourly.drop(hourlyStartIndex).take(8).size) { index ->
+        hourly = weather.hourly.drop(hourlyStartIndex).take(8).map { item ->
 
-            val item = weather.hourly[index]
 
             val matchingDaily = findMatchingDaily(
                 item.time,
