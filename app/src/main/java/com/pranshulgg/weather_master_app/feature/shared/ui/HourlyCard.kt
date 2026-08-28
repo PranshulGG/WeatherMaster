@@ -33,6 +33,7 @@ import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherHourlyDomainSafe
@@ -47,7 +48,7 @@ import kotlin.math.roundToInt
 fun HourlyCard(
     weather: Weather,
     units: WeatherUnits,
-    currentMilli: Long = weather.current.time,
+    currentMilli: Long = getCurrentTimeFor(weather.location.timezone),
     isDaily: Boolean = false
 ) {
 

@@ -27,11 +27,12 @@ fun notificationWeatherMapper(
 ): NotificationWeatherModel {
 
     val timezone = weather.location.timezone
+    val nowMilli = getCurrentTimeFor(timezone)
 
     val currentCondition = weather.current.weatherCondition.toLabel(applicationContext)
 
     val currentIcon = weather.current.weatherCondition.toIcon(
-        targetTimeMilli = weather.current.time,
+        targetTimeMilli = nowMilli,
         daily = weather.daily.firstOrNull()
     )
 
@@ -58,7 +59,7 @@ fun notificationWeatherMapper(
 
     val hourlyStartIndex = findHourlyIndexForTime(
         weather.hourly.map { it.time },
-        getCurrentTimeFor(timezone)
+        nowMilli
     )
 
     return NotificationWeatherModel(

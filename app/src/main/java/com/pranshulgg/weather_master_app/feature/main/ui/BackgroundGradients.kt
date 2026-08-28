@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.ui.theme.isThemeDark
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherDomainSafe
 
 data class Background(
@@ -61,7 +62,7 @@ private fun backgroundGradients(weather: Weather?, isDark: Boolean = true): Back
 
 
     val isDay = if (day != null && day.sunrise != null && day.sunset != null) {
-        weather.current.time in day.sunrise..day.sunset
+        getCurrentTimeFor(weather.location.timezone) in day.sunrise..day.sunset
     } else {
         true
     }

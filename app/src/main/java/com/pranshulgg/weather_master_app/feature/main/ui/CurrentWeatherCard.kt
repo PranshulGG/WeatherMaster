@@ -25,6 +25,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.getLastUpdatedTimeString
 import kotlin.math.roundToInt
 
@@ -84,7 +85,7 @@ private fun CardRowContent(weather: Weather, units: WeatherUnits, context: Conte
             )
             WeatherIconBox(
                 current.weatherCondition.toIcon(
-                    targetTimeMilli = weather.current.time,
+                    targetTimeMilli = getCurrentTimeFor(weather.location.timezone),
                     daily = weather.daily.firstOrNull()
                 ),
                 size = 42.dp
@@ -188,7 +189,7 @@ fun PixelStyleCurrentWeatherCard(weather: Weather, units: WeatherUnits, context:
         ) {
             WeatherIconBox(
                 current.weatherCondition.toIcon(
-                    targetTimeMilli = weather.current.time,
+                    targetTimeMilli = getCurrentTimeFor(weather.location.timezone),
                     daily = weather.daily.firstOrNull()
                 ),
                 size = 32.dp

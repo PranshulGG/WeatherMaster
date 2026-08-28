@@ -31,6 +31,7 @@ import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.feature.daily.ui.DailyDaysHeader
 import com.pranshulgg.weather_master_app.feature.daily.ui.DailyForecastHeroHeader
@@ -117,7 +118,7 @@ fun DailyScreen(
                 HourlyCard(
                     weather,
                     units,
-                    if (selectedIndex != 0) selectedDaily.time else weather.current.time,
+                    if (selectedIndex != 0) selectedDaily.time else getCurrentTimeFor(weather.location.timezone),
                     isDaily = true
                 )
                 WeatherBlocks(

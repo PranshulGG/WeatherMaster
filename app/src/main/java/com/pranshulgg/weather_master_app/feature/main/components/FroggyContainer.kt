@@ -9,6 +9,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.toFroggy
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 
 @Composable
 fun FroggyContainer(weather: Weather) {
@@ -16,7 +17,7 @@ fun FroggyContainer(weather: Weather) {
     Image(
         painter = painterResource(
             weather.current.weatherCondition.toFroggy(
-                targetTimeMilli = weather.current.time,
+                targetTimeMilli = getCurrentTimeFor(weather.location.timezone),
                 daily = weather.daily.firstOrNull()
             )
         ),
