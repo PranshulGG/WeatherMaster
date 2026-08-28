@@ -1,9 +1,12 @@
 package com.pranshulgg.weather_master_app.core.utils.weather.astronomy
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.astro.MoonTimings
 import com.pranshulgg.weather_master_app.core.model.astro.SunTimings
 import com.pranshulgg.weather_master_app.core.model.astro.getMoonPhase
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.normalizeToDay
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import org.shredzone.commons.suncalc.MoonIllumination
 import org.shredzone.commons.suncalc.MoonTimes
@@ -60,7 +63,25 @@ fun getMoonTimings(
     lon: Double
 ): List<MoonTimings> {
 
-    return timeMilli.map {
+    val currentTime = getCurrentTimeFor(zoneId)
+    val today = Instant.ofEpochMilli(currentTime).atZone(safeZoneId(zoneId)).toLocalDate()
+
+    val startingDay = Instant.ofEpochMilli(timeMilli.first())
+        .atZone(safeZoneId(zoneId))
+        .toLocalDate()
+
+
+    /**
+     * Some data sources do not provide the current day once it is already near the end
+     * Check if today's date exists in the returned data, and add it when missing
+     */
+    val millis = if (startingDay.isAfter(today)) {
+        listOf(currentTime.normalizeToDay(zoneId)) + timeMilli
+    } else {
+        timeMilli
+    }
+
+    return millis.map {
         val date = Instant.ofEpochMilli(it)
             .atZone(safeZoneId(zoneId))
             .toLocalDate()
@@ -97,6 +118,7 @@ fun getMoonTimings(
             } else {
                 moonTimes.set
             }
+
 
         MoonTimings(
             it,
