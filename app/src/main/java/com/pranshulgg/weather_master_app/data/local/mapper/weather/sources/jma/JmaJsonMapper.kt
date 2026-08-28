@@ -104,8 +104,18 @@ fun JmaForecastBundle.toDomain(location: Location): Weather {
         .mapNotNull { p -> p.temperature?.let { p.time.normalizeToDay(timezone) to it } }
         .groupBy({ it.first }, { it.second })
 
-    val sunTimings = getSunTimings(dailyTimes, timezone, location.latitude, location.longitude)
-    val moonTimings = getMoonTimings(dailyTimes, timezone, location.latitude, location.longitude)
+    val sunTimings = getSunTimings(
+        dailyTimes.map { it.normalizeToDay(timezone) },
+        timezone,
+        location.latitude,
+        location.longitude
+    )
+    val moonTimings = getMoonTimings(
+        dailyTimes.map { it.normalizeToDay(timezone) },
+        timezone,
+        location.latitude,
+        location.longitude
+    )
 
     // Current conditions: real numeric values from AMeDAS where available, condition derived
     // from the nearest hourly point since AMeDAS has no sky-condition field of its own.
