@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.blocks.screens.airquality
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.WindowInsets
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -85,16 +87,22 @@ fun AirQualityScreen(navController: NavController, index: Int = 0, locationId: S
                     .padding(paddingValues)
         ) {
 
-            FlowRow(modifier = Modifier.padding(16.dp)) {
+            FlowRow(
+                modifier = Modifier.padding(16.dp),
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
                 AirQualityLevel.entries.forEach { level ->
                     Surface(
-                        color = AirQualityColors.getColors(level)
+                        color = AirQualityColors.getColors(level),
+                        shape = CircleShape
                     ) {
                         Text(
                             level.toName(context),
                             textAlign = TextAlign.Center,
                             color = AirQualityColors.getTextColors(level),
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 5.dp)
+                            style = MaterialTheme.typography.labelLarge,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
                         )
                     }
                 }
