@@ -107,7 +107,7 @@
     <string name="setting_dynamic_colors_secondary">Farben des Hintergrundbildes verwenden</string>
     <string name="setting_amoled_theme">AMOLED</string>
     <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
-    <string name="weather_total_rain_day">ges. Niederschlag des Tages</string>
+    <string name="weather_total_rain_day">Niederschlag des Tages</string>
     <string name="error_network">Netzwerk nicht verfügbar</string>
     <string name="weather_total_snow_day">Gesamter Schneefall des Tages</string>
     <string name="weather_precipitation">Niederschlagsmenge</string>
@@ -438,6 +438,6 @@
     <string name="setting_today_forecast_notification_set_time">Set time for today\'s forecast notification</string>
     <string name="setting_next_day_forecast_notification">Next day forecast notification</string>
     <string name="setting_next_day_forecast_notification_set_time">Set time for next day forecast notification</string>
-    <string name="label_disabled">Disabled</string>
+    <string name="label_disabled">Deaktiviert</string>
 </resources>
 <!--<string name=""></string>-->
