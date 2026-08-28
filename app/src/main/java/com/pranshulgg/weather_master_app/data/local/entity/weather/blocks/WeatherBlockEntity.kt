@@ -12,7 +12,7 @@ data class WeatherBlockEntity(
 
     val isDaily: Boolean = false,
 
-    val type: WeatherBlockType?,
+    val type: WeatherBlockType,
 
     val isHidden: Boolean = false,
 

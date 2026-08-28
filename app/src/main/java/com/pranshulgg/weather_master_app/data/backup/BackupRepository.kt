@@ -42,7 +42,7 @@ class BackupRepository @Inject constructor(
             locationKeys = locationKeys.map { it.toBackupDto() },
             apiKeys = apiKeys.map { it.toBackupDto() },
             weatherUnits = weatherUnits?.toBackupDto(),
-            weatherBlocks = weatherBlocks.filter { it.type != null }.map { it.toBackupDto() },
+            weatherBlocks = weatherBlocks.map { it.toBackupDto() },
             prefs = readPrefsBackup()
         )
     }

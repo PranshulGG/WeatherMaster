@@ -14,17 +14,7 @@ enum class WeatherBlockType {
     RAIN_BLOCK,
     SNOW_BLOCK,
 
-    WIND_BLOCK;
-
-    companion object {
-        fun fromString(value: String): WeatherBlockType? {
-            return try {
-                valueOf(value)
-            } catch (e: Exception) {
-                null
-            }
-        }
-    }
+    WIND_BLOCK
 }
 
 data class WeatherBlock(
@@ -178,10 +168,9 @@ data class WeatherBlock(
 }
 
 
-fun WeatherBlockEntity.toDomain(): WeatherBlock? {
-    val blockType = type ?: return null
+fun WeatherBlockEntity.toDomain(): WeatherBlock {
     return WeatherBlock(
-        type = blockType,
+        type = type,
         isHidden = isHidden,
         position = position,
         isDaily = isDaily,

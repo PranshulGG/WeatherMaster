@@ -7,7 +7,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.pranshulgg.weather_master_app.data.local.converters.WeatherBlockTypeConverter
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.github.GithubDao
@@ -66,7 +65,6 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeat
         AutoMigration(from = 58, to = 59)
     ]
 )
-@androidx.room.TypeConverters(WeatherBlockTypeConverter::class)
 abstract class WeatherMasterDatabase : RoomDatabase() {
 
     abstract fun locationsDao(): LocationsDao

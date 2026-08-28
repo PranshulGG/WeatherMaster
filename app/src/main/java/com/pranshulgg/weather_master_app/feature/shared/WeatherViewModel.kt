@@ -265,10 +265,10 @@ class WeatherViewModel @Inject constructor(
 
             is WeatherResult.Error -> {
 
+
                 _uiState.value = _uiState.value.copy(
                     isError = true,
                     weather = result.cacheWeather,
-                    isInitialized = result.cacheWeather != null,
                     isUnsupportedSource = !location.source.isGlobal() && !location.source.isSourceSupportedFor(
                         location.countryCode?.uppercase()
                     )

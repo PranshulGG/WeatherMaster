@@ -30,8 +30,7 @@ class WeatherBlocksRepository @Inject constructor(
 
     suspend fun loadBlocks(isDaily: Boolean = false): List<WeatherBlock> {
         val blocks = weatherBlocksDao.getBlocks()
-            .filter { it.isDaily == isDaily }
-            .mapNotNull { it.toDomain() }
+            .filter { it.isDaily == isDaily }.map { it.toDomain() }
 
         val defaultBlocks = if (isDaily) {
             WeatherBlock.getDefaultForDaily()
@@ -47,6 +46,6 @@ class WeatherBlocksRepository @Inject constructor(
 
         val missingBlocks = defaultBlocks.filter { it.type !in oldBlocks }
 
-        return (blocks + missingBlocks).sortedBy { it.position }
+        return blocks + missingBlocks
     }
 }
