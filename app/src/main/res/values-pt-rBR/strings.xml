@@ -429,15 +429,15 @@
     <string name="error_not_found">O recurso solicitado não foi encontrado.</string>
     <string name="error_request_timeout">O servidor não respondeu a tempo.</string>
     <string name="error_too_many_requests">O limite de solicitações foi atingido.</string>
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_notifications_secondary">Scheduled notifications, on-going notification, and more</string>
-    <string name="weather_precipitation_probability">Precipitation probability %1$s</string>
-    <string name="error_failed_background_updates">Failed background updates</string>
-    <string name="setting_on_going_notification">On-going notification</string>
-    <string name="setting_today_forecast_notification">Today\'s forecast notification</string>
-    <string name="setting_today_forecast_notification_set_time">Set time for today\'s forecast notification</string>
-    <string name="setting_next_day_forecast_notification">Next day forecast notification</string>
-    <string name="setting_next_day_forecast_notification_set_time">Set time for next day forecast notification</string>
-    <string name="label_disabled">Disabled</string>
+    <string name="settings_notifications">Notificações</string>
+    <string name="settings_notifications_secondary">Notificações agendadas, notificações em andamento e muito mais</string>
+    <string name="weather_precipitation_probability">Probabilidade de precipitação %1$s</string>
+    <string name="error_failed_background_updates">Atualizações em segundo plano com falha</string>
+    <string name="setting_on_going_notification">Notificação continua</string>
+    <string name="setting_today_forecast_notification">Notificação da previsão do tempo de hoje</string>
+    <string name="setting_today_forecast_notification_set_time">Definir horário da notificação da previsão de hoje</string>
+    <string name="setting_next_day_forecast_notification">Notificação da previsão do tempo de amanhã</string>
+    <string name="setting_next_day_forecast_notification_set_time">Definir horário para a notificação da previsão do tempo de amanhã</string>
+    <string name="label_disabled">Desabilitado</string>
 </resources>
 <!--<string name=""></string>-->
