@@ -41,7 +41,7 @@
     <string name="time_just_now">Juuri nyt</string>
     <string name="time_last_updated">Viimeksi päivitetty %1$s</string>
     <string name="weather_no_data">Ei säätietoja saatavilla</string>
-    <string name="weather_clear_sky">Selkeää</string>
+    <string name="weather_clear_sky">Poutaa</string>
     <string name="weather_overcast">Pilvistä</string>
     <string name="weather_partly_cloudy">Osittain pilvistä</string>
     <string name="weather_heavy_rain">Rankkaa sadetta</string>
@@ -49,7 +49,7 @@
     <string name="weather_light_snow">Kevyttä lumisadetta</string>
     <string name="weather_snow">Lumista</string>
     <string name="weather_heavy_snow">Runsasta lumisadetta</string>
-    <string name="weather_mostly_clear">Enimmäksen selkeää</string>
+    <string name="weather_mostly_clear">Enimmäksen poutaa</string>
     <string name="weather_thunderstorm">Ukkosta</string>
     <string name="weather_very_hot">Erittäin kuumaa</string>
     <string name="weather_very_cold">Erittäin kylmää</string>
