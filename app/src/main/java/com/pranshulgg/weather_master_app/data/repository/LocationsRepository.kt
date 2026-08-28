@@ -18,6 +18,7 @@ import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.DeviceLocation
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.GetDeviceLocation
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.getCountryCode
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.isLocationEnabled
 import com.pranshulgg.weather_master_app.feature.intro.toDomain
 import dagger.hilt.android.qualifiers.ApplicationContext
 import jakarta.inject.Inject
@@ -135,6 +136,15 @@ class LocationsRepository @Inject constructor(
      */
     suspend fun updateDeviceLocationPosition(): Boolean {
 
+        if (!context.isLocationEnabled()) {
+
+            // Location is not enabled,
+            // meaning updating the position should fail.
+            // Return false as if the location didn't change.
+            return false
+        }
+
+
         val location = suspendCancellableCoroutine { cont ->
             getDeviceLocation.getDeviceLocation(
                 context,
@@ -180,7 +190,7 @@ class LocationsRepository @Inject constructor(
         }
 
 
-        val countryCode = if (address?.countryCode.isNullOrBlank()) {
+        val countryCode = if (address == null || address.countryCode.isNullOrBlank()) {
             getCountryCode(context, location.latitude, location.longitude)
         } else {
             address.countryCode
