@@ -1,9 +1,14 @@
 package com.pranshulgg.weather_master_app.widgets.rain
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.os.Build
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.ColorFilter
@@ -12,6 +17,7 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalSize
 import androidx.glance.action.ActionParameters
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
@@ -39,9 +45,13 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.pranshulgg.weather_master_app.MainActivity
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
+import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
+import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.data.worker.widgets.WidgetReload
-import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
+import com.pranshulgg.weather_master_app.data.worker.widgets.nowcastBarColorArgb
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
+import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.model.RainWidgetState
 import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
 import com.pranshulgg.weather_master_app.widgets.ui.WidgetReloadEntryPoint
@@ -51,11 +61,19 @@ import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import jakarta.inject.Inject
 import kotlinx.serialization.json.Json
+import java.time.Instant
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import kotlin.math.ceil
 
 /**
  * Homescreen widget showing the rain bar chart for the default / home
  * location: the high-resolution nowcast when it has coverage, otherwise the
  * hourly precipitation forecast (the in-app fallback).
+ *
+ * Rendered with [SizeMode.Exact] plus a [android.graphics.Bitmap] chart so
+ * the number of ticks can scale with the widget width: wider widgets use
+ * finer buckets and show more data instead of stretching the same bars.
  */
 class RainWidget : GlanceAppWidget() {
 
@@ -82,7 +100,7 @@ class RainWidget : GlanceAppWidget() {
                     .appWidgetBackgroundShape()
                     .clickable(actionStartActivity<MainActivity>())
             ) {
-                if (rainState != null && rainState.bars.isNotEmpty()) {
+                if (rainState != null && rainState.hasData()) {
                     RainWidgetContent(context, rainState)
                 } else {
                     ReloadButton()
@@ -91,8 +109,6 @@ class RainWidget : GlanceAppWidget() {
         }
     }
 }
-
-private const val MAX_BAR_HEIGHT_DP = 64
 
 @Composable
 private fun RainWidgetContent(context: Context, state: RainWidgetState) {
@@ -138,15 +154,180 @@ private fun RainWidgetContent(context: Context, state: RainWidgetState) {
 
         Spacer(GlanceModifier.height(8.dp))
 
+        val chartHeightDp = 64.dp
+        if (state.isNowcast && state.slots.isNotEmpty()) {
+            NowcastChartImage(
+                context = context,
+                state = state,
+                chartHeightDp = chartHeightDp,
+                labelColor = GlanceTheme.colors.onSurfaceVariant.getColor(context)
+            )
+        } else {
+            // No-nowcast fallback OR a pre-slots state (older format / no
+            // refresh yet): render the pre-formatted hourly bars.
+            HourlyBars(state, chartHeightDp)
+        }
+    }
+}
+
+/**
+ * Chart for the nowcast: re-aggregates the raw 5-minute slots into a bucket
+ * size chosen from the current widget width (wider -> more ticks, down to
+ * 5-minute resolution), then draws the bars + sparse time labels as a bitmap.
+ */
+@Composable
+private fun NowcastChartImage(
+    context: Context,
+    state: RainWidgetState,
+    chartHeightDp: androidx.compose.ui.unit.Dp,
+    labelColor: Color
+) {
+    val widgetWidthDp = LocalSize.current.width.value
+    // 5-min data: bucket size by width; keep the slot count sane for tiny sizes
+    val slotMinutes = when {
+        widgetWidthDp < 110f -> 30L  // ~6 bars
+        widgetWidthDp < 160f -> 20L  // ~9 bars
+        widgetWidthDp < 230f -> 15L  // ~12 bars
+        widgetWidthDp < 300f -> 10L  // ~18 bars
+        else -> 5L                   // ~36 bars
+    }
+
+    val density = context.resources.displayMetrics.density
+    val widthPx = (LocalSize.current.width.value * density).toInt()
+        .coerceAtLeast(1) - (2 * 12.dp.value * density).toInt() // minus horizontal padding
+    val heightPx = (chartHeightDp.value * density).toInt().coerceAtLeast(1)
+
+    val bitmap = remember(state, slotMinutes, widthPx, heightPx, labelColor) {
+        drawNowcastBitmap(
+            state = state,
+            slotMinutes = slotMinutes,
+            widthPx = widthPx,
+            heightPx = heightPx,
+            labelColor = labelColor,
+            density = density
+        )
+    }
+
+    Image(
+        provider = ImageProvider(bitmap),
+        contentDescription = null,
+        modifier = GlanceModifier.fillMaxWidth().height(chartHeightDp + 16.dp)
+    )
+}
+
+/**
+ * Draws the nowcast chart: bottom-aligned bars per [slotMinutes] bucket, a
+ * hairline baseline and sparse HH:mm time labels under the bars.
+ */
+private fun drawNowcastBitmap(
+    state: RainWidgetState,
+    slotMinutes: Long,
+    widthPx: Int,
+    heightPx: Int,
+    labelColor: Color,
+    density: Float
+): Bitmap {
+    val bitmap = Bitmap.createBitmap(widthPx, heightPx + (LABEL_AREA_PX_SP * density).toInt(), Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+    // Aggregate the 5-min slots
+    data class Bucket(val time: Long, val mm: Double)
+    val buckets = mutableListOf<Bucket>()
+    val slotMillis = slotMinutes * 60_000L
+    val byBucket = linkedMapOf<Long, Double>()
+    for (slot in state.slots) {
+        val bucket = slot.time - (slot.time % slotMillis)
+        byBucket[bucket] = (byBucket[bucket] ?: 0.0) + slot.mm
+    }
+    for ((t, mm) in byBucket.entries.sortedBy { it.key }) {
+        buckets.add(Bucket(t, mm))
+    }
+    if (buckets.isEmpty()) return bitmap
+
+    val maxMm = buckets.maxOf { it.mm }
+    val barAreaHeightPx = heightPx
+    val slotCount = buckets.size
+    val slotWidthPx = widthPx.toFloat() / slotCount
+    // narrow bar with a small gap, buienradar-style
+    val barWidthPx = (slotWidthPx * 0.72f).coerceAtLeast(1f)
+
+    // ---- bars -------------------------------------------------------------
+    val maxAmount = buckets.maxOf { it.mm }
+    buckets.forEachIndexed { index, bucket ->
+        val mmPerHour = bucket.mm * 60.0 / slotMinutes
+        paint.color = nowcastBarColorArgb(mmPerHour).toInt()
+        val fraction = (bucket.mm / maxMm).coerceIn(0.0, 1.0)
+        val barHeightPx = if (bucket.mm <= 0.0) {
+            (2 * density).toInt().coerceAtLeast(2)
+        } else {
+            (fraction * (barAreaHeightPx - 2 * density)).toInt().coerceAtLeast((3 * density).toInt())
+        }
+        val left = index * slotWidthPx + (slotWidthPx - barWidthPx) / 2f
+        canvas.drawRoundRect(
+            left,
+            (barAreaHeightPx - barHeightPx).toFloat(),
+            left + barWidthPx,
+            barAreaHeightPx.toFloat(),
+            barWidthPx / 2.2f,
+            barWidthPx / 2.2f,
+            paint
+        )
+    }
+
+    // ---- baseline ---------------------------------------------------------
+    paint.color = labelColor.copy(alpha = 0.4f).toArgb()
+    canvas.drawRect(0f, barAreaHeightPx - 1f, widthPx.toFloat(), barAreaHeightPx.toFloat(), paint)
+
+    // ---- sparse time labels ------------------------------------------------
+    paint.color = labelColor.copy(alpha = 0.85f).toArgb()
+    paint.textSize = LABEL_TEXT_SP * density
+    paint.isAntiAlias = true
+    val zone = runCatching { ZoneId.of(state.zoneId) }.getOrElse { ZoneId.systemDefault() }
+    val formatter = DateTimeFormatter.ofPattern(if (state.is24h) "HH:mm" else "h:mm")
+    // keep labels readable: minimum spacing on screen
+    val minLabelSpacingPx = 46 * density
+    val labelEvery = ceil(minLabelSpacingPx / slotWidthPx).toInt().coerceAtLeast(1)
+    buckets.forEachIndexed { index, bucket ->
+        if (index % labelEvery != 0) return@forEachIndexed
+        val text = formatter.format(Instant.ofEpochMilli(bucket.time).atZone(zone))
+        val textWidth = paint.measureText(text)
+        val x = (index * slotWidthPx + slotWidthPx / 2f - textWidth / 2f)
+            .coerceIn(0f, widthPx - textWidth)
+        canvas.drawText(text, x, barAreaHeightPx + LABEL_TEXT_SP * density + 4 * density, paint)
+    }
+
+    return bitmap
+}
+
+private const val LABEL_TEXT_SP = 9
+private const val LABEL_AREA_PX_SP = 14f  /** label strip height, in sp */
+
+@Composable
+private fun HourlyBars(state: RainWidgetState, chartHeightDp: androidx.compose.ui.unit.Dp) {
+    val widgetWidthDp = LocalSize.current.width.value
+    val hoursToShow = when {
+        widgetWidthDp < 110f -> 4
+        widgetWidthDp < 160f -> 6
+        widgetWidthDp < 230f -> 8
+        widgetWidthDp < 300f -> 10
+        else -> 12
+    }
+
+    val shown = state.bars.take(hoursToShow)
+    if (shown.isEmpty()) return
+
+    val maxAmount = shown.maxOf { it.amount }.coerceAtLeast(0.1)
+
+    Column(modifier = GlanceModifier.fillMaxWidth()) {
         // Bar chart: equal-width bottom-aligned bars
         Row(
-            modifier = GlanceModifier.fillMaxWidth().height(MAX_BAR_HEIGHT_DP.dp),
+            modifier = GlanceModifier.fillMaxWidth().height(chartHeightDp),
             verticalAlignment = Alignment.Bottom
         ) {
-            val maxAmount = state.bars.maxOf { it.amount }.coerceAtLeast(0.1)
-            state.bars.forEach { bar ->
+            shown.forEach { bar ->
                 Box(
-                    modifier = GlanceModifier.defaultWeight().height(MAX_BAR_HEIGHT_DP.dp),
+                    modifier = GlanceModifier.defaultWeight().height(chartHeightDp),
                     contentAlignment = Alignment.BottomCenter
                 ) {
                     val fraction = (bar.amount / maxAmount).coerceIn(0.05, 1.0)
@@ -154,7 +335,7 @@ private fun RainWidgetContent(context: Context, state: RainWidgetState) {
                         modifier = GlanceModifier
                             .padding(horizontal = 1.dp)
                             .fillMaxWidth()
-                            .height((fraction * MAX_BAR_HEIGHT_DP).dp)
+                            .height((fraction * chartHeightDp.value).dp)
                             .background(Color(bar.colorArgb))
                     ) {}
                 }
@@ -165,7 +346,7 @@ private fun RainWidgetContent(context: Context, state: RainWidgetState) {
 
         // Time labels under the bars
         Row(modifier = GlanceModifier.fillMaxWidth()) {
-            state.bars.forEach { bar ->
+            shown.forEach { bar ->
                 Text(
                     text = bar.time,
                     maxLines = 1,
