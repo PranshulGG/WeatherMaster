@@ -125,7 +125,7 @@ fun RainHourlyCard(
                                 Modifier
                                     .width(18.dp)
                                     .height(140.dp),
-                                color = MaterialTheme.colorScheme.surface,
+                                color = MaterialTheme.colorScheme.surfaceContainer,
                                 shape = CircleShape
                             ) {}
                             Surface(
