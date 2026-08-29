@@ -4,6 +4,7 @@ enum class WidgetVariant(val label: String) {
     LARGE("Large"),
     COMPACT("Compact"),
     SMALL("Small"),
+    COMFORT("Comfort"),
 
 
     // WEATHER 4 - VARIANTS

@@ -16,7 +16,8 @@ data class WidgetWeather(
     val locationName: String,
     val summary: String,
     val weatherCondition: WeatherCondition,
-    val uvIndex: Int? = null
+    val uvIndex: Int? = null,
+    val feelsLike: String = "--"
 )
 
 @Serializable

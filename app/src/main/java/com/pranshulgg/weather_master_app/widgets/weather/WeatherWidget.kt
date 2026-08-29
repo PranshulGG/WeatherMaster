@@ -31,6 +31,7 @@ import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import com.pranshulgg.weather_master_app.widgets.weather.ui.variants.WeatherWidgetCompact
 import com.pranshulgg.weather_master_app.widgets.weather.ui.variants.WeatherWidgetLarge
 import com.pranshulgg.weather_master_app.widgets.weather.ui.variants.WeatherWidgetSmall
+import com.pranshulgg.weather_master_app.widgets.weather.ui.variants.WeatherWidgetComfort
 import kotlinx.serialization.json.Json
 
 
@@ -72,16 +73,18 @@ class WeatherWidget : GlanceAppWidget() {
                     .clickable(actionStartActivity<MainActivity>())
             ) {
 
-                when (config.variant) {
+when (config.variant) {
 
                     WidgetVariant.LARGE -> WeatherWidgetLarge(
                         state,
                         config.hourlyCount,
                         config,
                         widgetColors
+
                     )
 
                     WidgetVariant.COMPACT -> WeatherWidgetCompact(state, widgetColors, config)
+                    WidgetVariant.COMFORT -> WeatherWidgetComfort(state, config, widgetColors)
                     else -> WeatherWidgetSmall(state, config, widgetColors)
                 }
 

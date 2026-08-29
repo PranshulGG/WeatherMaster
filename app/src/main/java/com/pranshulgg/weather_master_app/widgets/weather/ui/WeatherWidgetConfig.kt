@@ -80,7 +80,7 @@ fun WeatherWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
     val widgetTextThemeOptions =
         WidgetTextTheme.entries.map { DialogOption(it.toString(), stringResource(it.label)) }
 
-    val variantFiltered = listOf(WidgetVariant.LARGE, WidgetVariant.COMPACT, WidgetVariant.SMALL)
+    val variantFiltered = listOf(WidgetVariant.LARGE, WidgetVariant.COMPACT, WidgetVariant.SMALL, WidgetVariant.COMFORT)
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surfaceContainer
@@ -330,7 +330,14 @@ private fun GlanceWidgetPreview(
             showPrecipitationProbability
         )
 
-        WidgetVariant.COMPACT -> CompactWidgetPreview(
+WidgetVariant.COMPACT -> CompactWidgetPreview(
+            fontSize, iconSize,
+            widgetColor,
+            textColor,
+            textColorSecondary
+        )
+
+        WidgetVariant.COMFORT -> ComfortWidgetPreview(
             fontSize, iconSize,
             widgetColor,
             textColor,
@@ -604,7 +611,7 @@ private fun SmallWidgetPreview(
             verticalArrangement = Arrangement.Center
         ) {
 
-            WeatherIconBox(R.drawable.weather_clear_night, iconSize.dp)
+WeatherIconBox(R.drawable.weather_clear_night, iconSize.dp)
 
             Gap(8.dp)
             Text(
@@ -614,6 +621,78 @@ private fun SmallWidgetPreview(
                 fontWeight = FontWeight.Bold
             )
 
+        }
+    }
+}
+
+@Composable
+private fun ComfortWidgetPreview(
+    fontSize: Float, iconSize: Float,
+    widgetColor: Color,
+    textColor: Color,
+    textColorSecondary: Color,
+) {
+
+    val mainIconSize = 28 * iconSize
+    val tempFontSize = 52 * fontSize
+
+    Column(
+        modifier = Modifier
+            .padding(16.dp)
+            .width(200.dp)
+            .height(200.dp)
+            .background(
+                widgetColor,
+                RoundedCornerShape(ShapeRadius.ExtraLarge)
+            )
+    ) {
+
+        Column(
+            Modifier.padding(18.dp)
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                WeatherIconBox(R.drawable.weather_partly_cloudy_day, mainIconSize.dp)
+                Spacer(Modifier.weight(1f))
+                Text(
+                    "Halifax",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = textColor
+                )
+            }
+
+            Gap(8.dp)
+
+            Text(
+                "23°",
+                fontSize = tempFontSize.sp,
+                fontWeight = FontWeight.Bold,
+                color = textColor
+            )
+
+            Spacer(Modifier.weight(1f))
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    "23°",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = textColor
+                )
+                Gap(8.dp)
+                Text(
+                    "13°",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium,
+                    color = textColorSecondary
+                )
+            }
         }
     }
 }

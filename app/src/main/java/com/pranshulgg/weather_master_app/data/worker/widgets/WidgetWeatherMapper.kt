@@ -44,8 +44,12 @@ fun widgetWeatherMapper(
     )
 
 
-    val currentTemperature = TemperatureUnit.CELSIUS.convert(
+val currentTemperature = TemperatureUnit.CELSIUS.convert(
         weather.current.temperature, units.tempUnit
+    )?.roundToInt()
+
+    val currentFeelsLike = TemperatureUnit.CELSIUS.convert(
+        weather.current.feelsLike, units.tempUnit
     )?.roundToInt()
 
 
@@ -119,7 +123,7 @@ fun widgetWeatherMapper(
             )
         }
 
-    val widgetState = WidgetWeather(
+val widgetState = WidgetWeather(
         currentTemp = "${currentTemperature}°",
         hourly = hourly,
         daily = daily,
@@ -129,7 +133,8 @@ fun widgetWeatherMapper(
         currentFrog = currentFrogIcon,
         locationName = weather.location.name,
         summary = daySummary,
-        weatherCondition = weather.current.weatherCondition
+        weatherCondition = weather.current.weatherCondition,
+        feelsLike = "${currentFeelsLike}°"
     )
 
     // Convert to string
