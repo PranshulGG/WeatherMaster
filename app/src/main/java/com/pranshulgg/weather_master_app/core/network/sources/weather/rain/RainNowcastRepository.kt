@@ -120,9 +120,12 @@ class RainNowcastRepository @Inject constructor(
                 "/wms/adaguc-server"
 
             // Latest cycle: snap to the current 5-min boundary first (the WMS
-            // layer only has exact 5-min timesteps), then probe back up to 1h
-            // in 5-min steps because the newest cycle can land late.
-            val snappedNow = now.minusSeconds(now.epochSecond % (5 * 60))
+            // layer only has exact 5-min timesteps; sub-second precision makes
+            // the server answer "store has no results"), then probe back up to
+            // 1h in 5-min steps because the newest cycle can land late.
+            val snappedNow = Instant.ofEpochSecond(
+                now.epochSecond - now.epochSecond % (5 * 60)
+            )
 
             fun featureInfoUrl(timeUtc: Instant): Request.Builder {
                 val url = wmsUrl.toHttpUrl().newBuilder()
@@ -176,10 +179,17 @@ class RainNowcastRepository @Inject constructor(
                 val t = cycleStart.plusSeconds(step * 5L * 60)
                 val response = plainClient.newCall(featureInfoUrl(t).build()).execute()
                 response.use { r ->
-                    if (!r.isSuccessful) return@use
-                    val body = r.body?.string() ?: return@use
-                    // e.g. "... forecast &nbsp; forecast 0.12 mm/hr"
-                    val m = Regex("forecast\\s+([0-9.]+)\\s*mm/hr").find(body) ?: return@use
+                    val body0 = r.body?.string().orEmpty()
+                    if (!r.isSuccessful) {
+                        Log.w(TAG, "KNMI step +${step * 5}min HTTP ${r.code}")
+                        return@use
+                    }
+                    // The GFI response is a tiny HTML table:
+                    // "<td>forecast</td><td><b>0.12</b></td><td> mm/hr</td>"
+                    // — strip all tags first, then read "forecast <num> mm/hr".
+                    val m = Regex("forecast\\s+([0-9.]+)\\s*mm/hr")
+                        .find(body0.replace(Regex("<[^>]*>"), " "))
+                        ?: return@use
                     val value = m.groupValues[1].toDoubleOrNull() ?: return@use
                     points.add(
                         RainNowcastPoint(
