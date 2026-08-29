@@ -10,6 +10,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.Ge
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.timezone.GeoNamesTimezoneApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.OpenMeteoSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.brightsky.BrightSkyRadarApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.buienradar.BuienradarGraphApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
@@ -184,4 +186,12 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideOpenWeatherApi(): OpenWeatherApi = OpenWeatherApi.create()
+
+    @Provides
+    @Singleton
+    fun provideBuienradarGraphApi(): BuienradarGraphApi = BuienradarGraphApi.create()
+
+    @Provides
+    @Singleton
+    fun provideBrightSkyRadarApi(): BrightSkyRadarApi = BrightSkyRadarApi.create()
 }

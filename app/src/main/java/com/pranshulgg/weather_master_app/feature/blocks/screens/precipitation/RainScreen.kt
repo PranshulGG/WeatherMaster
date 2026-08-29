@@ -28,6 +28,7 @@ import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCard
 import com.pranshulgg.weather_master_app.feature.blocks.components.AboutCardText
 import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.components.RainHourlyCard
+import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.components.RainNowcastCard
 
 @Composable
 fun RainScreen(navController: NavController, index: Int = 0, locationId: String) {
@@ -37,6 +38,9 @@ fun RainScreen(navController: NavController, index: Int = 0, locationId: String)
     LaunchedEffect(Unit) {
         viewModel.getUnitsOnce()
         viewModel.getWeather(locationId)
+        if (index == 0) {
+            viewModel.getRainNowcast(locationId)
+        }
     }
 
 
@@ -62,6 +66,8 @@ fun RainScreen(navController: NavController, index: Int = 0, locationId: String)
 
 
     val isOnlyPrecipitation = !weather.location.source.providesSnowFall()
+
+    val nowcast = uiState.rainNowcast
 
 
     LargeTopBarScaffold(
@@ -95,6 +101,12 @@ fun RainScreen(navController: NavController, index: Int = 0, locationId: String)
 //                context = context,
 //                unit = units.precipitationUnit
 //            )
+            RainNowcastCard(
+                nowcast = nowcast,
+                zoneId = zoneId,
+                unit = units.precipitationUnit
+            )
+            Gap(14.dp)
             RainHourlyCard(data, zoneId, units.precipitationUnit, context)
             Gap(14.dp)
             AboutCard { AboutCardText(stringResource(R.string.weather_about_precipitation)) }
