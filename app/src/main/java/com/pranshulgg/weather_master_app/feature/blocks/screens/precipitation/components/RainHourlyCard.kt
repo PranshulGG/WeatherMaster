@@ -3,7 +3,9 @@ package com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.c
 import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -83,6 +85,55 @@ fun RainHourlyCard(
                     )
                 })", R.drawable.schedule_48px
             )
+            HourlyChart(data = data, min = min, max = max, formatter = formatter, timeFormatter = timeFormatter)
+        }
+    }
+}
+
+/**
+ * Adaptive hourly chart: when every hour fits into the available width the
+ * bars are evenly distributed across the full width (tablet: no dead space
+ * on the right); on narrow screens with many hours it falls back to a
+ * scrollable LazyRow with fixed-width bars.
+ */
+@Composable
+private fun HourlyChart(
+    data: List<WeatherHourly>,
+    min: Double,
+    max: Double,
+    formatter: (Double) -> Double?,
+    timeFormatter: (Long) -> String
+) {
+    BoxWithConstraints(
+        modifier = Modifier.fillMaxWidth(),
+        contentAlignment = Alignment.BottomStart
+    ) {
+        // fixed LazyRow item pitch: 38.dp bar + 2 * 6.dp spacing, plus 16.dp
+        // leading/trailing card padding
+        val needed = 44.dp * data.size
+        val fitsWithoutScroll = needed <= maxWidth - 32.dp
+        if (fitsWithoutScroll) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .heightIn(230.dp)
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.Bottom
+            ) {
+                data.forEachIndexed { index, item ->
+                    if (index > 0) Gap(horizontal = 6.dp)
+                    HourlyBar(
+                        item = item,
+                        index = index,
+                        min = min,
+                        max = max,
+                        formatter = formatter,
+                        timeFormatter = timeFormatter,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+            }
+        } else {
             LazyRow(
                 horizontalArrangement = Arrangement.spacedBy(6.dp),
                 modifier = Modifier.heightIn(230.dp),
@@ -91,78 +142,96 @@ fun RainHourlyCard(
                 items(
                     data.size,
                     key = { "${data[it].time}_$it" }) { index ->
-
                     val item = data[index]
-
-                    val probability = item.precipitationProbability
-
-                    val percentage = ((item.rain.minus(min)).div((max - min))).times(100)
-
-                    val barHeight = if (!percentage.isNaN()) max(
-                        (percentage.div(100)).times(140).roundToInt(),
-                        5
-                    ) else 5
-
-                    val barColor = when {
-                        item.rain <= 0.0 -> Color(0xFFE0E0E0)
-
-                        item.rain < 1.0 -> Color(0xFFB3E5FC)
-                        item.rain < 2.5 -> Color(0xFF4FC3F7)
-                        item.rain < 7.5 -> Color(0xFF1E88E5)
-                        item.rain < 20.0 -> Color(0xFF1565C0)
-                        item.rain < 50.0 -> Color(0xFF6A1B9A)
-                        else -> Color(0xFFD50000)
-                    }
-
                     if (index == 0) Gap(horizontal = 16.dp)
-
-                    Column(
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-
-                        Box(contentAlignment = Alignment.BottomCenter) {
-                            Surface(
-                                Modifier
-                                    .width(18.dp)
-                                    .height(140.dp),
-                                color = MaterialTheme.colorScheme.surface,
-                                shape = CircleShape
-                            ) {}
-                            Surface(
-                                Modifier
-                                    .width(38.dp)
-                                    .height(barHeight.dp),
-                                color = barColor,
-                                shape = CircleShape
-                            ) {}
-                        }
-                        Gap(5.dp)
-                        Text(
-                            formatLocalizedNumber(
-                                getCurrentAppLocale(),
-                                formatter(item.rain) ?: 0.0,
-                                1
-                            ),
-                            color = MaterialTheme.colorScheme.primary,
-                            style = MaterialTheme.typography.titleMedium,
-                            fontWeight = FontWeight.Bold
-                        )
-                        if (probability != null) {
-                            Text(
-                                "${probability}%",
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                style = MaterialTheme.typography.titleSmall,
-                            )
-                        }
-                        Text(
-                            timeFormatter(item.time),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            style = MaterialTheme.typography.labelLarge
-                        )
-                    }
+                    HourlyBar(
+                        item = item,
+                        index = index,
+                        min = min,
+                        max = max,
+                        formatter = formatter,
+                        timeFormatter = timeFormatter,
+                        modifier = Modifier.width(38.dp)
+                    )
                     if (index == data.size - 1) Gap(horizontal = 16.dp)
                 }
             }
         }
+    }
+}
+
+@Composable
+private fun HourlyBar(
+    item: WeatherHourly,
+    index: Int,
+    min: Double,
+    max: Double,
+    formatter: (Double) -> Double?,
+    timeFormatter: (Long) -> String,
+    modifier: Modifier = Modifier
+) {
+    val probability = item.precipitationProbability
+
+    val percentage = ((item.rain.minus(min)).div((max - min))).times(100)
+
+    val barHeight = if (!percentage.isNaN()) max(
+        (percentage.div(100)).times(140).roundToInt(),
+        5
+    ) else 5
+
+    val barColor = when {
+        item.rain <= 0.0 -> Color(0xFFE0E0E0)
+
+        item.rain < 1.0 -> Color(0xFFB3E5FC)
+        item.rain < 2.5 -> Color(0xFF4FC3F7)
+        item.rain < 7.5 -> Color(0xFF1E88E5)
+        item.rain < 20.0 -> Color(0xFF1565C0)
+        item.rain < 50.0 -> Color(0xFF6A1B9A)
+        else -> Color(0xFFD50000)
+    }
+
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+    ) {
+        Box(contentAlignment = Alignment.BottomCenter) {
+            Surface(
+                Modifier
+                    .width(18.dp)
+                    .height(140.dp),
+                color = MaterialTheme.colorScheme.surface,
+                shape = CircleShape
+            ) {}
+            Surface(
+                Modifier
+                    .fillMaxWidth()
+                    .height(barHeight.dp),
+                color = barColor,
+                shape = CircleShape
+            ) {}
+        }
+        Gap(5.dp)
+        Text(
+            formatLocalizedNumber(
+                getCurrentAppLocale(),
+                formatter(item.rain) ?: 0.0,
+                1
+            ),
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold
+        )
+        if (probability != null) {
+            Text(
+                "${probability}%",
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                style = MaterialTheme.typography.titleSmall,
+            )
+        }
+        Text(
+            timeFormatter(item.time),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            style = MaterialTheme.typography.labelLarge
+        )
     }
 }

@@ -187,7 +187,12 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
 
 
     // WEATHER SOURCES INFO DIALOG
-    MainScreenBottomSheets.WeatherSourcesInfoForLocationSheet(viewModel, activeLocation, sheetState)
+    MainScreenBottomSheets.WeatherSourcesInfoForLocationSheet(
+        viewModel,
+        activeLocation,
+        sheetState,
+        nowcastProvider = uiState.rainNowcast?.providerName
+    )
 
     // SOURCE NOT AVAILABLE
     MainScreenDialogs.UnsupportedSelectedSourceDialog(

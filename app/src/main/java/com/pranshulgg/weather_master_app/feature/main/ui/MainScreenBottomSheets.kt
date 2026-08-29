@@ -24,14 +24,14 @@ object MainScreenBottomSheets {
         viewModel: MainScreenViewModel,
         location: Location?,
         sheetState: SheetState,
+        nowcastProvider: String? = null
     ) {
 
-        val uiState = viewModel.uiState.value
         val uriHandler = LocalUriHandler.current
 
 
 
-        if (uiState.isWeatherSourcesInfoForLocationSheetOpen) {
+        if (viewModel.uiState.value.isWeatherSourcesInfoForLocationSheetOpen) {
 
 
             val weatherSourceString = buildString {
@@ -80,6 +80,28 @@ object MainScreenBottomSheets {
                                 uriHandler.openUri(location.source.displayLink)
                             },
                             trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
+                        ),
+
+                        // Rain nowcast provider (KNMI NL / DWD DE); the nowcast
+                        // card shows "© <provider>" when active. Null outside
+                        // KNMI/DWD coverage or when no nowcast was fetched.
+                        SettingTile.ActionTile(
+                            title = nowcastProvider?.let { "Rain nowcast · $it" }
+                                ?: "Rain nowcast · none",
+                            description = when (nowcastProvider) {
+                                "KNMI" -> "https://developer.dataplatform.knmi.nl/"
+                                "DWD" -> "https://www.brightsky.dev/"
+                                else -> null
+                            },
+                            onClick = {
+                                when (nowcastProvider) {
+                                    "KNMI" -> uriHandler.openUri("https://developer.dataplatform.knmi.nl/")
+                                    "DWD" -> uriHandler.openUri("https://www.brightsky.dev/")
+                                }
+                            },
+                            trailing = {
+                                if (nowcastProvider != null) SettingsTileIcon(R.drawable.open_in_new_24px)
+                            }
                         )
                     )
                 )
