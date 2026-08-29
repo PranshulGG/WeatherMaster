@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.AwaitPointerEventScope
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
@@ -50,10 +51,25 @@ import com.pranshulgg.weather_master_app.feature.shared.components.CardsHeader
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import kotlin.math.abs
 import kotlin.math.ceil
 import kotlin.math.max
 
 private const val NOWCAST_PAST_CONTEXT_MINUTES = 15L
+
+/**
+ * True while a finger is scrubbing across the nowcast bars. Read by the main
+ * screen to disable the navigation drawer's pull-in gesture for the duration
+ * of the drag, so dragging left/right on the chart doesn't open the drawer.
+ */
+object NowcastDragState {
+    var isDragging by mutableStateOf(false)
+        private set
+
+    internal fun set(value: Boolean) {
+        isDragging = value
+    }
+}
 
 /** Intensity color ramp modeled on buienradar's legend (mm/h). */
 internal fun barColor(intensityMmPerHour: Double): Color = when {
@@ -332,21 +348,34 @@ private fun NowcastBarChart(
                     .onSizeChanged { barsSize = it }
                     .pointerInput(bars) {
                         awaitEachGesture {
-                            val down = awaitFirstDown()
+                            val down = awaitFirstDown(pass = PointerEventPass.Initial)
+                            // Observe the first horizontal move before children
+                            // see it; once the finger moves horizontally we
+                            // claim the drag: mark scrubbing active and consume
+                            // all subsequent events so the drawer edge-swipe
+                            // and any scroll never take over.
+                            var scrubbing = false
                             selectedIndex = barIndexAt(down.position.x)
                             while (true) {
-                                val event = awaitPointerEvent()
+                                val event = awaitPointerEvent(PointerEventPass.Initial)
                                 if (event.changes.isEmpty()) break
                                 val change = event.changes.first()
                                 if (change.pressed) {
-                                    // follow the finger horizontally while pressed
-                                    selectedIndex = barIndexAt(change.position.x)
+                                    if (!scrubbing && !(change.position.x - down.position.x).let { abs(it) < 4f }) {
+                                        scrubbing = true
+                                        NowcastDragState.set(true)
+                                    }
+                                    if (scrubbing) {
+                                        selectedIndex = barIndexAt(change.position.x)
+                                        event.changes.forEach { it.consume() }
+                                    }
                                 } else {
                                     // finger lifted: clear selection
                                     selectedIndex = -1
                                     break
                                 }
                             }
+                            if (scrubbing) NowcastDragState.set(false)
                         }
                     },
                 verticalAlignment = Alignment.Bottom,
