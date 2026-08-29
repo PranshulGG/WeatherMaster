@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -182,9 +183,6 @@ fun RainNowcastCard(
             )
 
             Gap(6.dp)
-
-            // Time axis: current time plus upcoming full-hour labels
-            TimeAxis(nowMilli = now, zone = zone, timeFormatter = timeFormatter)
         }
     }
 }
@@ -214,25 +212,7 @@ private fun NowcastBarChart(
         val timeLabel: String
     )
 
-    val bars = remember(points, nowMilli) {
-        val list = mutableListOf<Bar>()
-        for (p in points) {
-            val end = p.time + p.intervalMinutes * 60000L
-            var s = max(p.time, startMilli)
-            while (s < end) {
-                list.add(
-                    Bar(
-                        time = s,
-                        intensity = p.intensityMmPerHour,
-                        isPast = s < nowMilli,
-                        timeLabel = timeFormatter(s)
-                    )
-                )
-                s += slotMillis
-            }
-        }
-        list
-    }
+    val bars = remember(points, nowMilli) { buildBars(points, startMilli, slotMillis, nowMilli, timeFormatter) }
 
     if (bars.isEmpty()) return
 
@@ -386,41 +366,104 @@ private fun NowcastBarChart(
                     }
                 }
             }
+
+            Gap(6.dp)
+
+            // Sparse x-axis labels under the bars (same rule as the widget)
+            TimeAxis(bars = bars, timeFormatter = timeFormatter)
         }
     }
 }
 
 /**
- * "now" label on the left, the upcoming full-hour labels spread after it.
+ * Expand the source points into one bar per 5-minute slot from
+ * (start - [pastContextMinutes]) to the end of the data. 5-min radar points
+ * map 1:1; 15-min model points are expanded across their interval so the
+ * tail stays continuous. Shared by the in-app card and the x-axis.
+ */
+private fun buildBars(
+    points: List<RainNowcastPoint>,
+    startMilli: Long,
+    slotMillis: Long,
+    nowMilli: Long,
+    timeFormatter: (Long) -> String
+): List<NowcastBarData> {
+    val list = mutableListOf<NowcastBarData>()
+    for (p in points) {
+        val end = p.time + p.intervalMinutes * 60000L
+        var s = max(p.time, startMilli)
+        while (s < end) {
+            list.add(
+                NowcastBarData(
+                    time = s,
+                    intensity = p.intensityMmPerHour,
+                    isPast = s < nowMilli,
+                    timeLabel = timeFormatter(s)
+                )
+            )
+            s += slotMillis
+        }
+    }
+    return list
+}
+
+/** One 5-minute bar of the nowcast chart. */
+private data class NowcastBarData(
+    val time: Long,
+    val intensity: Double,
+    val isPast: Boolean,
+    val timeLabel: String
+)
+
+/**
+ * Sparse x-axis mirroring the homescreen widget: labels sit under (approx.)
+ * every Nth bar, with N chosen so label centers are at least `minSpacing` px
+ * apart — labels never collide no matter how many bars there are.
  */
 @Composable
 private fun TimeAxis(
-    nowMilli: Long,
-    zone: java.time.ZoneId,
+    bars: List<NowcastBarData>,
     timeFormatter: (Long) -> String
 ) {
+    // each bar occupies width/n of the row; label every ceil(min/slot) bars
+    val minSpacingPx = with(LocalDensity.current) { 46.dp.toPx() }
+    // reserve for text width roughly = minSpacing; slot width unknown until
+    // layout, but row width also unknown — use onSizeChanged on this Row:
+    var axisWidth by remember { mutableStateOf(0) }
+    val slotPx = if (bars.isEmpty()) 0f else axisWidth.toFloat() / bars.size
+    val labelEvery = if (slotPx <= 0f) {
+        1
+    } else {
+        ceil(minSpacingPx / slotPx).toInt().coerceAtLeast(1)
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 46.dp), // 16 chart padding + 30 y-axis
-        horizontalArrangement = Arrangement.SpaceBetween
+            // No extra padding: this Row lives inside the chart column that
+            // already accounts for card padding + y-axis width, and it must
+            // have EXACTLY the same width/spacing/child-weights as the bars
+            // row above, so every label centers under its own bar.
+            .onSizeChanged { axisWidth = it.width },
+        horizontalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        Text(
-            timeFormatter(nowMilli),
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.SemiBold
-        )
-        val zoneNow = Instant.ofEpochMilli(nowMilli).atZone(zone)
-        var nextHour = zoneNow.plusMinutes((60 - zoneNow.minute).toLong())
-            .withSecond(0).withNano(0)
-        repeat(3) {
+        bars.forEachIndexed { index, bar ->
+            if (index % labelEvery != 0) {
+                // unlabeled slot: empty spacer keeps the geometry identical
+                // to the bars row, so labels stay centered under their bars
+                Spacer(Modifier.weight(1f))
+                return@forEachIndexed
+            }
             Text(
-                timeFormatter(nextHour.toInstant().toEpochMilli()),
+                timeFormatter(bar.time),
+                maxLines = 1,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = if (index == 0) MaterialTheme.colorScheme.primary
+                        else MaterialTheme.colorScheme.onSurfaceVariant,
+                fontWeight = if (index == 0) FontWeight.SemiBold else null,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.weight(1f)
             )
-            nextHour = nextHour.plusHours(1)
         }
     }
 }
