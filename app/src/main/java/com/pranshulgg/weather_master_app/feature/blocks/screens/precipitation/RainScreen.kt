@@ -104,7 +104,8 @@ fun RainScreen(navController: NavController, index: Int = 0, locationId: String)
             RainNowcastCard(
                 nowcast = nowcast,
                 zoneId = zoneId,
-                unit = units.precipitationUnit
+                unit = units.precipitationUnit,
+                modifier = Modifier.padding(horizontal = 16.dp)
             )
             Gap(14.dp)
             RainHourlyCard(data, zoneId, units.precipitationUnit, context)

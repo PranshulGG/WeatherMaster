@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -174,39 +172,7 @@ fun RainNowcastCard(
 
             // Time axis: current time plus upcoming full-hour labels
             TimeAxis(nowMilli = now, zone = zone, timeFormatter = timeFormatter)
-
-            Gap(10.dp)
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                NowcastLegendItem(Color(0xFFBDBDBD), stringResource(R.string.rain_nowcast_legend_none))
-                NowcastLegendItem(Color(0xFF6FB6EC), stringResource(R.string.rain_nowcast_legend_light))
-                NowcastLegendItem(Color(0xFF3E8FE0), stringResource(R.string.rain_nowcast_legend_moderate))
-                NowcastLegendItem(Color(0xFF2265C4), stringResource(R.string.rain_nowcast_legend_heavy))
-                NowcastLegendItem(Color(0xFF6A1B9A), stringResource(R.string.rain_nowcast_legend_extreme))
-            }
         }
-    }
-}
-
-@Composable
-private fun NowcastLegendItem(color: Color, label: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Surface(
-            color = color,
-            shape = RoundedCornerShape(3.dp),
-            modifier = Modifier.size(10.dp)
-        ) {}
-        Gap(3.dp)
-        Text(
-            label,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
     }
 }
 
