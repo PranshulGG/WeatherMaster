@@ -15,6 +15,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefs
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
 import com.pranshulgg.weather_master_app.feature.main.components.CreditsBottomSection
 import com.pranshulgg.weather_master_app.feature.main.components.FroggyContainer
@@ -24,6 +25,7 @@ import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import com.pranshulgg.weather_master_app.feature.shared.components.blocks.WeatherBlocks
 import com.pranshulgg.weather_master_app.feature.shared.ui.DailyCard
 import com.pranshulgg.weather_master_app.feature.shared.ui.HourlyCard
+import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.components.RainHourlyCard
 import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.components.RainNowcastCard
 import com.pranshulgg.weather_master_app.feature.shared.ui.SummaryCard
 
@@ -83,11 +85,28 @@ fun PhoneLayout(
         }
         HourlyCard(weather, units)
         if (prefs.isHighlightRain) {
-            RainNowcastCard(
-                nowcast = uiState.rainNowcast,
-                zoneId = weather.location.timezone,
-                unit = units.precipitationUnit
-            )
+            val nowcast = uiState.rainNowcast
+            if (nowcast != null) {
+                RainNowcastCard(
+                    nowcast = nowcast,
+                    zoneId = weather.location.timezone,
+                    unit = units.precipitationUnit
+                )
+            } else {
+                // no nowcast coverage here: show the hourly mm bars instead
+                RainHourlyCard(
+                    findMatchingHourly(
+                        weather.hourly,
+                        weather.current.time,
+                        weather.location.source,
+                        weather.location.timezone,
+                        keepPastHour = true
+                    ),
+                    weather.location.timezone,
+                    units.precipitationUnit,
+                    context
+                )
+            }
         }
         DailyCard(weather, units, navController)
         WeatherBlocks(

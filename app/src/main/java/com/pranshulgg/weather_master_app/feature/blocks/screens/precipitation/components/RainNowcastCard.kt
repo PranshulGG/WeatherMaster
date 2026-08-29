@@ -1,11 +1,11 @@
 package com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.components
 
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,10 +25,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.AwaitPointerEventScope
+import androidx.compose.ui.input.pointer.PointerInputScope
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
@@ -81,7 +87,8 @@ private fun yAxisStep(maxIntensity: Double): Double = when {
 fun RainNowcastCard(
     nowcast: RainNowcast?,
     zoneId: String,
-    unit: PrecipitationUnit
+    unit: PrecipitationUnit,
+    modifier: Modifier = Modifier
 ) {
     if (nowcast == null) return
     val context = LocalContext.current
@@ -106,21 +113,12 @@ fun RainNowcastCard(
     }
 
     val maxMmPerHour = nowcast.maxIntensity()
-    val summaryIntensity = when {
-        maxMmPerHour <= 0.0 -> stringResource(R.string.rain_nowcast_none_expected)
-        maxMmPerHour < 1.0 -> stringResource(R.string.rain_nowcast_light)
-        maxMmPerHour < 3.0 -> stringResource(R.string.rain_nowcast_moderate)
-        maxMmPerHour < 10.0 -> stringResource(R.string.rain_nowcast_heavy)
-        else -> stringResource(R.string.rain_nowcast_extreme)
-    }
 
     Surface(
         color = MaterialTheme.colorScheme.surfaceBright,
         shape = MaterialTheme.shapes.extraLarge,
         shadowElevation = ShadowElevation.level2,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+        modifier = modifier
     ) {
         Column(
             modifier = Modifier
@@ -134,15 +132,6 @@ fun RainNowcastCard(
                 R.drawable.water_drop_24px
             )
             Gap(6.dp)
-
-            Text(
-                text = summaryIntensity,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-
-            Gap(10.dp)
 
             NowcastBarChart(
                 points = nowcast.points,
@@ -184,21 +173,6 @@ fun RainNowcastCard(
                 NowcastLegendItem(Color(0xFF2265C4), stringResource(R.string.rain_nowcast_legend_heavy))
                 NowcastLegendItem(Color(0xFF6A1B9A), stringResource(R.string.rain_nowcast_legend_extreme))
             }
-
-            Gap(6.dp)
-            Text(
-                text = stringResource(R.string.rain_nowcast_hint_tap),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            Gap(4.dp)
-            Text(
-                text = stringResource(R.string.rain_nowcast_provider, nowcast.providerName),
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
         }
     }
 }
@@ -267,10 +241,28 @@ private fun NowcastBarChart(
 
     if (bars.isEmpty()) return
 
-    // selection state: which bar index is tapped; -1 = none. Reset when data changes.
+    val density = LocalDensity.current
+
+    // selection state: which bar index is inspected; -1 = none.
+    // Set by a tap, or by pressing-and-dragging across the chart (scrubbing);
+    // cleared when the finger is lifted.
     var selectedIndex by remember(points, nowMilli) { mutableIntStateOf(-1) }
     val activeIndex = if (selectedIndex in bars.indices) selectedIndex else -1
     val selected = bars.getOrNull(activeIndex)
+    var barsSize by remember { mutableStateOf(IntSize.Zero) }
+
+    // gap between bars in(px), resolved once per composition from the density
+    val barGapPx = with(density) { 2.dp.toPx() }
+
+    fun barIndexAt(x: Float): Int {
+        if (bars.isEmpty() || barsSize.width == 0) return -1
+        // bars row is spacedBy(2.dp); bar k spans [k*(w+gap), k*(w+gap)+w)
+        val slot = barsSize.width.toDouble() / bars.size
+        val barWidth = slot - barGapPx
+        if (x < 0 || barWidth <= 0) return -1
+        val idx = (x / (barWidth + barGapPx)).toInt()
+        return if (idx in bars.indices) idx else -1
+    }
 
     val maxBarHeight = 120
     val step = yAxisStep(maxIntensity)
@@ -315,12 +307,13 @@ private fun NowcastBarChart(
         // ---- bars ----------------------------------------------------------
         val tooltipContext = LocalContext.current
         Column {
-            // selection tooltip row (fixed height so layout doesn't jump)
+            // selection tooltip row (fixed height so layout doesn't jump),
+            // aligned to the top-left as requested
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(20.dp),
-                contentAlignment = Alignment.BottomStart
+                contentAlignment = Alignment.TopStart
             ) {
                 if (selected != null) {
                     Text(
@@ -335,7 +328,27 @@ private fun NowcastBarChart(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(maxBarHeight.dp),
+                    .height(maxBarHeight.dp)
+                    .onSizeChanged { barsSize = it }
+                    .pointerInput(bars) {
+                        awaitEachGesture {
+                            val down = awaitFirstDown()
+                            selectedIndex = barIndexAt(down.position.x)
+                            while (true) {
+                                val event = awaitPointerEvent()
+                                if (event.changes.isEmpty()) break
+                                val change = event.changes.first()
+                                if (change.pressed) {
+                                    // follow the finger horizontally while pressed
+                                    selectedIndex = barIndexAt(change.position.x)
+                                } else {
+                                    // finger lifted: clear selection
+                                    selectedIndex = -1
+                                    break
+                                }
+                            }
+                        }
+                    },
                 verticalAlignment = Alignment.Bottom,
                 horizontalArrangement = Arrangement.spacedBy(2.dp)
             ) {
@@ -345,7 +358,7 @@ private fun NowcastBarChart(
                     val alpha = when {
                         bar.isPast -> 0.45f
                         index == activeIndex -> 1f
-                        activeIndex != -1 -> 0.55f // dim others when one is selected
+                        activeIndex != -1 -> 0.55f // dim others while inspecting
                         else -> 1f
                     }
 
@@ -353,12 +366,6 @@ private fun NowcastBarChart(
                         Modifier
                             .weight(1f)
                             .fillMaxHeight()
-                            .clickable(
-                                interactionSource = remember { MutableInteractionSource() },
-                                indication = null
-                            ) {
-                                selectedIndex = if (activeIndex == index) -1 else index
-                            }
                     ) {
                         Surface(
                             modifier = Modifier

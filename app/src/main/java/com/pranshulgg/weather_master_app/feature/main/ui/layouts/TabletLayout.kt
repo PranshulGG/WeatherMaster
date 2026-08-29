@@ -25,6 +25,7 @@ import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
 import com.pranshulgg.weather_master_app.feature.main.components.CreditsBottomSection
 import com.pranshulgg.weather_master_app.feature.main.components.FroggyContainer
@@ -34,6 +35,7 @@ import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import com.pranshulgg.weather_master_app.feature.shared.components.blocks.WeatherBlocks
 import com.pranshulgg.weather_master_app.feature.shared.ui.DailyCard
 import com.pranshulgg.weather_master_app.feature.shared.ui.HourlyCard
+import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.components.RainHourlyCard
 import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.components.RainNowcastCard
 import com.pranshulgg.weather_master_app.feature.shared.ui.SummaryCard
 
@@ -105,13 +107,6 @@ fun TabletLayout(
                     )
                 }
                 HourlyCard(weather, units)
-                if (prefs.isHighlightRain) {
-                    RainNowcastCard(
-                        nowcast = uiState.rainNowcast,
-                        zoneId = weather.location.timezone,
-                        unit = units.precipitationUnit
-                    )
-                }
                 DailyCard(weather, units, navController)
 
                 CreditsBottomSection(
@@ -122,11 +117,38 @@ fun TabletLayout(
 
         }
         Gap(horizontal = 14.dp)
-        Box(
+        Column(
             Modifier
                 .weight(0.9f)
-                .padding(top = 24.dp)
+                .padding(top = 24.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
         ) {
+            // "Highlight rain": nowcast card pinned above the block grid (sun,
+            // moon, humidity...); falls back to the hourly mm bars when this
+            // location has no nowcast data (unsupported area / fetch failed).
+            if (prefs.isHighlightRain) {
+                val nowcast = uiState.rainNowcast
+                if (nowcast != null) {
+                    RainNowcastCard(
+                        nowcast = nowcast,
+                        zoneId = weather.location.timezone,
+                        unit = units.precipitationUnit
+                    )
+                } else {
+                    RainHourlyCard(
+                        findMatchingHourly(
+                            weather.hourly,
+                            weather.current.time,
+                            weather.location.source,
+                            weather.location.timezone,
+                            keepPastHour = true
+                        ),
+                        weather.location.timezone,
+                        units.precipitationUnit,
+                        context
+                    )
+                }
+            }
             WeatherBlocks(
                 weather,
                 airQuality,
