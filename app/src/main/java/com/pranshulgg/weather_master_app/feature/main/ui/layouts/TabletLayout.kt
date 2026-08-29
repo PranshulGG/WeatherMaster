@@ -65,7 +65,7 @@ fun TabletLayout(
             .fillMaxWidth()
             .padding(start = startPadding, end = endPadding)
     ) {
-        Column(Modifier.weight(1.1f)) {
+        Column(Modifier.weight(1f)) {
 
             CurrentWeatherCard(
                 weather,
@@ -116,7 +116,7 @@ fun TabletLayout(
         Gap(horizontal = 14.dp)
         Box(
             Modifier
-                .weight(0.9f)
+                .weight(1f)
                 .padding(top = 24.dp)
         ) {
             WeatherBlocks(
@@ -127,7 +127,8 @@ fun TabletLayout(
                 uiState.blocks,
                 navController = navController,
                 isAirQualityLoading = uiState.isAirQualityLoading,
-                viewModel = viewModel
+                viewModel = viewModel,
+                fixedGridCells = true
             )
         }
     }
