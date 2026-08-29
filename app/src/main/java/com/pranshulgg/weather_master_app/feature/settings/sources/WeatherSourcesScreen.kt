@@ -32,7 +32,7 @@ import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 fun WeatherSourcesScreen(navController: NavController) {
     val uriHandler = LocalUriHandler.current
 
-    val sources = Source.entries.filter { it != Source.NONE }
+    val sources = Source.entries - Source.NONE
 
     LargeTopBarScaffold(
         title = stringResource(R.string.weather_sources),
