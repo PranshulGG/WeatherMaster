@@ -1,10 +1,12 @@
 package com.pranshulgg.weather_master_app.data.worker.widgets
 
+import android.content.Context
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
 import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcast
+import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.network.sources.weather.rain.RainNowcastRepository
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
@@ -23,11 +25,13 @@ class RainWidgetStateBuilder @Inject constructor(
 ) {
 
     suspend fun build(
+        context: Context,
         location: Location,
         weather: Weather,
         units: WeatherUnits
     ): RainWidgetState? {
         val unit = units.precipitationUnit
+        val unitLabel = unit.toName(context, true)
         val is24h = PreferencesHelper.getBool("is24HrTimeFormat") ?: true
 
         fun formatTime(milli: Long): String =
@@ -51,11 +55,11 @@ class RainWidgetStateBuilder @Inject constructor(
         }
 
         if (nowcast != null && nowcast.points.isNotEmpty()) {
-            return rainWidgetStateFromNowcast(nowcast, unit, formatTime, ::formatAmountForMm)
+            return rainWidgetStateFromNowcast(nowcast, unit, unitLabel, ::formatTime, ::formatAmount)
         }
 
         // ---- fallback: hourly model precipitation --------------------------
-        return rainWidgetStateFromHourly(location, weather, unit, formatTime, ::formatAmountForMm)
+        return rainWidgetStateFromHourly(location, weather, unit, unitLabel, ::formatTime, ::formatAmount)
     }
 }
 
@@ -69,11 +73,13 @@ private fun formatAmountForMm(valueInUnit: Double): Double {
 internal fun rainWidgetStateFromNowcast(
     nowcast: RainNowcast,
     unit: PrecipitationUnit,
+    unitLabel: String,
     formatTime: (Long) -> String,
     formatAmount: (Double) -> Double
 ): RainWidgetState {
-    // One bar per 10 minutes keeps the widget readable at its small size
-    val slotMinutes = 10L
+    // One bar per 20 minutes -> 9 bars across the 3h window. Glance Rows
+    // support at most 10 children, so the slot count must stay below that.
+    val slotMinutes = 20L
     val slotMillis = slotMinutes * 60000L
 
     // Accumulate expected precipitation (mm) per 10-minute bucket. 5-min radar
@@ -93,11 +99,12 @@ internal fun rainWidgetStateFromNowcast(
         RainWidgetBar(
             time = formatTime(bucket),
             amount = formatAmount(unit.convert(mmTotal, unit) ?: mmTotal),
-            colorArgb = nowcastBarColorArgb(mmTotal * 60.0 / slotMinutes)
+            colorArgb = nowcastBarColorArgb(mmTotal * 60.0 / slotMinutes).toInt()
         )
     }
 
     return RainWidgetState(
+        unitLabel = unitLabel,
         sourceLabel = nowcast.providerName,
         isNowcast = true,
         bars = bars
@@ -108,6 +115,7 @@ internal fun rainWidgetStateFromHourly(
     location: Location,
     weather: Weather,
     unit: PrecipitationUnit,
+    unitLabel: String,
     formatTime: (Long) -> String,
     formatAmount: (Double) -> Double
 ): RainWidgetState {
@@ -126,11 +134,12 @@ internal fun rainWidgetStateFromHourly(
             RainWidgetBar(
                 time = formatTime(hour.time),
                 amount = formatAmount(mmInUnit),
-                colorArgb = hourlyBarColorArgb(hour.rain)
+                colorArgb = hourlyBarColorArgb(hour.rain).toInt()
             )
         }
 
     return RainWidgetState(
+        unitLabel = unitLabel,
         sourceLabel = location.name,
         isNowcast = false,
         bars = bars

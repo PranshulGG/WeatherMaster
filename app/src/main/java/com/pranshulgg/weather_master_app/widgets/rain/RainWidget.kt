@@ -12,10 +12,13 @@ import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.action.ActionParameters
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.SizeMode
+import androidx.glance.appwidget.action.ActionCallback
+import androidx.glance.appwidget.action.actionRunCallback
 import androidx.glance.appwidget.cornerRadius
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
@@ -28,6 +31,7 @@ import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.height
 import androidx.glance.layout.padding
+import androidx.glance.layout.size
 import androidx.glance.layout.width
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
@@ -35,10 +39,17 @@ import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
 import com.pranshulgg.weather_master_app.MainActivity
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.data.worker.widgets.WidgetReload
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.model.RainWidgetState
 import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
+import com.pranshulgg.weather_master_app.widgets.ui.WidgetReloadEntryPoint
+import dagger.hilt.EntryPoint
+import dagger.hilt.InstallIn
+import dagger.hilt.android.EntryPointAccessors
+import dagger.hilt.components.SingletonComponent
+import jakarta.inject.Inject
 import kotlinx.serialization.json.Json
 
 /**
@@ -88,7 +99,7 @@ private fun RainWidgetContent(context: Context, state: RainWidgetState) {
     Column(
         modifier = GlanceModifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp)
     ) {
-        // Header: icon + title + unit, source label right-aligned
+        // Header: icon + title + unit, refresh button right-aligned
         Row(modifier = GlanceModifier.fillMaxWidth()) {
             Image(
                 provider = ImageProvider(R.drawable.water_drop_24px),
@@ -106,13 +117,23 @@ private fun RainWidgetContent(context: Context, state: RainWidgetState) {
                 )
             )
             Spacer(modifier = GlanceModifier.defaultWeight())
-            Text(
-                text = state.sourceLabel,
-                style = TextStyle(
-                    color = GlanceTheme.colors.onSurfaceVariant,
-                    fontSize = 11.sp
+            Box(
+                modifier = GlanceModifier
+                    .size(28.dp)
+                    .background(
+                        ImageProvider(R.drawable.refresh_button_background),
+                        colorFilter = ColorFilter.tint(GlanceTheme.colors.secondaryContainer)
+                    )
+                    .clickable(actionRunCallback<RainWidgetRefreshAction>()),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(
+                    provider = ImageProvider(R.drawable.refresh_24px),
+                    contentDescription = context.getString(R.string.widget_refresh),
+                    colorFilter = ColorFilter.tint(GlanceTheme.colors.onSecondaryContainer),
+                    modifier = GlanceModifier.size(16.dp)
                 )
-            )
+            }
         }
 
         Spacer(GlanceModifier.height(8.dp))
@@ -169,5 +190,25 @@ private fun GlanceModifier.appWidgetBackgroundShape(): GlanceModifier {
     } else {
         this
             .background(ImageProvider(R.drawable.weather_widget_background))
+    }
+}
+
+/**
+ * Refresh button action: re-fetches weather + rain data for the default
+ * location and updates the widgets, without opening the app.
+ */
+class RainWidgetRefreshAction : ActionCallback {
+    @Inject
+    override suspend fun onAction(
+        context: Context,
+        glanceId: GlanceId,
+        parameters: ActionParameters
+    ) {
+        val widgetReload = EntryPointAccessors.fromApplication(
+            context.applicationContext,
+            WidgetReloadEntryPoint::class.java
+        ).widgetReload()
+
+        widgetReload.reload(context)
     }
 }
