@@ -123,18 +123,20 @@ fun MainScreenScaffold(
                     )
                 },
             ) {
-                Column(
+                AnimatedContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .verticalScroll(scrollState),
-                ) {
-                    AnimatedContent(
-                        targetState = weather,
-                        contentKey = { it?.location?.id },
-                        transitionSpec = {
-                            fadeIn() togetherWith fadeOut()
-                        }
-                    ) { weather ->
+                    targetState = weather,
+                    contentKey = { it?.location?.id },
+                    transitionSpec = {
+                        fadeIn() togetherWith fadeOut()
+                    }
+                ) { weather ->
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
 
 
                         MainSearchBar(
