@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.offset
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
 import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcast
@@ -425,45 +426,56 @@ private fun TimeAxis(
     bars: List<NowcastBarData>,
     timeFormatter: (Long) -> String
 ) {
-    // each bar occupies width/n of the row; label every ceil(min/slot) bars
-    val minSpacingPx = with(LocalDensity.current) { 46.dp.toPx() }
-    // reserve for text width roughly = minSpacing; slot width unknown until
-    // layout, but row width also unknown — use onSizeChanged on this Row:
+    // Geometry mirroring the bars row above EXACTLY: it uses
+    // Arrangement.spacedBy(2.dp) with weight(1f) children, so the real
+    // per-bar slot is not simply width/n — the (n-1) gaps are subtracted
+    // before the weights divide the remainder.
+    val density = LocalDensity.current
+    val minSpacingPx = with(density) { 46.dp.toPx() }
+    val gapPx = with(density) { 2.dp.toPx() }
     var axisWidth by remember { mutableStateOf(0) }
-    val slotPx = if (bars.isEmpty()) 0f else axisWidth.toFloat() / bars.size
-    val labelEvery = if (slotPx <= 0f) {
-        1
-    } else {
-        ceil(minSpacingPx / slotPx).toInt().coerceAtLeast(1)
-    }
 
-    Row(
+    val n = bars.size
+    val slotPx = if (n == 0 || axisWidth == 0) 0f
+                 else (axisWidth - (n - 1) * gapPx) / n
+    val pitchPx = slotPx + gapPx
+    var labelEvery = if (slotPx <= 0f) 1
+                     else ceil(minSpacingPx / slotPx).toInt().coerceAtLeast(1)
+    // Odd cycle size => the middle of the label's box lands exactly on a
+    // bar centre (the box spans N bars + the gaps between them).
+    if (labelEven(labelEvery)) labelEvery += 1
+    val boxPx = (labelEvery * slotPx + (labelEvery - 1) * gapPx)
+        .coerceAtLeast(with(density) { 52.dp.toPx() })
+
+    // Absolute positioning inside a plain Box: each label gets a full
+    // cycle-width box CENTRED on its bar's centre, so wide labels never
+    // clip (they may reach into the neighbouring empty slots' space).
+    // Edges are clamped so the label stays inside the row.
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            // No extra padding: this Row lives inside the chart column that
-            // already accounts for card padding + y-axis width, and it must
-            // have EXACTLY the same width/spacing/child-weights as the bars
-            // row above, so every label centers under its own bar.
-            .onSizeChanged { axisWidth = it.width },
-        horizontalArrangement = Arrangement.spacedBy(2.dp)
+            .onSizeChanged { axisWidth = it.width }
     ) {
         bars.forEachIndexed { index, bar ->
-            if (index % labelEvery != 0) {
-                // unlabeled slot: empty spacer keeps the geometry identical
-                // to the bars row, so labels stay centered under their bars
-                Spacer(Modifier.weight(1f))
-                return@forEachIndexed
-            }
+            if (index % labelEvery != 0) return@forEachIndexed
+            val barCenter = index * pitchPx + slotPx / 2f
+            val left = (barCenter - boxPx / 2f)
+                .coerceIn(0f, (axisWidth - boxPx).coerceAtLeast(0f))
             Text(
                 timeFormatter(bar.time),
                 maxLines = 1,
+                softWrap = false,
                 style = MaterialTheme.typography.labelMedium,
                 color = if (index == 0) MaterialTheme.colorScheme.primary
                         else MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = if (index == 0) FontWeight.SemiBold else null,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .offset(x = with(density) { left.toDp() })
+                    .width(with(density) { boxPx.toDp() })
             )
         }
     }
 }
+
+private fun labelEven(v: Int): Boolean = v % 2 == 0
