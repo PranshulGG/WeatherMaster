@@ -12,7 +12,9 @@ import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.time.Duration
@@ -80,6 +82,23 @@ class RainNowcastRepository @Inject constructor(
 
     private val gson = Gson()
 
+    // ---- per-location dedupe cache ---------------------------------------
+    // Radar nowcast data is published in 5-minute cycles: within a cycle the
+    // cached result IS the freshest data that exists, so refetching for the
+    // same location in the same cycle is pure waste (and the app can trigger
+    // up to 3 overlapping fetches for one user action: main screen, rain
+    // detail page, widget refresh). Keyed by rounded location coordinates.
+    private data class CacheEntry(
+        val nowcast: RainNowcast?,
+        val cycleStart: Instant
+    )
+
+    private val cache = java.util.concurrent.ConcurrentHashMap<String, CacheEntry>()
+    private val inFlight = java.util.concurrent.ConcurrentHashMap<String, Deferred<RainNowcast?>>()
+
+    private fun locationKey(location: Location): String =
+        "${Math.round(location.latitude * 100.0)}_${Math.round(location.longitude * 100.0)}"
+
     /**
      * Returns the nowcast, or null when no high-resolution data is available
      * for this location (callers should then simply hide the section /
@@ -87,7 +106,44 @@ class RainNowcastRepository @Inject constructor(
      */
     suspend fun getNowcast(location: Location): RainNowcast? {
         val now = Instant.now()
+        val key = locationKey(location)
 
+        // Fresh for the whole 5-min radar cycle in which it was fetched.
+        val cycleStart = Instant.ofEpochSecond(now.epochSecond - now.epochSecond % 300)
+        cache[key]?.let { entry ->
+            if (entry.cycleStart == cycleStart && cycleStart.plusSeconds(300) > now) {
+                return entry.nowcast
+            }
+        }
+
+        // Coalesce concurrent requests for the same location: the second
+        // caller waits for the first one's result instead of hammering KNMI.
+        val existing = inFlight[key]
+        if (existing != null && existing.isActive) {
+            return try {
+                existing.await()
+            } catch (e: Exception) {
+                null
+            }
+        }
+
+        val deferred = kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.IO).async {
+            fetchNowcast(location, now)
+        }
+        inFlight[key] = deferred
+        val result = try {
+            deferred.await()
+        } catch (e: Exception) {
+            Log.w(TAG, "nowcast fetch failed: ${e.message}")
+            null
+        } finally {
+            inFlight.remove(key, deferred)
+        }
+        cache[key] = CacheEntry(result, cycleStart)
+        return result
+    }
+
+    private suspend fun fetchNowcast(location: Location, now: Instant): RainNowcast? {
         // KNMI's nowcast grid covers the Netherlands; the WMS point query
         // simply returns no value outside it, so decide by geography (the
         // country code is not reliably populated for all locations).
