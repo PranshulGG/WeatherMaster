@@ -82,27 +82,33 @@ object MainScreenBottomSheets {
                             trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
                         ),
 
-                        // Rain nowcast provider (KNMI NL / DWD DE); the nowcast
-                        // card shows "© <provider>" when active. Null outside
-                        // KNMI/DWD coverage or when no nowcast was fetched.
-                        SettingTile.ActionTile(
-                            title = nowcastProvider?.let { "Rain nowcast · $it" }
-                                ?: "Rain nowcast · none",
-                            description = when (nowcastProvider) {
-                                "KNMI" -> "https://developer.dataplatform.knmi.nl/"
-                                "DWD" -> "https://www.brightsky.dev/"
-                                else -> null
-                            },
-                            onClick = {
-                                when (nowcastProvider) {
-                                    "KNMI" -> uriHandler.openUri("https://developer.dataplatform.knmi.nl/")
-                                    "DWD" -> uriHandler.openUri("https://www.brightsky.dev/")
-                                }
-                            },
-                            trailing = {
-                                if (nowcastProvider != null) SettingsTileIcon(R.drawable.open_in_new_24px)
-                            }
-                        )
+                        // Rain nowcast provider; the nowcast card shows
+                        // "© <provider>" when active. Null outside KNMI/DWD
+                        // coverage or when no nowcast was fetched.
+                        //
+                        // Skipped when the weather-source tile above already
+                        // names the same provider (e.g. DWD in Germany: the
+                        // radar nowcast comes from Bright Sky DWD, the very
+                        // source the forecast uses) to avoid a duplicate row.
+                        nowcastProvider?.takeIf {
+                            it != location?.source?.displayName
+                        }?.let { provider ->
+                            SettingTile.ActionTile(
+                                title = "Rain nowcast · $provider",
+                                description = when (provider) {
+                                    "KNMI" -> "https://developer.dataplatform.knmi.nl/"
+                                    "DWD" -> "https://www.brightsky.dev/"
+                                    else -> null
+                                },
+                                onClick = {
+                                    when (provider) {
+                                        "KNMI" -> uriHandler.openUri("https://developer.dataplatform.knmi.nl/")
+                                        "DWD" -> uriHandler.openUri("https://www.brightsky.dev/")
+                                    }
+                                },
+                                trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
+                            )
+                        }
                     )
                 )
                 if (location.airQualitySource != Source.NONE) {
