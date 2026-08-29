@@ -23,6 +23,7 @@ import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -63,7 +64,9 @@ fun MainScreenScaffold(
     val layoutDirection = LocalLayoutDirection.current
 
     val units = uiState.weatherUnits
-    val scrollState = rememberScrollState()
+    val scrollState = key(weather?.location?.id) {
+        rememberScrollState()
+    }
 
     val isFroggyLayout = prefs.isFroggyLayout
     val isShowWeatherAnimations = prefs.isShowWeatherAnimations
