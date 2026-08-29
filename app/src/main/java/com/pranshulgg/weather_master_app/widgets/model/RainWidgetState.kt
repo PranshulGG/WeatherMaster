@@ -34,7 +34,9 @@ data class RainWidgetState(
      */
     val slots: List<RainWidgetSlot> = emptyList(),
     /** Factor converting mm into the user's precipitation unit (for axis labels). */
-    val mmToUnitFactor: Double = 1.0
+    val mmToUnitFactor: Double = 1.0,
+    /** Attribution line, e.g. "Radar © KNMI". Empty = no attribution shown. */
+    val attribution: String = ""
 ) {
     /** True when there is anything renderable. */
     fun hasData(): Boolean = slots.isNotEmpty() || bars.isNotEmpty()

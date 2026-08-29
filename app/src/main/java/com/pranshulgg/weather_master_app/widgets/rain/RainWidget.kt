@@ -133,6 +133,18 @@ private fun RainWidgetContent(context: Context, state: RainWidgetState) {
                 )
             )
             Spacer(modifier = GlanceModifier.defaultWeight())
+            // Attribution, pinned left of the refresh button (license: CC BY)
+            if (state.attribution.isNotBlank()) {
+                Text(
+                    text = state.attribution,
+                    maxLines = 1,
+                    style = TextStyle(
+                        color = GlanceTheme.colors.onSurfaceVariant,
+                        fontSize = 8.sp
+                    ),
+                    modifier = GlanceModifier.padding(end = 7.dp)
+                )
+            }
             Box(
                 modifier = GlanceModifier
                     .size(28.dp)

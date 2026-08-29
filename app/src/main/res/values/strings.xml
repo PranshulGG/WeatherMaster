@@ -135,9 +135,12 @@
     <string name="error_network">Network unavailable</string>
     <string name="weather_total_snow_day">Total snow for the day</string>
     <string name="weather_precipitation">Precipitation</string>
-    <string name="rain_nowcast_title">Rain next 3 hours</string>
+    <string name="rain_nowcast_title">Rain next 2 hours</string>
     <string name="setting_highlight_rain">Highlight rain</string>
-    <string name="setting_highlight_rain_secondary">Show the high-resolution rain nowcast (next 3 hours) right after the hourly forecast on the main screen</string>
+    <string name="setting_highlight_rain_secondary">Show the high-resolution rain nowcast (next 2 hours) right after the hourly forecast on the main screen</string>
+    <string name="setting_knmi_api_key">KNMI API key</string>
+    <string name="setting_knmi_api_key_secondary">Optional personal key for the KNMI rain nowcast (NL). Leave empty to use anonymous access with shared rate limits. Free key: developer.dataplatform.knmi.nl</string>
+    <string name="setting_knmi_api_key_placeholder">Enter KNMI API key</string>
     <string name="weather_air_quality_index">Air quality index</string>
     <string name="setting_translate_app">Translate this app</string>
     <string name="setting_translate_app_secondary">Contribute by translating the app into your language on Crowdin</string>

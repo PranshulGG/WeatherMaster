@@ -54,6 +54,9 @@ data class AppPrefsState(
     val isHighlightRain: Boolean,
     val setHighlightRain: (Boolean) -> Unit,
 
+    val knmiApiKey: String,
+    val setKnmiApiKey: (String) -> Unit,
+
     val isTodayForecastNotificationEnabled: Boolean,
     val setTodayForecastNotificationEnabled: (Boolean) -> Unit,
 

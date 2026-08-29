@@ -14,12 +14,11 @@ data class RainNowcastPoint(
 )
 
 /**
- * High-resolution rain nowcast for the coming ~3 hours.
+ * High-resolution rain nowcast for the coming ~2 hours.
  *
  * Points come from the best available source:
- * - Buienradar 5-minute radar extrapolation (NL / BE / western + northern DE)
- * - DWD Radarkomposit RV 5-minute radar extrapolation via Bright Sky (all of DE)
- * - Open-Meteo 15-minute high-resolution model data as fallback / tail
+ * - KNMI radar_forecast_2.0 5-minute radar extrapolation via WMS (NL)
+ * - DWD Radarkomposit RV 5-minute radar extrapolation via Bright Sky (DE)
  */
 data class RainNowcast(
     val points: List<RainNowcastPoint>,

@@ -139,12 +139,25 @@ fun RainNowcastCard(
                 .fillMaxWidth()
                 .padding(bottom = 16.dp)
         ) {
-            CardsHeader(
-                "${stringResource(R.string.rain_nowcast_title)} (${
-                    unit.toName(context, true)
-                })",
-                R.drawable.water_drop_24px
-            )
+            Box(modifier = Modifier.fillMaxWidth()) {
+                CardsHeader(
+                    "${stringResource(R.string.rain_nowcast_title)} (${
+                        unit.toName(context, true)
+                    })",
+                    R.drawable.water_drop_24px
+                )
+                // Source attribution (CC BY 4.0: KNMI / DWD [+ Open-Meteo])
+                Text(
+                    text = nowcast.providerName
+                        .split(" + ")
+                        .joinToString(" · ") { "© $it" },
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(end = 16.dp)
+                )
+            }
             Gap(6.dp)
 
             NowcastBarChart(

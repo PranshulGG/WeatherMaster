@@ -119,7 +119,8 @@ internal fun rainWidgetStateFromNowcast(
         zoneId = zoneId,
         is24h = is24h,
         slots = slots,
-        mmToUnitFactor = PrecipitationUnit.MM.convert(1.0, unit) ?: 1.0
+        mmToUnitFactor = PrecipitationUnit.MM.convert(1.0, unit) ?: 1.0,
+        attribution = "Radar © ${nowcast.providerName}"
     )
 }
 
