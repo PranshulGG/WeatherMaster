@@ -118,7 +118,8 @@ internal fun rainWidgetStateFromNowcast(
         isNowcast = true,
         zoneId = zoneId,
         is24h = is24h,
-        slots = slots
+        slots = slots,
+        mmToUnitFactor = PrecipitationUnit.MM.convert(1.0, unit) ?: 1.0
     )
 }
 

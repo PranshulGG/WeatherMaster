@@ -32,7 +32,9 @@ data class RainWidgetState(
      * Raw 5-minute nowcast slots: epoch start millis of the slot and the
      * expected precipitation in mm accumulated over the slot.
      */
-    val slots: List<RainWidgetSlot> = emptyList()
+    val slots: List<RainWidgetSlot> = emptyList(),
+    /** Factor converting mm into the user's precipitation unit (for axis labels). */
+    val mmToUnitFactor: Double = 1.0
 ) {
     /** True when there is anything renderable. */
     fun hasData(): Boolean = slots.isNotEmpty() || bars.isNotEmpty()

@@ -247,23 +247,49 @@ private fun drawNowcastBitmap(
 
     val maxMm = buckets.maxOf { it.mm }
     val barAreaHeightPx = heightPx
+
+    // ---- y-axis (same nice-step ladder as the in-app card) -----------------
+    // peak mm/h of the buckets, converted to the display unit
+    val peak = maxMm * 60.0 / slotMinutes * state.mmToUnitFactor
+    val axisStep = when {
+        peak <= 1.0 -> 0.25
+        peak <= 2.5 -> 0.5
+        peak <= 5.0 -> 1.0
+        peak <= 12.0 -> 2.0
+        peak <= 30.0 -> 5.0
+        peak <= 60.0 -> 10.0
+        else -> 25.0
+    }
+    val topOfScale = ceil(peak / axisStep) * axisStep
+    val tickDecimals = when {
+        state.mmToUnitFactor != 1.0 -> 3 // inch
+        axisStep < 1.0 -> 2
+        else -> 1
+    }
+    val axisLabelWidthPx = (30 * density).toInt()
+    val chartWidthPx = widthPx - axisLabelWidthPx
     val slotCount = buckets.size
-    val slotWidthPx = widthPx.toFloat() / slotCount
+    val slotWidthPx = chartWidthPx.toFloat() / slotCount
     // narrow bar with a small gap, buienradar-style
     val barWidthPx = (slotWidthPx * 0.72f).coerceAtLeast(1f)
+    val axisPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        textSize = 8 * density
+        color = labelColor.copy(alpha = 0.7f).toArgb()
+        textAlign = Paint.Align.RIGHT
+    }
 
     // ---- bars -------------------------------------------------------------
-    val maxAmount = buckets.maxOf { it.mm }
+    val topOfScaleMmPerHour = topOfScale / state.mmToUnitFactor
     buckets.forEachIndexed { index, bucket ->
         val mmPerHour = bucket.mm * 60.0 / slotMinutes
         paint.color = nowcastBarColorArgb(mmPerHour).toInt()
-        val fraction = (bucket.mm / maxMm).coerceIn(0.0, 1.0)
+        val fraction = (mmPerHour / topOfScaleMmPerHour).coerceIn(0.0, 1.0)
         val barHeightPx = if (bucket.mm <= 0.0) {
             (2 * density).toInt().coerceAtLeast(2)
         } else {
             (fraction * (barAreaHeightPx - 2 * density)).toInt().coerceAtLeast((3 * density).toInt())
         }
-        val left = index * slotWidthPx + (slotWidthPx - barWidthPx) / 2f
+        val left = axisLabelWidthPx + index * slotWidthPx + (slotWidthPx - barWidthPx) / 2f
         canvas.drawRoundRect(
             left,
             (barAreaHeightPx - barHeightPx).toFloat(),
@@ -275,9 +301,26 @@ private fun drawNowcastBitmap(
         )
     }
 
-    // ---- baseline ---------------------------------------------------------
+    // ---- y-axis tick labels + baseline -------------------------------------
+    val tickCount = (topOfScale / axisStep).toInt() + 1
+    for (i in tickCount - 1 downTo 0) {
+        val value = i * axisStep
+        val y = barAreaHeightPx - (value / topOfScale * (barAreaHeightPx - 2 * density)).toFloat()
+        canvas.drawText(
+            String.format(java.util.Locale.US, "%.${tickDecimals}f", value),
+            axisLabelWidthPx - 4 * density,
+            y + axisPaint.textSize / 3f,
+            axisPaint
+        )
+    }
     paint.color = labelColor.copy(alpha = 0.4f).toArgb()
-    canvas.drawRect(0f, barAreaHeightPx - 1f, widthPx.toFloat(), barAreaHeightPx.toFloat(), paint)
+    canvas.drawRect(
+        axisLabelWidthPx.toFloat(),
+        barAreaHeightPx - 1f,
+        widthPx.toFloat(),
+        barAreaHeightPx.toFloat(),
+        paint
+    )
 
     // ---- sparse time labels ------------------------------------------------
     paint.color = labelColor.copy(alpha = 0.85f).toArgb()
@@ -292,8 +335,8 @@ private fun drawNowcastBitmap(
         if (index % labelEvery != 0) return@forEachIndexed
         val text = formatter.format(Instant.ofEpochMilli(bucket.time).atZone(zone))
         val textWidth = paint.measureText(text)
-        val x = (index * slotWidthPx + slotWidthPx / 2f - textWidth / 2f)
-            .coerceIn(0f, widthPx - textWidth)
+        val x = (axisLabelWidthPx + index * slotWidthPx + slotWidthPx / 2f - textWidth / 2f)
+            .coerceIn(axisLabelWidthPx.toFloat(), widthPx - textWidth)
         canvas.drawText(text, x, barAreaHeightPx + LABEL_TEXT_SP * density + 4 * density, paint)
     }
 
