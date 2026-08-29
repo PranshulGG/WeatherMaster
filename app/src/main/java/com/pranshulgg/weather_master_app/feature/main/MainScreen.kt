@@ -26,6 +26,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcast
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
@@ -50,7 +51,8 @@ data class MainScreenWeatherUiState(
     val airQuality: AirQuality? = null,
     val isAirQualityLoading: Boolean = false,
     val isUnsupportedSource: Boolean = false,
-    val alerts: List<Alert> = emptyList()
+    val alerts: List<Alert> = emptyList(),
+    val rainNowcast: RainNowcast? = null
 )
 
 data class MainScreenUiState(

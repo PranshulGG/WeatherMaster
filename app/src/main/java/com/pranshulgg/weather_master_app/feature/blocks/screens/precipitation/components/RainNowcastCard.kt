@@ -1,9 +1,12 @@
 package com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.components
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -14,13 +17,18 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
@@ -30,17 +38,19 @@ import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.theme.ShadowElevation
+import com.pranshulgg.weather_master_app.core.utils.formatters.formatLocalizedNumber
+import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import com.pranshulgg.weather_master_app.feature.shared.components.CardsHeader
 import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+import kotlin.math.ceil
 import kotlin.math.max
-import kotlin.math.roundToInt
 
 private const val NOWCAST_PAST_CONTEXT_MINUTES = 15L
 
 /** Intensity color ramp modeled on buienradar's legend (mm/h). */
-private fun barColor(intensityMmPerHour: Double): Color = when {
+internal fun barColor(intensityMmPerHour: Double): Color = when {
     intensityMmPerHour <= 0.0 -> Color(0xFFBDBDBD)   // no rain
     intensityMmPerHour < 0.3 -> Color(0xFFA9D5F5)    // drizzle
     intensityMmPerHour < 1.0 -> Color(0xFF6FB6EC)    // light
@@ -50,10 +60,22 @@ private fun barColor(intensityMmPerHour: Double): Color = when {
     else -> Color(0xFF6A1B9A)                        // extreme
 }
 
+/** Nice step for y-axis ticks given the max intensity (mm/h). */
+private fun yAxisStep(maxIntensity: Double): Double = when {
+    maxIntensity <= 1.0 -> 0.25
+    maxIntensity <= 2.5 -> 0.5
+    maxIntensity <= 5.0 -> 1.0
+    maxIntensity <= 12.0 -> 2.0
+    maxIntensity <= 30.0 -> 5.0
+    maxIntensity <= 60.0 -> 10.0
+    else -> 25.0
+}
+
 /**
  * Buienradar-style chart for the high-resolution rain nowcast: one bar per
- * 5-minute (radar) or 15-minute (model) interval, colored by intensity class
- * like buienradar.nl, with past bars dimmed and upcoming full-hour labels.
+ * 5-minute (radar) or 15-minute (model) interval, with a y-axis, hour
+ * separators and tap-to-inspect: tapping a bar selects it and shows the
+ * exact time and intensity (converted to the user's precipitation unit).
  */
 @Composable
 fun RainNowcastCard(
@@ -79,6 +101,10 @@ fun RainNowcastCard(
         }
     }
 
+    val formatter: (Double) -> Double? = {
+        PrecipitationUnit.MM.convert(it, unit)
+    }
+
     val maxMmPerHour = nowcast.maxIntensity()
     val summaryIntensity = when {
         maxMmPerHour <= 0.0 -> stringResource(R.string.rain_nowcast_none_expected)
@@ -92,7 +118,9 @@ fun RainNowcastCard(
         color = MaterialTheme.colorScheme.surfaceBright,
         shape = MaterialTheme.shapes.extraLarge,
         shadowElevation = ShadowElevation.level2,
-        modifier = Modifier.padding(horizontal = 16.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
     ) {
         Column(
             modifier = Modifier
@@ -119,36 +147,28 @@ fun RainNowcastCard(
             NowcastBarChart(
                 points = nowcast.points,
                 nowMilli = now,
-                maxIntensity = maxIntensity
+                maxIntensity = maxIntensity,
+                unit = unit,
+                timeFormatter = timeFormatter,
+                formatValue = { mmh ->
+                    val converted = formatter(mmh)
+                    val decimals = when {
+                        unit == PrecipitationUnit.INCH -> 3
+                        maxMmPerHour < 1.0 -> 2
+                        else -> 1
+                    }
+                    formatLocalizedNumber(
+                        getCurrentAppLocale(),
+                        converted ?: mmh,
+                        decimals
+                    )
+                }
             )
 
             Gap(6.dp)
 
-            // Time axis: "now" plus the next three full hours
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    timeFormatter(now),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.SemiBold
-                )
-                var nextHour = Instant.ofEpochMilli(now).atZone(zone)
-                    .plusMinutes((60 - Instant.ofEpochMilli(now).atZone(zone).minute).toLong())
-                    .withSecond(0).withNano(0)
-                repeat(3) {
-                    Text(
-                        timeFormatter(nextHour.toInstant().toEpochMilli()),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                    nextHour = nextHour.plusHours(1)
-                }
-            }
+            // Time axis: current time plus upcoming full-hour labels
+            TimeAxis(nowMilli = now, zone = zone, timeFormatter = timeFormatter)
 
             Gap(10.dp)
 
@@ -166,6 +186,13 @@ fun RainNowcastCard(
             }
 
             Gap(6.dp)
+            Text(
+                text = stringResource(R.string.rain_nowcast_hint_tap),
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(horizontal = 16.dp)
+            )
+            Gap(4.dp)
             Text(
                 text = stringResource(R.string.rain_nowcast_provider, nowcast.providerName),
                 style = MaterialTheme.typography.labelSmall,
@@ -194,26 +221,44 @@ private fun NowcastLegendItem(color: Color, label: String) {
 }
 
 /**
- * One bar per 5 minutes from (now - 15 min) to the end of the data.
- * 5-minute radar points map 1:1 to bars; 15-minute model points are
- * expanded across their interval so the tail stays continuous.
+ * One bar per 5 minutes from (now - 15 min) to the end of the data, with a
+ * y-axis on the left. 5-minute radar points map 1:1 to bars; 15-minute model
+ * points are expanded across their interval so the tail stays continuous.
+ * Tapping a bar selects it and shows the exact time + intensity above.
  */
 @Composable
 private fun NowcastBarChart(
     points: List<RainNowcastPoint>,
     nowMilli: Long,
-    maxIntensity: Double
+    maxIntensity: Double,
+    unit: PrecipitationUnit,
+    timeFormatter: (Long) -> String,
+    formatValue: (Double) -> String
 ) {
     val startMilli = nowMilli - NOWCAST_PAST_CONTEXT_MINUTES * 60000L
     val slotMillis = 5 * 60000L
 
+    data class Bar(
+        val time: Long,
+        val intensity: Double,
+        val isPast: Boolean,
+        val timeLabel: String
+    )
+
     val bars = remember(points, nowMilli) {
-        val list = mutableListOf<Triple<Long, Double, Boolean>>() // time, intensity, isPast
+        val list = mutableListOf<Bar>()
         for (p in points) {
             val end = p.time + p.intervalMinutes * 60000L
             var s = max(p.time, startMilli)
             while (s < end) {
-                list.add(Triple(s, p.intensityMmPerHour, s < nowMilli))
+                list.add(
+                    Bar(
+                        time = s,
+                        intensity = p.intensityMmPerHour,
+                        isPast = s < nowMilli,
+                        timeLabel = timeFormatter(s)
+                    )
+                )
                 s += slotMillis
             }
         }
@@ -222,32 +267,145 @@ private fun NowcastBarChart(
 
     if (bars.isEmpty()) return
 
-    val maxBarHeight = 110
+    // selection state: which bar index is tapped; -1 = none. Reset when data changes.
+    var selectedIndex by remember(points, nowMilli) { mutableIntStateOf(-1) }
+    val activeIndex = if (selectedIndex in bars.indices) selectedIndex else -1
+    val selected = bars.getOrNull(activeIndex)
+
+    val maxBarHeight = 120
+    val step = yAxisStep(maxIntensity)
+    val topOfScale = ceil(maxIntensity / step) * step
+    // decimals for tick/tooltip labels: sub-1 mm/h needs 2, INCH needs 3
+    val tickDecimals = when {
+        unit == PrecipitationUnit.INCH -> 3
+        step < 1.0 -> 2
+        else -> 1
+    }
+    val formatTick: (Double) -> String = { mmh ->
+        val converted = PrecipitationUnit.MM.convert(mmh, unit)
+        formatLocalizedNumber(getCurrentAppLocale(), converted ?: mmh, tickDecimals)
+    }
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(130.dp)
-            .padding(horizontal = 16.dp),
-        verticalAlignment = Alignment.Bottom,
-        horizontalArrangement = Arrangement.spacedBy(2.dp)
+            .padding(horizontal = 16.dp)
     ) {
-        bars.forEach { (time, intensity, isPast) ->
-            val fraction = (intensity / maxIntensity).coerceIn(0.0, 1.0)
-            val height = if (intensity <= 0.0) 4 else (fraction * maxBarHeight).roundToInt().coerceAtLeast(6)
-            val color = barColor(intensity)
-            val alpha = if (isPast) 0.45f else 1f
-
-            Box(Modifier.weight(1f)) {
-                Surface(
-                    modifier = Modifier
-                        .align(Alignment.BottomCenter)
-                        .fillMaxWidth()
-                        .height(height.dp),
-                    color = color.copy(alpha = alpha),
-                    shape = MaterialTheme.shapes.extraSmall
-                ) {}
+        // ---- y-axis labels -------------------------------------------------
+        Column(
+            modifier = Modifier
+                .width(30.dp)
+                .height((maxBarHeight + 20).dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.End
+        ) {
+            val tickCount = (topOfScale / step).toInt() + 1
+            for (i in tickCount - 1 downTo 0) {
+                val value = i * step
+                Text(
+                    text = formatTick(value),
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.End
+                )
             }
+        }
+        Gap(4.dp)
+
+        // ---- bars ----------------------------------------------------------
+        val tooltipContext = LocalContext.current
+        Column {
+            // selection tooltip row (fixed height so layout doesn't jump)
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(20.dp),
+                contentAlignment = Alignment.BottomStart
+            ) {
+                if (selected != null) {
+                    Text(
+                        "${selected.timeLabel} · ${formatValue(selected.intensity)} ${unit.toName(tooltipContext, true)}",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(maxBarHeight.dp),
+                verticalAlignment = Alignment.Bottom,
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                bars.forEachIndexed { index, bar ->
+                    val fraction = (bar.intensity / topOfScale).coerceIn(0.0, 1.0)
+                    val height = if (bar.intensity <= 0.0) 4 else (fraction * maxBarHeight).toInt().coerceAtLeast(6)
+                    val alpha = when {
+                        bar.isPast -> 0.45f
+                        index == activeIndex -> 1f
+                        activeIndex != -1 -> 0.55f // dim others when one is selected
+                        else -> 1f
+                    }
+
+                    Box(
+                        Modifier
+                            .weight(1f)
+                            .fillMaxHeight()
+                            .clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null
+                            ) {
+                                selectedIndex = if (activeIndex == index) -1 else index
+                            }
+                    ) {
+                        Surface(
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .fillMaxWidth()
+                                .height(height.dp),
+                            color = barColor(bar.intensity).copy(alpha = alpha),
+                            shape = MaterialTheme.shapes.extraSmall
+                        ) {}
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**
+ * "now" label on the left, the upcoming full-hour labels spread after it.
+ */
+@Composable
+private fun TimeAxis(
+    nowMilli: Long,
+    zone: java.time.ZoneId,
+    timeFormatter: (Long) -> String
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 46.dp), // 16 chart padding + 30 y-axis
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(
+            timeFormatter(nowMilli),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.SemiBold
+        )
+        val zoneNow = Instant.ofEpochMilli(nowMilli).atZone(zone)
+        var nextHour = zoneNow.plusMinutes((60 - zoneNow.minute).toLong())
+            .withSecond(0).withNano(0)
+        repeat(3) {
+            Text(
+                timeFormatter(nextHour.toInstant().toEpochMilli()),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            nextHour = nextHour.plusHours(1)
         }
     }
 }

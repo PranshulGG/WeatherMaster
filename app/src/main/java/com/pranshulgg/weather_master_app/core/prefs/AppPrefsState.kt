@@ -51,6 +51,9 @@ data class AppPrefsState(
     val isGoogleSansFlex: Boolean,
     val setGoogleSansFlex: (Boolean) -> Unit,
 
+    val isHighlightRain: Boolean,
+    val setHighlightRain: (Boolean) -> Unit,
+
     val isTodayForecastNotificationEnabled: Boolean,
     val setTodayForecastNotificationEnabled: (Boolean) -> Unit,
 

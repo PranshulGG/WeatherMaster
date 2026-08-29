@@ -22,6 +22,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualit
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
+import com.pranshulgg.weather_master_app.core.network.sources.weather.rain.RainNowcastRepository
 import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherDataReconcilerRepository
@@ -50,6 +51,7 @@ class WeatherViewModel @Inject constructor(
     private val weatherBlocksRepository: WeatherBlocksRepository,
     private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository,
     private val sourceDataRepository: SourceDataRepository,
+    private val rainNowcastRepository: RainNowcastRepository,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
@@ -177,6 +179,9 @@ class WeatherViewModel @Inject constructor(
                 },
             )
 
+            // high-res rain nowcast for the "Highlight rain" option
+            loadRainNowcast(effectiveLocation)
+
             val elapsed = System.currentTimeMillis() - startTime
             val minLoadingTime = 1000L // 1s
 
@@ -279,6 +284,15 @@ class WeatherViewModel @Inject constructor(
     suspend fun loadBlocks() {
         val loadedBlocks = weatherBlocksRepository.loadBlocks()
         _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
+    }
+
+    private suspend fun loadRainNowcast(location: Location) {
+        val nowcast = try {
+            rainNowcastRepository.getNowcast(location)
+        } catch (e: Exception) {
+            null
+        }
+        _uiState.value = _uiState.value.copy(rainNowcast = nowcast)
     }
 
 

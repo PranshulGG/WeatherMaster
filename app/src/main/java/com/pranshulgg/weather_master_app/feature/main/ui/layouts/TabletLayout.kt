@@ -34,6 +34,7 @@ import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import com.pranshulgg.weather_master_app.feature.shared.components.blocks.WeatherBlocks
 import com.pranshulgg.weather_master_app.feature.shared.ui.DailyCard
 import com.pranshulgg.weather_master_app.feature.shared.ui.HourlyCard
+import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.components.RainNowcastCard
 import com.pranshulgg.weather_master_app.feature.shared.ui.SummaryCard
 
 
@@ -104,6 +105,13 @@ fun TabletLayout(
                     )
                 }
                 HourlyCard(weather, units)
+                if (prefs.isHighlightRain) {
+                    RainNowcastCard(
+                        nowcast = uiState.rainNowcast,
+                        zoneId = weather.location.timezone,
+                        unit = units.precipitationUnit
+                    )
+                }
                 DailyCard(weather, units, navController)
 
                 CreditsBottomSection(
