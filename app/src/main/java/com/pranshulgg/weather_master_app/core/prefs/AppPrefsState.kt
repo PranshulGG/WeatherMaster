@@ -56,6 +56,9 @@ data class AppPrefsState(
 
     val isNextDayForecastNotificationEnabled: Boolean,
     val setNextDayForecastNotificationEnabled: (Boolean) -> Unit,
+
+    val isTabletLayoutEnabled: Boolean,
+    val setTabletLayout: (Boolean) -> Unit,
 )
 
 

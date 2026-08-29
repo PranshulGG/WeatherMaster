@@ -26,6 +26,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
@@ -71,6 +72,7 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
     val mainScreenUiState = viewModel.uiState.value
     val uriHandler = LocalUriHandler.current
     val savedVersion = PreferencesHelper.getString("saved_version")
+    val prefs = LocalAppPrefs.current
 
     if (uiState.locations.isEmpty()) {
         IntroScreen(navController)
@@ -85,7 +87,7 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
         LocalWindowInfo.current.containerSize.width.toDp()
     }
 
-    val isTabletLike = widthDp > 600.dp
+    val isTabletLike = if (!prefs.isTabletLayoutEnabled) false else widthDp > 600.dp
 
     val sheetState = rememberBottomSheetState(
         initialValue = SheetValue.Hidden,
@@ -178,7 +180,8 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
                 context,
                 onWeatherSourceInfoClick = viewModel::showWeatherSourcesInfoForLocationSheet,
                 weatherViewModel,
-                isTabletLike = isTabletLike
+                isTabletLike = isTabletLike,
+                prefs = prefs
             )
         }
     )

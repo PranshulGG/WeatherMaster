@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
+import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.feature.main.components.MainSearchBar
 import com.pranshulgg.weather_master_app.feature.main.ui.BackgroundGradient
@@ -50,14 +51,14 @@ fun MainScreenScaffold(
     context: Context,
     onWeatherSourceInfoClick: () -> Unit,
     viewModel: WeatherViewModel,
-    isTabletLike: Boolean = false
+    isTabletLike: Boolean = false,
+    prefs: AppPrefsState
 ) {
 
 
     val pullToRefreshState = rememberPullToRefreshState()
     val weather = remember(uiState.weather) { uiState.weather }
     val airQuality = remember(uiState.airQuality) { uiState.airQuality }
-    val prefs = LocalAppPrefs.current
     val alerts = remember(uiState.alerts) { uiState.alerts }
 
     val layoutDirection = LocalLayoutDirection.current

@@ -133,7 +133,6 @@ fun AppearanceScreen(navController: NavController) {
                             } else {
                                 prefs.setGoogleSansFlex(false)
                             }
-//                            recreate(activity)
                         }
                     ),
                 )
@@ -189,6 +188,15 @@ fun AppearanceScreen(navController: NavController) {
                         checked = prefs.isFroggyLayout,
                         onCheckedChange = { checked ->
                             prefs.setFroggyLayout(checked)
+                        }
+                    ),
+                    SettingTile.SwitchTile(
+                        leading = { SettingsTileIcon(R.drawable.tablet_24px) },
+                        title = "Tablet layout",
+                        description = "A separate layout for tablets or large-screen devices. Disabling this will use a single-column layout",
+                        checked = prefs.isTabletLayoutEnabled,
+                        onCheckedChange = { checked ->
+                            prefs.setTabletLayout(checked)
                         }
                     )
                 )
