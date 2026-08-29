@@ -138,9 +138,8 @@
     <string name="rain_nowcast_title">Rain next 2 hours</string>
     <string name="setting_highlight_rain">Highlight rain</string>
     <string name="setting_highlight_rain_secondary">Show the high-resolution rain nowcast (next 2 hours) right after the hourly forecast on the main screen</string>
-    <string name="setting_knmi_api_key">KNMI API key</string>
-    <string name="setting_knmi_api_key_secondary">Optional personal key for the KNMI rain nowcast (NL). Leave empty to use anonymous access with shared rate limits. Free key: developer.dataplatform.knmi.nl</string>
-    <string name="setting_knmi_api_key_placeholder">Enter KNMI API key</string>
+    <string name="knmi_api_key_title">KNMI</string>
+    <string name="knmi_api_key_description">Optional: personal API key for the KNMI rain nowcast (Netherlands). Leave empty to use anonymous access. Free key: developer.dataplatform.knmi.nl</string>
     <string name="weather_air_quality_index">Air quality index</string>
     <string name="setting_translate_app">Translate this app</string>
     <string name="setting_translate_app_secondary">Contribute by translating the app into your language on Crowdin</string>
@@ -450,6 +449,7 @@
     <string name="country_indonesia">Indonesia</string>
     <string name="country_italy">Italy</string>
     <string name="country_japan">Japan</string>
+    <string name="country_netherlands">Netherlands</string>
     <string name="country_portugal">Portugal</string>
     <string name="country_russia">Russia</string>
     <string name="country_spain">Spain</string>

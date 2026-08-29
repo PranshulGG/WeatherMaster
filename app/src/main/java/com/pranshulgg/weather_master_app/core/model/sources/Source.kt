@@ -184,6 +184,14 @@ enum class Source(
         countryNameRes = R.string.country_japan,
         capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
     ),
+    KNMI(
+        displayName = "KNMI",
+        fullName = "Royal Netherlands Meteorological Institute",
+        displayLink = "https://developer.dataplatform.knmi.nl/",
+        countryNameRes = R.string.country_netherlands,
+        requiresUserApiKey = false, // anonymous shared quota; key optional (rain nowcast)
+        capabilities = setOf(Capability.WEATHER)
+    ),
     INMET(
         displayName = "INMET",
         fullName = "Instituto Nacional de Meteorologia",

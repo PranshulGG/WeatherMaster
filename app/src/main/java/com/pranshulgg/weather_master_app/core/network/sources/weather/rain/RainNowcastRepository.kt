@@ -4,10 +4,11 @@ import android.util.Base64
 import android.util.Log
 import com.google.gson.Gson
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcast
 import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcastPoint
 import com.pranshulgg.weather_master_app.core.network.sources.weather.brightsky.BrightSkyRadarApi
-import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
+import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -40,7 +41,8 @@ import kotlin.math.roundToInt
  */
 @Singleton
 class RainNowcastRepository @Inject constructor(
-    private val brightSkyRadarApi: BrightSkyRadarApi
+    private val brightSkyRadarApi: BrightSkyRadarApi,
+    private val apiKeysRepository: ApiKeysRepository
 ) {
 
     companion object {
@@ -69,9 +71,6 @@ class RainNowcastRepository @Inject constructor(
         private const val BBOX_MAX_LON = 7.5
         private const val BBOX_MIN_LAT = 50.5
         private const val BBOX_MAX_LAT = 54.0
-
-        /** Settings key for the user's KNMI API key (empty = anonymous). */
-        const val PREF_KNMI_API_KEY = "knmiApiKey"
     }
 
     private val plainClient = OkHttpClient.Builder()
@@ -114,7 +113,12 @@ class RainNowcastRepository @Inject constructor(
         now: Instant
     ): RainNowcast? = withContext(Dispatchers.IO) {
         try {
-            val apiKey = PreferencesHelper.getString(PREF_KNMI_API_KEY)?.trim().orEmpty()
+            // Optional KNMI key: stored in the same ApiKeys DB the app uses
+            // for other sources (Settings -> Weather Sources -> API key config).
+            // Empty -> anonymous WMS host (shared per-IP quota).
+            val apiKey = apiKeysRepository
+                .getKeyForSource(Source.KNMI)
+                ?.trim().orEmpty()
             val useKey = apiKey.isNotEmpty()
             val wmsUrl = (if (useKey) "https://api.dataplatform.knmi.nl" else "https://anonymous.api.dataplatform.knmi.nl") +
                 "/wms/adaguc-server"

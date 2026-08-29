@@ -185,17 +185,6 @@ fun AppearanceScreen(navController: NavController) {
                             prefs.setHighlightRain(checked)
                         }
                     ),
-                    SettingTile.DialogTextFieldTile(
-                        leading = { SettingsTileIcon(R.drawable.key_24px) },
-                        title = stringResource(R.string.setting_knmi_api_key),
-                        description = stringResource(R.string.setting_knmi_api_key_secondary),
-                        placeholder = stringResource(R.string.setting_knmi_api_key_placeholder),
-                        placeholderTextField = stringResource(R.string.setting_knmi_api_key_placeholder),
-                        initialText = prefs.knmiApiKey,
-                        onTextSubmitted = { value ->
-                            prefs.setKnmiApiKey(value.trim())
-                        }
-                    ),
                 )
             )
 

@@ -27,7 +27,9 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 @Composable
 fun ApiKeysConfigScreen(navController: NavController) {
 
-    val sourcesRequireApiKey = Source.entries.filter { it.requiresUserApiKey }
+    val sourcesRequireApiKey = Source.entries.filter {
+        it.requiresUserApiKey || it == Source.KNMI // optional key = bigger quota for the rain nowcast
+    }
 
     val viewModel: ApiKeysConfigScreenViewModel = hiltViewModel()
 
@@ -56,6 +58,9 @@ fun ApiKeysConfigScreen(navController: NavController) {
                     SettingTile.DialogTextFieldTile(
                         overline = { Text(it.displayLink) },
                         title = it.displayName,
+                        description = if (it == Source.KNMI) {
+                            stringResource(R.string.knmi_api_key_description)
+                        } else null,
                         onTextSubmitted = { key ->
                             viewModel.saveKey(key.trim(), it)
                         },

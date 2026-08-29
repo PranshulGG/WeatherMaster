@@ -36,8 +36,6 @@ object AppPrefs {
 
     private val _isHighlightRain = mutableStateOf(false)
 
-    private val _knmiApiKey = mutableStateOf("")
-
     private val _isTodayForecastNotificationEnabled = mutableStateOf(true)
     private val _isNextDayForecastNotificationEnabled = mutableStateOf(true)
 
@@ -80,8 +78,6 @@ object AppPrefs {
         _isGoogleSansFlex.value = PreferencesHelper.getBool("isGoogleSansFlex") ?: false
 
         _isHighlightRain.value = PreferencesHelper.getBool("isHighlightRain") ?: false
-
-        _knmiApiKey.value = PreferencesHelper.getString("knmiApiKey") ?: ""
 
         _isTodayForecastNotificationEnabled.value =
             PreferencesHelper.getBool("isTodayForecastNotificationEnabled") ?: false
@@ -188,12 +184,6 @@ object AppPrefs {
         setHighlightRain = {
             _isHighlightRain.value = it
             PreferencesHelper.setBool("isHighlightRain", it)
-        },
-
-        knmiApiKey = _knmiApiKey.value,
-        setKnmiApiKey = {
-            _knmiApiKey.value = it
-            PreferencesHelper.setString("knmiApiKey", it)
         },
 
         isTodayForecastNotificationEnabled = _isTodayForecastNotificationEnabled.value,
