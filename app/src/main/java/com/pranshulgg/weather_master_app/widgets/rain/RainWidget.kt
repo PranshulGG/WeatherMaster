@@ -332,7 +332,7 @@ private fun NowcastChartImage(
     Image(
         provider = ImageProvider(bitmap),
         contentDescription = null,
-        modifier = GlanceModifier.fillMaxWidth().height(chartHeightDp + 16.dp)
+        modifier = GlanceModifier.fillMaxWidth().height(chartHeightDp + 20.dp)
     )
 }
 
@@ -348,8 +348,18 @@ private fun drawNowcastBitmap(
     labelColor: Color,
     density: Float
 ): Bitmap {
-    val bitmap = Bitmap.createBitmap(widthPx, heightPx + (LABEL_AREA_PX_SP * density).toInt(), Bitmap.Config.ARGB_8888)
+    // Extra headroom at the top so the topmost y-axis label is not clipped:
+    // its text ascent reaches ~3dp above the tick's baseline, which sits
+    // 2dp below the bar area's top edge. The canvas is translated down by
+    // this amount so the bar area starts below the reserved band.
+    val yLabelHeadroomPx = (4 * density).toInt()
+    val bitmap = Bitmap.createBitmap(
+        widthPx,
+        yLabelHeadroomPx + heightPx + (LABEL_AREA_PX_SP * density).toInt(),
+        Bitmap.Config.ARGB_8888
+    )
     val canvas = Canvas(bitmap)
+    canvas.translate(0f, yLabelHeadroomPx.toFloat())
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
     // Aggregate the 5-min slots
@@ -423,6 +433,9 @@ private fun drawNowcastBitmap(
     }
 
     // ---- y-axis tick labels + baseline -------------------------------------
+    // All bar/tick geometry keeps using barAreaHeightPx as the bar-area
+    // bottom; the bitmap's top band (yLabelHeadroomPx) stays empty so the
+    // topmost label's ascent fits.
     val tickCount = (topOfScale / axisStep).toInt() + 1
     for (i in tickCount - 1 downTo 0) {
         val value = i * axisStep
