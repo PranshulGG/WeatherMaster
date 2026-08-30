@@ -8,6 +8,7 @@ import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcast
 import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcastPoint
 import com.pranshulgg.weather_master_app.core.network.sources.weather.brightsky.BrightSkyRadarApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
 import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
@@ -44,6 +45,7 @@ import kotlin.math.roundToInt
 @Singleton
 class RainNowcastRepository @Inject constructor(
     private val brightSkyRadarApi: BrightSkyRadarApi,
+    private val openMeteoApi: OpenMeteoApi,
     private val apiKeysRepository: ApiKeysRepository
 ) {
 
@@ -56,6 +58,14 @@ class RainNowcastRepository @Inject constructor(
 
         const val PROVIDER_KNMI = "KNMI"
         const val PROVIDER_DWD = "DWD"
+
+        /**
+         * Keyless fallback provider (Open-Meteo minutely_15, CC BY 4.0) for
+         * locations outside KNMI/DWD radar coverage, e.g. India. Model data
+         * at 15-minute resolution — lower fidelity than radar, so the UI
+         * renders 15-minute bars for it instead of 5-minute ones.
+         */
+        const val PROVIDER_OPEN_METEO = "Open-Meteo"
 
         /** DWD RV value scale: raw grid units are 0.01 mm per 5 minutes. */
         private const val DWD_MM_PER_UNIT = 0.01
@@ -151,11 +161,15 @@ class RainNowcastRepository @Inject constructor(
             (location.latitude in 50.5..54.0 && location.longitude in 3.0..7.5)
 
         val primary = if (inNl) {
-            getKnmiNowcast(location, now) ?: getDwdRadarNowcast(location, now).also {
-                if (it != null) Log.w(TAG, "KNMI failed/empty -> DWD fallback used")
-            }
+            getKnmiNowcast(location, now)
+                ?: getDwdRadarNowcast(location, now).also {
+                    if (it != null) Log.w(TAG, "KNMI failed/empty -> DWD fallback used")
+                }
+                ?: getOpenMeteoNowcast(location, now)
         } else {
-            getDwdRadarNowcast(location, now) ?: getKnmiNowcast(location, now)
+            getDwdRadarNowcast(location, now)
+                ?: getKnmiNowcast(location, now)
+                ?: getOpenMeteoNowcast(location, now)
         }
         return primary
     }
@@ -332,6 +346,57 @@ class RainNowcastRepository @Inject constructor(
                 isRadarBased = true
             )
         } catch (e: Exception) {
+            null
+        }
+    }
+
+    // ---------------------------------------------------------------------
+    // Open-Meteo minutely_15 — keyless, CC BY 4.0, worldwide (e.g. India).
+    // 15-minute model precipitation; window aligned like the radar sources.
+    // ---------------------------------------------------------------------
+
+    private suspend fun getOpenMeteoNowcast(
+        location: Location,
+        now: Instant
+    ): RainNowcast? {
+        return try {
+            val response = openMeteoApi.fetchMinutely15Precipitation(
+                latitude = location.latitude,
+                longitude = location.longitude
+            )
+            val body = response.body() ?: return null
+            val block = body.minutely15 ?: return null
+            val times = block.time ?: return null
+            val values = block.precipitation ?: return null
+
+            // minutely_15 values are mm accumulated over each 15-minute
+            // interval (unit=mm default for the precipitation variable).
+            // The nowcast pipeline works in mm/h: convert per interval.
+            val windowStart = now.minus(Duration.ofMinutes(PAST_CONTEXT_MINUTES))
+            val windowEnd = now.plus(Duration.ofMinutes(WINDOW_MINUTES))
+
+            val points = mutableListOf<RainNowcastPoint>()
+            for (i in times.indices) {
+                val t = times[i] * 1000L // epoch seconds -> millis (unixtime)
+                val valEnd = t + 15 * 60000L
+                if (valEnd <= windowStart.toEpochMilli() || t >= windowEnd.toEpochMilli()) continue
+                val mm = values.getOrNull(i) ?: continue
+                points.add(
+                    RainNowcastPoint(
+                        time = t,
+                        // mm per 15 min -> mm/h
+                        intensityMmPerHour = mm.coerceAtLeast(0.0) * 4.0,
+                        intervalMinutes = 15
+                    )
+                )
+            }
+            if (points.isEmpty()) null else RainNowcast(
+                points = points.sortedBy { it.time },
+                providerName = PROVIDER_OPEN_METEO,
+                isRadarBased = false
+            )
+        } catch (e: Exception) {
+            Log.w(TAG, "Open-Meteo minutely15 nowcast failed: ${e.message}")
             null
         }
     }

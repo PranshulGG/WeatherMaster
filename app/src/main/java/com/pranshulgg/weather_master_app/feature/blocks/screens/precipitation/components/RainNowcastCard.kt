@@ -188,12 +188,15 @@ fun RainNowcastCard(
     }
 }
 
-/**
- * One bar per 5 minutes from (now - 15 min) to the end of the data, with a
- * y-axis on the left. 5-minute radar points map 1:1 to bars; 15-minute model
- * points are expanded across their interval so the tail stays continuous.
- * Tapping a bar selects it and shows the exact time + intensity above.
- */
+    /**
+     * One bar per slot from (now - 15 min) to the end of the data, with a
+     * y-axis on the left. Each point is expanded to [slotMillis] bars across
+     * its interval (bar count = data granularity): radar nowcasts carry
+     * 5-minute points, keyless fallbacks (Open-Meteo minutely_15) 15-minute
+     * ones — the UI simply renders fewer, wider bars so the x-ticks stay
+     * true to the source. Tapping a bar selects it and shows the exact
+     * time + intensity above.
+     */
 @Composable
 private fun NowcastBarChart(
     points: List<RainNowcastPoint>,
@@ -204,7 +207,10 @@ private fun NowcastBarChart(
     formatValue: (Double) -> String
 ) {
     val startMilli = nowMilli - NOWCAST_PAST_CONTEXT_MINUTES * 60000L
-    val slotMillis = 5 * 60000L
+    // Slot size follows the coarsest point interval in the data: 15-min
+    // points -> 15-min bars (no artificial 3x splitting), 5-min points
+    // -> 5-min bars.
+    val slotMillis = (points.maxOfOrNull { it.intervalMinutes } ?: 5) * 60000L
 
     data class Bar(
         val time: Long,

@@ -292,9 +292,12 @@ private fun RefreshPill(context: Context) {
 }
 
 /**
- * Chart for the nowcast: re-aggregates the raw 5-minute slots into a bucket
- * size chosen from the current widget width (wider -> more ticks, down to
- * 5-minute resolution), then draws the bars + sparse time labels as a bitmap.
+ * Chart for the nowcast: re-aggregates the raw slots into a bucket size
+ * chosen from the current widget width (wider -> more ticks, down to the
+ * data's native resolution), then draws the bars + sparse time labels as a
+ * bitmap. The data granularity ([RainWidgetState.slotMinutes], 5-min radar
+ * or 15-min minutely-15 fallback) is the floor: buckets never combine
+ * below the source's true resolution, keeping labels honest.
  */
 @Composable
 private fun NowcastChartImage(
@@ -304,14 +307,15 @@ private fun NowcastChartImage(
     labelColor: Color
 ) {
     val widgetWidthDp = LocalSize.current.width.value
-    // 5-min data: bucket size by width; keep the slot count sane for tiny sizes
-    val slotMinutes = when {
+    // Bucket size by width; never finer than the source's native slot size.
+    val native = state.slotMinutes.toLong()
+    val slotMinutes = maxOf(native, when {
         widgetWidthDp < 110f -> 30L  // ~6 bars
         widgetWidthDp < 160f -> 20L  // ~9 bars
         widgetWidthDp < 230f -> 15L  // ~12 bars
         widgetWidthDp < 300f -> 10L  // ~18 bars
         else -> 5L                   // ~36 bars
-    }
+    })
 
     val density = context.resources.displayMetrics.density
     val widthPx = (LocalSize.current.width.value * density).toInt()
@@ -362,7 +366,8 @@ private fun drawNowcastBitmap(
     canvas.translate(0f, yLabelHeadroomPx.toFloat())
     val paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-    // Aggregate the 5-min slots
+    // Aggregate the slots at their native granularity (5-min radar nowcast
+    // or 15-min minutely-15 fallback): slotMinutes comes with the state.
     data class Bucket(val time: Long, val mm: Double)
     val buckets = mutableListOf<Bucket>()
     val slotMillis = slotMinutes * 60_000L

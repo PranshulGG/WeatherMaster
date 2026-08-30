@@ -119,6 +119,9 @@ internal fun rainWidgetStateFromNowcast(
         zoneId = zoneId,
         is24h = is24h,
         slots = slots,
+        // 15-minute fallback data is kept at its native granularity so the
+        // widget draws one bar per model step (labels stay true to source).
+        slotMinutes = if (nowcast.points.all { it.intervalMinutes >= 15 }) 15 else 5,
         mmToUnitFactor = PrecipitationUnit.MM.convert(1.0, unit) ?: 1.0,
         attribution = "© ${nowcast.providerName}"
     )

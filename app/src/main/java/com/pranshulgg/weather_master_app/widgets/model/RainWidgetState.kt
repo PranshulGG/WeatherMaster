@@ -29,10 +29,13 @@ data class RainWidgetState(
      */
     val bars: List<RainWidgetBar> = emptyList(),
     /**
-     * Raw 5-minute nowcast slots: epoch start millis of the slot and the
-     * expected precipitation in mm accumulated over the slot.
+     * Raw nowcast slots: epoch start millis of the slot and the expected
+     * precipitation in mm accumulated over the slot. Slot length is
+     * [slotMinutes] (5 = radar nowcast, 15 = minutely-15 fallback).
      */
     val slots: List<RainWidgetSlot> = emptyList(),
+    /** Native slot length of [slots] in minutes (5 or 15). */
+    val slotMinutes: Int = 5,
     /** Factor converting mm into the user's precipitation unit (for axis labels). */
     val mmToUnitFactor: Double = 1.0,
     /** Attribution line, e.g. "Radar © KNMI". Empty = no attribution shown. */
