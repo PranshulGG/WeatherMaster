@@ -53,6 +53,7 @@ import com.pranshulgg.weather_master_app.data.worker.widgets.nowcastBarColorArgb
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.model.RainWidgetState
+import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
 import com.pranshulgg.weather_master_app.widgets.ui.WidgetReloadEntryPoint
 import dagger.hilt.EntryPoint
@@ -93,6 +94,15 @@ class RainWidget : GlanceAppWidget() {
                     null
                 }
             }
+            // Current-conditions snapshot (temp, icon, wind, city) shared with
+            // the main weather widget; may be absent right after install.
+            val weatherState = appState.json?.let {
+                try {
+                    Json.decodeFromString<WidgetWeather>(it)
+                } catch (e: Exception) {
+                    null
+                }
+            }
 
             Box(
                 GlanceModifier
@@ -101,7 +111,7 @@ class RainWidget : GlanceAppWidget() {
                     .clickable(actionStartActivity<MainActivity>())
             ) {
                 if (rainState != null && rainState.hasData()) {
-                    RainWidgetContent(context, rainState)
+                    RainWidgetContent(context, rainState, weatherState)
                 } else {
                     ReloadButton()
                 }
@@ -111,56 +121,130 @@ class RainWidget : GlanceAppWidget() {
 }
 
 @Composable
-private fun RainWidgetContent(context: Context, state: RainWidgetState) {
+private fun RainWidgetContent(
+    context: Context,
+    state: RainWidgetState,
+    weatherState: WidgetWeather?
+) {
     Column(
         modifier = GlanceModifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp)
     ) {
-        // Header: icon + title + unit, refresh button right-aligned
-        Row(modifier = GlanceModifier.fillMaxWidth()) {
-            Image(
-                provider = ImageProvider(R.drawable.water_drop_24px),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(GlanceTheme.colors.secondary),
-                modifier = GlanceModifier.width(16.dp).height(16.dp)
-            )
-            Spacer(GlanceModifier.width(5.dp))
-            Text(
-                text = "${context.getString(R.string.rain_nowcast_title)} (${state.unitLabel})",
-                style = TextStyle(
-                    fontWeight = FontWeight.Bold,
-                    color = GlanceTheme.colors.secondary,
-                    fontSize = 14.sp
-                )
-            )
-            Spacer(modifier = GlanceModifier.defaultWeight())
-            // Attribution, pinned left of the refresh button (license: CC BY)
-            if (state.attribution.isNotBlank()) {
-                Text(
-                    text = state.attribution,
-                    maxLines = 1,
-                    style = TextStyle(
-                        color = GlanceTheme.colors.onSurfaceVariant,
-                        fontSize = 8.sp
-                    ),
-                    modifier = GlanceModifier.padding(end = 7.dp)
-                )
-            }
-            Box(
-                modifier = GlanceModifier
-                    .size(28.dp)
-                    .background(
-                        ImageProvider(R.drawable.refresh_button_background),
-                        colorFilter = ColorFilter.tint(GlanceTheme.colors.secondaryContainer)
+        // On the narrowest widget sizes the promoted header cluster gets
+        // crammed and the single line would truncate (losing the wind info);
+        // the city name is the first thing to drop there. ~300dp already
+        // truncates on this layout, 480dp fits comfortably.
+        val showCityName = LocalSize.current.width.value >= 340f
+
+        // Header without a widget title: rain icon, then all info text
+        // left-bound (city · temp · condition icon · wind, promoted to
+        // title-like bold text); only the source attribution + refresh
+        // button are pinned to the right edge. When no current-conditions
+        // snapshot exists yet, fall back to the plain "Rain (mm)" label so
+        // the header is never empty.
+        if (weatherState != null) {
+            Row(
+                modifier = GlanceModifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // Left cluster, wrapped in a nested Row: a Glance Row drops
+                // trailing children when it has >10 direct children, which
+                // silently removed the refresh button in the flat layout.
+                // Left cluster + weighted spacer = only 4 direct children.
+                Row(
+                    modifier = GlanceModifier.defaultWeight(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(
+                        provider = ImageProvider(R.drawable.water_drop_24px),
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(GlanceTheme.colors.secondary),
+                        modifier = GlanceModifier.width(16.dp).height(16.dp)
                     )
-                    .clickable(actionRunCallback<RainWidgetRefreshAction>()),
-                contentAlignment = Alignment.Center
+                    Spacer(GlanceModifier.width(5.dp))
+                    Text(
+                        text = listOf(
+                            if (showCityName) weatherState.locationName else "",
+                            weatherState.currentTemp
+                        ).filter { it.isNotBlank() }.joinToString(" · "),
+                        maxLines = 1,
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            color = GlanceTheme.colors.secondary,
+                            fontSize = 14.sp
+                        )
+                    )
+                    Spacer(GlanceModifier.width(5.dp))
+                    Image(
+                        provider = ImageProvider(weatherState.currentIcon),
+                        contentDescription = weatherState.currentCondition,
+                        colorFilter = ColorFilter.tint(GlanceTheme.colors.onSurfaceVariant),
+                        modifier = GlanceModifier.width(14.dp).height(14.dp)
+                    )
+                    if (weatherState.windSpeedText.isNotBlank() ||
+                        weatherState.windDirectionLabel.isNotBlank()
+                    ) {
+                        Spacer(GlanceModifier.width(4.dp))
+                        Text(
+                            text = listOf(
+                                weatherState.windSpeedText,
+                                weatherState.windDirectionLabel
+                            ).filter { it.isNotBlank() }.joinToString(" "),
+                            maxLines = 1,
+                            style = TextStyle(
+                                color = GlanceTheme.colors.onSurfaceVariant,
+                                fontSize = 11.sp
+                            )
+                        )
+                    }
+                }
+                // Attribution + refresh, pinned right (license: CC BY)
+                if (state.attribution.isNotBlank()) {
+                    Text(
+                        text = state.attribution,
+                        maxLines = 1,
+                        style = TextStyle(
+                            color = GlanceTheme.colors.onSurfaceVariant,
+                            fontSize = 8.sp
+                        )
+                    )
+                    Spacer(GlanceModifier.width(7.dp))
+                }
+                RefreshPill(context)
+            }
+        } else {
+            Row(
+                modifier = GlanceModifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
-                    provider = ImageProvider(R.drawable.refresh_24px),
-                    contentDescription = context.getString(R.string.widget_refresh),
-                    colorFilter = ColorFilter.tint(GlanceTheme.colors.onSecondaryContainer),
-                    modifier = GlanceModifier.size(16.dp)
+                    provider = ImageProvider(R.drawable.water_drop_24px),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(GlanceTheme.colors.secondary),
+                    modifier = GlanceModifier.width(16.dp).height(16.dp)
                 )
+                Spacer(GlanceModifier.width(5.dp))
+                Text(
+                    text = "${context.getString(R.string.rain_nowcast_title)} (${state.unitLabel})",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold,
+                        color = GlanceTheme.colors.secondary,
+                        fontSize = 14.sp
+                    ),
+                    modifier = GlanceModifier.defaultWeight()
+                )
+                // Attribution, pinned left of the refresh button (license: CC BY)
+                if (state.attribution.isNotBlank()) {
+                    Text(
+                        text = state.attribution,
+                        maxLines = 1,
+                        style = TextStyle(
+                            color = GlanceTheme.colors.onSurfaceVariant,
+                            fontSize = 8.sp
+                        ),
+                        modifier = GlanceModifier.padding(end = 7.dp)
+                    )
+                }
+                RefreshPill(context)
             }
         }
 
@@ -179,6 +263,31 @@ private fun RainWidgetContent(context: Context, state: RainWidgetState) {
             // refresh yet): render the pre-formatted hourly bars.
             HourlyBars(state, chartHeightDp)
         }
+    }
+}
+
+/**
+ * Circular refresh button (right end of the header); triggers a widget
+ * data reload. Extracted so both header variants can pin it to the right.
+ */
+@Composable
+private fun RefreshPill(context: Context) {
+    Box(
+        modifier = GlanceModifier
+            .size(28.dp)
+            .background(
+                ImageProvider(R.drawable.refresh_button_background),
+                colorFilter = ColorFilter.tint(GlanceTheme.colors.secondaryContainer)
+            )
+            .clickable(actionRunCallback<RainWidgetRefreshAction>()),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            provider = ImageProvider(R.drawable.refresh_24px),
+            contentDescription = context.getString(R.string.widget_refresh),
+            colorFilter = ColorFilter.tint(GlanceTheme.colors.onSecondaryContainer),
+            modifier = GlanceModifier.size(16.dp)
+        )
     }
 }
 
