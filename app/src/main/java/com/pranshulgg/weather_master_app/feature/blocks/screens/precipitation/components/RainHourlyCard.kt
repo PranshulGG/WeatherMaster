@@ -111,8 +111,11 @@ private fun HourlyChart(
         // fixed LazyRow item pitch: 38.dp bar + 2 * 6.dp spacing, plus 16.dp
         // leading/trailing card padding
         val needed = 44.dp * data.size
-        val fitsWithoutScroll = needed <= maxWidth - 32.dp
-        if (fitsWithoutScroll) {
+        // compact weighted mode: cells can shrink to ~30dp pitch (labels are
+        // ~23dp wide) before scrolling is needed — avoids a half-clipped
+        // trailing row that a scroll viewport would otherwise show.
+        val fitsCompact = 30.dp * data.size <= maxWidth - 32.dp
+        if (needed <= maxWidth - 32.dp || fitsCompact) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
