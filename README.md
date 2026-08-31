@@ -31,9 +31,9 @@
  </div>
 
 <div align="center">
- <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="https://user-images.githubusercontent.com/69304392/148696068-0cfea65d-b18f-4685-82b5-329a330b1c0d.png" height="80"/></a>
-   <a href="https://apt.izzysoft.de/fdroid/index/apk/com.pranshulgg.weather_master_app"><img alt="GitHub" src="preview/download_Btn.png" height="80"/></a></div>
-   <a href="https://play.google.com/store/apps/details?id=com.pranshulgg.weather_master"><img alt="GitHub" src="preview/Google_Play_Store_badge_EN.svg" height="80"/></a></div>
+ <a href="https://github.com/PranshulGG/WeatherMaster/releases"><img alt="GitHub" src="preview/get_on_github_btn.png" height="80"/></a>
+   <a href="https://apt.izzysoft.de/fdroid/index/apk/com.pranshulgg.weather_master_app"><img alt="GitHub" src="preview/get_on_izzy_btn.png" height="80"/></a></div>
+   <a href="https://play.google.com/store/apps/details?id=com.pranshulgg.weather_master"><img alt="GitHub" src="preview/get_on_googleplay_btn.png" height="80"/></a></div>
 
 <br>
 
