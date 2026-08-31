@@ -39,7 +39,6 @@ class DailyScreenViewModel @Inject constructor(
     }
 
 
-    // TODO: Duplicate from `WeatherViewModel`
     fun loadBlocks() {
         viewModelScope.launch {
             val loadedBlocks = weatherBlocksRepository.loadBlocks(isDaily = true)
