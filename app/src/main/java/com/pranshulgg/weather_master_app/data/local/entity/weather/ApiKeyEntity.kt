@@ -10,5 +10,7 @@ data class ApiKeyEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val source: Source,
-    val apiKey: String? = null
+    val apiKey: String? = null,
+    val oneCallV4Access: Boolean? = null,
+    val oneCallV4CheckedAt: Long? = null
 )

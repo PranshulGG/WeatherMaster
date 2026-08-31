@@ -24,6 +24,9 @@ interface ApiKeysDao {
     @Query("UPDATE api_keys SET apiKey = :apiKey WHERE source = :source")
     suspend fun updateApiKeyForSource(source: Source, apiKey: String)
 
+    @Query("UPDATE api_keys SET oneCallV4Access = :access, oneCallV4CheckedAt = :checkedAt WHERE source = :source")
+    suspend fun updateOneCallV4Access(source: Source, access: Boolean, checkedAt: Long)
+
     @Query("DELETE FROM api_keys")
     suspend fun deleteAllApiKeys()
 }
