@@ -299,9 +299,9 @@
     <string name="error_no_results">No s\'han trobat resultats</string>
     <string name="summary_overview_template_same_condition">Es mantindrà %1$s al llarg del dia i la nit.</string>
     <string name="summary_overview_template_day_night_condition">S\'espera %1$s durant el dia i es tornarà %2$s cap a la nit.</string>
-    <string name="summary_rain_template_day_night">Al llarg del dia s\'espera pluja al voltant de %1$s amb una probabilitat del %2$s. A la nit, hi ha una probabilitat del %3$s de pluja al voltant de %4$s.</string>
-    <string name="summary_rain_template_day">Al llarg del dia s\'espera pluja al voltant de %1$s amb una probabilitat del %2$s.</string>
-    <string name="summary_rain_template_night">A la nit, hi ha una probabilitat del %1$s de pluja al voltant de %2$s.</string>
+    <string name="summary_rain_template_day_night">Al llarg del dia s\'espera pluja al voltant de les %1$s amb una probabilitat del %2$s. A la nit, hi ha una probabilitat del %3$s de pluja al voltant de les %4$s.</string>
+    <string name="summary_rain_template_day">Al llarg del dia s\'espera pluja al voltant de les %1$s amb una probabilitat del %2$s.</string>
+    <string name="summary_rain_template_night">A la nit, hi ha una probabilitat del %1$s de pluja al voltant de les %2$s.</string>
     <string name="summary_snow_template_day_night">Snow is forecast around %1$s during the day with a %2$s chance. Overnight, snowfall remains possible with a %3$s chance around %4$s.</string>
     <string name="summary_snow_template_day">Snow is forecast around %1$s during the day with a %2$s chance.</string>
     <string name="summary_snow_template_night">Overnight, there\'s a %1$s chance of snow around %2$s.</string>
