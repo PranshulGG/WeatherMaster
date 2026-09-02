@@ -1,39 +1,41 @@
 package com.pranshulgg.weather_master_app.core.managers
 
-import androidx.lifecycle.viewModelScope
-import com.pranshulgg.weather_master_app.R
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
-import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
-import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
-import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.sources.isGlobal
 import com.pranshulgg.weather_master_app.core.model.sources.isSourceSupportedFor
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
-import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
-import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
+import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
+import com.pranshulgg.weather_master_app.data.store.InitializationStore
 import com.pranshulgg.weather_master_app.data.store.LocationStore
 import com.pranshulgg.weather_master_app.data.store.WeatherStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.cancel
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Duration.Companion.milliseconds
 
 @Singleton
 class WeatherManager @Inject constructor(
-    private val locationsRepository: LocationsRepository,
+    private val weatherContextRepository: WeatherContextRepository,
     private val sourceDataRepository: SourceDataRepository,
     private val weatherStore: WeatherStore,
-    private val locationStore: LocationStore
+    private val locationStore: LocationStore,
+    private val initializationStore: InitializationStore
 ) {
 
     private val scope = CoroutineScope(SupervisorJob())
@@ -42,14 +44,21 @@ class WeatherManager @Inject constructor(
         extraBufferCapacity = 1
     )
 
+    var loading by mutableStateOf(false)
+        private set
+
+    /**
+     * Lets the UI know that the source for this location
+     * isn't supported in the region
+     */
+    var isUnsupportedSource by mutableStateOf(false)
+        private set
+
     val errors = _errors.asSharedFlow()
 
     private var weatherJob: Job? = null
 
-    /**
-     * @param onUnsupportedSourceError Lets the UI know that the source for this location
-     * isn't supported in the region
-     */
+
     operator fun invoke(
         location: Location,
         isManualRefresh: Boolean = false,
@@ -57,9 +66,11 @@ class WeatherManager @Inject constructor(
         isForceRefreshForAirQuality: Boolean = false,
         isForceRefreshForAlerts: Boolean = false,
         skipDeviceLocationCheck: Boolean = false,
-        onUnsupportedSourceError: () -> Unit = {}
     ) {
 
+        loading = true
+        isUnsupportedSource = false
+        val startTime = System.currentTimeMillis()
         weatherJob?.cancel()
 
         weatherJob = scope.launch {
@@ -70,13 +81,13 @@ class WeatherManager @Inject constructor(
             var effectiveForceRefreshForAlerts = isForceRefreshForAlerts
 
             if (location.isDeviceLocation && !skipDeviceLocationCheck) {
-                val positionChanged = locationsRepository.updateDeviceLocationPosition()
+                val positionChanged = weatherContextRepository.updateDeviceLocationPosition()
                 if (positionChanged) {
-                    effectiveLocation = locationsRepository.getLocationForId(location.id)
+                    effectiveLocation = weatherContextRepository.getLocationForId(location.id)
                     effectiveForceRefresh = true
                     effectiveForceRefreshForAirQuality = true
                     effectiveForceRefreshForAlerts = true
-                    locationStore.set(effectiveLocation)
+                    locationStore.setActiveLocation(effectiveLocation)
                 }
             }
 
@@ -88,7 +99,7 @@ class WeatherManager @Inject constructor(
                 isForceRefreshForAirQuality = effectiveForceRefreshForAirQuality,
                 isForceRefreshForAlerts = effectiveForceRefreshForAlerts,
                 onWeather = { result ->
-                    writeWeather(result, onUnsupportedSourceError, effectiveLocation)
+                    writeWeather(result, effectiveLocation)
                 },
                 onAlerts = { result ->
                     writeAlerts(result)
@@ -98,32 +109,36 @@ class WeatherManager @Inject constructor(
                 },
             )
 
+            val elapsed = System.currentTimeMillis() - startTime
+            val minLoadingTime = 1000L
+
+            // Prevents loader flicker when responses return too quickly
+            if (elapsed < minLoadingTime) {
+                delay(duration = (minLoadingTime - elapsed).milliseconds)
+            }
+
+            loading = false
         }
     }
 
     private fun writeWeather(
         result: WeatherResult,
-        onUnsupportedSourceError: () -> Unit,
         location: Location
     ) {
         when (result) {
 
             is WeatherResult.Success -> {
-                weatherStore.set(weather = result.weather, isWeatherLoaded = true)
+                weatherStore.set(weather = result.weather)
+                initializationStore.setInitialized()
             }
 
             is WeatherResult.Error -> {
-                weatherStore.set(weather = result.cacheWeather, isWeatherLoaded = true)
+                weatherStore.set(weather = result.cacheWeather)
 
-
-                val isUnsupportedSource = !location.source.isGlobal()
+                isUnsupportedSource = !location.source.isGlobal()
                         && !location.source.isSourceSupportedFor(
-                    location.countryCode?.uppercase()
+                    countryCode = location.countryCode?.uppercase()
                 )
-
-                if (isUnsupportedSource) {
-                    onUnsupportedSourceError()
-                }
 
                 _errors.tryEmit(result.exception.toAppException())
 
