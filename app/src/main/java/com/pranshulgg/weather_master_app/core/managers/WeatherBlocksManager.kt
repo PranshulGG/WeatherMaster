@@ -1,16 +1,8 @@
 package com.pranshulgg.weather_master_app.core.managers
 
-import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
-import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import com.pranshulgg.weather_master_app.data.store.WeatherBlocksStore
-import com.pranshulgg.weather_master_app.data.store.WeatherUnitsStore
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -20,6 +12,7 @@ class WeatherBlocksManager @Inject constructor(
     private val weatherBlocksRepository: WeatherBlocksRepository,
     private val weatherBlocksStore: WeatherBlocksStore
 ) {
+
     suspend fun initialize() {
         val blocks = weatherBlocksRepository.loadBlocks()
         val dailyBlocks = weatherBlocksRepository.loadBlocks(isDaily = true)
