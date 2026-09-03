@@ -181,7 +181,7 @@
     <string name="weather_total_amount">Celkové množství</string>
     <string name="setting_background_updates">Aktualizace na pozadí</string>
     <string name="setting_background_updates_secondary">Interval aktualizace, optimalizace baterie, nápověda</string>
-    <string name="setting_notification_permission_req">Vyžadováno povolení pro oznámení</string>
+    <string name="setting_notification_permission_req">Je vyžadováno oprávnění k odesílání oznámení</string>
     <string name="setting_notification_permission_secondary">Aplikace vám pošle oznámení, kdykoli se na pozadí aktualizuje předpověď počasí</string>
     <string name="setting_notification">Upozornění </string>
     <string name="time_hours">%1$s hodin</string>
@@ -268,7 +268,7 @@
     <string name="text_dawn">Úsvit </string>
     <string name="text_dusk">Soumrak </string>
     <string name="text_day_length">Délka dne </string>
-    <string name="weather_sun_moon">Slunce &amp; měsíc</string>
+    <string name="weather_sun_moon">Slunce a měsíc</string>
     <string name="moonphase_new_moon">Nov</string>
     <string name="moonphase_waxing_crescent">Dorůstající srpek</string>
     <string name="moonphase_first_quarter">První čtvrt</string>
@@ -317,7 +317,7 @@
     <string name="summary_temp_template_cool">Během dne bude chladno s maximy kolem %1$s. Dnes v noci teploty klesnou na asi %2$s.</string>
     <string name="summary_temp_template_cold">Chladné počasí pokračuje s denními teplotami kolem %1$s. Přes noc klesnou minima na přibližně %2$s.</string>
     <string name="summary_overview_template_day_condition">Během dne bude %1$s.</string>
-    <string name="summary_overview_template_night_condition">V noci se počasí změní na %1$s.</string>
+    <string name="summary_overview_template_night_condition">V noci bude %1$s.</string>
     <string name="gadgetbridge_not_available_error">Aplikace Gadgetbridge není nainstalována</string>
     <string name="settings_worker_info">Informace o workeru</string>
     <string name="settings_send_data_gadgetbridge">Odeslat data do Gadgetbridge</string>
@@ -436,14 +436,14 @@
     <string name="error_request_timeout">Server neodpověděl včas.</string>
     <string name="error_too_many_requests">Byl dosažen limit požadavků.</string>
     <string name="settings_notifications">Notifikace</string>
-    <string name="settings_notifications_secondary">Scheduled notifications, on-going notification, and more</string>
-    <string name="weather_precipitation_probability">Precipitation probability %1$s</string>
-    <string name="error_failed_background_updates">Failed background updates</string>
-    <string name="setting_on_going_notification">On-going notification</string>
-    <string name="setting_today_forecast_notification">Today\'s forecast notification</string>
-    <string name="setting_today_forecast_notification_set_time">Set time for today\'s forecast notification</string>
-    <string name="setting_next_day_forecast_notification">Next day forecast notification</string>
-    <string name="setting_next_day_forecast_notification_set_time">Set time for next day forecast notification</string>
-    <string name="label_disabled">Disabled</string>
+    <string name="settings_notifications_secondary">Naplánovaná oznámení, trvalé oznámení a další</string>
+    <string name="weather_precipitation_probability">Pravděpodobnost srážek %1$s</string>
+    <string name="error_failed_background_updates">Aktualizace na pozadí selhaly</string>
+    <string name="setting_on_going_notification">Trvalé oznámení</string>
+    <string name="setting_today_forecast_notification">Oznámení o předpovědi na dnešní den</string>
+    <string name="setting_today_forecast_notification_set_time">Nastavit čas k zobrazení oznámení o předpovědi na dnešní den</string>
+    <string name="setting_next_day_forecast_notification">Oznámení o předpovědi na zítřejší den</string>
+    <string name="setting_next_day_forecast_notification_set_time">Nastavit čas k zobrazení oznámení o předpovědi na zítřejší den</string>
+    <string name="label_disabled">Zakázáno</string>
 </resources>
 <!--<string name=""></string>-->
