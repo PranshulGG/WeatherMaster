@@ -1,423 +1,106 @@
 package com.pranshulgg.weather_master_app.feature.shared
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.managers.LocationManager
+import com.pranshulgg.weather_master_app.core.managers.SourceManager
+import com.pranshulgg.weather_master_app.core.managers.WeatherBlocksManager
+import com.pranshulgg.weather_master_app.core.managers.WeatherManager
+import com.pranshulgg.weather_master_app.core.managers.WeatherUnitsManager
+import com.pranshulgg.weather_master_app.core.managers.requests.PendingRequests
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
-import com.pranshulgg.weather_master_app.core.model.domain.toAppException
-import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
-import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.sources.Source
-import com.pranshulgg.weather_master_app.core.model.sources.isGlobal
-import com.pranshulgg.weather_master_app.core.model.sources.isSourceSupportedFor
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
-import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
-import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
-import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
-import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
-import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
-import com.pranshulgg.weather_master_app.data.repository.WeatherDataReconcilerRepository
-import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
-import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
-import com.pranshulgg.weather_master_app.data.worker.WeatherBackgroundUpdateScheduler
+import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
+import com.pranshulgg.weather_master_app.data.store.LocationStore
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.minutes
 
+// DO NOT USE STORES HERE!!
+
+/**
+ * TODO: update widgets/notification
+ */
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
-    private val locationsRepo: LocationsRepository,
-    appWeatherUnitsRepo: WeatherUnitsRepository,
-    private val weatherBlocksRepository: WeatherBlocksRepository,
-    private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository,
-    private val sourceDataRepository: SourceDataRepository,
-    @ApplicationContext private val context: Context
+    private val weatherManager: WeatherManager,
+    private val locationManager: LocationManager,
+    private val weatherUnitsManager: WeatherUnitsManager,
+    private val weatherBlocksManager: WeatherBlocksManager,
+    private val pendingRequests: PendingRequests
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(MainScreenWeatherUiState())
     val uiState: State<MainScreenWeatherUiState> = _uiState
+    val errors = weatherManager.errors
+    val isUnSupportedSource = weatherManager.isUnsupportedSource
 
-    private val processLifecycleObserver = object : DefaultLifecycleObserver {
-        override fun onStart(owner: LifecycleOwner) {
-            val location = _uiState.value.activeLocation ?: return
-            startAutoRefresh(location = location, source = location.source)
-            // isInitialized guard avoids duplicating setActiveLocation()'s cold-start fetch.
-            if (_uiState.value.isInitialized) {
-                getWeather(location = location, source = location.source)
-            }
-        }
-
-        override fun onStop(owner: LifecycleOwner) {
-            stopAutoRefresh()
-        }
-    }
 
     init {
-        ProcessLifecycleOwner.get().lifecycle.addObserver(processLifecycleObserver)
-
-        // LOAD DEFAULT ON START
         viewModelScope.launch {
-            if (_uiState.value.activeLocation == null && _uiState.value.weather == null && !_uiState.value.isInitialized) {
-
-                val isLocationsEmpty = locationsRepo.isLocationsEmpty()
-                if (isLocationsEmpty) {
-                    // Locations Empty? can't happen, likely a first launch
-                    _uiState.value = uiState.value.copy(isInitialized = true)
-                }
-                val default = locationsRepo.getDefaultLocation().filterNotNull().first()
-                setActiveLocation(default)
-            }
-            loadBlocks()
+            locationManager.initialize(viewModelScope)
+            weatherBlocksManager.initialize()
         }
+        weatherUnitsManager.initialize(viewModelScope)
 
-        // KEEP TRACK OF ALL LOCATIONS
-        locationsRepo.getLocations().distinctUntilChanged()
-            .onEach { locations ->
 
-                val previous = _uiState.value.locations
-
-                if (previous.isNotEmpty()) {
-
-                    val newLocation = locations.firstOrNull { new ->
-                        previous.none { it.id == new.id }
-                    }
-
-                    newLocation?.let {
-                        if (!_uiState.value.isLoading) {
-                            setActiveLocation(it)
-                        }
-                    }
-                }
-
-                _uiState.value = _uiState.value.copy(locations = locations)
+        /**
+         * Observe source changes here.
+         * Manager should emit an event whenever any source changes
+         */
+        pendingRequests.pendingRequest.onEach { req ->
+            if (req != null) {
+                getWeather(
+                    location = req.location,
+                    isForceRefresh = req.forceRefresh,
+                    isForceRefreshForAirQuality = req.forceRefreshForAirQuality,
+                    isForceRefreshForAlerts = req.forceRefreshForAlerts,
+                    isManualRefresh = req.isManualRefresh
+                )
             }
-            .launchIn(viewModelScope)
-
-
-        // KEEP TRACK OF APP UNITS
-        appWeatherUnitsRepo.getUnits().distinctUntilChanged().onEach {
-            _uiState.value = _uiState.value.copy(weatherUnits = it)
         }.launchIn(viewModelScope)
-
     }
-
-    private var weatherJob: Job? = null
 
 
     fun getWeather(
         location: Location,
-        source: Source,
         isManualRefresh: Boolean = false,
         isForceRefresh: Boolean = false,
         isForceRefreshForAirQuality: Boolean = false,
         isForceRefreshForAlerts: Boolean = false
     ) {
-        weatherJob?.cancel()
-        setLoading(true)
-        val startTime = System.currentTimeMillis()
-        _uiState.value = _uiState.value.copy(
-            isError = false,
-            isUnsupportedSource = false,
-            isAirQualityLoading = true
+
+        weatherManager(
+            location,
+            isManualRefresh,
+            isForceRefresh,
+            isForceRefreshForAirQuality,
+            isForceRefreshForAlerts
         )
+    }
 
 
-        weatherJob = viewModelScope.launch {
+    fun setActiveLocation(location: Location, skipLoading: Boolean) {
+        locationManager.setActive(location, skipLoading)
+    }
 
-            var effectiveLocation = location
-            var effectiveForceRefresh = isForceRefresh
-            var effectiveForceRefreshForAirQuality = isForceRefreshForAirQuality
-            var effectiveForceRefreshForAlerts = isForceRefreshForAlerts
+    fun setActiveLoading() {
+        locationManager.setActiveLoading()
+    }
 
-            if (location.isDeviceLocation) {
-                val positionChanged = handleDeviceLocation()
-                if (positionChanged) {
-                    effectiveLocation = locationsRepo.getLocationForId(location.id)
-                    effectiveForceRefresh = true
-                    effectiveForceRefreshForAirQuality = true
-                    effectiveForceRefreshForAlerts = true
-                    _uiState.value = _uiState.value.copy(activeLocation = effectiveLocation)
-                }
-            }
-
-
-            sourceDataRepository.getData(
-                location = effectiveLocation,
-                isManualRefresh = isManualRefresh,
-                isForceRefresh = effectiveForceRefresh,
-                isForceRefreshForAirQuality = effectiveForceRefreshForAirQuality,
-                isForceRefreshForAlerts = effectiveForceRefreshForAlerts,
-                onWeather = { result ->
-                    handleWeatherData(result, effectiveLocation)
-                },
-                onAlerts = { result ->
-                    handleAlerts(result)
-                },
-                onAirQuality = { result ->
-                    handleAirQuality(result)
-                },
-            )
-
-            val elapsed = System.currentTimeMillis() - startTime
-            val minLoadingTime = 1000L // 1s
-
-            // Prevents loader flicker when responses return too quickly
-            if (elapsed < minLoadingTime) {
-                delay(minLoadingTime - elapsed)
-            }
-
-            setLoading(false)
-
+    fun refreshWeather(location: Location?) {
+        location?.let {
+            getWeather(location, isManualRefresh = true)
         }
 
     }
 
-
-    fun deleteLocation(id: String) {
-        viewModelScope.launch {
-            locationsRepo.deleteLocation(id)
-
-            if (_uiState.value.activeLocation?.id == id) {
-                setActiveLocation(_uiState.value.locations.first { it.isDefault })
-            }
-        }
-    }
-
-
-    fun setLoading(isLoading: Boolean) {
-        _uiState.value = _uiState.value.copy(isLoading = isLoading)
-    }
-
-    fun setActiveLocation(location: Location) {
-        _uiState.value = _uiState.value.copy(activeLocation = location)
-        getWeather(location, location.source)
-    }
-
-
-    fun handleSourceChangeForWeather(
-        location: Location,
-        source: Source,
-        airQualitySource: Source,
-        alertSource: Source,
-        openMeteoModel: OpenMeteoModel
-    ) {
-        val updatedLocation = location.copy(
-            source = source,
-            airQualitySource = airQualitySource,
-            alertSource = alertSource,
-            openMeteoModel = openMeteoModel
-        )
-
-        viewModelScope.launch {
-
-            locationsRepo.updateSourceForLocation(location.id, source)
-            locationsRepo.updateAirQualitySourceForLocation(location.id, airQualitySource)
-            locationsRepo.updateAlertSourceForLocation(location.id, alertSource)
-            locationsRepo.updateOpenMeteoModelForLocation(location.id, openMeteoModel)
-
-            val allowForceRefreshForWeather =
-                location.source != source || location.openMeteoModel != openMeteoModel
-            val allowForceRefreshForAirQuality = location.airQualitySource != airQualitySource
-            val allowForceRefreshForAlerts = location.alertSource != alertSource
-
-            weatherDataReconcilerRepository.reconcileSourceChange(
-                previous = location,
-                updated = updatedLocation
-            )
-            _uiState.value = _uiState.value.copy(activeLocation = updatedLocation)
-            getWeather(
-                updatedLocation,
-                source,
-                isForceRefresh = allowForceRefreshForWeather,
-                isForceRefreshForAirQuality = allowForceRefreshForAirQuality,
-                isForceRefreshForAlerts = allowForceRefreshForAlerts
-            )
-        }
-    }
-
-
-    fun saveBlocks(
-        items: List<WeatherBlock>,
-        isDaily: Boolean = false
-    ) {
-
-        viewModelScope.launch {
-            weatherBlocksRepository.saveBlocks(items.map {
-                WeatherBlock(
-                    type = it.type,
-                    isHidden = false,
-                    position = it.position,
-                    isDaily = isDaily,
-                    id = it.id
-                )
-            }, isDaily)
-
-        }
-        _uiState.value = _uiState.value.copy(blocks = items)
-
-    }
-
-    suspend fun loadBlocks() {
-        val loadedBlocks = weatherBlocksRepository.loadBlocks()
-        _uiState.value = _uiState.value.copy(blocks = loadedBlocks)
-    }
-
-
-    private suspend fun handleDeviceLocation(): Boolean {
-        return locationsRepo.updateDeviceLocationPosition()
-    }
-
-    private suspend fun handleWeatherData(result: WeatherResult, location: Location) {
-
-
-        when (result) {
-
-            is WeatherResult.Success -> {
-                _uiState.value = _uiState.value.copy(weather = result.weather, isInitialized = true)
-            }
-
-            is WeatherResult.Error -> {
-
-
-                _uiState.value = _uiState.value.copy(
-                    isError = true,
-                    weather = result.cacheWeather,
-                    isUnsupportedSource = !location.source.isGlobal() && !location.source.isSourceSupportedFor(
-                        location.countryCode?.uppercase()
-                    )
-                )
-
-                val appExpectation = result.exception.toAppException()
-                SnackbarManager.show(appExpectation.toMessageRes())
-            }
-
-            is WeatherResult.RefreshNotAvailable -> {
-                SnackbarManager.show(R.string.weather_refresh_delay, messageArgs = 15)
-            }
-
-        }
-
-        if (location.isDefault && !_uiState.value.isError && _uiState.value.weather != null) {
-            WeatherBackgroundUpdateScheduler.updateAllWidgets(
-                context,
-                _uiState.value.weather!!,
-                _uiState.value.weatherUnits
-            )
-        }
-    }
-
-    private fun handleAirQuality(
-        result: AirQualityResult?
-    ) {
-
-        // No repository resolves for this location's airQualitySource (e.g. NONE) - clear
-        // rather than leaving a previous location's air quality on screen.
-        if (result == null) {
-            _uiState.value = _uiState.value.copy(
-                airQuality = null,
-                isAirQualityLoading = false
-            )
-            return
-        }
-
-        when (result) {
-            is AirQualityResult.Success -> {
-                _uiState.value =
-                    _uiState.value.copy(
-                        airQuality = result.airquality,
-                        isAirQualityLoading = false
-                    )
-
-
-            }
-
-            // Fail silently, we just won't show the Air quality in the UI
-            is AirQualityResult.Error -> {
-                _uiState.value = _uiState.value.copy(
-                    airQuality = result.cacheAirQuality,
-                    isAirQualityLoading = false
-                )
-            }
-        }
-    }
-
-
-    private fun handleAlerts(result: AlertResult?) {
-
-        // No repository resolves for this location's alertSource (e.g. NONE) - clear rather
-        // than leaving a previous location's alerts on screen.
-        if (result == null) {
-            _uiState.value = _uiState.value.copy(alerts = emptyList())
-            return
-        }
-
-        when (result) {
-            is AlertResult.Success -> {
-                _uiState.value =
-                    _uiState.value.copy(
-                        alerts = result.alerts
-                    )
-            }
-
-            is AlertResult.Error -> {
-                _uiState.value = _uiState.value.copy(
-                    alerts = result.cacheAlerts
-                )
-            }
-        }
-    }
-
-    private var autoRefreshJob: Job? = null
-
-    fun startAutoRefresh(
-        location: Location,
-        source: Source
-    ) {
-
-        if (autoRefreshJob?.isActive == true) return
-
-        autoRefreshJob = viewModelScope.launch {
-            while (isActive) {
-
-                delay(45.minutes)
-                if (_uiState.value.isLoading || _uiState.value.isError) {
-                    continue
-                }
-
-                getWeather(
-                    location = location,
-                    source = source
-                )
-            }
-        }
-    }
-
-    fun stopAutoRefresh() {
-        autoRefreshJob?.cancel()
-        autoRefreshJob = null
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        ProcessLifecycleOwner.get().lifecycle.removeObserver(processLifecycleObserver)
-    }
 }
