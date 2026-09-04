@@ -4,6 +4,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
@@ -108,8 +109,8 @@ class InmetRepository @Inject constructor(
         )
     }
 
-    override fun finishedWeatherResult(data: Weather): WeatherResult {
-        return WeatherResult.Success(weather = data)
+    override fun finishedWeatherResult(data: Weather): FinishedWeatherResult {
+        return FinishedWeatherResult(weather = data)
     }
 
 

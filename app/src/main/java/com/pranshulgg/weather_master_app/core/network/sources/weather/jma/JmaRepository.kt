@@ -23,6 +23,7 @@ import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeat
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
 import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
 import com.pranshulgg.weather_master_app.data.repository.alerts.AlertRepository
 import com.pranshulgg.weather_master_app.data.repository.weather.BaseWeatherRepository
 import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
@@ -106,8 +107,8 @@ class JmaRepository @Inject constructor(
         )
     }
 
-    override fun finishedWeatherResult(data: Weather): WeatherResult {
-        return WeatherResult.Success(weather = data)
+    override fun finishedWeatherResult(data: Weather): FinishedWeatherResult {
+        return FinishedWeatherResult(weather = data)
     }
 
 

@@ -6,6 +6,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.nws.NwsGridPoints
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
@@ -74,8 +75,9 @@ abstract class BaseWeatherRepository : WeatherRepository {
                 )
             }
 
-            finishedWeatherResult(data)
+            val finished = finishedWeatherResult(data)
 
+            WeatherResult.Success(weather = finished.weather)
         }
 
     protected abstract suspend fun fetchAndProcessWeather(
@@ -92,7 +94,7 @@ abstract class BaseWeatherRepository : WeatherRepository {
 
     protected abstract fun finishedWeatherResult(
         data: Weather
-    ): WeatherResult
+    ): FinishedWeatherResult
 
 
     // For sources that may provide alerts/air quality in the same API call

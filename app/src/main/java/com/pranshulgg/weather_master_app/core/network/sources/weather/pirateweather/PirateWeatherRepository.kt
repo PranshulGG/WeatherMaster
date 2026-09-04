@@ -4,6 +4,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
@@ -90,84 +91,9 @@ class PirateWeatherRepository @Inject constructor(
         )
     }
 
-    override fun finishedWeatherResult(data: Weather): WeatherResult {
-        return WeatherResult.Success(weather = data)
+    override fun finishedWeatherResult(data: Weather): FinishedWeatherResult {
+        return FinishedWeatherResult(weather = data)
     }
-
-//    override suspend fun getWeather(
-//        location: Location,
-//        isManualRefresh: Boolean,
-//        isForceRefresh: Boolean
-//    ): WeatherResult =
-//        withContext(Dispatchers.IO) {
-//
-//            val cache = dao.getWeatherDataForLocation(location.id)
-//
-//            val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
-//            val existingHourly = weatherDao.getHourlyDataForLocation(location.id, location.source)
-//
-//            val apiKey = apiKeysDao.getApiKeyForSource(location.source)
-//
-//            when (shouldReturnCache) {
-//                WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-//                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache?.toDomain()!!)
-//                else -> {}
-//            }
-//
-//
-//            if (apiKey?.apiKey.isNullOrBlank()) {
-//                return@withContext WeatherResult.Error(
-//                    exception = AppException.NoApiKeyError(),
-//                    cache?.toDomain()
-//                )
-//            }
-//
-//            return@withContext try {
-//
-//                val response = safeApiCall {
-//                    api.fetchWeather(
-//                        apiKey.apiKey,
-//                        "${location.latitude},${location.longitude}"
-//                    )
-//                }.getOrElse {
-//                    return@withContext WeatherResult.Error(
-//                        exception = it.toAppException(),
-//                        cache?.toDomain()
-//                    )
-//                }
-//
-//                val domain = response.toDomain(location)
-//                val alertsDomain = response.alerts?.toDomain(location.id)
-//
-//                val mergedHourly = mergeHourlyWeather(
-//                    existing = existingHourly,
-//                    incoming = domain.hourly.toHourlyWeatherEntity(location)
-//                )
-//                weatherDao.insertWeather(
-//                    domain.current.toCurrentWeatherEntity(location.id),
-//                    mergedHourly,
-//                    domain.daily.toDailyWeatherEntity(location.id),
-//                    location.id
-//                )
-//                alertsDao.insertAlerts(
-//                    alertsDomain?.map { it.toEntity(location.id) } ?: emptyList(),
-//                    location.id
-//                )
-//                dao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
-//                WeatherResult.Success(domain)
-//
-//            } catch (e: UnknownHostException) {
-//                WeatherResult.Error(
-//                    exception = e.toAppException(),
-//                    cache?.toDomain()
-//                )
-//            } catch (e: Exception) {
-//                WeatherResult.Error(
-//                    exception = e,
-//                    cache?.toDomain()
-//                )
-//            }
-//        }
 
     override suspend fun getAlerts(
         location: Location,

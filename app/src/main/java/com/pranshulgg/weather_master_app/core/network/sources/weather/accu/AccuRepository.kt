@@ -4,6 +4,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResultType
@@ -103,8 +104,8 @@ class AccuRepository @Inject constructor(
         useGenericSaveImplementation(cacheModel.cachedHourly, data, weatherDao)
     }
 
-    override fun finishedWeatherResult(data: Weather): WeatherResult {
-        return WeatherResult.Success(weather = data)
+    override fun finishedWeatherResult(data: Weather): FinishedWeatherResult {
+        return FinishedWeatherResult(weather = data)
     }
 
     override suspend fun getAirQuality(

@@ -16,6 +16,10 @@ sealed class WeatherResult(
 
 }
 
+data class FinishedWeatherResult(
+    val weather: Weather
+)
+
 enum class WeatherResultType {
     REFRESH_TOO_EARLY,
     SUCCESS,
