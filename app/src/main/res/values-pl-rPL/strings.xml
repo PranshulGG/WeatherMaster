@@ -446,5 +446,6 @@ W ciągu dnia spodziewane są opady śniegu około %1$s z prawdopodobieństwem %
     <string name="setting_next_day_forecast_notification">Powiadomienie o prognozie na następny dzień</string>
     <string name="setting_next_day_forecast_notification_set_time">Godzina powiadomienia o prognozie na następny dzień</string>
     <string name="label_disabled">Wyłączone</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->
