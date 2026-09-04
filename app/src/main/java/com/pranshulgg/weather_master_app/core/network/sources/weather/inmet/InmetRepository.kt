@@ -5,14 +5,12 @@ import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.json.IbgeMunicipioJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.json.InmetStationJson
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
@@ -26,12 +24,10 @@ import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.inmet
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.inmet.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
-import com.pranshulgg.weather_master_app.data.repository.data.AlertRepository
+import com.pranshulgg.weather_master_app.data.repository.alerts.AlertRepository
 import com.pranshulgg.weather_master_app.data.repository.weather.BaseWeatherRepository
 import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
-import com.pranshulgg.weather_master_app.data.repository.weather.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
@@ -115,7 +111,7 @@ class InmetRepository @Inject constructor(
     override fun finishedWeatherResult(data: Weather): WeatherResult {
         return WeatherResult.Success(weather = data)
     }
-    
+
 
     override suspend fun getAlerts(
         location: Location,

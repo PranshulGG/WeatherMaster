@@ -27,7 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
     val repo: SearchRepositoryProvider,
-    val locationsRepo: WeatherContextRepository,
+    val weatherContextRepository: WeatherContextRepository,
     val geoNamesTimezoneRepository: GeoNamesTimezoneRepository,
     private val apiKeysRepo: ApiKeysRepository,
 ) : ViewModel() {
@@ -86,7 +86,7 @@ class SearchScreenViewModel @Inject constructor(
                 } else {
                     resolved.alertSource
                 }
-                locationsRepo.saveLocation(
+                weatherContextRepository.saveLocation(
                     resolved.copy(
                         source = weatherSource,
                         alertSource = alertSource

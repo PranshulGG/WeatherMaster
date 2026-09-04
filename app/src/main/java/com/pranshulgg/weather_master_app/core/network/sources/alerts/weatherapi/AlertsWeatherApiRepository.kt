@@ -11,7 +11,7 @@ import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDa
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.sources.weatherapi.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
-import com.pranshulgg.weather_master_app.data.repository.data.AlertRepository
+import com.pranshulgg.weather_master_app.data.repository.alerts.AlertRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
