@@ -37,8 +37,7 @@ class WeatherViewModel @Inject constructor(
     private val locationManager: LocationManager,
     private val weatherUnitsManager: WeatherUnitsManager,
     private val weatherBlocksManager: WeatherBlocksManager,
-    private val pendingRequests: PendingRequests,
-    private val externalManager: ExternalManager
+    private val pendingRequests: PendingRequests
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(MainScreenWeatherUiState())

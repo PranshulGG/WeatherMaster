@@ -173,7 +173,7 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
                     weatherViewModel.refreshWeather(activeLocation)
                 },
                 onEditLocation = {
-                    navController.navigate(NavRoutes.editLocation(activeLocation!!.id))
+                    navController.navigate(NavRoutes.EDIT_LOCATION)
                 },
                 context = context,
                 onWeatherSourceInfoClick = viewModel::showWeatherSourcesInfoForLocationSheet,
@@ -201,7 +201,7 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
         onDismiss = viewModel::hideUnsupportedSelectedSourceDialog,
         onConfirm = {
             locationStore.activeLocation?.let {
-                navController.navigate(NavRoutes.editLocation(it.id))
+                navController.navigate(NavRoutes.EDIT_LOCATION)
             }
         }
     )

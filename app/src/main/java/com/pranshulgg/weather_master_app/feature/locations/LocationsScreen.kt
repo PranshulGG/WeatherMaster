@@ -152,7 +152,7 @@ fun LocationsScreen(
 
     LocationScreenConfirmationDialog(viewModel)
     LocationScreenSheet(viewModel, sheetState, onEdit = {
-        navController.navigate(NavRoutes.editLocation(uiState.value.longClickedLocation!!.id))
+        navController.navigate(NavRoutes.EDIT_LOCATION)
     })
 
     SharedDialogs.DeviceBackgroundLocationPermissionInfoDialog(
