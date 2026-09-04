@@ -21,6 +21,9 @@ import java.io.InputStream
 import javax.inject.Inject
 
 
+/**
+ * MetService NZ standalone CAP alerts integration implemented by https://github.com/reveler-hub
+ */
 class MetserviceNzRepository @Inject constructor(
     private val api: MetserviceNzApi,
     private val dao: AlertsDao,
