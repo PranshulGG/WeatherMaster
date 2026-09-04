@@ -43,6 +43,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRep
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherOneCallApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherRepository
@@ -282,8 +283,9 @@ object WeatherRepositoryModule {
         dao: LocationsDao,
         weatherDao: WeatherDao,
         api: OpenWeatherApi,
+        oneCallApi: OpenWeatherOneCallApi,
         airQualityDao: AirQualityDao,
         apiKeysDao: ApiKeysDao
     ): OpenWeatherRepository =
-        OpenWeatherRepository(dao, weatherDao, api, airQualityDao, apiKeysDao)
+        OpenWeatherRepository(dao, weatherDao, api, oneCallApi, airQualityDao, apiKeysDao)
 }
