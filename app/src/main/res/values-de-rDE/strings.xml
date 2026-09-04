@@ -440,5 +440,6 @@ Durchgängige Benachrichtigung und mehr</string>
     <string name="setting_next_day_forecast_notification">Wetterbenachrichtigung für den nächsten Tag</string>
     <string name="setting_next_day_forecast_notification_set_time">Setze Zeit für die nächste Wetterbenachrichtigung für den nächsten Tag</string>
     <string name="label_disabled">Deaktiviert</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->
