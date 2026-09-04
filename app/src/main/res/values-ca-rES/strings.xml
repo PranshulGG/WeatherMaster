@@ -439,5 +439,6 @@
     <string name="setting_next_day_forecast_notification">Next day forecast notification</string>
     <string name="setting_next_day_forecast_notification_set_time">Set time for next day forecast notification</string>
     <string name="label_disabled">Desactivat</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->
