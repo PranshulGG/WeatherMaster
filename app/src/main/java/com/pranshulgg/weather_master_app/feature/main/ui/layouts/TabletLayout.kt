@@ -17,14 +17,17 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.pranshulgg.weather_master_app.core.managers.WeatherBlocksManager
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
+import com.pranshulgg.weather_master_app.data.store.WeatherBlocksStoreState
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
 import com.pranshulgg.weather_master_app.feature.main.components.CreditsBottomSection
 import com.pranshulgg.weather_master_app.feature.main.components.FroggyContainer
@@ -46,13 +49,13 @@ fun TabletLayout(
     navController: NavController,
     alerts: List<Alert>,
     prefs: AppPrefsState,
-    viewModel: WeatherViewModel,
     onWeatherSourceInfoClick: () -> Unit,
     isShowSummary: Boolean,
     airQuality: AirQuality?,
-    uiState: MainScreenWeatherUiState,
     paddingValues: PaddingValues,
-    layoutDirection: LayoutDirection
+    layoutDirection: LayoutDirection,
+    weatherBlocks: WeatherBlocksStoreState,
+    onUpdateBlocks: (List<WeatherBlock>) -> Unit,
 ) {
 
     val startPadding = paddingValues.calculateStartPadding(layoutDirection)
@@ -124,11 +127,10 @@ fun TabletLayout(
                 airQuality,
                 units,
                 context,
-                uiState.blocks,
+                weatherBlocks,
                 navController = navController,
-                isAirQualityLoading = uiState.isAirQualityLoading,
-                viewModel = viewModel,
-                fixedGridCells = true
+                fixedGridCells = true,
+                onUpdateBlocks = onUpdateBlocks
             )
         }
     }

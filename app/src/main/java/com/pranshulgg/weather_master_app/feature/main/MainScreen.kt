@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.main
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -9,6 +10,7 @@ import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
@@ -20,9 +22,11 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.BuildConfig
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.managers.WeatherBlocksManager
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
@@ -40,18 +44,8 @@ import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
 import kotlinx.coroutines.launch
 
 data class MainScreenWeatherUiState(
-    val isError: Boolean = false,
-    val isLoading: Boolean = false,
-    val activeLocation: Location? = null,
-    val locations: List<Location> = emptyList(),
-    val weather: Weather? = null,
     val weatherUnits: WeatherUnits = WeatherUnits.getDefault(),
     val blocks: List<WeatherBlock> = WeatherBlock.getDefault(),
-    val isInitialized: Boolean = false,
-    val airQuality: AirQuality? = null,
-    val isAirQualityLoading: Boolean = false,
-    val isUnsupportedSource: Boolean = false,
-    val alerts: List<Alert> = emptyList()
 )
 
 data class MainScreenUiState(
@@ -67,20 +61,31 @@ data class MainScreenUiState(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel) {
-    val uiState by weatherViewModel.uiState
     val viewModel: MainScreenViewModel = hiltViewModel()
-    val mainScreenUiState = viewModel.uiState.value
+    val uiState = viewModel.uiState.value
     val uriHandler = LocalUriHandler.current
     val savedVersion = PreferencesHelper.getString("saved_version")
     val prefs = LocalAppPrefs.current
 
-    if (uiState.locations.isEmpty()) {
+    val locationStore = viewModel.location.collectAsState().value
+    val weatherStore = viewModel.weather.collectAsState().value
+    val unitsStore = viewModel.units.collectAsState().value
+    val weatherBlocks = viewModel.weatherBlocks.collectAsState().value
+
+
+    if (locationStore.locations.isEmpty()) {
         IntroScreen(navController)
         return
     }
 
+    LaunchedEffect(Unit) {
+        weatherViewModel.errors.collect { exp ->
+            SnackbarManager.show(messageResource = exp.toMessageRes())
+        }
+    }
+
     val context = LocalContext.current
-    val activeLocation = uiState.activeLocation
+    val activeLocation = locationStore.activeLocation
 
     val density = LocalDensity.current
     val widthDp = with(density) {
@@ -110,19 +115,19 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
         closeDrawer()
     }
 
-    LaunchedEffect(uiState.isUnsupportedSource) {
-        if (uiState.isUnsupportedSource) {
+    LaunchedEffect(weatherViewModel.isUnSupportedSource) {
+        if (weatherViewModel.isUnSupportedSource) {
             viewModel.showUnsupportedSelectedSourceDialog()
         }
     }
 
-    LaunchedEffect(mainScreenUiState.isNewVersionAvailable) {
-        if (mainScreenUiState.isNewVersionAvailable) {
+    LaunchedEffect(uiState.isNewVersionAvailable) {
+        if (uiState.isNewVersionAvailable) {
             SnackbarManager.show(
                 R.string.message_new_version_available,
                 actionLabel = R.string.action_view,
                 onAction = {
-                    uriHandler.openUri(mainScreenUiState.lastestVersionUrl)
+                    uriHandler.openUri(uiState.lastestVersionUrl)
                 },
                 duration = SnackbarDuration.Indefinite
             )
@@ -139,6 +144,7 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
         }
     }
 
+
     NavigationDrawer(
         drawerContent = {
             LocationsScreen(
@@ -146,42 +152,40 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
                     closeDrawer()
                 },
                 navController,
-                uiState.locations,
-                uiState.activeLocation,
                 onLocationSelect = {
                     if (activeLocation == it) return@LocationsScreen
-                    weatherViewModel.setLoading(true)
+                    weatherViewModel.setActiveLoading()
                     scope.launch {
                         drawerState.close() // wait until drawer fully closes
-                        weatherViewModel.setActiveLocation(it)
+                        weatherViewModel.setActiveLocation(it, skipLoading = true)
                     }
                 },
-                weatherViewModel
             )
         },
         drawerState = drawerState,
         content = {
             MainScreenScaffold(
-                navController,
-                drawerState,
-                uiState,
+                navController = navController,
+                drawerState = drawerState,
+                weatherStore = weatherStore,
                 onRefresh = {
-                    if (activeLocation != null) {
-                        weatherViewModel.getWeather(
-                            activeLocation,
-                            activeLocation.source,
-                            isManualRefresh = true
-                        )
-                    }
+                    weatherViewModel.setActiveLoading()
+                    weatherViewModel.refreshWeather(activeLocation)
                 },
                 onEditLocation = {
                     navController.navigate(NavRoutes.editLocation(activeLocation!!.id))
                 },
-                context,
+                context = context,
                 onWeatherSourceInfoClick = viewModel::showWeatherSourcesInfoForLocationSheet,
-                weatherViewModel,
                 isTabletLike = isTabletLike,
-                prefs = prefs
+                prefs = prefs,
+                units = unitsStore,
+                isLoading = locationStore.isActiveLocationLoading,
+                activeLocation = locationStore.activeLocation,
+                weatherBlocks = weatherBlocks,
+                onUpdateBlocks = {
+                    viewModel.saveBlocks(it)
+                }
             )
         }
     )
@@ -190,18 +194,24 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
     // WEATHER SOURCES INFO DIALOG
     MainScreenBottomSheets.WeatherSourcesInfoForLocationSheet(viewModel, activeLocation, sheetState)
 
+
     // SOURCE NOT AVAILABLE
     MainScreenDialogs.UnsupportedSelectedSourceDialog(
-        mainScreenUiState.isUnsupportedSourceDialogOpen,
-        onDismiss =
-            viewModel::hideUnsupportedSelectedSourceDialog,
-        onConfirm = { viewModel.showWeatherSourcesForLocationSheet(uiState.isLoading) })
+        show = uiState.isUnsupportedSourceDialogOpen,
+        onDismiss = viewModel::hideUnsupportedSelectedSourceDialog,
+        onConfirm = {
+            locationStore.activeLocation?.let {
+                navController.navigate(NavRoutes.editLocation(it.id))
+            }
+        }
+    )
+
 
     // CHANGELOG DIALOG
     SharedBottomSheet.ChangelogBottomSheet(
         sheetState,
         onDismiss = viewModel::hideChangelogSheet,
-        show = mainScreenUiState.isChangelogSheetOpen
+        show = uiState.isChangelogSheetOpen
     )
 }
 

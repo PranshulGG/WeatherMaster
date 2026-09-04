@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -36,16 +37,9 @@ fun PressureScreen(navController: NavController, index: Int = 0, locationId: Str
 
     val viewModel: BlocksScreenViewModel = hiltViewModel()
 
-    LaunchedEffect(Unit) {
-        viewModel.getUnitsOnce()
-        viewModel.getWeather(locationId)
-    }
-
-
-    val uiState = viewModel.uiState.value
-    val weather = uiState.weather
+    val weather = viewModel.weather.collectAsState().value.weather
     val hourly = weather?.hourly ?: return
-    val units = uiState.units
+    val units = viewModel.units.collectAsState().value.units
     val zoneId = weather.location.timezone
     val time = if (index != 0) weather.daily[index].time else weather.current.time
     val context = LocalContext.current

@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -34,17 +35,10 @@ fun RainScreen(navController: NavController, index: Int = 0, locationId: String)
 
     val viewModel: BlocksScreenViewModel = hiltViewModel()
 
-    LaunchedEffect(Unit) {
-        viewModel.getUnitsOnce()
-        viewModel.getWeather(locationId)
-    }
-
-
-    val uiState = viewModel.uiState.value
-    val weather = uiState.weather
+    val weather = viewModel.weather.collectAsState().value.weather
     val hourly = weather?.hourly ?: return
     val context = LocalContext.current
-    val units = uiState.units
+    val units = viewModel.units.collectAsState().value.units
     val zoneId = weather.location.timezone
     val time = if (index != 0) weather.daily[index].time else weather.current.time
 

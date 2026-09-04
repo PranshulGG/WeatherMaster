@@ -4,12 +4,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pranshulgg.weather_master_app.core.managers.LocationManager
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
-import com.pranshulgg.weather_master_app.data.repository.AlertsRepository
-import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
+import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
+import com.pranshulgg.weather_master_app.data.store.LocationStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,25 +20,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LocationsScreenViewModel @Inject constructor(
-    private val locationsRepo: LocationsRepository,
-    private val alertsRepository: AlertsRepository
+    private val weatherContextRepository: WeatherContextRepository,
+    private val locationManager: LocationManager,
+    locationStore: LocationStore
 ) : ViewModel() {
 
-    val allLocationsWeather = locationsRepo.getWeatherForAllLocations().stateIn(
+    val location = locationStore.data
+    val weatherForTotalLocations = weatherContextRepository.getWeatherForTotalLocations().stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
+        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000),
         initialValue = emptyList()
     )
 
-    val allLocationsAlerts = alertsRepository.getAllLocationsAlerts().stateIn(
+    val alertsForTotalLocations = weatherContextRepository.getAlertsForTotalLocations().stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5_000),
+        started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5_000),
         initialValue = emptyList()
     )
 
     fun updateDefaultLocation(id: String) {
         viewModelScope.launch {
-            locationsRepo.updateDefaultLocation(id)
+            weatherContextRepository.updateDefaultLocation(id)
         }
     }
 
@@ -66,12 +69,17 @@ class LocationsScreenViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(isBottomSheetOpen = false)
     }
 
+    fun deleteLocation(id: String) {
+        viewModelScope.launch {
+            locationManager.deleteLocation(id)
+        }
+    }
 
     fun saveDeviceLocation() {
         _uiState.value = _uiState.value.copy(isDeviceLocationLoading = true)
         viewModelScope.launch {
             try {
-                locationsRepo.saveDeviceLocation()
+                weatherContextRepository.saveDeviceLocation()
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
                 SnackbarManager.show(AppException.CurrentLocationUnavailable().toMessageRes())
