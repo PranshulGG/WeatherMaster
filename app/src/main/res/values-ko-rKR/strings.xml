@@ -436,5 +436,6 @@
     <string name="setting_next_day_forecast_notification">내일 날씨 예보 알림</string>
     <string name="setting_next_day_forecast_notification_set_time">내일 날씨 예보 알림 시간 설정</string>
     <string name="label_disabled">비활성화됨</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->
