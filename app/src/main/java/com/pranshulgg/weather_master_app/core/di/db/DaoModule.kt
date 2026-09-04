@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.core.di.db
 
 import com.pranshulgg.weather_master_app.data.local.WeatherMasterDatabase
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,8 +12,8 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object DaoModule {
     @Provides
-    fun provideLocationDao(db: WeatherMasterDatabase) =
-        db.locationsDao()
+    fun provideWeatherContextDao(db: WeatherMasterDatabase) =
+        db.weatherContextDao()
 
     @Provides
     fun provideWeatherDataDao(db: WeatherMasterDatabase) =

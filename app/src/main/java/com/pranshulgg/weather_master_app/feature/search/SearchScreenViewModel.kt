@@ -18,7 +18,7 @@ import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.provider.SearchRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
-import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
+import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
@@ -27,7 +27,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
     val repo: SearchRepositoryProvider,
-    val locationsRepo: LocationsRepository,
+    val locationsRepo: WeatherContextRepository,
     val geoNamesTimezoneRepository: GeoNamesTimezoneRepository,
     private val apiKeysRepo: ApiKeysRepository,
 ) : ViewModel() {
@@ -86,7 +86,12 @@ class SearchScreenViewModel @Inject constructor(
                 } else {
                     resolved.alertSource
                 }
-                locationsRepo.saveLocation(resolved.copy(source = weatherSource, alertSource = alertSource))
+                locationsRepo.saveLocation(
+                    resolved.copy(
+                        source = weatherSource,
+                        alertSource = alertSource
+                    )
+                )
                 onBack()
             } catch (e: Exception) {
                 val appExpectation = e.toAppException()

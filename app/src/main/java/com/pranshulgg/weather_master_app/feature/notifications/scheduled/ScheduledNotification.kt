@@ -1,25 +1,19 @@
 package com.pranshulgg.weather_master_app.feature.notifications.scheduled
 
-import android.Manifest
 import android.annotation.SuppressLint
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
-import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
-import androidx.work.ListenableWorker
-import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.data.provider.SourceRepositoryProvider
-import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
+import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
+import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
 import com.pranshulgg.weather_master_app.feature.notifications.NotificationConfig
 import com.pranshulgg.weather_master_app.feature.notifications.isNotificationPermissionGranted
 import com.pranshulgg.weather_master_app.feature.notifications.mapper.notificationWeatherMapper
@@ -39,10 +33,11 @@ class ScheduledNotification : BroadcastReceiver() {
 
 
     @Inject
-    lateinit var locationsRepository: LocationsRepository
-
+    lateinit var weatherContextRepository: WeatherContextRepository
+    
     @Inject
-    lateinit var sourceRepositoryProvider: SourceRepositoryProvider
+    lateinit var sourceDataRepository: SourceDataRepository
+
 
     @Inject
     lateinit var weatherUnitsRepository: WeatherUnitsRepository
@@ -55,7 +50,7 @@ class ScheduledNotification : BroadcastReceiver() {
 
         CoroutineScope(Dispatchers.IO).launch {
 
-            val locations = locationsRepository.getLocationsOnce()
+            val locations = weatherContextRepository.getLocationsOnce()
             val default = locations.find { it.isDefault }
             val units = weatherUnitsRepository.getUnitsOnce()
 
@@ -63,18 +58,32 @@ class ScheduledNotification : BroadcastReceiver() {
                 return@launch
             }
 
-            val repo = sourceRepositoryProvider.getWeatherRepository(default.source)
 
-            val result = repo.getWeather(
+//            val result = repo.getWeather(
+//                location = default,
+//                isManualRefresh = false,
+//                isForceRefresh = false
+//            )
+            var data: Weather? = null
+
+            sourceDataRepository.getData(
                 location = default,
                 isManualRefresh = false,
-                isForceRefresh = false
+                onAlerts = {},
+                onAirQuality = {},
+                onWeather = {
+                    if (it is WeatherResult.RefreshNotAvailable) {
+                        data = it.weather
+                    } else if (it is WeatherResult.Success) {
+                        data = it.weather
+                    }
+                }
             )
 
-            if (result is WeatherResult.Success) {
-                val weather = result.weather
+
+            if (data != null) {
                 val data = notificationWeatherMapper(
-                    weather = weather,
+                    weather = data,
                     applicationContext = context,
                     units = units
                 )

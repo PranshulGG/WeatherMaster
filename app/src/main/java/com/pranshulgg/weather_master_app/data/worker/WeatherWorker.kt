@@ -11,8 +11,9 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.data.provider.SourceRepositoryProvider
-import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
+import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
+import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
 import com.pranshulgg.weather_master_app.data.worker.gadgetbridge.sendGadgetBridgeWeatherData
 import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundWeatherUpdateNotification
 import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundWeatherUpdateNotification.showErrorNotification
@@ -26,10 +27,10 @@ import dagger.assisted.AssistedInject
 class WeatherWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val repositoryProvider: SourceRepositoryProvider,
-    private val locationsRepository: LocationsRepository,
+    private val weatherContextRepository: WeatherContextRepository,
     private val appVisibility: AppVisibility,
-    private val weatherUnitsRepository: WeatherUnitsRepository
+    private val weatherUnitsRepository: WeatherUnitsRepository,
+    private val sourceDataRepository: SourceDataRepository
 ) : CoroutineWorker(context, params) {
 
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
@@ -52,7 +53,7 @@ class WeatherWorker @AssistedInject constructor(
 
 
             // Get the locations and units
-            val locations = locationsRepository.getLocationsOnce()
+            val locations = weatherContextRepository.getLocationsOnce()
             val default = locations.find { it.isDefault }
             val units = weatherUnitsRepository.getUnitsOnce()
 
@@ -68,24 +69,25 @@ class WeatherWorker @AssistedInject constructor(
             BackgroundWeatherUpdateNotification.showNotification(default.name, applicationContext)
 
 
-            // Get the repository
-            val repo = repositoryProvider.getWeatherRepository(default.source)
+            var weather: Weather? = null
 
-            val result = repo.getWeather(
+            sourceDataRepository.getData(
                 location = default,
                 isManualRefresh = true,
-                isForceRefresh = false
+                onAlerts = {},
+                onAirQuality = {},
+                onWeather = {
+                    if (it is WeatherResult.RefreshNotAvailable) {
+                        weather = it.weather
+                    } else if (it is WeatherResult.Success) {
+                        weather = it.weather
+                    }
+                }
             )
 
-
-            if (result !is WeatherResult.Success) {
+            if (weather == null) {
                 return Result.success()
             }
-
-
-            val weather = result.weather
-
-
 
             if (sendDataToGadgetBridge) {
                 sendGadgetBridgeWeatherData(applicationContext, weather)

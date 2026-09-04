@@ -1,10 +1,11 @@
-package com.pranshulgg.weather_master_app.data.local.dao.location
+package com.pranshulgg.weather_master_app.data.local.dao.weather
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocationEntity
@@ -12,7 +13,7 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.WeatherWithRe
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface LocationsDao {
+interface WeatherContextDao {
 
     @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertWeatherLocation(
@@ -63,7 +64,8 @@ interface LocationsDao {
 
     @Transaction
     @Query("SELECT * FROM weather_locations")
-    fun getAllLocationsCurrentWeather(): Flow<List<WeatherWithRelations>>
+    fun getWeatherForTotalLocations(): Flow<List<WeatherWithRelations>>
+
 
     @Query("UPDATE weather_locations SET source = :source WHERE id = :id")
     suspend fun updateSourceForLocation(id: String, source: Source)

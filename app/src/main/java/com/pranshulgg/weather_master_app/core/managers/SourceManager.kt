@@ -9,6 +9,7 @@ import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
 import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
+import com.pranshulgg.weather_master_app.data.store.LocationStore
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import javax.inject.Inject
@@ -23,7 +24,8 @@ class SourceManager @Inject constructor(
     private val airQualityDao: AirQualityDao,
     private val alertsDao: AlertsDao,
     private val weatherContextRepository: Provider<WeatherContextRepository>,
-    private val pendingRequests: PendingRequests
+    private val pendingRequests: PendingRequests,
+    private val locationStore: LocationStore
 ) {
 
 
@@ -57,12 +59,14 @@ class SourceManager @Inject constructor(
             previous = location,
             updated = updatedLocation
         )
+        locationStore.setActiveLocation(updatedLocation)
         pendingRequests.queueRequest(
             location = updatedLocation,
             isForceRefresh = forceRefreshForWeather,
             isForceRefreshForAirQuality = forceRefreshForAirQuality,
             isForceRefreshForAlerts = forceRefreshForAlerts
         )
+
     }
 
 

@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.managers.requests
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,6 +32,13 @@ class PendingRequests @Inject constructor() {
         isForceRefreshForAirQuality: Boolean = false,
         isForceRefreshForAlerts: Boolean = false
     ) {
+        Log.d(
+            "PendingRequests",
+            "queueRequest() called: location=${location.id}, " +
+                    "force=$isForceRefresh, " +
+                    "forceAQ=$isForceRefreshForAirQuality, " +
+                    "forceAlerts=$isForceRefreshForAlerts"
+        )
         _pendingRequest.tryEmit(
             WeatherRefreshRequestState(
                 location = location,
@@ -39,6 +47,10 @@ class PendingRequests @Inject constructor() {
                 forceRefreshForAlerts = isForceRefreshForAlerts,
                 isManualRefresh = isManualRefresh
             )
+        )
+        Log.d(
+            "PendingRequests",
+            "State updated: ${_pendingRequest.value}"
         )
     }
 }

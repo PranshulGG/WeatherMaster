@@ -11,7 +11,7 @@ import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.github.GithubDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
-import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.ApiKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherBlocksDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
@@ -67,7 +67,7 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeat
 )
 abstract class WeatherMasterDatabase : RoomDatabase() {
 
-    abstract fun locationsDao(): LocationsDao
+    abstract fun weatherContextDao(): WeatherContextDao
     abstract fun weatherDao(): WeatherDao
     abstract fun weatherUnitsDao(): WeatherUnitsDao
     abstract fun weatherBlocksDao(): WeatherBlocksDao

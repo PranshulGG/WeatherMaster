@@ -21,7 +21,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.cancel
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
@@ -35,7 +37,8 @@ class WeatherManager @Inject constructor(
     private val sourceDataRepository: SourceDataRepository,
     private val weatherStore: WeatherStore,
     private val locationStore: LocationStore,
-    private val initializationStore: InitializationStore
+    private val initializationStore: InitializationStore,
+    private val externalManager: ExternalManager
 ) {
 
     private val scope = CoroutineScope(SupervisorJob())
@@ -43,9 +46,6 @@ class WeatherManager @Inject constructor(
     private val _errors = MutableSharedFlow<AppException>(
         extraBufferCapacity = 1
     )
-
-    var loading by mutableStateOf(false)
-        private set
 
     /**
      * Lets the UI know that the source for this location
@@ -58,7 +58,6 @@ class WeatherManager @Inject constructor(
 
     private var weatherJob: Job? = null
 
-
     operator fun invoke(
         location: Location,
         isManualRefresh: Boolean = false,
@@ -68,56 +67,58 @@ class WeatherManager @Inject constructor(
         skipDeviceLocationCheck: Boolean = false,
     ) {
 
-        loading = true
         isUnsupportedSource = false
         val startTime = System.currentTimeMillis()
         weatherJob?.cancel()
 
         weatherJob = scope.launch {
+            try {
+                var effectiveLocation = location
+                var effectiveForceRefresh = isForceRefresh
+                var effectiveForceRefreshForAirQuality = isForceRefreshForAirQuality
+                var effectiveForceRefreshForAlerts = isForceRefreshForAlerts
 
-            var effectiveLocation = location
-            var effectiveForceRefresh = isForceRefresh
-            var effectiveForceRefreshForAirQuality = isForceRefreshForAirQuality
-            var effectiveForceRefreshForAlerts = isForceRefreshForAlerts
-
-            if (location.isDeviceLocation && !skipDeviceLocationCheck) {
-                val positionChanged = weatherContextRepository.updateDeviceLocationPosition()
-                if (positionChanged) {
-                    effectiveLocation = weatherContextRepository.getLocationForId(location.id)
-                    effectiveForceRefresh = true
-                    effectiveForceRefreshForAirQuality = true
-                    effectiveForceRefreshForAlerts = true
-                    locationStore.setActiveLocation(effectiveLocation)
+                if (location.isDeviceLocation && !skipDeviceLocationCheck) {
+                    val positionChanged = weatherContextRepository.updateDeviceLocationPosition()
+                    if (positionChanged) {
+                        effectiveLocation = weatherContextRepository.getLocationForId(location.id)
+                        effectiveForceRefresh = true
+                        effectiveForceRefreshForAirQuality = true
+                        effectiveForceRefreshForAlerts = true
+                        locationStore.setActiveLocation(effectiveLocation)
+                    }
                 }
+
+
+                sourceDataRepository.getData(
+                    location = effectiveLocation,
+                    isManualRefresh = isManualRefresh,
+                    isForceRefresh = effectiveForceRefresh,
+                    isForceRefreshForAirQuality = effectiveForceRefreshForAirQuality,
+                    isForceRefreshForAlerts = effectiveForceRefreshForAlerts,
+                    onWeather = { result ->
+                        writeWeather(result, effectiveLocation)
+                    },
+                    onAlerts = { result ->
+                        writeAlerts(result)
+                    },
+                    onAirQuality = { result ->
+                        writeAirQuality(result)
+                    },
+                )
+
+                val elapsed = System.currentTimeMillis() - startTime
+                val minLoadingTime = 1000L
+
+                // Prevents loader flicker when responses return too quickly
+                if (elapsed < minLoadingTime) {
+                    delay(duration = (minLoadingTime - elapsed).milliseconds)
+                }
+            } finally {
+                externalManager.refreshWidgets()
+                externalManager.refreshNotifications()
+                locationStore.setLoading(false)
             }
-
-
-            sourceDataRepository.getData(
-                location = effectiveLocation,
-                isManualRefresh = isManualRefresh,
-                isForceRefresh = effectiveForceRefresh,
-                isForceRefreshForAirQuality = effectiveForceRefreshForAirQuality,
-                isForceRefreshForAlerts = effectiveForceRefreshForAlerts,
-                onWeather = { result ->
-                    writeWeather(result, effectiveLocation)
-                },
-                onAlerts = { result ->
-                    writeAlerts(result)
-                },
-                onAirQuality = { result ->
-                    writeAirQuality(result)
-                },
-            )
-
-            val elapsed = System.currentTimeMillis() - startTime
-            val minLoadingTime = 1000L
-
-            // Prevents loader flicker when responses return too quickly
-            if (elapsed < minLoadingTime) {
-                delay(duration = (minLoadingTime - elapsed).milliseconds)
-            }
-
-            loading = false
         }
     }
 
@@ -128,12 +129,12 @@ class WeatherManager @Inject constructor(
         when (result) {
 
             is WeatherResult.Success -> {
-                weatherStore.set(weather = result.weather)
+                weatherStore.setWeather(weather = result.weather)
                 initializationStore.setInitialized()
             }
 
             is WeatherResult.Error -> {
-                weatherStore.set(weather = result.cacheWeather)
+                weatherStore.setWeather(weather = result.weather)
 
                 isUnsupportedSource = !location.source.isGlobal()
                         && !location.source.isSourceSupportedFor(
@@ -145,23 +146,25 @@ class WeatherManager @Inject constructor(
             }
 
             is WeatherResult.RefreshNotAvailable -> {
+                weatherStore.setWeather(result.weather)
                 _errors.tryEmit(AppException.RefreshNotAvailable())
             }
+
         }
     }
 
     private fun writeAirQuality(result: AirQualityResult?) {
         if (result == null) {
-            weatherStore.set(airQuality = null)
+            weatherStore.setAirQuality(airQuality = null)
             return
         }
         when (result) {
             is AirQualityResult.Success -> {
-                weatherStore.set(airQuality = result.airquality)
+                weatherStore.setAirQuality(airQuality = result.airquality)
             }
             // Fail silently, we just won't show the Air quality in the UI if null
             is AirQualityResult.Error -> {
-                weatherStore.set(airQuality = result.cacheAirQuality)
+                weatherStore.setAirQuality(airQuality = result.cacheAirQuality)
             }
         }
     }
@@ -169,16 +172,16 @@ class WeatherManager @Inject constructor(
 
     private fun writeAlerts(result: AlertResult?) {
         if (result == null) {
-            weatherStore.set(alerts = emptyList())
+            weatherStore.setAlerts(alerts = emptyList())
             return
         }
         when (result) {
             is AlertResult.Success -> {
-                weatherStore.set(alerts = result.alerts)
+                weatherStore.setAlerts(alerts = result.alerts)
             }
             // Fail silently, we just won't show the alerts in the UI if null
             is AlertResult.Error -> {
-                weatherStore.set(alerts = result.cacheAlerts)
+                weatherStore.setAlerts(alerts = result.cacheAlerts)
             }
         }
     }

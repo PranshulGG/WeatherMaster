@@ -7,7 +7,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherRepository
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
-import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,16 +24,16 @@ object AlertsRepositoryModule {
     fun provideWmoSevereWeatherAlertsRepository(
         api: WmoSevereWeatherApi,
         dao: AlertsDao,
-        locationsDao: LocationsDao
-    ): WmoSevereWeatherRepository = WmoSevereWeatherRepository(api, dao, locationsDao)
+        weatherContextDao: WeatherContextDao
+    ): WmoSevereWeatherRepository = WmoSevereWeatherRepository(api, dao, weatherContextDao)
 
     @Provides
     @Singleton
     fun provideFpasAlertsRepository(
         api: FpasApi,
         dao: AlertsDao,
-        locationsDao: LocationsDao
-    ): FpasRepository = FpasRepository(api, dao, locationsDao)
+        weatherContextDao: WeatherContextDao
+    ): FpasRepository = FpasRepository(api, dao, weatherContextDao)
 
 
     @Provides
@@ -41,8 +41,8 @@ object AlertsRepositoryModule {
     fun provideWeatherApiAlertsRepository(
         api: AlertsWeatherApi,
         dao: AlertsDao,
-        locationsDao: LocationsDao
-    ): AlertsWeatherApiRepository = AlertsWeatherApiRepository(api, dao, locationsDao)
+        weatherContextDao: WeatherContextDao
+    ): AlertsWeatherApiRepository = AlertsWeatherApiRepository(api, dao, weatherContextDao)
 
 
 }

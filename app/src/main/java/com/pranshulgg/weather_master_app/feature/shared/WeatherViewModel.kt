@@ -1,10 +1,12 @@
 package com.pranshulgg.weather_master_app.feature.shared
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pranshulgg.weather_master_app.core.managers.ExternalManager
 import com.pranshulgg.weather_master_app.core.managers.LocationManager
 import com.pranshulgg.weather_master_app.core.managers.SourceManager
 import com.pranshulgg.weather_master_app.core.managers.WeatherBlocksManager
@@ -35,7 +37,8 @@ class WeatherViewModel @Inject constructor(
     private val locationManager: LocationManager,
     private val weatherUnitsManager: WeatherUnitsManager,
     private val weatherBlocksManager: WeatherBlocksManager,
-    private val pendingRequests: PendingRequests
+    private val pendingRequests: PendingRequests,
+    private val externalManager: ExternalManager
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(MainScreenWeatherUiState())

@@ -8,6 +8,12 @@ import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.nws.NwsGridPoints
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
+import com.pranshulgg.weather_master_app.data.local.entity.weather.HourlyWeatherEntity
+import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
+import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
+import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -111,5 +117,20 @@ abstract class BaseWeatherRepository : WeatherRepository {
         // No additional data by default
     }
 
-
+    suspend fun useGenericSaveImplementation(
+        existingHourly: List<HourlyWeatherEntity>,
+        data: Weather,
+        weatherDao: WeatherDao
+    ) {
+        val mergedHourly = mergeHourlyWeather(
+            existing = existingHourly,
+            incoming = data.hourly.toHourlyWeatherEntity(data.location)
+        )
+        weatherDao.insertWeather(
+            data.current.toCurrentWeatherEntity(data.location.id),
+            mergedHourly,
+            data.daily.toDailyWeatherEntity(data.location.id),
+            data.location.id
+        )
+    }
 }

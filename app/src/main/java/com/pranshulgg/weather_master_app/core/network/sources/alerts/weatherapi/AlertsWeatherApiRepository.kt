@@ -7,7 +7,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
-import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.sources.weatherapi.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class AlertsWeatherApiRepository @Inject constructor(
     private val api: AlertsWeatherApi,
     private val dao: AlertsDao,
-    private val locationsDao: LocationsDao
+    private val weatherContextDao: WeatherContextDao
 ) : AlertRepository {
 
     override val alertSource = Source.WEATHER_API
@@ -58,7 +58,7 @@ class AlertsWeatherApiRepository @Inject constructor(
                 domain.map { it.toEntity(location.id) },
                 location.id
             )
-            locationsDao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
+            weatherContextDao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
 
             AlertResult.Success(domain)
 

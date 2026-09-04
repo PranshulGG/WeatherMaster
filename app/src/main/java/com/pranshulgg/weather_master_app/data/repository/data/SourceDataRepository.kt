@@ -6,13 +6,15 @@ import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.data.provider.SourceRepositoryProvider
+import com.pranshulgg.weather_master_app.data.repository.weather.CacheResolverForWeather
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class SourceDataRepository @Inject constructor(
-    private val sourceRepositoryProvider: SourceRepositoryProvider
+    private val sourceRepositoryProvider: SourceRepositoryProvider,
+    private val cacheResolverForWeather: CacheResolverForWeather
 ) {
     suspend fun getData(
         location: Location,
@@ -31,17 +33,23 @@ class SourceDataRepository @Inject constructor(
 
         val weatherRepo = sourceRepositoryProvider.getWeatherRepository(weatherSource)
 
+        val cacheModel = cacheResolverForWeather.resolve(
+            location,
+            isManualRefresh,
+            isForceRefresh
+        )
+
         val weatherJob = async {
 
             weatherRepo.getWeather(
                 location,
                 isManualRefresh,
-                isForceRefresh
+                isForceRefresh,
+                cacheModel
             )
         }
 
         if (alertSource == weatherSource && weatherRepo.providesAlerts) {
-
             launch {
                 weatherJob.await()
 

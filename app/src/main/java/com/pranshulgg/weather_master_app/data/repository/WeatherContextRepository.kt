@@ -2,18 +2,24 @@ package com.pranshulgg.weather_master_app.data.repository
 
 import android.content.Context
 import androidx.room.Transaction
+import com.pranshulgg.weather_master_app.core.managers.SourceManager
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
+import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurrent
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.json.NominatimRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
-import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toDomain
+import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toEntity
+import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.DeviceLocation
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.GetDeviceLocation
@@ -27,14 +33,16 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.suspendCancellableCoroutine
 import java.time.ZoneId
+import kotlin.collections.map
 import kotlin.coroutines.resumeWithException
 
-class LocationsRepository @Inject constructor(
-    private val dao: LocationsDao,
+class WeatherContextRepository @Inject constructor(
+    private val dao: WeatherContextDao,
     private val airQualityDao: AirQualityDao,
     @param:ApplicationContext private val context: Context,
     private val nominatimRepository: NominatimRepository,
-    private val weatherDataReconcilerRepository: WeatherDataReconcilerRepository
+    private val alertsDao: AlertsDao,
+    private val sourceManager: SourceManager
 ) {
     private val LOCATION_UPDATE_THRESHOLD_METERS = 1000f // 1000m
 
@@ -177,9 +185,7 @@ class LocationsRepository @Inject constructor(
         if (distanceInMeters < LOCATION_UPDATE_THRESHOLD_METERS) {
             return false
         }
-
-        weatherDataReconcilerRepository.cleanLocationExtras(currentLocation.id)
-
+        sourceManager.cleanLocationExtras(currentLocation.id)
         val address = try {
             nominatimRepository.getAddress(
                 location.latitude,
@@ -256,11 +262,18 @@ class LocationsRepository @Inject constructor(
         }
     }
 
-    fun getWeatherForAllLocations(): Flow<List<Weather>> {
-        return dao.getAllLocationsCurrentWeather()
+    fun getWeatherForTotalLocations(): Flow<List<Weather>> {
+        return dao.getWeatherForTotalLocations()
             .map { list -> list.mapNotNull { it.toDomain() } }
     }
 
+    fun getAlertsForTotalLocations(): Flow<List<Alert?>> {
+        return alertsDao.getAlertsForTotalLocations().map { list -> list.map { it?.toDomain() } }
+    }
+
+    suspend fun getAlertsForLocation(locationId: String): List<Alert?> {
+        return alertsDao.getAlertsForLocation(locationId).map { it?.toDomain() }
+    }
 
 }
 

@@ -21,21 +21,25 @@ import com.pranshulgg.weather_master_app.core.prefs.AppPrefs.initPrefs
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.ui.theme.isThemeDark
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.GetDeviceLocation
+import com.pranshulgg.weather_master_app.data.store.InitializationStoreState
 import com.pranshulgg.weather_master_app.data.worker.WeatherWorker
 import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.TimeUnit
+import com.pranshulgg.weather_master_app.data.store.InitializationStore
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val viewModel: WeatherViewModel by viewModels()
+    @Inject
+    lateinit var initializationStore: InitializationStore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         val startTime = System.currentTimeMillis()
 
         splashScreen.setKeepOnScreenCondition {
-            val initialized = viewModel.uiState.value.isInitialized
+            val initialized = initializationStore.data.value.isInitialized
             val timedOut = System.currentTimeMillis() - startTime > 5000
 
             !initialized && !timedOut
