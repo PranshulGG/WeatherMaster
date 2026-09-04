@@ -439,5 +439,6 @@
     <string name="setting_next_day_forecast_notification">Weersverwachting melding voor de eerstvolgende dag</string>
     <string name="setting_next_day_forecast_notification_set_time">Zet een tijd voor de weersverwachting notificatie voor de eerstvolgende dag</string>
     <string name="label_disabled">Uitgeschakeld</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->
