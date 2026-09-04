@@ -436,5 +436,6 @@
     <string name="setting_next_day_forecast_notification">明日の天気予報</string>
     <string name="setting_next_day_forecast_notification_set_time">明日の天気予報を通知する時刻</string>
     <string name="label_disabled">無効</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->
