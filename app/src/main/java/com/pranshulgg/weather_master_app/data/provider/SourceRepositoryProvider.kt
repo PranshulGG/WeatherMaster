@@ -2,6 +2,7 @@ package com.pranshulgg.weather_master_app.data.provider
 
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasRepository
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.metservicenz.MetserviceNzRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
@@ -59,6 +60,7 @@ class SourceRepositoryProvider @Inject constructor(
     private val alertsWeatherApiRepository: AlertsWeatherApiRepository,
     private val wmoSevereWeatherRepository: WmoSevereWeatherRepository,
     private val fpasRepository: FpasRepository,
+    private val metserviceNzRepository: MetserviceNzRepository,
 
     ) {
 
@@ -87,6 +89,7 @@ class SourceRepositoryProvider @Inject constructor(
         alertsWeatherApiRepository,
         wmoSevereWeatherRepository,
         fpasRepository,
+        metserviceNzRepository,
         openWeatherRepository
     )
 

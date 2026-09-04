@@ -2,6 +2,8 @@ package com.pranshulgg.weather_master_app.core.di.weather.alerts
 
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasRepository
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.metservicenz.MetserviceNzApi
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.metservicenz.MetserviceNzRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherApi
@@ -34,6 +36,14 @@ object AlertsRepositoryModule {
         dao: AlertsDao,
         locationsDao: LocationsDao
     ): FpasRepository = FpasRepository(api, dao, locationsDao)
+
+    @Provides
+    @Singleton
+    fun provideMetserviceNzAlertsRepository(
+        api: MetserviceNzApi,
+        dao: AlertsDao,
+        locationsDao: LocationsDao
+    ): MetserviceNzRepository = MetserviceNzRepository(api, dao, locationsDao)
 
 
     @Provides

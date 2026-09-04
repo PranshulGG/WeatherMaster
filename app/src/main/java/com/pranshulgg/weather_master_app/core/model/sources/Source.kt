@@ -198,6 +198,13 @@ enum class Source(
         displayLink = "https://openweathermap.org/",
         capabilities = setOf(Capability.WEATHER, Capability.AIR_QUALITY),
         requiresUserApiKey = true
+    ),
+    METSERVICE_NZ(
+        displayName = "MetService NZ",
+        fullName = "Meteorological Service of New Zealand",
+        displayLink = "https://alerts.metservice.com/",
+        countryNameRes = R.string.country_new_zealand,
+        capabilities = setOf(Capability.ALERTS)
     );
 
     // Sources that provide snow/rain as precipitation
@@ -238,6 +245,7 @@ private val sourcesByCountry = buildMap {
     put("TW", listOf(Source.CWA))
     put("JP", listOf(Source.JMA))
     put("BR", listOf(Source.INMET))
+    put("NZ", listOf(Source.METSERVICE_NZ))
 
 }
 
