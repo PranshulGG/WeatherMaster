@@ -439,5 +439,6 @@
     <string name="setting_next_day_forecast_notification">Notificação da previsão do tempo de amanhã</string>
     <string name="setting_next_day_forecast_notification_set_time">Definir horário para a notificação da previsão do tempo de amanhã</string>
     <string name="label_disabled">Desabilitado</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->
