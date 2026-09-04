@@ -1,8 +1,8 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo
 
-import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
+import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
@@ -11,11 +11,10 @@ import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualit
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.airquality.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isCurrentAirQualitySafe
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAirQualityCache
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
-import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.openmeteo.airquality.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toDomain
@@ -26,87 +25,61 @@ import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeathe
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
 import com.pranshulgg.weather_master_app.data.repository.data.AirQualityRepository
-import com.pranshulgg.weather_master_app.data.repository.data.WeatherRepository
+import com.pranshulgg.weather_master_app.data.repository.weather.BaseWeatherRepository
+import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
+import com.pranshulgg.weather_master_app.data.repository.weather.CacheModelResultType
+import com.pranshulgg.weather_master_app.data.repository.weather.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
 import javax.inject.Inject
 
 class OpenMeteoRepository @Inject constructor(
-    val dao: LocationsDao,
+    val dao: WeatherContextDao,
     val weatherDao: WeatherDao,
     val api: OpenMeteoApi,
     val airQualityApi: OpenMeteoAqiApi,
     val airQualityDao: AirQualityDao
-) : WeatherRepository, AirQualityRepository {
+) : BaseWeatherRepository(), AirQualityRepository {
 
     override val weatherSource = Source.OPEN_METEO
     override val airQualitySource = Source.OPEN_METEO
 
-    override suspend fun getWeather(
+    override suspend fun fetchAndProcessWeather(
         location: Location,
         isManualRefresh: Boolean,
-        isForceRefresh: Boolean
-    ): WeatherResult =
-        withContext(
-            Dispatchers.IO
-        ) {
+        isForceRefresh: Boolean,
+        cacheModel: CacheModel
+    ): Weather {
 
-            val cache = dao.getWeatherDataForLocation(location.id)
+        val response = safeApiCall {
+            api.fetchWeather(
+                location.latitude,
+                location.longitude,
+                location.timezone,
+                model = location.openMeteoModel.modelId
+            )
+        }.getOrThrow()
 
+        val domain = response.toDomain(location)
 
-            val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
+        return domain
+    }
 
-            when (shouldReturnCache) {
-                WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache?.toDomain()!!)
-                else -> {}
-            }
+    override suspend fun saveWeatherToDb(data: Weather, cacheModel: CacheModel) {
 
+        weatherDao.insertWeather(
+            data.current.toCurrentWeatherEntity(data.location.id),
+            data.hourly.toHourlyWeatherEntity(data.location),
+            data.daily.toDailyWeatherEntity(data.location.id),
+            data.location.id
+        )
 
+    }
 
-            return@withContext try {
-
-
-                val response = safeApiCall {
-                    api.fetchWeather(
-                        location.latitude,
-                        location.longitude,
-                        location.timezone,
-                        model = location.openMeteoModel.modelId
-                    )
-                }.getOrElse {
-                    return@withContext WeatherResult.Error(
-                        exception = it.toAppException(),
-                        cacheWeather = cache?.toDomain()
-                    )
-                }
-
-
-                val domain = response.toDomain(location)
-
-
-                weatherDao.insertWeather(
-                    domain.current.toCurrentWeatherEntity(location.id),
-                    domain.hourly.toHourlyWeatherEntity(location),
-                    domain.daily.toDailyWeatherEntity(location.id),
-                    location.id
-                )
-
-                WeatherResult.Success(domain)
-
-
-            } catch (e: Exception) {
-
-                WeatherResult.Error(
-                    exception = e,
-                    cache?.toDomain()
-                )
-
-            }
-
-        }
-
+    override fun finishedWeatherResult(data: Weather): WeatherResult {
+        return WeatherResult.Success(data)
+    }
 
     override suspend fun getAirQuality(
         location: Location,
