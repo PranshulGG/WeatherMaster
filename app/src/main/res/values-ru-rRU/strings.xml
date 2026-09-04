@@ -445,5 +445,6 @@
     <string name="setting_next_day_forecast_notification">Уведомление о прогнозе погоды на следующий день</string>
     <string name="setting_next_day_forecast_notification_set_time">Установить время получения уведомления о прогнозе погоды на следующий день</string>
     <string name="label_disabled">Отключено</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->
