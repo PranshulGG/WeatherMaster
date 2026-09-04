@@ -445,5 +445,6 @@
     <string name="setting_next_day_forecast_notification">Oznámení o předpovědi na zítřejší den</string>
     <string name="setting_next_day_forecast_notification_set_time">Nastavit čas k zobrazení oznámení o předpovědi na zítřejší den</string>
     <string name="label_disabled">Zakázáno</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->
