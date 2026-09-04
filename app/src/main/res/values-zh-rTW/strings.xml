@@ -437,5 +437,6 @@
     <string name="setting_next_day_forecast_notification">明日預報通知</string>
     <string name="setting_next_day_forecast_notification_set_time">設定明日預報通知的時間</string>
     <string name="label_disabled">停用</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->
