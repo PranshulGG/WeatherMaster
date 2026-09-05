@@ -439,5 +439,6 @@
     <string name="setting_next_day_forecast_notification">Notifica sulle previsioni di domani</string>
     <string name="setting_next_day_forecast_notification_set_time">Imposta l\'orario per la notifica sulle previsioni di domani</string>
     <string name="label_disabled">Disattivato</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->

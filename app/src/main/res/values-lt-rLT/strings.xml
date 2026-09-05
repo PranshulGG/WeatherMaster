@@ -383,7 +383,7 @@
     <string name="settings_widget_text_color">Valdiklio teksto spalva</string>
     <string name="settings_widget_font_size">Šrifto dydis</string>
     <string name="settings_widget_daily_forecast_count">Kasdienių prognozių skaičius</string>
-    <string name="settings_widget_hourly_forecast_count">Valandos prognozių skaičius</string>
+    <string name="settings_widget_hourly_forecast_count">Valandinių prognozių skaičius</string>
     <string name="settings_widget_icon_size">Piktogramos dydis</string>
     <string name="action_create_widget">Sukurti valdiklį</string>
     <string name="time_days">%1$s d.</string>
@@ -435,15 +435,16 @@
     <string name="error_not_found">Prašomas išteklius nerastas.</string>
     <string name="error_request_timeout">Nepavyko laiku gauti atsako iš serverio.</string>
     <string name="error_too_many_requests">Pasiektas užklausų limitas.</string>
-    <string name="settings_notifications">Notifications</string>
-    <string name="settings_notifications_secondary">Scheduled notifications, on-going notification, and more</string>
-    <string name="weather_precipitation_probability">Precipitation probability %1$s</string>
-    <string name="error_failed_background_updates">Failed background updates</string>
-    <string name="setting_on_going_notification">On-going notification</string>
-    <string name="setting_today_forecast_notification">Today\'s forecast notification</string>
-    <string name="setting_today_forecast_notification_set_time">Set time for today\'s forecast notification</string>
-    <string name="setting_next_day_forecast_notification">Next day forecast notification</string>
-    <string name="setting_next_day_forecast_notification_set_time">Set time for next day forecast notification</string>
-    <string name="label_disabled">Disabled</string>
+    <string name="settings_notifications">Pranešimai</string>
+    <string name="settings_notifications_secondary">Suplanuoti pranešimai, nuolatiniai pranešimai ir kita</string>
+    <string name="weather_precipitation_probability">Kritulių tikimybė - %1$s</string>
+    <string name="error_failed_background_updates">Nepavyko atlikti atnaujinimų fone</string>
+    <string name="setting_on_going_notification">Nuolatinis pranešimas</string>
+    <string name="setting_today_forecast_notification">Pranešimas apie šiandienos prognozę</string>
+    <string name="setting_today_forecast_notification_set_time">Nustatykite šiandienos orų prognozės pranešimo laiką</string>
+    <string name="setting_next_day_forecast_notification">Pranešimas apie rytojaus prognozę</string>
+    <string name="setting_next_day_forecast_notification_set_time">Nustatykite kitos dienos orų prognozės pranešimo laiką</string>
+    <string name="label_disabled">Išjungta</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->

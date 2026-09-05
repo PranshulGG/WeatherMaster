@@ -398,8 +398,8 @@
     <string name="unit_precipitation_mm_short">mm</string>
     <string name="unit_precipitation_inch_short">in</string>
     <string name="unit_precipitation_cm_short">cm</string>
-    <string name="settings_widget_show_precip_probability">Show precipitation probability</string>
-    <string name="settings_widget_show_precip_probability_secondary">Displays the precipitation probability only when the selected source provides it</string>
+    <string name="settings_widget_show_precip_probability">降水確率を表示する</string>
+    <string name="settings_widget_show_precip_probability_secondary">降水確率を、選択されたソースが提供する場合のみ表示します</string>
     <string name="weather_current">現在</string>
     <string name="widget_weather_today_max_uv">今日の最高：%1$s</string>
     <string name="widget_weather_today_max_uv_at">%1$s に到達</string>
@@ -407,7 +407,7 @@
     <string name="region_europe">ヨーロッパ</string>
     <string name="settings_api_key_config">APIキー設定</string>
     <string name="source_regional_global">Regional with Global Coverage</string>
-    <string name="error_no_api_key">No API key found. Please add your API key in the settings</string>
+    <string name="error_no_api_key">API キーが見つかりませんでした。あなたの API キーを設定に追加してください</string>
     <string name="error_api_key_rejected">Your API key was rejected. It may be invalid or expired — check it in the API key settings.</string>
     <string name="weather_mixed_precipitation">Mixed precipitation</string>
     <string name="weather_hail">Hail</string>
@@ -436,5 +436,6 @@
     <string name="setting_next_day_forecast_notification">明日の天気予報</string>
     <string name="setting_next_day_forecast_notification_set_time">明日の天気予報を通知する時刻</string>
     <string name="label_disabled">無効</string>
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
 </resources>
 <!--<string name=""></string>-->

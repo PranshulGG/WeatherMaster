@@ -113,9 +113,9 @@
     <string name="setting_dynamic_colors_secondary">На основе цвета оформления рабочего стола</string>
     <string name="setting_amoled_theme">AMOLED</string>
     <string name="setting_amoled_theme_secondary">Чистый чёрный цвет в тёмной теме</string>
-    <string name="weather_total_rain_day">Общее количество осадков за день</string>
+    <string name="weather_total_rain_day">Общее число осадков за день</string>
     <string name="error_network">Сеть недоступна</string>
-    <string name="weather_total_snow_day">Общее количество снега за день</string>
+    <string name="weather_total_snow_day">Общее число снега за день</string>
     <string name="weather_precipitation">Осадки</string>
     <string name="weather_air_quality_index">Индекс качества воздуха</string>
     <string name="setting_translate_app">Помочь с переводом</string>
@@ -198,11 +198,11 @@
     <string name="setting_join_discord">Вступить в Discord-сервер</string>
     <string name="setting_about_app_secondary">Версия, условия, политика приватности и другое</string>
     <string name="setting_about_app">О приложении</string>
-    <string name="about_terms_conditions">Условия использования</string>
+    <string name="about_terms_conditions">Условия использования (англ.)</string>
     <string name="about_privacy_policy">Политика приватности (англ.)</string>
     <string name="about_create_issue">Сообщить о проблеме</string>
     <string name="about_view_on_github">Посмотреть на GitHub</string>
-    <string name="about_license">Лицензия</string>
+    <string name="about_license">Лицензия (англ.)</string>
     <string name="message_new_version_available">Доступна новая версия</string>
     <string name="message_using_latest_version">Вы используете последнюю версию</string>
     <string name="about_check_for_updates">Проверить обновления</string>
@@ -445,5 +445,6 @@
     <string name="setting_next_day_forecast_notification">Уведомление о прогнозе погоды на следующий день</string>
     <string name="setting_next_day_forecast_notification_set_time">Установить время получения уведомления о прогнозе погоды на следующий день</string>
     <string name="label_disabled">Отключено</string>
+    <string name="weather_refresh_delay_fixed">Пожалуйста, подождите 15 минут перед обновлением</string>
 </resources>
 <!--<string name=""></string>-->
