@@ -2,7 +2,7 @@ package com.pranshulgg.weather_master_app.core.di.weather
 
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.airquality.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
-import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.repository.AccuRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
@@ -39,13 +39,13 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
-import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.repository.NwsRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherApi
-import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.repository.PirateWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao

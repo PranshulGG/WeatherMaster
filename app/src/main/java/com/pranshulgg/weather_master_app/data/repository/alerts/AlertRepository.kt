@@ -10,6 +10,7 @@ interface AlertRepository {
 
         location: Location,
         isManualRefresh: Boolean = false,
-        isForceRefresh: Boolean = false
+        isForceRefresh: Boolean = false,
+        alertCacheModel: AlertCacheModel
     ): AlertResult
 }

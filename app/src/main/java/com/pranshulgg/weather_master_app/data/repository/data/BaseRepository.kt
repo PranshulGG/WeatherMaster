@@ -1,33 +1,31 @@
-package com.pranshulgg.weather_master_app.data.repository.weather
+package com.pranshulgg.weather_master_app.data.repository.data
 
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
-import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
-import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
-import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherDataPack
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
-import com.pranshulgg.weather_master_app.core.model.weather.nws.NwsGridPoints
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.entity.weather.HourlyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
+import com.pranshulgg.weather_master_app.data.repository.alerts.AlertRepository
+import com.pranshulgg.weather_master_app.data.repository.capability.AlertCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.WeatherCapability
+import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
+import com.pranshulgg.weather_master_app.data.repository.weather.CacheModelResultType
+import com.pranshulgg.weather_master_app.data.repository.weather.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
-data class WeatherAdditionalData(
-    val alerts: List<Alert> = emptyList(),
-    val airQuality: AirQuality? = null,
-    val locationKey: String? = null,
-    val nwsGridPoints: NwsGridPoints? = null
-)
+abstract class BaseRepository : WeatherRepository, AlertRepository {
 
-abstract class BaseWeatherRepository : WeatherRepository {
-    private var additionalData = WeatherAdditionalData()
+    protected abstract fun weatherCapability(): WeatherCapability?
+    protected abstract fun alertCapability(): AlertCapability?
+
     final override suspend fun getWeather(
         location: Location,
         isManualRefresh: Boolean,
@@ -35,6 +33,9 @@ abstract class BaseWeatherRepository : WeatherRepository {
         cacheModel: CacheModel
     ): WeatherResult =
         withContext(Dispatchers.IO) {
+
+            val capability = weatherCapability()
+                ?: error("This source does not support weather")
 
             val cache = cacheModel.cachedWeather
 
@@ -48,7 +49,7 @@ abstract class BaseWeatherRepository : WeatherRepository {
                 }
 
                 if (cacheModel.type == CacheModelResultType.FETCH || cache == null) {
-                    fetchAndProcessWeather(
+                    capability.fetchAndProcess(
                         location,
                         isManualRefresh,
                         isForceRefresh,
@@ -56,7 +57,7 @@ abstract class BaseWeatherRepository : WeatherRepository {
                     )
                 } else if (cacheModel.type == CacheModelResultType.REFRESH_TOO_EARLY) {
                     return@withContext WeatherResult.RefreshNotAvailable(weather = cache)
-                } else cache
+                } else WeatherDataPack(weather = cache)
 
             } catch (e: Exception) {
                 return@withContext WeatherResult.Error(
@@ -66,8 +67,8 @@ abstract class BaseWeatherRepository : WeatherRepository {
             }
 
             try {
-                saveAdditionalData(additionalData, data)
-                saveWeatherToDb(data, cacheModel)
+                capability.saveAdditionalDataToDb(pack = data)
+                capability.saveToDb(data.weather, cacheModel)
             } catch (e: Exception) {
                 return@withContext WeatherResult.Error(
                     exception = e.toAppException(),
@@ -75,51 +76,13 @@ abstract class BaseWeatherRepository : WeatherRepository {
                 )
             }
 
-            val finished = finishedWeatherResult(data)
+            val finished = capability.finishedResult(data.weather)
 
             WeatherResult.Success(weather = finished.weather)
         }
 
-    protected abstract suspend fun fetchAndProcessWeather(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean,
-        cacheModel: CacheModel
-    ): Weather
 
-    protected abstract suspend fun saveWeatherToDb(
-        data: Weather,
-        cacheModel: CacheModel
-    )
-
-    protected abstract fun finishedWeatherResult(
-        data: Weather
-    ): FinishedWeatherResult
-
-
-    // For sources that may provide alerts/air quality in the same API call
-    protected fun setAdditionalData(
-        alerts: List<Alert> = emptyList(),
-        airQuality: AirQuality? = null,
-        locationKey: String? = null,
-        nwsGridPoints: NwsGridPoints? = null
-    ) {
-        additionalData = WeatherAdditionalData(
-            alerts = alerts,
-            airQuality = airQuality,
-            locationKey = locationKey,
-            nwsGridPoints = nwsGridPoints
-        )
-    }
-
-    protected open suspend fun saveAdditionalData(
-        additionalData: WeatherAdditionalData,
-        data: Weather
-    ) {
-        // No additional data by default
-    }
-
-    suspend fun useGenericSaveImplementation(
+    suspend fun useGenericSaveImplementationForWeather(
         existingHourly: List<HourlyWeatherEntity>,
         data: Weather,
         weatherDao: WeatherDao
@@ -135,4 +98,5 @@ abstract class BaseWeatherRepository : WeatherRepository {
             data.location.id
         )
     }
+
 }
