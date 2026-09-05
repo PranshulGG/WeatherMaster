@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.sources.Capability
 import com.pranshulgg.weather_master_app.core.model.sources.SearchSource
+import com.pranshulgg.weather_master_app.core.model.sources.getSourcesForCountry
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
@@ -84,7 +85,9 @@ class SearchScreenViewModel @Inject constructor(
                 val alertSource = if (Capability.ALERTS in weatherSource.capabilities) {
                     weatherSource
                 } else {
-                    resolved.alertSource
+                    getSourcesForCountry(resolved.countryCode?.uppercase())
+                        .firstOrNull { Capability.ALERTS in it.capabilities }
+                        ?: resolved.alertSource
                 }
                 weatherContextRepository.saveLocation(
                     resolved.copy(
