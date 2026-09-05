@@ -38,6 +38,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.MgmApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.MgmRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
@@ -286,4 +288,13 @@ object WeatherRepositoryModule {
         apiKeysDao: ApiKeysDao
     ): OpenWeatherRepository =
         OpenWeatherRepository(dao, weatherDao, api, airQualityDao, apiKeysDao)
+
+    @Provides
+    @Singleton
+    fun provideMgmRepository(
+        dao: LocationsDao,
+        weatherDao: WeatherDao,
+        api: MgmApi,
+        locationKeysDao: LocationKeysDao
+    ): MgmRepository = MgmRepository(dao, weatherDao, api, locationKeysDao)
 }
