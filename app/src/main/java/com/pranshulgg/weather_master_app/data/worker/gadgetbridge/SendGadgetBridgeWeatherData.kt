@@ -2,6 +2,7 @@ package com.pranshulgg.weather_master_app.data.worker.gadgetbridge
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
@@ -53,19 +54,15 @@ fun sendGadgetBridgeWeatherData(context: Context, weather: Weather) {
             put("hourly", hourlyArray)
         }
 
-        val intent = Intent().apply {
-            action = "nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER"
-            setClassName(
-                "nodomain.freeyourgadget.gadgetbridge",
-                "nodomain.freeyourgadget.gadgetbridge.externalevents.GenericWeatherReceiver"
-            )
-            putExtra("WeatherJson", rootWeatherJson.toString())
-            addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
-        }
-
-        context.sendBroadcast(intent)
-
-
+        context.packageManager
+            .queryBroadcastReceivers(Intent("nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER"), PackageManager.GET_RESOLVED_FILTER)
+            .forEach {
+                context.sendBroadcast(Intent("nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER").apply {
+                    setPackage(it.activityInfo.applicationInfo.packageName)
+                    putExtra("WeatherJson", rootWeatherJson.toString())
+                    addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+                })
+            }
     } catch (e: Exception) {
     }
 }
