@@ -1,11 +1,14 @@
 package com.pranshulgg.weather_master_app.data.repository.data
 
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
+import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
+import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherDataPack
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
+import com.pranshulgg.weather_master_app.core.model.weather.nws.NwsGridPoints
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.entity.weather.HourlyWeatherEntity
@@ -20,6 +23,15 @@ import com.pranshulgg.weather_master_app.data.repository.weather.CacheModelResul
 import com.pranshulgg.weather_master_app.data.repository.weather.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+
+
+data class WeatherAdditionalData(
+    val alerts: List<Alert> = emptyList(),
+    val airQuality: AirQuality? = null,
+    val locationKey: String? = null,
+    val nwsGridPoints: NwsGridPoints? = null
+)
+
 
 abstract class BaseRepository : WeatherRepository, AlertRepository {
 
