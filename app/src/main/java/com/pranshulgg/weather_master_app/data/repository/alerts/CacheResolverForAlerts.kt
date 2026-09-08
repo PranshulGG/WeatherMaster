@@ -33,7 +33,6 @@ enum class AlertCacheModelResultType {
 
 class CacheResolverForAlerts @Inject constructor(
     private val dao: AlertsDao,
-    private val weatherContextDao: WeatherContextDao,
     private val apiKeysDao: ApiKeysDao
 ) {
 
