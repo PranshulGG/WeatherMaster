@@ -16,11 +16,10 @@ interface AirQualityCapability {
         isManualRefresh: Boolean,
         isForceRefresh: Boolean,
         airQualityCacheModel: AirQualityCacheModel
-    ): AlertsDataPack
+    ): AirQualityDataPack
 
     suspend fun saveToDb(
-        data: AirQualityDataPack,
-        airQualityCacheModel: AirQualityCacheModel
+        data: AirQualityDataPack
     )
 
     fun finishedResult(
@@ -28,7 +27,7 @@ interface AirQualityCapability {
     ): FinishedAirQualityResult
 
     suspend fun saveAdditionalDataToDb(
-        pack: AirQualityDataPack
+        pack: AirQualityDataPack?
     ) = Unit
 
 }

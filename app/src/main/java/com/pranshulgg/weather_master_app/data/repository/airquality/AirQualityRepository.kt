@@ -11,6 +11,7 @@ interface AirQualityRepository {
         location: Location,
         isManualRefresh: Boolean = false,
         isForceRefresh: Boolean = false,
+        airQualityCacheModel: AirQualityCacheModel
     ): AirQualityResult
 
 }

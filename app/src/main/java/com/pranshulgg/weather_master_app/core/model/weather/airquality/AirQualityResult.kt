@@ -8,7 +8,7 @@ import com.pranshulgg.weather_master_app.data.repository.data.AlertsAdditionalDa
 
 sealed class AirQualityResult {
     data class Success(val airQuality: AirQuality) : AirQualityResult()
-    data class Error(val exception: Exception, val cacheAirQuality: AirQuality? = null) :
+    data class Error(val exception: Exception, val airQuality: AirQuality? = null) :
         AirQualityResult()
 }
 
@@ -17,7 +17,7 @@ data class FinishedAirQualityResult(
 )
 
 data class AirQualityDataPack(
-    val airQuality: AirQuality,
+    val airQuality: AirQuality?,
     val location: Location,
     val additionalData: AlertsAdditionalData? = null,
 )
