@@ -20,7 +20,7 @@ interface WeatherCapability {
     ): WeatherDataPack
 
     suspend fun saveToDb(
-        data: Weather,
+        data: WeatherDataPack,
         cacheModel: CacheModel
     )
 
@@ -29,7 +29,7 @@ interface WeatherCapability {
     ): FinishedWeatherResult
 
 
-    fun saveAdditionalDataToDb(
+    suspend fun saveAdditionalDataToDb(
         pack: WeatherDataPack
     ) = Unit
 }

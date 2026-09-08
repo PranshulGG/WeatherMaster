@@ -2,6 +2,7 @@ package com.pranshulgg.weather_master_app.core.model.weather
 
 import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.data.repository.data.WeatherAdditionalData
 import com.pranshulgg.weather_master_app.data.repository.weather.WeatherAdditionalData
 
 sealed class WeatherResult(
