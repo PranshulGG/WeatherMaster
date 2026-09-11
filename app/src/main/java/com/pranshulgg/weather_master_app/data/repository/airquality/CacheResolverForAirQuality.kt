@@ -1,18 +1,12 @@
 package com.pranshulgg.weather_master_app.data.repository.airquality
 
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
-import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResultType
-import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAirQualityCache
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
-import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.ApiKeysDao
-import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import javax.inject.Inject
 
 

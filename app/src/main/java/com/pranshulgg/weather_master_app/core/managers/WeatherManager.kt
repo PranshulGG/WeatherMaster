@@ -150,6 +150,8 @@ class WeatherManager @Inject constructor(
                 _errors.tryEmit(AppException.RefreshNotAvailable())
             }
 
+            is WeatherResult.NotSupported -> {}
+
         }
     }
 
@@ -160,11 +162,14 @@ class WeatherManager @Inject constructor(
         }
         when (result) {
             is AirQualityResult.Success -> {
-                weatherStore.setAirQuality(airQuality = result.airquality)
+                weatherStore.setAirQuality(airQuality = result.airQuality)
             }
             // Fail silently, we just won't show the Air quality in the UI if null
             is AirQualityResult.Error -> {
-                weatherStore.setAirQuality(airQuality = result.cacheAirQuality)
+                weatherStore.setAirQuality(airQuality = result.airQuality)
+            }
+            is AirQualityResult.NotSupported -> {
+                weatherStore.setAirQuality(null)
             }
         }
     }
@@ -181,7 +186,10 @@ class WeatherManager @Inject constructor(
             }
             // Fail silently, we just won't show the alerts in the UI if null
             is AlertResult.Error -> {
-                weatherStore.setAlerts(alerts = result.cacheAlerts)
+                weatherStore.setAlerts(alerts = result.alerts)
+            }
+            is AlertResult.NotSupported -> {
+                weatherStore.setAlerts(alerts = emptyList())
             }
         }
     }

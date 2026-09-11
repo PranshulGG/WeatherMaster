@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.data.repository.capability
 
+import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityDataPack
@@ -23,7 +24,7 @@ interface AirQualityCapability {
     )
 
     fun finishedResult(
-        data: AirQualityDataPack
+        data: AirQuality
     ): FinishedAirQualityResult
 
     suspend fun saveAdditionalDataToDb(

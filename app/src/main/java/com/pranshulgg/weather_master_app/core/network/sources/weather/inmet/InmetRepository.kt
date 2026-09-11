@@ -1,36 +1,30 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.inmet
 
+import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
-import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
-import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
-import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherDataPack
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertsDataPack
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.FinishedAlertsResult
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.json.IbgeMunicipioJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.json.InmetStationJson
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
-import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.entity.location.LocationKeyEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.inmet.InmetWeatherBundle
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.inmet.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.inmet.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
-import com.pranshulgg.weather_master_app.data.repository.alerts.AlertRepository
-import com.pranshulgg.weather_master_app.data.repository.weather.BaseWeatherRepository
+import com.pranshulgg.weather_master_app.data.repository.alerts.AlertCacheModel
+import com.pranshulgg.weather_master_app.data.repository.capability.AirQualityCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.AlertCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.WeatherCapability
+import com.pranshulgg.weather_master_app.data.repository.data.BaseRepository
 import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -51,116 +45,100 @@ class InmetRepository @Inject constructor(
     val avisosApi: InmetAvisosApi,
     val locationKeysDao: LocationKeysDao,
     val alertsDao: AlertsDao
-) : BaseWeatherRepository(), AlertRepository {
+) : BaseRepository() {
 
     @Volatile
     private var cachedStations: List<InmetStationJson>? = null
 
     override val weatherSource = Source.INMET
     override val alertSource = Source.INMET
+    override val airQualitySource = Source.NONE
 
-    override suspend fun fetchAndProcessWeather(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean,
-        cacheModel: CacheModel
-    ): Weather {
+    override fun weatherCapability(): WeatherCapability? {
+        return object : WeatherCapability {
+            override suspend fun fetchAndProcess(
+                location: Location,
+                isManualRefresh: Boolean,
+                isForceRefresh: Boolean,
+                cacheModel: CacheModel
+            ): WeatherDataPack {
+                val ibgeCode = resolveIbgeCode(location)
 
-        val ibgeCode = resolveIbgeCode(location)
+                val forecastResponse = safeApiCall {
+                    forecastApi.fetchForecast(ibgeCode)
+                }.getOrThrow()
 
-        val forecastResponse = safeApiCall {
-            forecastApi.fetchForecast(ibgeCode)
-        }.getOrThrow()
+                val hourlyObservations = try {
+                    val stationCode = resolveNearestStationCode(location)
 
-        val hourlyObservations = try {
-            val stationCode = resolveNearestStationCode(location)
+                    if (stationCode != null) {
+                        val today = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)
 
-            if (stationCode != null) {
-                val today = LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE)
-
-                val result = safeApiCall {
-                    observationApi.fetchHourlyData(today, today, stationCode)
+                        val result = safeApiCall {
+                            observationApi.fetchHourlyData(today, today, stationCode)
+                        }
+                        result.getOrNull()?.takeIf { it.isNotEmpty() }
+                    } else null
+                } catch (e: Exception) {
+                    null
                 }
-                result.getOrNull()?.takeIf { it.isNotEmpty() }
-            } else null
-        } catch (e: Exception) {
-            null
-        }
 
-        val bundle = InmetWeatherBundle(
-            forecast = forecastResponse,
-            hourlyObservations = hourlyObservations
-        )
+                val bundle = InmetWeatherBundle(
+                    forecast = forecastResponse,
+                    hourlyObservations = hourlyObservations
+                )
 
-        return bundle.toDomain(location)
-    }
-
-    override suspend fun saveWeatherToDb(data: Weather, cacheModel: CacheModel) {
-
-        val mergedHourly = mergeHourlyWeather(
-            existing = cacheModel.cachedHourly,
-            incoming = data.hourly.toHourlyWeatherEntity(data.location)
-        )
-        weatherDao.insertWeather(
-            data.current.toCurrentWeatherEntity(data.location.id),
-            mergedHourly,
-            data.daily.toDailyWeatherEntity(data.location.id),
-            data.location.id
-        )
-    }
-
-    override fun finishedWeatherResult(data: Weather): FinishedWeatherResult {
-        return FinishedWeatherResult(weather = data)
-    }
-
-
-    override suspend fun getAlerts(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean
-    ): AlertResult = withContext(Dispatchers.IO) {
-
-        val cache = alertsDao.getAlertsForLocation(location.id)
-        val shouldReturnCache = shouldReturnAlertsCache(
-            cache,
-            isManualRefresh,
-            isForceRefresh,
-            location.alertsLastFetchedAt
-        )
-
-        when (shouldReturnCache) {
-            AlertResultType.RETURN_CACHE ->
-                return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
-
-            else -> {}
-        }
-
-        return@withContext try {
-            val ibgeCode = resolveIbgeCode(location)
-
-            val avisos = safeApiCall {
-                avisosApi.fetchAvisos()
-            }.getOrElse {
-                return@withContext AlertResult.Error(
-                    exception = it.toAppException(),
-                    cache.map { c -> c!!.toDomain() }
+                return WeatherDataPack(
+                    weather = bundle.toDomain(location)
                 )
             }
 
-            val domain = avisos.values.flatten().toDomain(location, ibgeCode)
+            override suspend fun saveToDb(data: WeatherDataPack, cacheModel: CacheModel) {
+                useGenericSaveImplementationForWeather(
+                    existingHourly = cacheModel.cachedHourly,
+                    data.weather,
+                    weatherDao
+                )
+            }
 
-            alertsDao.insertAlerts(domain.map { it.toEntity(location.id) }, location.id)
-            dao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
+            override fun finishedResult(data: Weather): FinishedWeatherResult {
+                return FinishedWeatherResult(weather = data)
 
-            AlertResult.Success(domain)
-
-        } catch (e: Exception) {
-            AlertResult.Error(
-                exception = e,
-                cache.map { c -> c!!.toDomain() }
-            )
+            }
         }
     }
+
+    override fun alertCapability(): AlertCapability? {
+        return object : AlertCapability {
+            override suspend fun fetchAndProcess(
+                location: Location,
+                isManualRefresh: Boolean,
+                isForceRefresh: Boolean,
+                alertCacheModel: AlertCacheModel
+            ): AlertsDataPack {
+                val ibgeCode = resolveIbgeCode(location)
+
+                val avisos = safeApiCall {
+                    avisosApi.fetchAvisos()
+                }.getOrThrow()
+
+                val domain = avisos.values.flatten().toDomain(location, ibgeCode)
+
+                return AlertsDataPack(alerts = domain, location)
+            }
+
+            override suspend fun saveToDb(data: AlertsDataPack, alertCacheModel: AlertCacheModel) {
+                useGenericSaveImplementationForAlerts(data, alertsDao, dao)
+            }
+
+            override fun finishedResult(data: List<Alert>): FinishedAlertsResult {
+                return FinishedAlertsResult(alerts = data)
+            }
+        }
+    }
+
+
+    override fun airQualityCapability(): AirQualityCapability? = null
 
     private suspend fun resolveIbgeCode(location: Location): String {
         locationKeysDao.getCityKeyForLocation(location.id)?.cityKey?.let { return it }

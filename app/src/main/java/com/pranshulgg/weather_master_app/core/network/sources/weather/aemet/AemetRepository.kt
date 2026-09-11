@@ -6,30 +6,22 @@ import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherDataPack
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.json.AemetMunicipioJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.model.AemetEnvelopeJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.model.AemetForecastJson
 import com.pranshulgg.weather_master_app.core.utils.formatters.toSafeDouble
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
-import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
-import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.ApiKeysDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.entity.location.LocationKeyEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.aemet.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
-import com.pranshulgg.weather_master_app.data.repository.weather.BaseWeatherRepository
+import com.pranshulgg.weather_master_app.data.repository.capability.AirQualityCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.AlertCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.WeatherCapability
+import com.pranshulgg.weather_master_app.data.repository.data.BaseRepository
+import com.pranshulgg.weather_master_app.data.repository.data.WeatherAdditionalData
 import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
-import com.pranshulgg.weather_master_app.data.repository.weather.WeatherAdditionalData
-import com.pranshulgg.weather_master_app.data.repository.weather.WeatherRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 import retrofit2.Response
 import javax.inject.Inject
@@ -43,74 +35,85 @@ class AemetRepository @Inject constructor(
     val api: AemetApi,
     val apiKeysDao: ApiKeysDao,
     val locationKeysDao: LocationKeysDao
-) : BaseWeatherRepository() {
+) : BaseRepository() {
 
     override val weatherSource = Source.AEMET
+    override val alertSource = Source.NONE
+    override val airQualitySource = Source.NONE
 
-    override suspend fun fetchAndProcessWeather(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean,
-        cacheModel: CacheModel
-    ): Weather {
+    override fun weatherCapability(): WeatherCapability? {
+        return object : WeatherCapability {
+            override suspend fun fetchAndProcess(
+                location: Location,
+                isManualRefresh: Boolean,
+                isForceRefresh: Boolean,
+                cacheModel: CacheModel
+            ): WeatherDataPack {
 
-        val key = cacheModel.apiKey!!
+                val key = cacheModel.apiKey!!
 
-        val municipio = locationKeysDao.getCityKeyForLocation(location.id)?.cityKey
-            ?: resolveMunicipio(location, key)
-            ?: throw AppException.Unknown()
+                val municipio = locationKeysDao.getCityKeyForLocation(location.id)?.cityKey
+                    ?: resolveMunicipio(location, key)
+                    ?: throw AppException.Unknown()
 
-        val dailyEnvelope = safeCall {
-            api.fetchDailyForecastEnvelope(municipio, key)
-        }.getOrThrow()
+                val dailyEnvelope = safeCall {
+                    api.fetchDailyForecastEnvelope(municipio, key)
+                }.getOrThrow()
 
-        val dailyDatosUrl = dailyEnvelope.datos ?: throw AppException.Unknown()
+                val dailyDatosUrl = dailyEnvelope.datos ?: throw AppException.Unknown()
 
-        val daily = safeCall {
-            api.fetchDailyForecastData(dailyDatosUrl)
-        }.getOrThrow().firstOrNull()
-            ?: throw AppException.EmptyResponseBody()
-
-
-        val hourlyEnvelope = safeCall {
-            api.fetchHourlyForecastEnvelope(municipio, key)
-        }.getOrThrow()
-
-        val hourlyDatosUrl = hourlyEnvelope.datos ?: throw AppException.EmptyResponseBody()
+                val daily = safeCall {
+                    api.fetchDailyForecastData(dailyDatosUrl)
+                }.getOrThrow().firstOrNull()
+                    ?: throw AppException.EmptyResponseBody()
 
 
-        val hourly = safeCall {
-            api.fetchHourlyForecastData(hourlyDatosUrl)
-        }.getOrThrow().firstOrNull()
-            ?: throw AppException.EmptyResponseBody()
+                val hourlyEnvelope = safeCall {
+                    api.fetchHourlyForecastEnvelope(municipio, key)
+                }.getOrThrow()
 
-        val domain = AemetForecastJson(daily = daily, hourly = hourly).toDomain(location)
+                val hourlyDatosUrl = hourlyEnvelope.datos ?: throw AppException.EmptyResponseBody()
 
-        setAdditionalData(
-            locationKey = municipio
-        )
 
-        return domain
+                val hourly = safeCall {
+                    api.fetchHourlyForecastData(hourlyDatosUrl)
+                }.getOrThrow().firstOrNull()
+                    ?: throw AppException.EmptyResponseBody()
+
+                val domain = AemetForecastJson(daily = daily, hourly = hourly).toDomain(location)
+
+
+                return WeatherDataPack(
+                    weather = domain,
+                    additionalData = WeatherAdditionalData(locationKey = municipio)
+                )
+            }
+
+            override suspend fun saveAdditionalDataToDb(pack: WeatherDataPack) {
+                locationKeysDao.insertCityKey(
+                    LocationKeyEntity(
+                        locationId = pack.weather.location.id,
+                        cityKey = pack.additionalData?.locationKey!!
+                    )
+                )
+            }
+
+            override suspend fun saveToDb(data: WeatherDataPack, cacheModel: CacheModel) {
+                useGenericSaveImplementationForWeather(
+                    existingHourly = cacheModel.cachedHourly,
+                    data.weather,
+                    weatherDao
+                )
+            }
+
+            override fun finishedResult(data: Weather): FinishedWeatherResult {
+                return FinishedWeatherResult(weather = data)
+            }
+        }
     }
 
-
-    override suspend fun saveAdditionalData(additionalData: WeatherAdditionalData, data: Weather) {
-        locationKeysDao.insertCityKey(
-            LocationKeyEntity(
-                locationId = data.location.id,
-                cityKey = additionalData.locationKey!!
-            )
-        )
-    }
-
-    override suspend fun saveWeatherToDb(data: Weather, cacheModel: CacheModel) {
-        useGenericSaveImplementation(cacheModel.cachedHourly, data, weatherDao)
-    }
-
-    override fun finishedWeatherResult(data: Weather): FinishedWeatherResult {
-        return FinishedWeatherResult(weather = data)
-    }
-
+    override fun airQualityCapability(): AirQualityCapability? = null
+    override fun alertCapability(): AlertCapability? = null
 
     private suspend fun resolveMunicipio(location: Location, apiKey: String): String? {
 

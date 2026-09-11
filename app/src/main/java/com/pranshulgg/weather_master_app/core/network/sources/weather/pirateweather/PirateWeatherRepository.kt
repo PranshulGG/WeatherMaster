@@ -16,6 +16,7 @@ import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.pirateweather.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.pirateweather.toDomain
 import com.pranshulgg.weather_master_app.data.repository.alerts.AlertCacheModel
+import com.pranshulgg.weather_master_app.data.repository.capability.AirQualityCapability
 import com.pranshulgg.weather_master_app.data.repository.capability.AlertCapability
 import com.pranshulgg.weather_master_app.data.repository.capability.WeatherCapability
 import com.pranshulgg.weather_master_app.data.repository.data.BaseRepository
@@ -37,6 +38,7 @@ class PirateWeatherRepository @Inject constructor(
 
     override val weatherSource = Source.PIRATE_WEATHER
     override val alertSource = Source.PIRATE_WEATHER
+    override val airQualitySource = Source.NONE
     override val providesAlerts = true
 
 
@@ -133,5 +135,7 @@ class PirateWeatherRepository @Inject constructor(
         }
 
     }
+
+    override fun airQualityCapability(): AirQualityCapability? = null
 
 }

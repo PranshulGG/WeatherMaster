@@ -11,6 +11,8 @@ sealed class AlertResult {
     data class Success(val alerts: List<Alert>) : AlertResult()
     data class Error(val exception: Exception, val alerts: List<Alert> = emptyList()) :
         AlertResult()
+
+    class NotSupported : AlertResult()
 }
 
 data class FinishedAlertsResult(

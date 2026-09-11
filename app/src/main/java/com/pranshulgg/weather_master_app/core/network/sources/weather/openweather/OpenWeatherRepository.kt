@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.openweather
 
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
+import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
@@ -116,8 +117,8 @@ class OpenWeatherRepository @Inject constructor(
                 useGenericSaveImplementationForAirQuality(airQualityDao, data)
             }
 
-            override fun finishedResult(data: AirQualityDataPack): FinishedAirQualityResult {
-                return FinishedAirQualityResult(airQuality = data.airQuality!!)
+            override fun finishedResult(data: AirQuality): FinishedAirQualityResult {
+                return FinishedAirQualityResult(airQuality = data)
             }
         }
     }

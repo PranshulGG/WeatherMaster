@@ -1,21 +1,20 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.accu
 
-import com.pranshulgg.weather_master_app.core.model.domain.AppException
+import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
+import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
-import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResult
-import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityResultType
-import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
-import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherDataPack
+import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityDataPack
+import com.pranshulgg.weather_master_app.core.model.weather.airquality.FinishedAirQualityResult
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertsDataPack
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.FinishedAlertsResult
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.airquality.json.bundle.AccuAqiJsonBundle
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.json.bundle.AccuWeatherBundle
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAirQualityCache
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
@@ -23,23 +22,19 @@ import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDa
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.entity.location.LocationKeyEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.accu.airquality.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.accu.alerts.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.accu.toDomain
-import com.pranshulgg.weather_master_app.data.repository.data.AirQualityRepository
-import com.pranshulgg.weather_master_app.data.repository.alerts.AlertRepository
-import com.pranshulgg.weather_master_app.data.repository.weather.BaseWeatherRepository
+import com.pranshulgg.weather_master_app.data.repository.airquality.AirQualityCacheModel
+import com.pranshulgg.weather_master_app.data.repository.alerts.AlertCacheModel
+import com.pranshulgg.weather_master_app.data.repository.capability.AirQualityCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.AlertCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.WeatherCapability
+import com.pranshulgg.weather_master_app.data.repository.data.AirQualityAdditionalData
+import com.pranshulgg.weather_master_app.data.repository.data.AlertsAdditionalData
+import com.pranshulgg.weather_master_app.data.repository.data.BaseRepository
+import com.pranshulgg.weather_master_app.data.repository.data.WeatherAdditionalData
 import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
-import com.pranshulgg.weather_master_app.data.repository.weather.WeatherAdditionalData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.net.UnknownHostException
 import javax.inject.Inject
-
 
 class AccuRepository @Inject constructor(
     val dao: WeatherContextDao,
@@ -47,190 +42,171 @@ class AccuRepository @Inject constructor(
     val api: AccuApi,
     val locationKeysDao: LocationKeysDao,
     val airQualityDao: AirQualityDao,
-    val alertsDao: AlertsDao,
-    val weatherContextDao: WeatherContextDao
-) : BaseWeatherRepository(), AirQualityRepository, AlertRepository {
+    val weatherContextDao: WeatherContextDao,
+    val alertsDao: AlertsDao
+) : BaseRepository() {
 
     override val weatherSource = Source.ACCU_WEATHER
     override val airQualitySource = Source.ACCU_WEATHER
     override val alertSource = Source.ACCU_WEATHER
 
-    override suspend fun fetchAndProcessWeather(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean,
-        cacheModel: CacheModel
-    ): Weather {
-        val locationKey = locationKeysDao.getCityKeyForLocation(location.id)?.cityKey
-            ?: safeApiCall { api.getLocationKey("${location.latitude},${location.longitude}") }.getOrThrow().key
+    override fun weatherCapability(): WeatherCapability? {
+        return object : WeatherCapability {
+            override suspend fun fetchAndProcess(
+                location: Location,
+                isManualRefresh: Boolean,
+                isForceRefresh: Boolean,
+                cacheModel: CacheModel
+            ): WeatherDataPack {
+                val locationKey = cacheModel.apiKey
+                    ?: safeApiCall { api.getLocationKey("${location.latitude},${location.longitude}") }.getOrThrow().key
 
-        val current = safeApiCall {
-            api.fetchCurrent(locationKey)
-        }.getOrThrow()
-
-
-        val hourly = safeApiCall {
-            api.fetchHourly(locationKey)
-        }.getOrThrow()
-
-        val daily = safeApiCall { api.fetchDaily(locationKey) }.getOrThrow()
+                val current = safeApiCall {
+                    api.fetchCurrent(locationKey)
+                }.getOrThrow()
 
 
-        val final = AccuWeatherBundle(
-            current = current[0],
-            hourly = hourly,
-            daily = daily
-        )
+                val hourly = safeApiCall {
+                    api.fetchHourly(locationKey)
+                }.getOrThrow()
 
-        val domain = final.toDomain(location)
-
-        setAdditionalData(
-            locationKey = locationKey
-        )
-
-        return domain
-    }
-
-    override suspend fun saveAdditionalData(additionalData: WeatherAdditionalData, data: Weather) {
-        locationKeysDao.insertCityKey(
-            LocationKeyEntity(
-                locationId = data.location.id,
-                cityKey = additionalData.locationKey!!
-            )
-        )
-    }
-
-    override suspend fun saveWeatherToDb(data: Weather, cacheModel: CacheModel) {
-        useGenericSaveImplementation(cacheModel.cachedHourly, data, weatherDao)
-    }
-
-    override fun finishedWeatherResult(data: Weather): FinishedWeatherResult {
-        return FinishedWeatherResult(weather = data)
-    }
-
-    override suspend fun getAirQuality(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean
-    ): AirQualityResult = withContext(Dispatchers.IO) {
+                val daily = safeApiCall { api.fetchDaily(locationKey) }.getOrThrow()
 
 
-        val cache = airQualityDao.getAirQualityForLocation(location.id)
-        val shouldReturnCache = shouldReturnAirQualityCache(cache, isManualRefresh, isForceRefresh)
+                val final = AccuWeatherBundle(
+                    current = current[0],
+                    hourly = hourly,
+                    daily = daily
+                )
 
-        when (shouldReturnCache) {
-            AirQualityResultType.RETURN_CACHE -> return@withContext AirQualityResult.Success(cache!!.toDomain()!!)
-            else -> {}
-        }
+                val domain = final.toDomain(location)
 
-        return@withContext try {
 
-            val locationKey =
-                locationKeysDao.getCityKeyForLocation(location.id)?.toDomain()?.cityKey
-                    ?: api.getLocationKey("${location.latitude},${location.longitude}")
-                        .body()?.key
-                    ?: return@withContext AirQualityResult.Error(
-                        exception = AppException.Unknown(),
-                        cacheAirQuality = cache?.toDomain()
+                return WeatherDataPack(
+                    domain,
+                    additionalData = WeatherAdditionalData(locationKey = locationKey)
+                )
+            }
+
+            override suspend fun saveAdditionalDataToDb(pack: WeatherDataPack) {
+                locationKeysDao.insertCityKey(
+                    LocationKeyEntity(
+                        locationId = pack.weather.location.id,
+                        cityKey = pack.additionalData?.locationKey!!
                     )
-
-
-            val responseCurrent = api.fetchCurrentAirQuality(locationKey)
-
-            val bodyCurrent = responseCurrent.body()
-                ?: return@withContext AirQualityResult.Error(
-                    exception = UnknownHostException(),
-                    cacheAirQuality = cache?.toDomain()
                 )
+            }
 
-            val responseForecast = api.fetchAirQualityForecast(locationKey)
-
-            val bodyForecast = responseForecast.body()
-                ?: return@withContext AirQualityResult.Error(
-                    exception = UnknownHostException(),
-                    cacheAirQuality = cache?.toDomain()
+            override suspend fun saveToDb(data: WeatherDataPack, cacheModel: CacheModel) {
+                useGenericSaveImplementationForWeather(
+                    existingHourly = cacheModel.cachedHourly,
+                    data.weather,
+                    weatherDao
                 )
+            }
 
-            val final = AccuAqiJsonBundle(
-                current = bodyCurrent,
-                forecast = bodyForecast
-            )
-
-            val domain = final.toDomain()
-
-            locationKeysDao.insertCityKey(
-                LocationKeyEntity(
-                    locationId = location.id,
-                    cityKey = locationKey
-                )
-            )
-
-            airQualityDao.insertAirQuality(
-                domain.current.toEntity(location.id),
-                domain.hourly.map { it.toEntity(location.id) },
-                location.id
-            )
-
-            AirQualityResult.Success(domain)
-        } catch (e: Exception) {
-
-
-            AirQualityResult.Error(exception = e, cache?.toDomain())
+            override fun finishedResult(data: Weather): FinishedWeatherResult {
+                return FinishedWeatherResult(weather = data)
+            }
         }
     }
 
-    override suspend fun getAlerts(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean
-    ): AlertResult = withContext(Dispatchers.IO) {
+    override fun alertCapability(): AlertCapability? {
+        return object : AlertCapability {
+            override suspend fun fetchAndProcess(
+                location: Location,
+                isManualRefresh: Boolean,
+                isForceRefresh: Boolean,
+                alertCacheModel: AlertCacheModel
+            ): AlertsDataPack {
+                val locationKey = alertCacheModel.apiKey
+                    ?: safeApiCall {
+                        api.getLocationKey("${location.latitude},${location.longitude}")
+                    }.getOrThrow().key
 
-        val cache = alertsDao.getAlertsForLocation(location.id)
 
-        val shouldReturnCache = shouldReturnAlertsCache(
-            cache,
-            isManualRefresh,
-            isForceRefresh,
-            location.alertsLastFetchedAt
-        )
+                val response = safeApiCall {
+                    api.fetchAlerts(locationKey, language = getCurrentAppLocale().language)
+                }.getOrThrow()
 
-        when (shouldReturnCache) {
-            AlertResultType.RETURN_CACHE -> return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
-            else -> {}
-        }
 
-        return@withContext try {
-            val locationKey =
-                locationKeysDao.getCityKeyForLocation(location.id)?.toDomain()?.cityKey
-                    ?: api.getLocationKey("${location.latitude},${location.longitude}")
-                        .body()?.key
-                    ?: return@withContext AlertResult.Error(exception = AppException.Unknown())
+                val domain = response.map { it.toDomain(location.id) }
 
-            val response = api.fetchAlerts(locationKey, language = getCurrentAppLocale().language)
-            val body = response.body()
-                ?: return@withContext AlertResult.Error(exception = AppException.Unknown())
-
-            val domain = body.map { it.toDomain(location.id) }
-
-            locationKeysDao.insertCityKey(
-                LocationKeyEntity(
-                    locationId = location.id,
-                    cityKey = locationKey
+                return AlertsDataPack(
+                    alerts = domain,
+                    location = location,
+                    additionalData = AlertsAdditionalData(locationKey = locationKey)
                 )
-            )
-            alertsDao.insertAlerts(
-                domain.map { it.toEntity(location.id) },
-                location.id
-            )
+            }
 
-            weatherContextDao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
+            override suspend fun saveAdditionalDataToDb(pack: AlertsDataPack) {
+                locationKeysDao.insertCityKey(
+                    LocationKeyEntity(
+                        locationId = pack.location.id,
+                        cityKey = pack.additionalData?.locationKey!!
+                    )
+                )
+            }
 
-            AlertResult.Success(domain)
+            override suspend fun saveToDb(data: AlertsDataPack, alertCacheModel: AlertCacheModel) {
+                useGenericSaveImplementationForAlerts(data, alertsDao, dao)
+            }
 
-        } catch (e: Exception) {
-            AlertResult.Error(exception = e, cacheAlerts = cache.map { it!!.toDomain() })
+            override fun finishedResult(data: List<Alert>): FinishedAlertsResult {
+                return FinishedAlertsResult(alerts = data)
+            }
         }
-
-
     }
+
+    override fun airQualityCapability(): AirQualityCapability? {
+        return object : AirQualityCapability {
+            override suspend fun fetchAndProcess(
+                location: Location,
+                isManualRefresh: Boolean,
+                isForceRefresh: Boolean,
+                airQualityCacheModel: AirQualityCacheModel
+            ): AirQualityDataPack {
+                val locationKey = airQualityCacheModel.apiKey
+                    ?: safeApiCall { api.getLocationKey("${location.latitude},${location.longitude}") }.getOrThrow().key
+
+
+                val responseCurrent =
+                    safeApiCall { api.fetchCurrentAirQuality(locationKey) }.getOrThrow()
+
+                val responseForecast =
+                    safeApiCall { api.fetchAirQualityForecast(locationKey) }.getOrThrow()
+
+
+                val final = AccuAqiJsonBundle(
+                    current = responseCurrent,
+                    forecast = responseForecast
+                )
+
+                return AirQualityDataPack(
+                    airQuality = final.toDomain(),
+                    location = location,
+                    additionalData = AirQualityAdditionalData(locationKey = locationKey)
+                )
+            }
+
+            override suspend fun saveAdditionalDataToDb(pack: AirQualityDataPack?) {
+                locationKeysDao.insertCityKey(
+                    LocationKeyEntity(
+                        locationId = pack?.location?.id!!,
+                        cityKey = pack.additionalData?.locationKey!!
+                    )
+                )
+            }
+
+            override suspend fun saveToDb(data: AirQualityDataPack) {
+                useGenericSaveImplementationForAirQuality(airQualityDao, data)
+            }
+
+            override fun finishedResult(data: AirQuality): FinishedAirQualityResult {
+                return FinishedAirQualityResult(airQuality = data)
+            }
+        }
+    }
+
+
 }
