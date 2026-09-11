@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.data.repository.data
 
+import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
@@ -75,6 +76,7 @@ abstract class BaseRepository : WeatherRepository, AlertRepository, AirQualityRe
 
         val cache = cacheModel.cachedWeather
 
+
         val data = try {
 
             if (cacheModel.type == CacheModelResultType.NO_API_KEY_ERROR) {
@@ -102,14 +104,16 @@ abstract class BaseRepository : WeatherRepository, AlertRepository, AirQualityRe
             )
         }
 
-        try {
-            capability.saveAdditionalDataToDb(pack = data)
-            capability.saveToDb(data, cacheModel)
-        } catch (e: Exception) {
-            return@withContext WeatherResult.Error(
-                exception = e.toAppException(),
-                weather = cache
-            )
+        if (cacheModel.type == CacheModelResultType.FETCH || cache == null) {
+            try {
+                capability.saveAdditionalDataToDb(pack = data)
+                capability.saveToDb(data, cacheModel)
+            } catch (e: Exception) {
+                return@withContext WeatherResult.Error(
+                    exception = e.toAppException(),
+                    weather = cache
+                )
+            }
         }
 
         val finished = capability.finishedResult(data.weather)
@@ -154,14 +158,16 @@ abstract class BaseRepository : WeatherRepository, AlertRepository, AirQualityRe
                 )
             }
 
-            try {
-                capability.saveAdditionalDataToDb(pack = data)
-                capability.saveToDb(data, alertCacheModel)
-            } catch (e: Exception) {
-                return@withContext AlertResult.Error(
-                    exception = e.toAppException(),
-                    alerts = cache
-                )
+            if (alertCacheModel.type == AlertCacheModelResultType.FETCH) {
+                try {
+                    capability.saveAdditionalDataToDb(pack = data)
+                    capability.saveToDb(data, alertCacheModel)
+                } catch (e: Exception) {
+                    return@withContext AlertResult.Error(
+                        exception = e.toAppException(),
+                        alerts = cache
+                    )
+                }
             }
 
             val finished = capability.finishedResult(data.alerts)
@@ -205,14 +211,16 @@ abstract class BaseRepository : WeatherRepository, AlertRepository, AirQualityRe
             )
         }
 
-        try {
-            capability.saveAdditionalDataToDb(pack = data)
-            capability.saveToDb(data)
-        } catch (e: Exception) {
-            return@withContext AirQualityResult.Error(
-                exception = e.toAppException(),
-                airQuality = cache
-            )
+        if (airQualityCacheModel.type == AirQualityCacheModelResultType.FETCH) {
+            try {
+                capability.saveAdditionalDataToDb(pack = data)
+                capability.saveToDb(data)
+            } catch (e: Exception) {
+                return@withContext AirQualityResult.Error(
+                    exception = e.toAppException(),
+                    airQuality = cache
+                )
+            }
         }
 
         val finished = capability.finishedResult(data.airQuality!!)
