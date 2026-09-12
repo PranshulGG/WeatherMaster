@@ -11,31 +11,27 @@ import kotlin.uuid.ExperimentalUuidApi
 
 // ---------------------------- DOMAIN TO ENTITY ----------------------------
 
-// CURRENT
-@OptIn(ExperimentalUuidApi::class)
 fun WeatherCurrent.toCurrentWeatherEntity(
     locationId: String
-): CurrentWeatherEntity =
-    CurrentWeatherEntity(
-        locationId = locationId,
-        temperature = temperature,
-        humidity = humidity,
-        windSpeed = windSpeed,
-        windDirection = windDirection,
-        pressureMsl = pressureMsl,
-        visibility = visibility,
-        cloudCover = cloudCover,
-        uvIndex = uvIndex,
-        weatherCondition = weatherCondition,
-        feelsLike = feelsLike,
-        time = time,
-        dewPoint = dewPoint,
-        utcOffsetSeconds = utcOffsetSeconds,
-        lastUpdatedInMilli = lastUpdatedInMilli
-    )
+): CurrentWeatherEntity = CurrentWeatherEntity(
+    locationId = locationId,
+    temperature = temperature,
+    humidity = humidity,
+    windSpeed = windSpeed,
+    windDirection = windDirection,
+    pressureMsl = pressureMsl,
+    visibility = visibility,
+    cloudCover = cloudCover,
+    uvIndex = uvIndex,
+    weatherCondition = weatherCondition,
+    feelsLike = feelsLike,
+    time = time,
+    dewPoint = dewPoint,
+    utcOffsetSeconds = utcOffsetSeconds,
+    lastUpdatedInMilli = lastUpdatedInMilli
+)
 
 
-@OptIn(ExperimentalUuidApi::class)
 fun List<WeatherHourly>.toHourlyWeatherEntity(
     location: Location
 ): List<HourlyWeatherEntity> =
@@ -60,7 +56,6 @@ fun List<WeatherHourly>.toHourlyWeatherEntity(
     }
 
 
-@OptIn(ExperimentalUuidApi::class)
 fun List<WeatherDaily>.toDailyWeatherEntity(
     locationId: String
 ): List<DailyWeatherEntity> =

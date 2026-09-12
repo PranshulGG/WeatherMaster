@@ -1,82 +1,63 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.nws
 
-import androidx.compose.runtime.mutableStateOf
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
+import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
-import com.pranshulgg.weather_master_app.core.model.domain.toAppException
+import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.Source
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
-import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
-import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
+import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherDataPack
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertsDataPack
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.FinishedAlertsResult
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsCurrentForecastJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.NwsStationsListJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.bundle.NwsWeatherJsonBundle
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
-import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
-import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
-import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.nws.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.nws.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.nws.toEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
-import com.pranshulgg.weather_master_app.data.repository.data.AlertRepository
-import com.pranshulgg.weather_master_app.data.repository.data.WeatherRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.pranshulgg.weather_master_app.data.repository.alerts.AlertCacheModel
+import com.pranshulgg.weather_master_app.data.repository.capability.AirQualityCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.AlertCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.WeatherCapability
+import com.pranshulgg.weather_master_app.data.repository.data.BaseRepository
+import com.pranshulgg.weather_master_app.data.repository.data.WeatherAdditionalData
+import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
 import javax.inject.Inject
 
 
 class NwsRepository @Inject constructor(
-    val dao: LocationsDao,
+    val dao: WeatherContextDao,
     val weatherDao: WeatherDao,
     val nwsDao: NwsDao,
     val api: NwsApi,
     val alertsDao: AlertsDao
-) : WeatherRepository, AlertRepository {
+) : BaseRepository() {
 
     override val weatherSource = Source.NWS
     override val alertSource = Source.NWS
+    override val airQualitySource = Source.NONE
 
+    override fun weatherCapability(): WeatherCapability {
+        return object : WeatherCapability {
+            override suspend fun fetchAndProcess(
+                location: Location,
+                isManualRefresh: Boolean,
+                isForceRefresh: Boolean,
+                cacheModel: CacheModel
+            ): WeatherDataPack {
+                /**
+                 * NWS has everything as a separate endpoints
+                 * Makes it annoying to get the data, but we'll still do it cuz why not
+                 * Sequential flow, cache the annoying data (e.g. grid points and station, but we'll still update it time to time)
+                 */
+                var currentObservation: NwsCurrentForecastJson? = null
+                val cachedGridPointsData = nwsDao.getGridPointsForLocation(location.id)
 
-    override suspend fun getWeather(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean
-    ): WeatherResult =
-        withContext(Dispatchers.IO) {
-
-            val cache = dao.getWeatherDataForLocation(location.id)
-            val cachedGridPointsData = nwsDao.getGridPointsForLocation(location.id)
-            val existingHourly = weatherDao.getHourlyDataForLocation(location.id, location.source)
-
-
-            val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
-
-            when (shouldReturnCache) {
-                WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
-                else -> {}
-            }
-
-            /**
-             * NWS has everything as a separate endpoints
-             * Makes it annoying to get the data, but we'll still do it cuz why not
-             * Sequential flow, cache the annoying data (e.g. grid points and station, but we'll still update it time to time)
-             */
-            return@withContext try {
-
-                val currentObservation = mutableStateOf<NwsCurrentForecastJson?>(null)
 
                 val nwsStationsDomain = if (cachedGridPointsData != null) {
                     cachedGridPointsData.toDomain()
@@ -87,12 +68,7 @@ class NwsRepository @Inject constructor(
                             location.latitude,
                             location.longitude
                         )
-                    }.getOrElse {
-                        return@withContext WeatherResult.Error(
-                            exception = it.toAppException(),
-                            cacheWeather = cache?.toDomain()
-                        )
-                    }
+                    }.getOrThrow()
 
 
                     val gridPointsDomain = gridPoint.toDomain(location, stationIdentifier = null)
@@ -103,12 +79,7 @@ class NwsRepository @Inject constructor(
                             gridPointsDomain.gridX,
                             gridPointsDomain.gridY
                         )
-                    }.getOrElse {
-                        return@withContext WeatherResult.Error(
-                            exception = it.toAppException(),
-                            cacheWeather = cache?.toDomain()
-                        )
-                    }
+                    }.getOrThrow()
 
 
                     // Get all the stations
@@ -123,17 +94,13 @@ class NwsRepository @Inject constructor(
                     )
 
                     if (domain.stationIdentifier == null) {
-                        return@withContext WeatherResult.Error(
-                            exception = AppException.Unknown(), cacheWeather = cache?.toDomain()
-                        )
+                        throw AppException.EmptyResponseBody()
                     }
 
-                    currentObservation.value = station?.second
+                    currentObservation = station?.second
 
                     domain
-
                 }
-
 
                 // GET DAILY
                 val nwsForecast = safeApiCall {
@@ -142,26 +109,14 @@ class NwsRepository @Inject constructor(
                         nwsStationsDomain.gridX,
                         nwsStationsDomain.gridY
                     )
-                }.getOrElse {
-                    return@withContext WeatherResult.Error(
-                        exception = it.toAppException(),
-                        cacheWeather = cache?.toDomain()
-                    )
-                }
+                }.getOrThrow()
 
                 // GET CURRENT
-                val nwsCurrentForecastBody = if (currentObservation.value != null) {
-                    currentObservation.value
-                } else {
-                    safeApiCall { api.fetchCurrentForecast(nwsStationsDomain.stationIdentifier!!) }.getOrElse {
-                        return@withContext WeatherResult.Error(
-                            exception = it.toAppException(), cacheWeather = cache?.toDomain()
-                        )
-                    }
-                } ?: return@withContext WeatherResult.Error(
-                    AppException.EmptyResponseBody(),
-                    cacheWeather = cache?.toDomain()
-                )
+                val nwsCurrentForecastBody = currentObservation
+                    ?: safeApiCall {
+                        api.fetchCurrentForecast(nwsStationsDomain.stationIdentifier!!)
+                    }.getOrThrow()
+
 
                 // GET HOURLY
                 val nwsHourlyForecast =
@@ -171,12 +126,7 @@ class NwsRepository @Inject constructor(
                             nwsStationsDomain.gridX,
                             nwsStationsDomain.gridY
                         )
-                    }.getOrElse {
-                        return@withContext WeatherResult.Error(
-                            exception = it.toAppException(),
-                            cacheWeather = cache?.toDomain()
-                        )
-                    }
+                    }.getOrThrow()
 
                 // USING FOR QuantitativePrecipitation and Snowfall
                 val nwsGridPointData = safeApiCall {
@@ -185,12 +135,7 @@ class NwsRepository @Inject constructor(
                         nwsStationsDomain.gridX,
                         nwsStationsDomain.gridY
                     )
-                }.getOrElse {
-                    return@withContext WeatherResult.Error(
-                        exception = it.toAppException(),
-                        cacheWeather = cache?.toDomain()
-                    )
-                }
+                }.getOrThrow()
 
                 // PUT EVERYTHING TOGETHER IN A BUNDLE
                 val final = NwsWeatherJsonBundle(
@@ -201,76 +146,65 @@ class NwsRepository @Inject constructor(
                 )
 
 
-                val domain = final.toDomain(location)
-
-                val mergedHourly = mergeHourlyWeather(
-                    existing = existingHourly,
-                    incoming = domain.hourly.toHourlyWeatherEntity(location)
-                )
-
-
-                nwsDao.insertLocationGridPoints(nwsStationsDomain.toEntity(location))
-
-                weatherDao.insertWeather(
-                    domain.current.toCurrentWeatherEntity(location.id),
-                    mergedHourly,
-                    domain.daily.toDailyWeatherEntity(location.id),
-                    location.id
-
-                )
-
-                return@withContext WeatherResult.Success(domain)
-
-            } catch (e: Exception) {
-                WeatherResult.Error(
-                    exception = e,
-                    cache?.toDomain()
+                return WeatherDataPack(
+                    weather = final.toDomain(location),
+                    additionalData = WeatherAdditionalData(
+                        nwsGridPoints = nwsStationsDomain
+                    )
                 )
 
             }
-        }
 
-
-    /**
-     * Initial NWS alerts integration implemented by https://github.com/reveler-hub
-     */
-    override suspend fun getAlerts(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean
-    ): AlertResult = withContext(Dispatchers.IO) {
-
-        val cache = alertsDao.getAlertsForLocation(location.id)
-        val shouldReturnCache = shouldReturnAlertsCache(
-            cache,
-            isManualRefresh,
-            isForceRefresh,
-            location.alertsLastFetchedAt
-        )
-
-        if (shouldReturnCache == AlertResultType.RETURN_CACHE) {
-            return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
-        }
-
-        val point = "${location.latitude},${location.longitude}"
-
-        safeApiCall { api.fetchActiveAlerts(point) }.fold(
-            onSuccess = { body ->
-                val domain = body.toDomain(location.id)
-
-                alertsDao.insertAlerts(domain.map { it.toEntity(location.id) }, location.id)
-                dao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
-
-                AlertResult.Success(domain)
-            },
-            onFailure = { e ->
-                AlertResult.Error(
-                    exception = e as? Exception ?: Exception(e),
-                    cacheAlerts = cache.map { it!!.toDomain() }
+            override suspend fun saveToDb(data: WeatherDataPack, cacheModel: CacheModel) {
+                useGenericSaveImplementationForWeather(
+                    existingHourly = cacheModel.cachedHourly,
+                    data.weather,
+                    weatherDao
                 )
             }
-        )
+
+            override suspend fun saveAdditionalDataToDb(pack: WeatherDataPack) {
+                nwsDao.insertLocationGridPoints(pack.additionalData?.nwsGridPoints!!.toEntity(pack.weather.location))
+            }
+
+            override fun finishedResult(data: Weather): FinishedWeatherResult {
+                return FinishedWeatherResult(weather = data)
+            }
+        }
     }
+
+    override fun alertCapability(): AlertCapability {
+        return object : AlertCapability {
+            override suspend fun fetchAndProcess(
+                location: Location,
+                isManualRefresh: Boolean,
+                isForceRefresh: Boolean,
+                alertCacheModel: AlertCacheModel
+            ): AlertsDataPack {
+                val point = "${location.latitude},${location.longitude}"
+
+                val response = safeApiCall {
+                    api.fetchActiveAlerts(point)
+                }.getOrThrow()
+
+
+                val domain = response.toDomain(location.id)
+
+                return AlertsDataPack(alerts = domain, location)
+            }
+
+            override suspend fun saveToDb(data: AlertsDataPack, alertCacheModel: AlertCacheModel) {
+                useGenericSaveImplementationForAlerts(data, alertsDao, dao)
+            }
+
+            override fun finishedResult(data: List<Alert>): FinishedAlertsResult {
+                return FinishedAlertsResult(alerts = data)
+            }
+        }
+    }
+
+    override fun airQualityCapability(): AirQualityCapability? = null
+
 }
 
 

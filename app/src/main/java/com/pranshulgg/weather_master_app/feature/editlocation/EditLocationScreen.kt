@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.feature.editlocation
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -23,6 +24,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,7 +55,6 @@ import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
 
 
 data class EditLocationScreenUiState(
-    val location: Location? = null,
     val isWeatherSourcesForLocationSheetOpen: Boolean = false,
     val selectedWeatherSource: Source? = null,
     val selectedAlertSource: Source? = null,
@@ -70,18 +71,16 @@ data class EditLocationScreenUiState(
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun EditLocationScreen(
-    navController: NavController, id: String,
-    weatherViewModel: WeatherViewModel
+    navController: NavController
 ) {
 
     val viewModel: EditLocationViewModel = hiltViewModel()
     val uiState = viewModel.uiState.value
+    val locations = viewModel.locations.collectAsState().value
 
-    LaunchedEffect(Unit) {
-        viewModel.getLocationForId(id)
-    }
+    if (locations.activeLocation == null) return
 
-    if (uiState.location == null) return
+    var isSaveExecuted by remember { mutableStateOf(false) }
 
 
     val sheetState = rememberBottomSheetState(
@@ -93,28 +92,29 @@ fun EditLocationScreen(
 
 
     val locationText = buildString {
-        append(uiState.location.name)
-        if (uiState.location.country.isNotBlank()) {
+        append(locations.activeLocation.name)
+        if (locations.activeLocation.country.isNotBlank()) {
             append(", ")
         }
-        if (uiState.location.state.isNotBlank()) {
-            append(uiState.location.state)
+        if (locations.activeLocation.state.isNotBlank()) {
+            append(locations.activeLocation.state)
             append(", ")
         }
-        append(uiState.location.country)
+        append(locations.activeLocation.country)
     }
 
-    val locationName = if (!uiState.location.customName.isNullOrBlank()) uiState.location.customName
-    else locationText
+    val locationName =
+        if (!locations.activeLocation.customName.isNullOrBlank()) locations.activeLocation.customName
+        else locationText
 
     var currentLocationName by remember { mutableStateOf(locationName) }
 
     val effectiveWeatherSource =
-        uiState.selectedWeatherSource ?: uiState.location.source
+        uiState.selectedWeatherSource ?: locations.activeLocation.source
 
     val effectiveOpenMeteoModel =
         uiState.selectedOpenMeteoModel
-            ?: uiState.location.openMeteoModel
+            ?: locations.activeLocation.openMeteoModel
 
     val selectedWeatherSourceString = buildString {
         append(effectiveWeatherSource.displayName)
@@ -128,7 +128,7 @@ fun EditLocationScreen(
         }
     }
 
-    val effectiveAlertSource = uiState.selectedAlertSource ?: uiState.location.alertSource
+    val effectiveAlertSource = uiState.selectedAlertSource ?: locations.activeLocation.alertSource
     val selectedAlertSourceString = buildString {
         append(effectiveAlertSource.displayName)
         effectiveAlertSource.countryNameRes?.let {
@@ -137,7 +137,7 @@ fun EditLocationScreen(
     }
 
     val effectiveAirQualitySource =
-        uiState.selectedAirQualitySource ?: uiState.location.airQualitySource
+        uiState.selectedAirQualitySource ?: locations.activeLocation.airQualitySource
     val selectedAirQualitySourceString = buildString {
         append(effectiveAirQualitySource.displayName)
         effectiveAirQualitySource.countryNameRes?.let {
@@ -197,7 +197,7 @@ fun EditLocationScreen(
                         trailing = {
                             val showButton = if (uiState.selectedWeatherSource != null)
                                 uiState.selectedWeatherSource == Source.OPEN_METEO else
-                                uiState.location.source == Source.OPEN_METEO
+                                locations.activeLocation.source == Source.OPEN_METEO
 
                             if (showButton) {
                                 IconButton(
@@ -229,11 +229,11 @@ fun EditLocationScreen(
                 )
             )
             Text(
-                "${stringResource(R.string.location_latitude)}: ${uiState.location.latitude}, ${
+                "${stringResource(R.string.location_latitude)}: ${locations.activeLocation.latitude}, ${
                     stringResource(
                         R.string.location_longitude
                     )
-                }: ${uiState.location.longitude}",
+                }: ${locations.activeLocation.longitude}",
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier.padding(top = 10.dp, start = 16.dp, end = 16.dp)
@@ -241,19 +241,25 @@ fun EditLocationScreen(
             Gap(26.dp)
             ButtonWithIcon(
                 onClick = {
-                    viewModel.saveLocationName(
-                        if (currentLocationName.trim() == locationText.trim()) null else currentLocationName.trim(),
-                        uiState.location.id
-                    )
-
-                    navController.popBackStack()
-                    weatherViewModel.handleSourceChangeForWeather(
-                        uiState.location,
-                        uiState.selectedWeatherSource ?: uiState.location.source,
-                        uiState.selectedAirQualitySource ?: uiState.location.airQualitySource,
-                        uiState.selectedAlertSource ?: uiState.location.alertSource,
-                        uiState.selectedOpenMeteoModel ?: uiState.location.openMeteoModel
-                    )
+                    if (!isSaveExecuted) {
+                        viewModel.saveLocationName(
+                            if (currentLocationName.trim() == locationText.trim()) null else currentLocationName.trim(),
+                            locations.activeLocation.id
+                        )
+                        viewModel.updateSources(
+                            locations.activeLocation,
+                            uiState.selectedWeatherSource ?: locations.activeLocation.source,
+                            uiState.selectedAirQualitySource
+                                ?: locations.activeLocation.airQualitySource,
+                            uiState.selectedAlertSource ?: locations.activeLocation.alertSource,
+                            uiState.selectedOpenMeteoModel
+                                ?: locations.activeLocation.openMeteoModel,
+                            onBack = {
+                                navController.popBackStack()
+                            }
+                        )
+                    }
+                    isSaveExecuted = true
                 },
                 text = stringResource(R.string.action_save_changes),
                 icon = R.drawable.check_24px
@@ -261,7 +267,7 @@ fun EditLocationScreen(
             Gap(8.dp)
             ButtonWithIcon(
                 onClick = {
-                    viewModel.updateDefaultLocation(uiState.location.id)
+                    viewModel.updateDefaultLocation(locations.activeLocation.id)
                     navController.popBackStack()
                 },
                 text = stringResource(R.string.action_set_default),
@@ -270,7 +276,7 @@ fun EditLocationScreen(
             Gap(8.dp)
             ButtonWithIcon(
                 onClick = {
-                    if (uiState.location.isDefault) {
+                    if (locations.activeLocation.isDefault) {
                         SnackbarManager.show(R.string.error_delete_default_location)
                         return@ButtonWithIcon
                     }
@@ -284,15 +290,16 @@ fun EditLocationScreen(
 
             // WEATHER SOURCES SHEET
             SharedBottomSheet.WeatherSourcesForLocationSheet(
-                countryCode = uiState.location.countryCode,
+                countryCode = locations.activeLocation.countryCode,
                 show = uiState.isWeatherSourcesForLocationSheetOpen,
                 isEditing = true,
-                selectedSource = uiState.selectedWeatherSource ?: uiState.location.source,
+                selectedSource = uiState.selectedWeatherSource ?: locations.activeLocation.source,
                 onSave = {
                     viewModel.updateSelectedWeatherSource(it)
                     if (it == Source.OPEN_METEO) {
                         viewModel.updateSelectedOpenMeteoModel(
-                            uiState.selectedOpenMeteoModel ?: uiState.location.openMeteoModel
+                            uiState.selectedOpenMeteoModel
+                                ?: locations.activeLocation.openMeteoModel
                         )
                     }
                 },
@@ -310,7 +317,8 @@ fun EditLocationScreen(
             EditLocationBottomSheet.AlertSourcesSheet(
                 show = uiState.isAlertSourcesSheetOpen,
                 sheetState = sheetState,
-                selectedSource = uiState.selectedAlertSource ?: uiState.location.alertSource,
+                selectedSource = uiState.selectedAlertSource
+                    ?: locations.activeLocation.alertSource,
                 onSave = {
                     viewModel.updateSelectedAlertSource(it)
                 },
@@ -319,7 +327,7 @@ fun EditLocationScreen(
                     navController.navigate(NavRoutes.API_KEYS_CONFIG)
                 },
                 apiKeys = uiState.apiKeys,
-                countryCode = uiState.location.countryCode
+                countryCode = locations.activeLocation.countryCode
             )
 
             // AIR QUALITY SOURCES SHEET
@@ -327,7 +335,7 @@ fun EditLocationScreen(
                 show = uiState.isAirQualitySourcesSheetOpen,
                 sheetState = sheetState,
                 selectedSource = uiState.selectedAirQualitySource
-                    ?: uiState.location.airQualitySource,
+                    ?: locations.activeLocation.airQualitySource,
                 onSave = {
                     viewModel.updateSelectedAirQualitySource(it)
                 },
@@ -337,7 +345,7 @@ fun EditLocationScreen(
                     navController.navigate(NavRoutes.API_KEYS_CONFIG)
                 },
                 apiKeys = uiState.apiKeys,
-                countryCode = uiState.location.countryCode
+                countryCode = locations.activeLocation.countryCode
             )
 
             // EDIT LOCATION NAME SHEET
@@ -359,7 +367,7 @@ fun EditLocationScreen(
             EditLocationScreenDialogs.EditLocationScreenConfirmationDialog(
                 viewModel,
                 onConfirm = {
-                    weatherViewModel.deleteLocation(uiState.location.id)
+                    viewModel.deleteLocation(locations.activeLocation.id)
                     viewModel.hideConfirmationDialog()
                     navController.popBackStack()
                 }
@@ -369,7 +377,7 @@ fun EditLocationScreen(
             EditLocationBottomSheet.OpenMeteoModelsSheet(
                 show = uiState.isOpenMeteoModelsSheetOpen,
                 selectedModel = uiState.selectedOpenMeteoModel
-                    ?: uiState.location.openMeteoModel,
+                    ?: locations.activeLocation.openMeteoModel,
                 sheetState = sheetState,
                 onDismiss = {
                     viewModel.hideOpenMeteoModelsSheet()

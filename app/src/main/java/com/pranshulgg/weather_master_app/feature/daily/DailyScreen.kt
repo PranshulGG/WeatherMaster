@@ -11,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -24,59 +25,42 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
-import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
-import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
-import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
-import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.feature.daily.ui.DailyDaysHeader
 import com.pranshulgg.weather_master_app.feature.daily.ui.DailyForecastHeroHeader
-import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 import com.pranshulgg.weather_master_app.feature.shared.components.blocks.WeatherBlocks
 import com.pranshulgg.weather_master_app.feature.shared.ui.HourlyCard
 import com.pranshulgg.weather_master_app.feature.shared.ui.SummaryCard
-import java.time.ZonedDateTime
 
-data class DailyScreenUiState(
-    val weather: Weather? = null,
-    val units: WeatherUnits = WeatherUnits.getDefault(),
-    val blocks: List<WeatherBlock> = WeatherBlock.getDefaultForDaily()
-)
 
 @Composable
 fun DailyScreen(
     navController: NavController,
-    index: Int = 0,
-    locationId: String,
-    weatherViewModel: WeatherViewModel
+    index: Int = 0
 ) {
 
     val viewModel: DailyScreenViewModel = hiltViewModel()
-    val uiState = viewModel.uiState.value
-    val weather = remember(uiState.weather) { uiState.weather }
-    val units = uiState.units
     val context = LocalContext.current
     val prefs = LocalAppPrefs.current
     val isShowSummary = prefs.isShowSummary
+    val locationStore = viewModel.location.collectAsState().value
+    val weatherStore = viewModel.weather.collectAsState().value
+    val unitsStore = viewModel.units.collectAsState().value
+    val weatherBlocks = viewModel.weatherBlocks.collectAsState().value
 
     var selectedIndex by rememberSaveable { mutableIntStateOf(index) }
 
-    LaunchedEffect(Unit) {
-        viewModel.loadBlocks()
-        viewModel.getUnitsOnce()
-        viewModel.getDailyWeather(locationId)
-    }
 
 
-    if (weather == null) return
+    if (weatherStore.weather == null) return
 
-    var selectedDaily by remember { mutableStateOf(weather.daily[index]) }
+    var selectedDaily by remember { mutableStateOf(weatherStore.weather.daily[index]) }
 
     LaunchedEffect(selectedIndex) {
-        selectedDaily = weather.daily[selectedIndex]
+        selectedDaily = weatherStore.weather.daily[selectedIndex]
     }
 
 
@@ -94,14 +78,14 @@ fun DailyScreen(
                     .padding(top = paddingValues.calculateTopPadding())
         ) {
             DailyDaysHeader(
-                weather,
-                units,
+                weatherStore.weather,
+                unitsStore.units,
                 onSelect = { selectedIndex = it },
                 selectedIndex
             )
 
 
-            DailyForecastHeroHeader(selectedDaily, weather.location, units)
+            DailyForecastHeroHeader(selectedDaily, locationStore.activeLocation!!, unitsStore.units)
 
             Column(
                 modifier = Modifier.padding(16.dp),
@@ -109,28 +93,29 @@ fun DailyScreen(
             ) {
                 if (isShowSummary) {
                     SummaryCard(
-                        weather, context = context,
+                        weatherStore.weather, context = context,
                         dailyIndex = selectedIndex,
-                        units = units,
+                        units = unitsStore.units,
                     )
                 }
                 HourlyCard(
-                    weather,
-                    units,
-                    if (selectedIndex != 0) selectedDaily.time else weather.current.time,
+                    weatherStore.weather,
+                    unitsStore.units,
+                    if (selectedIndex != 0) selectedDaily.time else null,
                     isDaily = true
                 )
                 WeatherBlocks(
-                    weather,
-                    null,
-                    units,
-                    context,
-                    uiState.blocks,
-                    true,
-                    updatedBlockOrder = { viewModel.updateBlocksOrder(it) },
-                    selectedIndex,
-                    navController,
-                    viewModel = weatherViewModel
+                    weather = weatherStore.weather,
+                    airQuality = null,
+                    units = unitsStore.units,
+                    context = context,
+                    blocks = weatherBlocks,
+                    onUpdateBlocks = {
+                        viewModel.saveBlocks(it)
+                    },
+                    isDaily = true,
+                    dailyIndex = selectedIndex,
+                    navController = navController
                 )
 
                 Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())

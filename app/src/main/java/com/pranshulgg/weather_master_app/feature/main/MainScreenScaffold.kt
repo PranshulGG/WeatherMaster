@@ -31,8 +31,17 @@ import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
+import com.pranshulgg.weather_master_app.core.managers.WeatherBlocksManager
+import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
+import com.pranshulgg.weather_master_app.data.store.WeatherBlocksStore
+import com.pranshulgg.weather_master_app.data.store.WeatherBlocksStoreState
+import com.pranshulgg.weather_master_app.data.store.WeatherStoreState
+import com.pranshulgg.weather_master_app.data.store.WeatherUnitsStore
+import com.pranshulgg.weather_master_app.data.store.WeatherUnitsStoreState
 import com.pranshulgg.weather_master_app.feature.main.components.MainSearchBar
 import com.pranshulgg.weather_master_app.feature.main.ui.BackgroundGradient
 import com.pranshulgg.weather_master_app.feature.main.ui.layouts.PhoneLayout
@@ -45,25 +54,29 @@ import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 fun MainScreenScaffold(
     navController: NavController,
     drawerState: DrawerState,
-    uiState: MainScreenWeatherUiState,
+    weatherStore: WeatherStoreState,
     onRefresh: () -> Unit,
     onEditLocation: () -> Unit,
     context: Context,
     onWeatherSourceInfoClick: () -> Unit,
-    viewModel: WeatherViewModel,
     isTabletLike: Boolean = false,
-    prefs: AppPrefsState
+    prefs: AppPrefsState,
+    units: WeatherUnitsStoreState,
+    isLoading: Boolean,
+    activeLocation: Location?,
+    weatherBlocks: WeatherBlocksStoreState,
+    onUpdateBlocks: (List<WeatherBlock>) -> Unit,
 ) {
 
 
     val pullToRefreshState = rememberPullToRefreshState()
-    val weather = remember(uiState.weather) { uiState.weather }
-    val airQuality = remember(uiState.airQuality) { uiState.airQuality }
-    val alerts = remember(uiState.alerts) { uiState.alerts }
+    val weather = remember(weatherStore.weather) { weatherStore.weather }
+    val airQuality = remember(weatherStore.airQuality) { weatherStore.airQuality }
+    val alerts = remember(weatherStore.alerts) { weatherStore.alerts }
 
     val layoutDirection = LocalLayoutDirection.current
 
-    val units = uiState.weatherUnits
+    val units = units.units
     val scrollState = rememberScrollState()
 
     val isFroggyLayout = prefs.isFroggyLayout
@@ -108,7 +121,7 @@ fun MainScreenScaffold(
             }
 
             PullToRefreshBox(
-                isRefreshing = uiState.isLoading,
+                isRefreshing = isLoading,
                 state = pullToRefreshState,
                 onRefresh = {
                     onRefresh()
@@ -116,7 +129,7 @@ fun MainScreenScaffold(
                 indicator = {
                     LoadingIndicator(
                         pullToRefreshState,
-                        uiState.isLoading,
+                        isRefreshing = isLoading,
                         modifier = Modifier
                             .zIndex(99999f)
                             .padding(top = paddingValues.calculateTopPadding() + 8.dp + 56.dp)
@@ -145,7 +158,7 @@ fun MainScreenScaffold(
                             paddingValues = paddingValues,
                             navController,
                             drawerState,
-                            uiState.activeLocation,
+                            activeLocation,
                             onEditLocation,
                             layoutDirection
                         )
@@ -159,11 +172,11 @@ fun MainScreenScaffold(
                                     navController,
                                     alerts,
                                     prefs,
-                                    viewModel,
                                     onWeatherSourceInfoClick,
                                     isShowSummary,
                                     airQuality,
-                                    uiState
+                                    weatherBlocks,
+                                    onUpdateBlocks
                                 )
                             } else {
                                 TabletLayout(
@@ -174,13 +187,13 @@ fun MainScreenScaffold(
                                     navController,
                                     alerts,
                                     prefs,
-                                    viewModel,
                                     onWeatherSourceInfoClick,
                                     isShowSummary,
                                     airQuality,
-                                    uiState,
                                     paddingValues,
-                                    layoutDirection
+                                    layoutDirection,
+                                    weatherBlocks,
+                                    onUpdateBlocks
                                 )
                             }
                         }

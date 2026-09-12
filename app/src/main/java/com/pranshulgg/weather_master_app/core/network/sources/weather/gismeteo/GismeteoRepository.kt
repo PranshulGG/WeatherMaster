@@ -3,31 +3,31 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo
 import android.util.Xml
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
-import com.pranshulgg.weather_master_app.core.model.domain.toAppException
+import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.Source
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherDataPack
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.model.GismeteoModel
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.model.GismeteoModelCurrent
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.model.GismeteoModelDaily
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.model.GismeteoModelHourly
 import com.pranshulgg.weather_master_app.core.utils.formatters.toSafeDouble
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
-import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.entity.location.LocationKeyEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.gismeteo.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
-import com.pranshulgg.weather_master_app.data.repository.data.WeatherRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.pranshulgg.weather_master_app.data.repository.capability.AirQualityCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.AlertCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.WeatherCapability
+import com.pranshulgg.weather_master_app.data.repository.data.BaseRepository
+import com.pranshulgg.weather_master_app.data.repository.data.WeatherAdditionalData
+import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
 import org.xmlpull.v1.XmlPullParser
 import java.io.InputStream
 import javax.inject.Inject
@@ -36,36 +36,24 @@ import kotlin.math.roundToLong
 
 
 class GismeteoRepository @Inject constructor(
-    val dao: LocationsDao,
+    val dao: WeatherContextDao,
     val weatherDao: WeatherDao,
     val api: GismeteoApi,
     val locationKeysDao: LocationKeysDao
-) : WeatherRepository {
+) : BaseRepository() {
 
     override val weatherSource = Source.GISMETEO
+    override val alertSource = Source.NONE
+    override val airQualitySource = Source.NONE
 
-    override suspend fun getWeather(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean
-    ): WeatherResult =
-        withContext(
-            Dispatchers.IO
-        ) {
-            val cache = dao.getWeatherDataForLocation(location.id)
-
-            val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
-            val existingHourly = weatherDao.getHourlyDataForLocation(location.id, location.source)
-
-
-            when (shouldReturnCache) {
-                WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-                WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
-                else -> {}
-            }
-
-            return@withContext try {
-
+    override fun weatherCapability(): WeatherCapability? {
+        return object : WeatherCapability {
+            override suspend fun fetchAndProcess(
+                location: Location,
+                isManualRefresh: Boolean,
+                isForceRefresh: Boolean,
+                cacheModel: CacheModel
+            ): WeatherDataPack {
                 var locationId = locationKeysDao.getCityKeyForLocation(location.id)
                     ?.cityKey.toSafeDouble()
                     ?.toLong()
@@ -73,65 +61,53 @@ class GismeteoRepository @Inject constructor(
                 if (locationId == null) {
                     locationId = safeApiCall {
                         api.fetchLocations(location.latitude, location.longitude)
-                    }.getOrElse {
-                        return@withContext WeatherResult.Error(
-                            exception = it.toAppException(),
-                            cacheWeather = cache?.toDomain()
-                        )
+                    }.getOrThrow().byteStream().use { stream ->
+                        findClosestLocation(location, stream)
                     }
-                        .byteStream().use { stream ->
-                            findClosestLocation(location, stream)
-                        }
-
                 }
 
-                if (locationId == null) return@withContext WeatherResult.Error(
-                    exception = AppException.EmptyResponseBody(),
-                    cacheWeather = cache?.toDomain()
-                )
-
+                if (locationId == null) throw AppException.EmptyResponseBody()
 
                 val response = api.fetchForecast(id = locationId)
+
                 val body = response.body()?.byteStream()?.use { stream ->
                     parseXml(stream)
-                } ?: return@withContext WeatherResult.Error(
-                    exception = AppException.Unknown(),
-                    cacheWeather = cache?.toDomain()
-                )
-
-                val domain = body.toDomain(location)
+                } ?: throw AppException.EmptyResponseBody()
 
 
-                locationKeysDao.insertCityKey(
-                    LocationKeyEntity(
-                        locationId = location.id,
-                        cityKey = locationId.toString()
+                return WeatherDataPack(
+                    weather = body.toDomain(location),
+                    additionalData = WeatherAdditionalData(
+                        locationKey = locationId.toString()
                     )
                 )
-
-                val mergedHourly = mergeHourlyWeather(
-                    existing = existingHourly,
-                    incoming = domain.hourly.toHourlyWeatherEntity(location)
-                )
-                weatherDao.insertWeather(
-                    domain.current.toCurrentWeatherEntity(location.id),
-                    mergedHourly,
-                    domain.daily.toDailyWeatherEntity(location.id),
-                    location.id
-                )
-                WeatherResult.Success(domain)
-
-            } catch (e: Exception) {
-                WeatherResult.Error(
-                    exception = e,
-                    cache?.toDomain()
-                )
-
             }
 
+            override suspend fun saveToDb(data: WeatherDataPack, cacheModel: CacheModel) {
+                useGenericSaveImplementationForWeather(
+                    existingHourly = cacheModel.cachedHourly,
+                    data.weather,
+                    weatherDao
+                )
+            }
 
+            override suspend fun saveAdditionalDataToDb(pack: WeatherDataPack) {
+                locationKeysDao.insertCityKey(
+                    LocationKeyEntity(
+                        locationId = pack.weather.location.id,
+                        cityKey = pack.additionalData?.locationKey.toString()
+                    )
+                )
+            }
+
+            override fun finishedResult(data: Weather): FinishedWeatherResult {
+                return FinishedWeatherResult(weather = data)
+            }
         }
+    }
 
+    override fun airQualityCapability(): AirQualityCapability? = null
+    override fun alertCapability(): AlertCapability? = null
 }
 
 private fun findClosestLocation(location: Location, stream: InputStream): Long? {

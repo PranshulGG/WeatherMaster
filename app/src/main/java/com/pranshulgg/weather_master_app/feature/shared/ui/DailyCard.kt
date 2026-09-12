@@ -76,10 +76,7 @@ fun DailyCard(weather: Weather, units: WeatherUnits, navController: NavControlle
                         units,
                         onDailyItemClick = {
                             navController.navigate(
-                                NavRoutes.daily(
-                                    index,
-                                    weather.location.id
-                                )
+                                NavRoutes.daily(index)
                             )
                         },
                         date = toDateString(

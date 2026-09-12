@@ -547,6 +547,10 @@
 
     <string name="label_disabled">Disabled</string>
 
+
+    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
+
+
 </resources>
 
     <!--<string name=""></string>-->

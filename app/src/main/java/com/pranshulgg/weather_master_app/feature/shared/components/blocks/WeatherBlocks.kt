@@ -25,7 +25,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isCurrentAirQualitySafe
-import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
+import com.pranshulgg.weather_master_app.data.store.WeatherBlocksStoreState
 import sh.calvin.reorderable.DragGestureDetector
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyGridState
@@ -68,18 +68,17 @@ fun WeatherBlocks(
     airQuality: AirQuality?,
     units: WeatherUnits,
     context: Context,
-    blocks: List<WeatherBlock>,
+    blocks: WeatherBlocksStoreState,
     isDaily: Boolean = false,
 
     // Need this so the daily screen can also update block order
-    updatedBlockOrder: (List<WeatherBlock>) -> Unit = {},
+    onUpdateBlocks: (List<WeatherBlock>) -> Unit,
     dailyIndex: Int = 0,
     navController: NavController,
-    isAirQualityLoading: Boolean = false,
-    viewModel: WeatherViewModel,
     fixedGridCells: Boolean = false
 ) {
 
+    val blocks = if (isDaily) blocks.dailyBlocks else blocks.blocks
 
     val rainForTheDay =
         PrecipitationUnit.MM.convert(weather.daily[dailyIndex].rainSum, units.precipitationUnit)
@@ -90,8 +89,7 @@ fun WeatherBlocks(
 
     // Some sources do not provide precipitation separately rain/snow
     val isOnlyPrecipitationData = !weather.location.source.providesSnowFall()
-    val isAirQualityValid =
-        !isAirQualityLoading && airQuality != null && isCurrentAirQualitySafe(airQuality)
+    val isAirQualityValid = airQuality != null && isCurrentAirQualitySafe(airQuality)
 
 
     val isUvIndexValid = weather.daily[dailyIndex].isUvIndexMaxValid()
@@ -156,11 +154,11 @@ fun WeatherBlocks(
                 add(to.index, removeAt(from.index))
             }
 
-            updatedBlockOrder(updated)
-            viewModel.saveBlocks(
-                items = updated.plus(blocksHidden),
-                isDaily = isDaily
-            )
+            onUpdateBlocks(updated.plus(elements = blocksHidden))
+//            viewModel.saveBlocks(
+//                items = updated.plus(blocksHidden),
+//                isDaily = isDaily
+//            )
         }
     )
 

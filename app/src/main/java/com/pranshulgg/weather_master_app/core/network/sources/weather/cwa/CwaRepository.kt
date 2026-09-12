@@ -2,29 +2,26 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.cwa
 
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.Source
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
-import com.pranshulgg.weather_master_app.core.model.weather.WeatherResultType
+import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
+import com.pranshulgg.weather_master_app.core.model.weather.WeatherDataPack
 import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.json.CwaDatasetJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.json.CwaLocationJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.model.CwaForecastBundle
 import com.pranshulgg.weather_master_app.core.utils.formatters.toSafeDouble
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherCacheSafe
-import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnWeatherCache
-import com.pranshulgg.weather_master_app.core.utils.weather.forecast.mergeHourlyWeather
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
-import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.ApiKeysDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherDao
 import com.pranshulgg.weather_master_app.data.local.entity.location.LocationKeyEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.sources.cwa.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDailyWeatherEntity
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
-import com.pranshulgg.weather_master_app.data.local.mapper.weather.toHourlyWeatherEntity
-import com.pranshulgg.weather_master_app.data.repository.data.WeatherRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.pranshulgg.weather_master_app.data.repository.capability.AirQualityCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.AlertCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.WeatherCapability
+import com.pranshulgg.weather_master_app.data.repository.data.BaseRepository
+import com.pranshulgg.weather_master_app.data.repository.data.WeatherAdditionalData
+import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -37,87 +34,78 @@ import javax.inject.Inject
 // since LocationKeyEntity only has a single cityKey column: "{shortRangeEndpointId}|{townshipName}".
 private const val CACHE_KEY_DELIMITER = "|"
 
-// TODO: refactor with "safeApiCall { }"
 
 class CwaRepository @Inject constructor(
-    val dao: LocationsDao,
+    val dao: WeatherContextDao,
     val weatherDao: WeatherDao,
     val api: CwaApi,
     val apiKeysDao: ApiKeysDao,
     val locationKeysDao: LocationKeysDao
-) : WeatherRepository {
+) : BaseRepository() {
 
     override val weatherSource = Source.CWA
+    override val alertSource = Source.NONE
+    override val airQualitySource = Source.NONE
+
+    override fun weatherCapability(): WeatherCapability? {
+        return object : WeatherCapability {
+            override suspend fun fetchAndProcess(
+                location: Location,
+                isManualRefresh: Boolean,
+                isForceRefresh: Boolean,
+                cacheModel: CacheModel
+            ): WeatherDataPack {
+                val (shortRangeId, townshipName) = resolveLocation(location, cacheModel.apiKey!!)
+                    ?: throw AppException.Unknown()
+
+                val weeklyId = CwaCountyEndpoints.byShortRangeId(shortRangeId)?.weeklyId
+                    ?: throw AppException.Unknown()
+
+                val shortRangeForecast =
+                    api.fetchDataset(shortRangeId, cacheModel.apiKey, locationName = townshipName)
+                        .bodyOrThrow()
+                val weeklyForecast =
+                    api.fetchDataset(weeklyId, cacheModel.apiKey, locationName = townshipName)
+                        .bodyOrThrow()
+
+                val domain =
+                    CwaForecastBundle(shortRange = shortRangeForecast, weekly = weeklyForecast)
+                        .toDomain(location)
 
 
-    override suspend fun getWeather(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean
-    ): WeatherResult = withContext(Dispatchers.IO) {
-
-        val cache = dao.getWeatherDataForLocation(location.id)
-        val shouldReturnCache = shouldReturnWeatherCache(cache, isManualRefresh, isForceRefresh)
-        val existingHourly = weatherDao.getHourlyDataForLocation(location.id, location.source)
-
-        when (shouldReturnCache) {
-            WeatherResultType.REFRESH_TOO_EARLY -> return@withContext WeatherResult.RefreshNotAvailable
-            WeatherResultType.SUCCESS -> return@withContext WeatherResult.Success(cache!!.toDomain()!!)
-            else -> {}
-        }
-        val apiKey = apiKeysDao.getApiKeyForSource(location.source)
-
-        if (apiKey?.apiKey.isNullOrBlank()) {
-            return@withContext WeatherResult.Error(
-                exception = AppException.NoApiKeyError(),
-                cache?.toDomain()
-            )
-        }
-        val key = apiKey.apiKey
-
-        return@withContext try {
-
-            val (shortRangeId, townshipName) = resolveLocation(location, key)
-                ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
-
-            val weeklyId = CwaCountyEndpoints.byShortRangeId(shortRangeId)?.weeklyId
-                ?: return@withContext WeatherResult.Error(exception = AppException.Unknown())
-
-            val shortRangeForecast =
-                api.fetchDataset(shortRangeId, key, locationName = townshipName).bodyOrThrow()
-            val weeklyForecast =
-                api.fetchDataset(weeklyId, key, locationName = townshipName).bodyOrThrow()
-
-            val domain = CwaForecastBundle(shortRange = shortRangeForecast, weekly = weeklyForecast)
-                .toDomain(location)
-
-            locationKeysDao.insertCityKey(
-                LocationKeyEntity(
-                    locationId = location.id,
-                    cityKey = "$shortRangeId$CACHE_KEY_DELIMITER$townshipName"
+                return WeatherDataPack(
+                    weather = domain,
+                    additionalData = WeatherAdditionalData(
+                        locationKey = "$shortRangeId$CACHE_KEY_DELIMITER$townshipName"
+                    )
                 )
-            )
+            }
 
-            val mergedHourly = mergeHourlyWeather(
-                existing = existingHourly,
-                incoming = domain.hourly.toHourlyWeatherEntity(location)
-            )
-            weatherDao.insertWeather(
-                domain.current.toCurrentWeatherEntity(location.id),
-                mergedHourly,
-                domain.daily.toDailyWeatherEntity(location.id),
-                location.id
-            )
+            override suspend fun saveAdditionalDataToDb(pack: WeatherDataPack) {
+                locationKeysDao.insertCityKey(
+                    LocationKeyEntity(
+                        locationId = pack.weather.location.id,
+                        cityKey = pack.additionalData?.locationKey!!
+                    )
+                )
+            }
 
-            WeatherResult.Success(domain)
+            override suspend fun saveToDb(data: WeatherDataPack, cacheModel: CacheModel) {
+                useGenericSaveImplementationForWeather(
+                    existingHourly = cacheModel.cachedHourly,
+                    data.weather,
+                    weatherDao
+                )
+            }
 
-        } catch (e: Exception) {
-            WeatherResult.Error(
-                exception = e,
-                cache?.toDomain()
-            )
+            override fun finishedResult(data: Weather): FinishedWeatherResult {
+                return FinishedWeatherResult(weather = data)
+            }
         }
     }
+
+    override fun airQualityCapability(): AirQualityCapability? = null
+    override fun alertCapability(): AlertCapability? = null
 
     // Returns (shortRangeEndpointId, townshipName), either from the cached composite key or by
     // resolving fresh: nationwide county-centroid lookup, then that county's township list.

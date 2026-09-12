@@ -16,6 +16,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -44,16 +45,11 @@ fun AirQualityScreen(navController: NavController, index: Int = 0, locationId: S
 
     val viewModel: BlocksScreenViewModel = hiltViewModel()
 
-    LaunchedEffect(Unit) {
-        viewModel.getUnitsOnce()
-        viewModel.getWeather(locationId)
-        viewModel.getAirQuality(locationId)
-    }
 
 
-    val uiState = viewModel.uiState.value
-    val airQuality = uiState.airQuality ?: return
-    val weather = uiState.weather ?: return
+
+    val airQuality = viewModel.weather.collectAsState().value.airQuality ?: return
+    val weather = viewModel.weather.collectAsState().value.weather ?: return
 
     val hourly = airQuality.hourly
     val time = if (index != 0) weather.daily[index].time else weather.current.time

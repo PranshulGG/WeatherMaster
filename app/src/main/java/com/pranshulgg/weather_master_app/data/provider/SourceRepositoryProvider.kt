@@ -26,9 +26,9 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiRepository
-import com.pranshulgg.weather_master_app.data.repository.data.AirQualityRepository
-import com.pranshulgg.weather_master_app.data.repository.data.AlertRepository
-import com.pranshulgg.weather_master_app.data.repository.data.WeatherRepository
+import com.pranshulgg.weather_master_app.data.repository.airquality.AirQualityRepository
+import com.pranshulgg.weather_master_app.data.repository.alerts.AlertRepository
+import com.pranshulgg.weather_master_app.data.repository.weather.WeatherRepository
 import javax.inject.Inject
 
 class SourceRepositoryProvider @Inject constructor(

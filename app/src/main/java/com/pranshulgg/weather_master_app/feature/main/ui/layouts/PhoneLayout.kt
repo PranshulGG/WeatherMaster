@@ -8,13 +8,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.pranshulgg.weather_master_app.core.managers.WeatherBlocksManager
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefs
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
+import com.pranshulgg.weather_master_app.data.store.WeatherBlocksStore
+import com.pranshulgg.weather_master_app.data.store.WeatherBlocksStoreState
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
 import com.pranshulgg.weather_master_app.feature.main.components.CreditsBottomSection
 import com.pranshulgg.weather_master_app.feature.main.components.FroggyContainer
@@ -36,11 +40,11 @@ fun PhoneLayout(
     navController: NavController,
     alerts: List<Alert>,
     prefs: AppPrefsState,
-    viewModel: WeatherViewModel,
     onWeatherSourceInfoClick: () -> Unit,
     isShowSummary: Boolean,
     airQuality: AirQuality?,
-    uiState: MainScreenWeatherUiState
+    weatherBlocks: WeatherBlocksStoreState,
+    onUpdateBlocks: (List<WeatherBlock>) -> Unit
 ) {
     CurrentWeatherCard(
         weather,
@@ -87,10 +91,9 @@ fun PhoneLayout(
             airQuality,
             units,
             context,
-            uiState.blocks,
+            weatherBlocks,
             navController = navController,
-            isAirQualityLoading = uiState.isAirQualityLoading,
-            viewModel = viewModel
+            onUpdateBlocks = onUpdateBlocks
         )
 
         CreditsBottomSection(

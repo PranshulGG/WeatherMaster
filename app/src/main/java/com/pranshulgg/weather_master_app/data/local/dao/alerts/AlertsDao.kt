@@ -30,6 +30,6 @@ interface AlertsDao {
     suspend fun deleteAlertsForLocation(locationId: String)
 
     @Query("SELECT * FROM alerts")
-    fun getAllLocationsAlerts(): Flow<List<AlertEntity?>>
+    fun getAlertsForTotalLocations(): Flow<List<AlertEntity?>>
 
 }

@@ -14,8 +14,8 @@ object NavRoutes {
 
     const val DAILY = "daily"
 
-    fun daily(index: Int, locationId: String): String {
-        return "$DAILY/$index/$locationId"
+    fun daily(index: Int): String {
+        return "$DAILY/$index"
     }
 
     const val BACKGROUND_UPDATES = "background_updates"
@@ -59,9 +59,6 @@ object NavRoutes {
         return "$ALERTS/$locationId"
     }
 
-    fun editLocation(locationId: String): String {
-        return "$EDIT_LOCATION/$locationId"
-    }
 
     fun blockScreen(block: String, index: Int, locationId: String): String {
         return "$block/$index/$locationId"

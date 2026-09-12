@@ -2,19 +2,28 @@ package com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas
 
 import android.util.Xml
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
+import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResultType
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertsDataPack
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.FinishedAlertsResult
+import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.model.FpasCapAlert
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAlertsCache
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
-import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.sources.fpas.fpasAlertsMapper
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toEntity
-import com.pranshulgg.weather_master_app.data.repository.data.AlertRepository
+import com.pranshulgg.weather_master_app.data.repository.alerts.AlertCacheModel
+import com.pranshulgg.weather_master_app.data.repository.alerts.AlertRepository
+import com.pranshulgg.weather_master_app.data.repository.capability.AirQualityCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.AlertCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.WeatherCapability
+import com.pranshulgg.weather_master_app.data.repository.data.BaseRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.xmlpull.v1.XmlPullParser
@@ -25,77 +34,63 @@ import javax.inject.Inject
 class FpasRepository @Inject constructor(
     private val api: FpasApi,
     private val dao: AlertsDao,
-    private val locationsDao: LocationsDao
-) : AlertRepository {
+    private val weatherContextDao: WeatherContextDao
+) : BaseRepository() {
 
     override val alertSource = Source.FPAS
+    override val weatherSource = Source.NONE
+    override val airQualitySource = Source.NONE
+
+    override fun alertCapability(): AlertCapability? {
+        return object : AlertCapability {
+            override suspend fun fetchAndProcess(
+                location: Location,
+                isManualRefresh: Boolean,
+                isForceRefresh: Boolean,
+                alertCacheModel: AlertCacheModel
+            ): AlertsDataPack {
+                val response = safeApiCall {
+                    api.fetchAlerts(
+                        minLat = location.latitude - 0.1,
+                        maxLat = location.latitude + 0.1,
+                        minLon = location.longitude - 0.1,
+                        maxLon = location.longitude + 0.1
+                    )
+                }.getOrThrow()
 
 
-    override suspend fun getAlerts(
-        location: Location,
-        isManualRefresh: Boolean,
-        isForceRefresh: Boolean
-    ): AlertResult = withContext(Dispatchers.IO) {
+                val preferredLanguage = getCurrentAppLocale().language
 
-        val cache = dao.getAlertsForLocation(location.id)
-        val shouldReturnCache = shouldReturnAlertsCache(
-            cache,
-            isManualRefresh,
-            isForceRefresh,
-            location.alertsLastFetchedAt
-        )
+                val alerts = response.mapNotNull {
+                    val responseAlert = api.fetchAlertsCap(it)
 
-        when (shouldReturnCache) {
-            AlertResultType.RETURN_CACHE -> return@withContext AlertResult.Success(cache.map { it!!.toDomain() })
-            else -> {}
-        }
-
-        return@withContext try {
-
-            val response = api.fetchAlerts(
-                minLat = location.latitude - 0.1,
-                maxLat = location.latitude + 0.1,
-                minLon = location.longitude - 0.1,
-                maxLon = location.longitude + 0.1
-            )
-
-            val body = response.body()
-                ?: return@withContext AlertResult.Error(
-                    exception = AppException.Unknown(),
-                    cacheAlerts = cache.map { it!!.toDomain() })
-
-
-            val preferredLanguage = getCurrentAppLocale().language
-
-            val alerts = body.mapNotNull {
-                val responseAlert = api.fetchAlertsCap(it)
-
-                if (responseAlert.isSuccessful) {
-                    responseAlert.body()?.byteStream()?.use { stream ->
-                        parseAlertXmlBody(stream, preferredLanguage)
+                    if (responseAlert.isSuccessful) {
+                        responseAlert.body()?.byteStream()?.use { stream ->
+                            parseAlertXmlBody(stream, preferredLanguage)
+                        }
+                    } else {
+                        null
                     }
-                } else {
-                    null
                 }
+
+
+                val domain = fpasAlertsMapper(alerts, location.id)
+
+                return AlertsDataPack(domain, location)
             }
 
+            override suspend fun saveToDb(data: AlertsDataPack, alertCacheModel: AlertCacheModel) {
+                useGenericSaveImplementationForAlerts(data, alertsDao = dao, weatherContextDao)
+            }
 
-            val domain = fpasAlertsMapper(alerts, location.id)
-
-            dao.insertAlerts(
-                domain.map { it.toEntity(location.id) },
-                location.id
-            )
-
-            locationsDao.updateAlertsLastFetchedAt(location.id, System.currentTimeMillis())
-
-
-            AlertResult.Success(domain)
-
-        } catch (e: Exception) {
-            AlertResult.Error(exception = e, cacheAlerts = cache.map { it!!.toDomain() })
+            override fun finishedResult(data: List<Alert>): FinishedAlertsResult {
+                return FinishedAlertsResult(alerts = data)
+            }
         }
     }
+
+    override fun weatherCapability(): WeatherCapability? = null
+    override fun airQualityCapability(): AirQualityCapability? = null
 }
 
 private fun parseAlertXmlBody(stream: InputStream, preferredLanguage: String): FpasCapAlert {
