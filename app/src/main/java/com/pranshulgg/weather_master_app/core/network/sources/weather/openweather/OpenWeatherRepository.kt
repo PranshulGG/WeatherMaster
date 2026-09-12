@@ -1,9 +1,7 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.openweather
 
-import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
-import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.FinishedWeatherResult
@@ -14,6 +12,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualit
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.FinishedAirQualityResult
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.json.bundle.OpenWeatherJsonBundle
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.json.bundle.OpenWeatherOneCallJsonBundle
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isCurrentAirQualitySafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAirQualityCache
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
@@ -30,15 +29,17 @@ import com.pranshulgg.weather_master_app.data.repository.capability.AlertCapabil
 import com.pranshulgg.weather_master_app.data.repository.capability.WeatherCapability
 import com.pranshulgg.weather_master_app.data.repository.data.BaseRepository
 import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
+/**
+ * One Call 4.0 auto-detect (dew point, UV index, cloud cover) implemented by https://github.com/reveler-hub
+ */
 class OpenWeatherRepository @Inject constructor(
     val dao: WeatherContextDao,
     val weatherDao: WeatherDao,
     val api: OpenWeatherApi,
+    val oneCallApi: OpenWeatherOneCallApi,
     val airQualityDao: AirQualityDao,
     val apiKeysDao: ApiKeysDao
 ) : BaseRepository() {
@@ -56,24 +57,60 @@ class OpenWeatherRepository @Inject constructor(
                 isForceRefresh: Boolean,
                 cacheModel: CacheModel
             ): WeatherDataPack {
-                val current = safeApiCall {
-                    api.fetchCurrent(
-                        location.latitude, location.longitude, cacheModel.apiKey!!
-                    )
-                }.getOrThrow()
+                val apiKeyValue = cacheModel.apiKey!!
+                val apiKeyEntity = apiKeysDao.getApiKeyForSource(location.source)
 
-                val forecast = safeApiCall {
-                    api.fetchForecast(
-                        location.latitude, location.longitude, cacheModel.apiKey!!
-                    )
-                }.getOrThrow()
+                val now = System.currentTimeMillis()
+                val checkedAt = apiKeyEntity?.oneCallV4CheckedAt
+                val oneCallCooldownActive = apiKeyEntity?.oneCallV4Access == false &&
+                        checkedAt != null &&
+                        (now - checkedAt) < ONE_CALL_V4_RECHECK_INTERVAL_MS
 
-                val final = OpenWeatherJsonBundle(
-                    current = current,
-                    forecast = forecast
-                )
+                val domain = if (!oneCallCooldownActive) {
+                    val oneCallCurrent = safeApiCall {
+                        oneCallApi.fetchCurrent(
+                            location.latitude, location.longitude, apiKeyValue
+                        )
+                    }
 
-                val domain = final.toDomain(location)
+                    val currentJson = oneCallCurrent.getOrNull()
+                    if (currentJson != null) {
+                        apiKeysDao.updateOneCallV4Access(location.source, true, now)
+
+                        val startEpochSeconds = now / 1000
+
+                        val hourly = safeApiCall {
+                            oneCallApi.fetchHourly(
+                                location.latitude,
+                                location.longitude,
+                                ONE_CALL_V4_HOURLY_COUNT,
+                                startEpochSeconds,
+                                apiKeyValue
+                            )
+                        }.getOrThrow()
+
+                        val daily = safeApiCall {
+                            oneCallApi.fetchDaily(
+                                location.latitude,
+                                location.longitude,
+                                ONE_CALL_V4_DAILY_COUNT,
+                                startEpochSeconds,
+                                apiKeyValue
+                            )
+                        }.getOrThrow()
+
+                        OpenWeatherOneCallJsonBundle(
+                            current = currentJson,
+                            hourly = hourly,
+                            daily = daily
+                        ).toDomain(location)
+                    } else {
+                        apiKeysDao.updateOneCallV4Access(location.source, false, now)
+                        fetchLegacyWeather(location, apiKeyValue)
+                    }
+                } else {
+                    fetchLegacyWeather(location, apiKeyValue)
+                }
 
                 return WeatherDataPack(domain)
             }
@@ -90,6 +127,32 @@ class OpenWeatherRepository @Inject constructor(
                 return FinishedWeatherResult(weather = data)
             }
         }
+    }
+
+    /**
+     * One Call 4.0 requires a separate "One Call by Call" subscription on top of a plain
+     * API key. When the key isn't subscribed, fetchCurrent() fails (401) and we fall back
+     * here, using the legacy free /data/2.5/ endpoints instead.
+     */
+    private suspend fun fetchLegacyWeather(location: Location, apiKey: String): Weather {
+        val current = safeApiCall {
+            api.fetchCurrent(location.latitude, location.longitude, apiKey)
+        }.getOrThrow()
+
+        val forecast = safeApiCall {
+            api.fetchForecast(location.latitude, location.longitude, apiKey)
+        }.getOrThrow()
+
+        return OpenWeatherJsonBundle(current = current, forecast = forecast).toDomain(location)
+    }
+
+    companion object {
+        // Re-probe One Call 4.0 access this often after a denial, in case the user
+        // subscribes mid-session - keeps us from burning a call on every refresh.
+        private const val ONE_CALL_V4_RECHECK_INTERVAL_MS = 2 * 60 * 60 * 1000L
+
+        private const val ONE_CALL_V4_HOURLY_COUNT = 48
+        private const val ONE_CALL_V4_DAILY_COUNT = 8
     }
 
     override fun airQualityCapability(): AirQualityCapability {
