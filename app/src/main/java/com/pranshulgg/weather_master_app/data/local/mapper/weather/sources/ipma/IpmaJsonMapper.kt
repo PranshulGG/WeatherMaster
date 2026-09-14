@@ -79,7 +79,6 @@ fun List<IpmaForecastJson>.toDomain(location: Location): Weather {
                 current.humidity.toSafeDouble(),
                 WindSpeedUnit.KPH.convert(current.windSpeed.toSafeDouble(), WindSpeedUnit.MPS)
             ),
-            time = nowMillis,
             dewPoint = null,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

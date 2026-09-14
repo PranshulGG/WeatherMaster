@@ -159,7 +159,6 @@ fun ImdForecastModel.toDomain(location: Location): Weather {
                     WindSpeedUnit.MPS
                 ),
             ),
-            time = currentTime,
             dewPoint = null,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

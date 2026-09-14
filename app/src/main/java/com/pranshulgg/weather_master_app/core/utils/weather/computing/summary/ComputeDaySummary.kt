@@ -10,6 +10,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.computeDailyWeatherCondition
@@ -36,7 +37,7 @@ fun computeDaySummary(
 
     val currentIndex = findHourlyIndexForTime(
         hourly.map { it.time },
-        weather.current.time
+        getCurrentTimeFor(weather.location.timezone)
     )
 
 

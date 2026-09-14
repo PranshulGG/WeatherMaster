@@ -36,6 +36,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
 import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
@@ -55,7 +56,8 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
     val weather = viewModel.weather.collectAsState().value.weather
     val hourly = weather?.hourly ?: return
     val units = viewModel.units.collectAsState().value.units
-    val time = if (index != 0) weather.daily[index].time else weather.current.time
+    val time =
+        if (index != 0) weather.daily[index].time else getCurrentTimeFor(weather.location.timezone)
     val context = LocalContext.current
     val data = findMatchingHourly(
         hourly,

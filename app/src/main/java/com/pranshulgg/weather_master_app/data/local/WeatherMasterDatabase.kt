@@ -3,8 +3,10 @@ package com.pranshulgg.weather_master_app.data.local
 import android.content.Context
 import androidx.room.AutoMigration
 import androidx.room.Database
+import androidx.room.DeleteColumn
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.AutoMigrationSpec
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
@@ -31,6 +33,12 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.blocks.Weathe
 import com.pranshulgg.weather_master_app.data.local.entity.weather.nws.NwsGridPointsEntity
 import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeatherUnitsEntity
 
+@DeleteColumn(
+    tableName = "weather_current",
+    columnName = "time"
+)
+class WeatherCurrentDeleteTimeSpec : AutoMigrationSpec
+
 @Database(
     entities = [
         WeatherLocationEntity::class,
@@ -47,7 +55,7 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeat
         AlertEntity::class,
         ApiKeyEntity::class
     ],
-    version = 59,
+    version = 60,
     autoMigrations = [
         AutoMigration(from = 39, to = 40),
         AutoMigration(from = 42, to = 43),
@@ -62,9 +70,11 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeat
         AutoMigration(from = 54, to = 55),
         AutoMigration(from = 56, to = 57),
         AutoMigration(from = 57, to = 58),
-        AutoMigration(from = 58, to = 59)
-    ]
+        AutoMigration(from = 58, to = 59),
+        AutoMigration(from = 59, to = 60, spec = WeatherCurrentDeleteTimeSpec::class)
+    ],
 )
+
 abstract class WeatherMasterDatabase : RoomDatabase() {
 
     abstract fun weatherContextDao(): WeatherContextDao
@@ -74,11 +84,8 @@ abstract class WeatherMasterDatabase : RoomDatabase() {
     abstract fun airQualityDao(): AirQualityDao
     abstract fun nwsDao(): NwsDao
     abstract fun githubDao(): GithubDao
-
     abstract fun locationKeysDao(): LocationKeysDao
-
     abstract fun alertsDao(): AlertsDao
-
     abstract fun apiKeysDao(): ApiKeysDao
 
     companion object {
@@ -218,3 +225,4 @@ val MIGRATION_55_56 = object : Migration(55, 56) {
         }
     }
 }
+

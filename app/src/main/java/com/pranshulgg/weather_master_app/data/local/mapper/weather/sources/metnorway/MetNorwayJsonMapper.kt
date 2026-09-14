@@ -61,7 +61,6 @@ fun MetNorwayForecastJson.toDomain(location: Location): Weather {
                 current.instant.details.relativeHumidity,
                 current.instant.details.windSpeed
             ),
-            time = currentTime,
             dewPoint = current.instant.details.dewPoint,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

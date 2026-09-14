@@ -7,6 +7,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherCurren
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isWeatherDomainSafe
 import com.pranshulgg.weather_master_app.data.local.entity.weather.DailyWeatherEntity
@@ -23,7 +24,7 @@ fun WeatherWithRelations.toDomain(): Weather? {
 
     // DROP PAST DAYS
     val todayIndex = getDailyIndexForToday(
-        current?.time ?: System.currentTimeMillis(),
+        getCurrentTimeFor(timezone),
         daily,
         timezone
     ).coerceAtLeast(0)
@@ -54,7 +55,6 @@ fun WeatherWithRelations.toDomain(): Weather? {
             uvIndex = current?.uvIndex,
             weatherCondition = current?.weatherCondition ?: WeatherCondition.NO_CONDITION_FOUND,
             feelsLike = current?.feelsLike,
-            time = current?.time ?: -1L,
             dewPoint = current?.dewPoint,
             utcOffsetSeconds = current?.utcOffsetSeconds,
             lastUpdatedInMilli = current?.lastUpdatedInMilli ?: -1L

@@ -7,6 +7,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.math.roundToInt
@@ -15,7 +16,7 @@ import kotlin.math.roundToInt
 fun sendGadgetBridgeWeatherData(context: Context, weather: Weather) {
     try {
         val rootWeatherJson = JSONObject().apply {
-            put("timestamp", weather.current.time / 1000L)
+            put("timestamp", getCurrentTimeFor(weather.location.timezone) / 1000L)
             put("location", weather.location.name)
             put("currentTemp", weather.current.temperature?.inKelvin())
             put("todayMinTemp", weather.daily[0].temperatureMin?.inKelvin())

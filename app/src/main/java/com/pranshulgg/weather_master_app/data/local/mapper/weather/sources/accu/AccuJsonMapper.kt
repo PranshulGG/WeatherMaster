@@ -58,7 +58,6 @@ fun AccuWeatherBundle.toDomain(location: Location): Weather {
             uvIndex = current.uvIndex,
             weatherCondition = AccuWeatherConditionMap.getCondition(current.weatherIcon),
             feelsLike = current.feelsLike.metric.value,
-            time = current.time.secondsToMilliseconds(),
             dewPoint = current.dewPoint.metric.value,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

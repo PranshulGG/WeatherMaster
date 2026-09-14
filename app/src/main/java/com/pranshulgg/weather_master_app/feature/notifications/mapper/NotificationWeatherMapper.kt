@@ -31,7 +31,7 @@ fun notificationWeatherMapper(
     val currentCondition = weather.current.weatherCondition.toLabel(applicationContext)
 
     val currentIcon = weather.current.weatherCondition.toIcon(
-        targetTimeMilli = weather.current.time,
+        targetTimeMilli = getCurrentTimeFor(timezone),
         daily = weather.daily.firstOrNull()
     )
 

@@ -52,7 +52,6 @@ fun MeteoFranceForecastJson.toDomain(location: Location): Weather {
                 forecast[currentHour].temperature, forecast[currentHour].humidity?.toDouble(),
                 forecast[currentHour].windSpeed?.toDouble()
             ),
-            time = forecast[currentHour].time.secondsToMilliseconds(),
             dewPoint = null,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

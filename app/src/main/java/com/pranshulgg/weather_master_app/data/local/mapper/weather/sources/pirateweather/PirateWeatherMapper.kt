@@ -66,7 +66,6 @@ private fun PirateWeatherCurrentJson.toWeatherCurrent(
         uvIndex = uvIndex,
         weatherCondition = PirateWeatherConditionMap.getCondition(icon),
         feelsLike = apparentTemperature,
-        time = time.secondsToMilliseconds(),
         dewPoint = dewPoint,
         utcOffsetSeconds = utcOffsetSeconds,
         lastUpdatedInMilli = System.currentTimeMillis()

@@ -35,12 +35,12 @@ fun widgetWeatherMapper(
 
     val currentCondition = weather.current.weatherCondition.toLabel(applicationContext)
     val currentIcon = weather.current.weatherCondition.toIcon(
-        targetTimeMilli = weather.current.time,
+        targetTimeMilli = getCurrentTimeFor(timezone),
         daily = weather.daily.firstOrNull()
     )
 
     val currentFrogIcon = weather.current.weatherCondition.toFroggy(
-        targetTimeMilli = weather.current.time,
+        targetTimeMilli = getCurrentTimeFor(timezone),
         daily = weather.daily.firstOrNull()
     )
 

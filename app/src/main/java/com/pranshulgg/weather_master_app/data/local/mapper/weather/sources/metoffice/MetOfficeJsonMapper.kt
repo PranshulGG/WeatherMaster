@@ -70,7 +70,6 @@ fun MetOfficeForecastJson.toDomain(location: Location): Weather {
             uvIndex = hourly[currentHourIndex].uvIndex,
             weatherCondition = MetOfficeWeatherConditionMap.getCondition(hourly[currentHourIndex].significantWeatherCode),
             feelsLike = hourly[currentHourIndex].feelsLikeTemperature,
-            time = currentTime,
             dewPoint = hourly[currentHourIndex].screenDewPointTemperature,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()
