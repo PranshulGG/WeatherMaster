@@ -63,6 +63,7 @@ fun ChangelogContent(hideSheet: () -> Unit) {
                 ChangelogText("Remove unused background location permission")
                 ChangelogText("Widget clock or date now opens the calendar/clock app if available")
                 ChangelogText("Add missing comma in \"EEE d MMMM\" by @VadosG")
+                ChangelogText("Use rounded chips in the legend  by @RakshithBhat03")
             }
         }
 
