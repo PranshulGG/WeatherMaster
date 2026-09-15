@@ -198,6 +198,13 @@ enum class Source(
         displayLink = "https://openweathermap.org/",
         capabilities = setOf(Capability.WEATHER, Capability.AIR_QUALITY),
         requiresUserApiKey = true
+    ),
+    MGM(
+        displayName = "MGM",
+        fullName = "Meteoroloji Genel Müdürlüğü",
+        displayLink = "https://www.mgm.gov.tr/",
+        countryNameRes = R.string.country_turkey,
+        capabilities = setOf(Capability.WEATHER)
     );
 
     // Sources that provide snow/rain as precipitation
@@ -238,6 +245,7 @@ private val sourcesByCountry = buildMap {
     put("TW", listOf(Source.CWA))
     put("JP", listOf(Source.JMA))
     put("BR", listOf(Source.INMET))
+    put("TR", listOf(Source.MGM))
 
 }
 
