@@ -253,7 +253,7 @@ fun NotificationsScreen(navController: NavController) {
                     ),
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.schedule_48px) },
-                        title = stringResource(R.string.setting_today_forecast_notification_set_time),
+                        title = stringResource(R.string.setting_next_day_forecast_notification_set_time),
                         description = if (isNextDayForecastNotificationEnabled) {
                             SimpleDateFormat(pattern, getCurrentAppLocale()).format(
                                 Date(chosenTimeNextDay)
