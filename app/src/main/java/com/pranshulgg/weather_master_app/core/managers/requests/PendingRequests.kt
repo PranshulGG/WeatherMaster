@@ -32,13 +32,6 @@ class PendingRequests @Inject constructor() {
         isForceRefreshForAirQuality: Boolean = false,
         isForceRefreshForAlerts: Boolean = false
     ) {
-        Log.d(
-            "PendingRequests",
-            "queueRequest() called: location=${location.id}, " +
-                    "force=$isForceRefresh, " +
-                    "forceAQ=$isForceRefreshForAirQuality, " +
-                    "forceAlerts=$isForceRefreshForAlerts"
-        )
         _pendingRequest.tryEmit(
             WeatherRefreshRequestState(
                 location = location,
@@ -47,10 +40,6 @@ class PendingRequests @Inject constructor() {
                 forceRefreshForAlerts = isForceRefreshForAlerts,
                 isManualRefresh = isManualRefresh
             )
-        )
-        Log.d(
-            "PendingRequests",
-            "State updated: ${_pendingRequest.value}"
         )
     }
 }
