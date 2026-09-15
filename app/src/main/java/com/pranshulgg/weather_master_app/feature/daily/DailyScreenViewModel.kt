@@ -21,9 +21,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DailyScreenViewModel @Inject constructor(
-    private val locationsRepo: WeatherContextRepository,
-    private val weatherBlocksRepository: WeatherBlocksRepository,
-    private val weatherUnitsRepository: WeatherUnitsRepository,
     weatherStore: WeatherStore,
     locationStore: LocationStore,
     weatherUnitsStore: WeatherUnitsStore,
@@ -39,7 +36,7 @@ class DailyScreenViewModel @Inject constructor(
 
     fun saveBlocks(blocks: List<WeatherBlock>) {
         viewModelScope.launch {
-            weatherBlocksManager.saveBlocks(items = blocks)
+            weatherBlocksManager.saveBlocks(items = blocks, isDaily = true)
         }
     }
 }
