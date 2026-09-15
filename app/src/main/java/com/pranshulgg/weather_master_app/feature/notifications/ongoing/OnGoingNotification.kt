@@ -4,7 +4,9 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -26,6 +28,7 @@ import com.pranshulgg.weather_master_app.feature.notifications.mapper.notificati
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationWeatherModel
 import androidx.core.graphics.createBitmap
 import androidx.core.graphics.drawable.IconCompat
+import com.pranshulgg.weather_master_app.MainActivity
 import com.pranshulgg.weather_master_app.feature.notifications.isNotificationPermissionGranted
 
 object OnGoingNotification {
@@ -75,6 +78,17 @@ object OnGoingNotification {
         val iconBitmap = createTextBitmap(data.current.temp)
         val smallIcon = IconCompat.createWithBitmap(iconBitmap!!)
 
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val notification = NotificationCompat.Builder(
             context,
             NotificationConfig.CHANNEL_ID
@@ -83,11 +97,12 @@ object OnGoingNotification {
             .setCustomBigContentView(views)
             .setOngoing(true)
             .setOnlyAlertOnce(true)
+            .setContentIntent(pendingIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
 
-        
+
         @SuppressLint("MissingPermission")
         if (context.isNotificationPermissionGranted()) {
             NotificationManagerCompat

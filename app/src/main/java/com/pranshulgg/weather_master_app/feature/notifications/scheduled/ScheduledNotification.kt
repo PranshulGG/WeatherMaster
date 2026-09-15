@@ -1,12 +1,14 @@
 package com.pranshulgg.weather_master_app.feature.notifications.scheduled
 
 import android.annotation.SuppressLint
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import com.pranshulgg.weather_master_app.MainActivity
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
@@ -34,7 +36,7 @@ class ScheduledNotification : BroadcastReceiver() {
 
     @Inject
     lateinit var weatherContextRepository: WeatherContextRepository
-    
+
     @Inject
     lateinit var sourceDataRepository: SourceDataRepository
 
@@ -107,6 +109,17 @@ class ScheduledNotification : BroadcastReceiver() {
         isToday: Boolean
     ) {
 
+        val intent = Intent(context, MainActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val pendingIntent = PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val title = buildString {
             if (isToday) {
                 append("Today: ${weather.daily[0].condition} • ${weather.daily[0].maxTemp}/${weather.daily[0].minTemp}")
@@ -147,6 +160,7 @@ class ScheduledNotification : BroadcastReceiver() {
                     .bigText(message)
                     .setBigContentTitle(title)
             )
+            .setContentIntent(pendingIntent)
             .setLargeIcon(largeIconBitmap)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .build()
