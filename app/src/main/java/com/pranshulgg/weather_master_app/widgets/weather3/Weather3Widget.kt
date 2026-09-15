@@ -124,7 +124,6 @@ class Weather3Widget : GlanceAppWidget() {
                         ) {
                             Box(
                                 modifier = GlanceModifier.wrapContentSize()
-                                    .clickable(onClick = openAvailableClockApp())
                             ) {
                                 WidgetClock(
                                     clockFontSize,
@@ -144,7 +143,6 @@ class Weather3Widget : GlanceAppWidget() {
                         Row(GlanceModifier.fillMaxWidth()) {
                             Box(
                                 modifier = GlanceModifier.wrapContentSize()
-                                    .clickable(openAvailableCalendarApp())
                             ) {
                                 WidgetDate(
                                     config.dateFormat,
@@ -247,22 +245,6 @@ private fun GlanceModifier.appWidgetBackgroundShape(
                 colorFilter = ColorFilter.tint(color ?: GlanceTheme.colors.widgetBackground)
             )
     }
-}
-
-private fun openAvailableClockApp(): Action =
-    actionStartActivity(
-        Intent(AlarmClock.ACTION_SHOW_ALARMS).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-    )
-
-private fun openAvailableCalendarApp(): Action {
-    return actionStartActivity(
-        Intent(Intent.ACTION_MAIN).apply {
-            addCategory(Intent.CATEGORY_APP_CALENDAR)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
-    )
 }
 
 @Composable

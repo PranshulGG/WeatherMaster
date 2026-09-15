@@ -1,8 +1,11 @@
 package com.pranshulgg.weather_master_app.widgets.ui.views
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
+import android.provider.CalendarContract
 import android.util.TypedValue
 import android.widget.RemoteViews
 import androidx.compose.runtime.Composable
@@ -52,6 +55,21 @@ private fun createDate(
 
         setTextViewTextSize(viewId, TypedValue.COMPLEX_UNIT_SP, size)
 
+        val calendarIntent = Intent(
+            Intent.ACTION_VIEW,
+            CalendarContract.CONTENT_URI
+        ).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
+
+        val calendarPendingIntent = PendingIntent.getActivity(
+            context,
+            101,
+            calendarIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        setOnClickPendingIntent(viewId, calendarPendingIntent)
     }
 }
 
