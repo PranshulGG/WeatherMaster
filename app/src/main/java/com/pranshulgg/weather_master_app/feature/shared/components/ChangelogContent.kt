@@ -60,6 +60,9 @@ fun ChangelogContent(hideSheet: () -> Unit) {
                 ChangelogText("Refactored app architecture")
                 ChangelogText("Updated all translations")
                 ChangelogText("Add support for third-party gadgetbridge receivers by @FlammeGamer")
+                ChangelogText("Remove unused background location permission")
+                ChangelogText("Widget clock or date now opens the calendar/clock app if available")
+                ChangelogText("Add missing comma in \"EEE d MMMM\" by @VadosG")
             }
         }
 

@@ -96,7 +96,8 @@ fun IntroScreen(navController: NavController) {
 
     val requestLocation = rememberLocationPermissionLauncher(
         onForegroundGranted = {
-            backgroundLocationPermissionInfoDialogOpen = true
+            continueWithLocation()
+//            backgroundLocationPermissionInfoDialogOpen = true
         },
         onDenied = {
             SnackbarManager.show(R.string.location_permission_required)
