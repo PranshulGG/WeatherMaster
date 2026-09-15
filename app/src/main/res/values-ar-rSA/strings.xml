@@ -243,7 +243,7 @@
     <string name="summary_uv_extreme_template_3">من المتوقع أن تكون أشعة الشمس شديدة جدًّا في %1$s.</string>
     <string name="summary_uv_high_template_1">ستظل مستويات الأشعة فوق البنفسجية في %1$s مرتفعة.</string>
     <string name="summary_uv_high_template_2">من المتوقع حدوث تعرض شديد للأشعة فوق البنفسجية في %1$s.</string>
-    <string name="summary_uv_high_template_3">من المتوقع أن تسود ظروف أشعة فوق البنفسجية عالية طوال فترة بعد الظهر في %1$.</string>
+    <string name="summary_uv_high_template_3">من المتوقع أن تسود ظروف أشعة فوق البنفسجية عالية طوال فترة بعد الظهر في %1$s.</string>
     <string name="summary_uv_moderate_template_1">ستظل مستويات الأشعة فوق البنفسجية معتدلة.</string>
     <string name="summary_uv_moderate_template_2">من المتوقع التعرض لأشعة فوق البنفسجية بدرجة معتدلة.</string>
     <string name="summary_uv_moderate_template_3">سيظل التعرض لأشعة الشمس معتدلاً طوال اليوم.</string>
@@ -452,5 +452,4 @@
     <string name="setting_next_day_forecast_notification_set_time">تحديد موعد إرسال إشعار توقعات الطقس لليوم التالي</string>
     <string name="label_disabled">معطل</string>
     <string name="weather_refresh_delay_fixed">يرجى الانتظار لمدة 15 دقيقة قبل تحديث الصفحة</string>
-</resources>
-<!--<string name=""></string>-->
+</resources><!--<string name=""></string>-->
