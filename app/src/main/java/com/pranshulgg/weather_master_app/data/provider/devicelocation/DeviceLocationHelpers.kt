@@ -16,8 +16,18 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.location.LocationManagerCompat
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.suspendCancellableCoroutine
+import org.locationtech.jts.geom.Coordinate
+import org.locationtech.jts.geom.Geometry
+import org.locationtech.jts.geom.GeometryFactory
+import org.locationtech.jts.io.geojson.GeoJsonReader
+import java.io.InputStream
 import java.util.Locale
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlin.coroutines.resume
 
 fun Context.setLocationPermissionRequested() {
@@ -124,48 +134,81 @@ fun rememberBackgroundLocationPermissionLauncher(
 suspend fun getCountryCode(
     context: Context,
     latitude: Double,
-    longitude: Double
-): String? = suspendCancellableCoroutine { cont ->
+    longitude: Double,
+    chinaOfflineGeocoder: ChinaOfflineGeocoder
+): String? {
 
-    val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-
-    var countryCode = tm.networkCountryIso
-
-    if (countryCode.isNullOrBlank()) {
-        countryCode = tm.simCountryIso
+    if (chinaOfflineGeocoder.checkIsChina(latitude, longitude)) {
+        return "CN"
     }
 
-    if (!countryCode.isNullOrBlank()) {
-        cont.resume(countryCode.uppercase(Locale.ROOT))
-        return@suspendCancellableCoroutine
-    }
+    return suspendCancellableCoroutine { cont ->
 
-    val geocoder = Geocoder(context, Locale.getDefault())
 
-    try {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            geocoder.getFromLocation(latitude, longitude, 1) { addresses ->
-                if (!cont.isActive) return@getFromLocation
-                val code = addresses.firstOrNull()?.countryCode?.uppercase(Locale.ROOT)
-                cont.resume(code)
+        val geocoder = Geocoder(context, Locale.getDefault())
+
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                geocoder.getFromLocation(latitude, longitude, 1) { addresses ->
+                    if (!cont.isActive) return@getFromLocation
+                    val code = addresses.firstOrNull()?.countryCode?.uppercase(Locale.ROOT)
+                    cont.resume(code)
+                }
+            } else {
+                @Suppress("DEPRECATION")
+                val result = geocoder.getFromLocation(latitude, longitude, 1)
+                val code = result?.firstOrNull()?.countryCode?.uppercase(Locale.ROOT)
+
+                if (cont.isActive) {
+                    cont.resume(code)
+                }
             }
-        } else {
-            @Suppress("DEPRECATION")
-            val result = geocoder.getFromLocation(latitude, longitude, 1)
-            val code = result?.firstOrNull()?.countryCode?.uppercase(Locale.ROOT)
-
+        } catch (e: Exception) {
             if (cont.isActive) {
-                cont.resume(code)
+                cont.resume(null)
             }
-        }
-    } catch (e: Exception) {
-        if (cont.isActive) {
-            cont.resume(null)
         }
     }
 }
 
+
 fun Context.isLocationEnabled(): Boolean {
     val locationManager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     return LocationManagerCompat.isLocationEnabled(locationManager)
+}
+
+// FOR LOCATIONS IN CHINA
+// NOMINATIM/ANDROID GEOCODER FAILS
+@Singleton
+class ChinaOfflineGeocoder @Inject constructor(
+    @ApplicationContext context: Context
+) {
+    private val geometryFactory = GeometryFactory()
+    private val geoJsonReader = GeoJsonReader(geometryFactory)
+    private var chinaGeometry: Geometry? = null
+
+    init {
+        val inputStream: InputStream = context.assets.open("china.geo.json")
+
+        val mapper = jacksonObjectMapper()
+        val root: Map<String, Any> = mapper.readValue(inputStream)
+        val features = root["features"] as List<Map<String, Any>>
+
+        if (features.isNotEmpty()) {
+            val firstFeature = features[0]
+            val geometryMap = firstFeature["geometry"] as Map<String, Any>
+            val geometryJsonString = mapper.writeValueAsString(geometryMap)
+
+            chinaGeometry = geoJsonReader.read(geometryJsonString)
+        }
+        inputStream.close()
+    }
+
+    fun checkIsChina(latitude: Double, longitude: Double): Boolean {
+        val targetPoint = geometryFactory.createPoint(Coordinate(longitude, latitude))
+
+        val isInside = chinaGeometry?.covers(targetPoint) ?: false
+
+        return isInside
+    }
 }

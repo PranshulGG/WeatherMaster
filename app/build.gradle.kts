@@ -166,6 +166,11 @@ dependencies {
     implementation(libs.common.suncalc)
     implementation(libs.androidx.appcompat)
 
+    implementation(libs.jts.core)
+    implementation(libs.jts.io.common)
+
+    implementation(libs.jackson.module.kotlin)
+
 //    coreLibraryDesugaring(libs.desugar.jdk.libs) // Not sure but it causes timezone crashes on some devices
     implementation(libs.androidx.hilt.navigation.compose)
     implementation(libs.converter.jaxb)

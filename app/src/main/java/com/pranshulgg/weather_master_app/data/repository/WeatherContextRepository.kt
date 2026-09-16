@@ -21,6 +21,7 @@ import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toCurrentWeatherEntity
 import com.pranshulgg.weather_master_app.data.local.mapper.weather.toDomain
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.ChinaOfflineGeocoder
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.DeviceLocation
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.GetDeviceLocation
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.getCountryCode
@@ -42,7 +43,8 @@ class WeatherContextRepository @Inject constructor(
     @param:ApplicationContext private val context: Context,
     private val nominatimRepository: NominatimRepository,
     private val alertsDao: AlertsDao,
-    private val sourceManager: SourceManager
+    private val sourceManager: SourceManager,
+    private val chinaOfflineGeocoder: ChinaOfflineGeocoder
 ) {
     private val LOCATION_UPDATE_THRESHOLD_METERS = 1000f // 1000m
 
@@ -197,7 +199,7 @@ class WeatherContextRepository @Inject constructor(
 
 
         val countryCode = if (address == null || address.countryCode.isNullOrBlank()) {
-            getCountryCode(context, location.latitude, location.longitude)
+            getCountryCode(context, location.latitude, location.longitude, chinaOfflineGeocoder)
         } else {
             address.countryCode
         }
@@ -243,7 +245,7 @@ class WeatherContextRepository @Inject constructor(
         if (address != null && address.city != null) {
 
             val countryCode = if (address.countryCode.isNullOrBlank()) {
-                getCountryCode(context, location.latitude, location.longitude)
+                getCountryCode(context, location.latitude, location.longitude, chinaOfflineGeocoder)
             } else {
                 address.countryCode
             }
