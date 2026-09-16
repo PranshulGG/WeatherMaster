@@ -3,6 +3,7 @@ package com.pranshulgg.weather_master_app.core.managers
 import android.content.Context
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.data.store.LocationStore
 import com.pranshulgg.weather_master_app.data.store.WeatherStore
 import com.pranshulgg.weather_master_app.data.store.WeatherUnitsStore
@@ -38,7 +39,11 @@ class ExternalManager @Inject constructor(
         val units = weatherUnitsStore.data.value.units
         val weather = weatherStore.data.value.weather
 
-        if (weather != null && weather.location.isDefault) {
+        val isOnGoingNotificationEnabled = PreferencesHelper.getBool(
+            "isOnGoingNotificationEnabled"
+        ) ?: false
+
+        if (weather != null && weather.location.isDefault && isOnGoingNotificationEnabled) {
             OnGoingNotification.update(
                 context = context,
                 weather = weather,
