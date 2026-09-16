@@ -13,6 +13,7 @@ import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeStrin
 import com.pranshulgg.weather_master_app.core.utils.weather.computing.summary.computeDaySummary
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findHourlyIndexForTime
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingDaily
+import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationCurrentWeather
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationDailyWeather
 import com.pranshulgg.weather_master_app.feature.notifications.model.NotificationHourlyWeather
@@ -56,9 +57,14 @@ fun notificationWeatherMapper(
         }
     }
 
-    val hourlyStartIndex = findHourlyIndexForTime(
-        weather.hourly.map { it.time },
-        getCurrentTimeFor(timezone)
+
+    val hourly = findMatchingHourly(
+        data = weather.hourly,
+        source = weather.location.source,
+        zoneId = timezone,
+        alwaysReturn24Hrs = true,
+        currentMilli = null,
+        keepPastHour = true
     )
 
     return NotificationWeatherModel(
@@ -94,7 +100,7 @@ fun notificationWeatherMapper(
                 pop = pop
             )
         },
-        hourly = weather.hourly.drop(hourlyStartIndex).take(8).map { item ->
+        hourly = hourly.take(8).map { item ->
 
 
             val matchingDaily = findMatchingDaily(
