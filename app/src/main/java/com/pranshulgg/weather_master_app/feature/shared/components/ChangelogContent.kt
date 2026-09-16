@@ -64,6 +64,7 @@ fun ChangelogContent(hideSheet: () -> Unit) {
                 ChangelogText("Widget clock or date now opens the calendar/clock app if available")
                 ChangelogText("Add missing comma in \"EEE d MMMM\" by @VadosG")
                 ChangelogText("Use rounded chips in the legend  by @RakshithBhat03")
+                ChangelogText("Option to change font size for Glance widget")
             }
         }
 
