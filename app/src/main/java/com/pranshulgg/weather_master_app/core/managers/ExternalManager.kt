@@ -25,7 +25,7 @@ class ExternalManager @Inject constructor(
     suspend fun refreshWidgets() {
         val weather = weatherStore.data.value.weather
         val units = weatherUnitsStore.data.value.units
-        if (weather != null) {
+        if (weather != null && weather.location.isDefault) {
             WeatherBackgroundUpdateScheduler.updateAllWidgets(
                 context = context,
                 data = weather,
@@ -38,7 +38,7 @@ class ExternalManager @Inject constructor(
         val units = weatherUnitsStore.data.value.units
         val weather = weatherStore.data.value.weather
 
-        if (weather != null) {
+        if (weather != null && weather.location.isDefault) {
             OnGoingNotification.update(
                 context = context,
                 weather = weather,

@@ -46,7 +46,7 @@ object OnGoingNotification {
         populateCurrent(viewsSmall, data, locationName)
 
 
-
+        views.removeAllViews(R.id.hourlyContainer)
         data.hourly.take(6).forEach { hour ->
 
             val hourView = RemoteViews(

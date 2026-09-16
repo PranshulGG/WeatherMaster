@@ -61,11 +61,6 @@ class ScheduledNotification : BroadcastReceiver() {
             }
 
 
-//            val result = repo.getWeather(
-//                location = default,
-//                isManualRefresh = false,
-//                isForceRefresh = false
-//            )
             var data: Weather? = null
 
             sourceDataRepository.getData(
