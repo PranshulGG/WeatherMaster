@@ -51,6 +51,8 @@ fun ChangelogContent(hideSheet: () -> Unit) {
                 ChangelogText("Fix alerts-only country-recommended sources leaking into weather picker @reveler-hub")
                 ChangelogText("Use real-time instead of outdated saved timestamp #1088")
                 ChangelogText("Fixed app not launching when clicking on the notifications")
+                ChangelogText("Fixed country code error for locations in China")
+                ChangelogText("Fixed Froggy widget cropping issue")
             }
             ChangelogBox {
                 ChangelogHeader("Improvements")
