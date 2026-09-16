@@ -10,19 +10,21 @@ import com.pranshulgg.weather_master_app.data.worker.WeatherBackgroundUpdateSche
 import com.pranshulgg.weather_master_app.feature.notifications.ongoing.OnGoingNotification
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
+import javax.inject.Singleton
 
 // UPDATES NOTIFICATION/WIDGETS
 // APP SIDE ONLY!!!
+@Singleton
 class ExternalManager @Inject constructor(
     private val weatherStore: WeatherStore,
     private val weatherUnitsStore: WeatherUnitsStore,
     @ApplicationContext val context: Context
 ) {
 
-    val weather = weatherStore.data.value.weather
-    val units = weatherUnitsStore.data.value.units
 
     suspend fun refreshWidgets() {
+        val weather = weatherStore.data.value.weather
+        val units = weatherUnitsStore.data.value.units
         if (weather != null) {
             WeatherBackgroundUpdateScheduler.updateAllWidgets(
                 context = context,
@@ -33,6 +35,9 @@ class ExternalManager @Inject constructor(
     }
 
     fun refreshNotifications() {
+        val units = weatherUnitsStore.data.value.units
+        val weather = weatherStore.data.value.weather
+
         if (weather != null) {
             OnGoingNotification.update(
                 context = context,
