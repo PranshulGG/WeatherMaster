@@ -15,6 +15,7 @@ data class WeatherRefreshRequestState(
     val forceRefresh: Boolean,
     val forceRefreshForAirQuality: Boolean,
     val forceRefreshForAlerts: Boolean,
+    val skipDeviceLocationCheck: Boolean = false
 )
 
 @Singleton
@@ -30,15 +31,19 @@ class PendingRequests @Inject constructor() {
         isManualRefresh: Boolean = false,
         isForceRefresh: Boolean = false,
         isForceRefreshForAirQuality: Boolean = false,
-        isForceRefreshForAlerts: Boolean = false
+        isForceRefreshForAlerts: Boolean = false,
+        skipDeviceLocationCheck: Boolean = false
     ) {
+
+
         _pendingRequest.tryEmit(
             WeatherRefreshRequestState(
                 location = location,
                 forceRefresh = isForceRefresh,
                 forceRefreshForAirQuality = isForceRefreshForAirQuality,
                 forceRefreshForAlerts = isForceRefreshForAlerts,
-                isManualRefresh = isManualRefresh
+                isManualRefresh = isManualRefresh,
+                skipDeviceLocationCheck = skipDeviceLocationCheck
             )
         )
     }

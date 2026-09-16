@@ -1,5 +1,6 @@
 package com.pranshulgg.weather_master_app.core.managers
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -64,7 +65,7 @@ class WeatherManager @Inject constructor(
         isForceRefresh: Boolean = false,
         isForceRefreshForAirQuality: Boolean = false,
         isForceRefreshForAlerts: Boolean = false,
-        skipDeviceLocationCheck: Boolean = false,
+        skipDeviceLocationCheck: Boolean = false
     ) {
 
         isUnsupportedSource = false
@@ -168,6 +169,7 @@ class WeatherManager @Inject constructor(
             is AirQualityResult.Error -> {
                 weatherStore.setAirQuality(airQuality = result.airQuality)
             }
+
             is AirQualityResult.NotSupported -> {
                 weatherStore.setAirQuality(null)
             }
@@ -188,6 +190,7 @@ class WeatherManager @Inject constructor(
             is AlertResult.Error -> {
                 weatherStore.setAlerts(alerts = result.alerts)
             }
+
             is AlertResult.NotSupported -> {
                 weatherStore.setAlerts(alerts = emptyList())
             }

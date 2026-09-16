@@ -12,6 +12,7 @@ import com.pranshulgg.weather_master_app.core.managers.SourceManager
 import com.pranshulgg.weather_master_app.core.managers.WeatherBlocksManager
 import com.pranshulgg.weather_master_app.core.managers.WeatherManager
 import com.pranshulgg.weather_master_app.core.managers.WeatherUnitsManager
+import com.pranshulgg.weather_master_app.core.managers.requests.AutoRefreshes
 import com.pranshulgg.weather_master_app.core.managers.requests.PendingRequests
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.sources.Source
@@ -21,10 +22,14 @@ import com.pranshulgg.weather_master_app.data.store.LocationStore
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.minutes
 
 // DO NOT USE STORES HERE!!
 
@@ -37,7 +42,8 @@ class WeatherViewModel @Inject constructor(
     private val locationManager: LocationManager,
     private val weatherUnitsManager: WeatherUnitsManager,
     private val weatherBlocksManager: WeatherBlocksManager,
-    private val pendingRequests: PendingRequests
+    private val pendingRequests: PendingRequests,
+    private val autoRefreshes: AutoRefreshes
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(MainScreenWeatherUiState())
@@ -52,7 +58,7 @@ class WeatherViewModel @Inject constructor(
             weatherBlocksManager.initialize()
         }
         weatherUnitsManager.initialize(viewModelScope)
-
+        autoRefreshes.start()
 
         /**
          * Observe source changes here.
@@ -104,5 +110,6 @@ class WeatherViewModel @Inject constructor(
         }
 
     }
+
 
 }
