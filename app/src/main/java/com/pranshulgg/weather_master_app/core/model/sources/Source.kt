@@ -108,7 +108,7 @@ enum class Source(
     MET_OFFICE(
         displayName = "Met Office",
         fullName = "Meteorological Office",
-        displayLink = "https://www.metoffice.gov.uk/",
+        displayLink = "https://datahub.metoffice.gov.uk/pricing/site-specific",
         countryNameRes = R.string.country_united_kingdom,
         requiresUserApiKey = true,
         regionalButWorldwideSupport = true,
