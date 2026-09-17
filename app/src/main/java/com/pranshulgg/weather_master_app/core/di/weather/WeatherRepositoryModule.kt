@@ -19,6 +19,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofor.MeteoforRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.IbgeApi
@@ -195,6 +196,15 @@ object WeatherRepositoryModule {
         weatherDao: WeatherDao,
         locationKeysDao: LocationKeysDao
     ): GismeteoRepository = GismeteoRepository(dao, weatherDao, api, locationKeysDao)
+
+    @Provides
+    @Singleton
+    fun provideMeteoforRepository(
+        dao: WeatherContextDao,
+        api: GismeteoApi,
+        weatherDao: WeatherDao,
+        locationKeysDao: LocationKeysDao
+    ): MeteoforRepository = MeteoforRepository(dao, weatherDao, api, locationKeysDao)
 
     @Provides
     @Singleton

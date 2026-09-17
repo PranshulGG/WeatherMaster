@@ -110,7 +110,7 @@ class GismeteoRepository @Inject constructor(
     override fun alertCapability(): AlertCapability? = null
 }
 
-private fun findClosestLocation(location: Location, stream: InputStream): Long? {
+internal fun findClosestLocation(location: Location, stream: InputStream): Long? {
     val parser = Xml.newPullParser()
     parser.setInput(stream, null)
 
@@ -151,7 +151,7 @@ private fun findClosestLocation(location: Location, stream: InputStream): Long? 
     return closestId.toSafeDouble()?.roundToLong()
 }
 
-private fun parseXml(stream: InputStream): GismeteoModel {
+internal fun parseXml(stream: InputStream): GismeteoModel {
     val parser = Xml.newPullParser()
     parser.setInput(stream, null)
 

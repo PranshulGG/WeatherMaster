@@ -105,6 +105,13 @@ enum class Source(
         regionalButWorldwideSupport = true,
         capabilities = setOf(Capability.WEATHER)
     ),
+    METEOFOR(
+        displayName = "Meteofor",
+        fullName = "Meteofor",
+        displayLink = "https://meteofor.com.ua/",
+        countryNameRes = R.string.country_ukraine,
+        capabilities = setOf(Capability.WEATHER)
+    ),
     MET_OFFICE(
         displayName = "Met Office",
         fullName = "Meteorological Office",
@@ -230,6 +237,7 @@ private val sourcesByCountry = buildMap {
     listOf("IT", "VA").forEach { put(it, listOf(Source.METEO_AM)) }
     put("PT", listOf(Source.IPMA))
     put("RU", listOf(Source.GISMETEO))
+    put("UA", listOf(Source.METEOFOR))
     listOf("GB", "UK").forEach { put(it, listOf(Source.MET_OFFICE)) }
     put("NO", listOf(Source.MET_NORWAY))
     put("FR", listOf(Source.METEO_FRANCE))
