@@ -54,7 +54,18 @@ fun ApiKeysConfigScreen(navController: NavController) {
                 tiles = sourcesRequireApiKey.map {
 
                     SettingTile.DialogTextFieldTile(
-                        overline = { Text(it.displayLink) },
+                        overline = {
+                            Column {
+                                Text(it.displayLink)
+                                it.apiKeyNote?.let { note ->
+                                    Text(
+                                        text = note,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
+                        },
                         title = it.displayName,
                         onTextSubmitted = { key ->
                             viewModel.saveKey(key.trim(), it)
