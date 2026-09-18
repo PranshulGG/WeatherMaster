@@ -21,6 +21,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.Me
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.MgmRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherRepository
@@ -54,6 +55,7 @@ class SourceRepositoryProvider @Inject constructor(
     private val jmaRepository: JmaRepository,
     private val inmetRepository: InmetRepository,
     private val openWeatherRepository: OpenWeatherRepository,
+    private val mgmRepository: MgmRepository,
 
     // ALERTS
     private val alertsWeatherApiRepository: AlertsWeatherApiRepository,
@@ -87,7 +89,8 @@ class SourceRepositoryProvider @Inject constructor(
         alertsWeatherApiRepository,
         wmoSevereWeatherRepository,
         fpasRepository,
-        openWeatherRepository
+        openWeatherRepository,
+        mgmRepository
     )
 
     fun getWeatherRepository(source: Source): WeatherRepository {

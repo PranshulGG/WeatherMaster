@@ -12,6 +12,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.search.openmeteo.O
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.MgmApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.china.ChinaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.CwaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaApi
@@ -108,6 +109,10 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideBmkgApi(): BmkgApi = BmkgApi.create()
+
+    @Provides
+    @Singleton
+    fun provideMgmApi(): MgmApi = MgmApi.create()
 
     @Provides
     @Singleton
