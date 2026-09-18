@@ -47,8 +47,8 @@
     <string name="weather_heavy_rain">Malakas na ulan</string>
     <string name="weather_light_rain">Mahinang ulan</string>
     <string name="weather_light_snow">Mahinang pag-snow</string>
-    <string name="weather_snow">Snowy</string>
-    <string name="weather_heavy_snow">Malakas na pag-snow</string>
+    <string name="weather_snow">Niyebe</string>
+    <string name="weather_heavy_snow">Malakas ng pag-niyebe</string>
     <string name="weather_mostly_clear">Malinaw sa kabuuan</string>
     <string name="weather_thunderstorm">Thunderstorm</string>
     <string name="weather_very_hot">Sobrang init</string>
@@ -103,7 +103,7 @@
     <string name="weather">Panahon</string>
     <string name="setting_custom_color">Gumamit ng pagsasayang kulay</string>
     <string name="setting_custom_color_secondary">Select a seed color to generate the theme</string>
-    <string name="setting_dynamic_colors">Dinamiko na mga kulay</string>
+    <string name="setting_dynamic_colors">Dinamiko na kulay</string>
     <string name="setting_dynamic_colors_secondary">Use wallpaper colors</string>
     <string name="setting_amoled_theme">AMOLED</string>
     <string name="setting_amoled_theme_secondary">Use pure black in dark theme</string>
@@ -195,7 +195,7 @@
     <string name="about_terms_conditions">Mga Tuntunin &amp; Kundisyon</string>
     <string name="about_privacy_policy">Patakaran sa Privacy</string>
     <string name="about_create_issue">Lumikha ng isyu</string>
-    <string name="about_view_on_github">Tingnan sa github</string>
+    <string name="about_view_on_github">Tingnan sa GitHub</string>
     <string name="about_license">Lisensya</string>
     <string name="message_new_version_available">Bagong bersyon na magagamit</string>
     <string name="message_using_latest_version">Ginagamit mo ang pinakabagong bersyon</string>
@@ -225,7 +225,7 @@
     <string name="setting_layout">Layout</string>
     <string name="setting_weather_based_theme">Weather based theme</string>
     <string name="setting_weather_based_theme_secondary">Automatically adapts app colors based on current weather conditions.</string>
-    <string name="unit_pressure_mmhg">Millimeters of mercury</string>
+    <string name="unit_pressure_mmhg">Milimetro ng mercury</string>
     <string name="summary_uv_extreme_template_1">UV exposure will reach extreme levels at %1$s.</string>
     <string name="summary_uv_extreme_template_2">Dangerously high UV levels are expected at %1$s.</string>
     <string name="summary_uv_extreme_template_3">Very intense sunshine is expected at %1$s.</string>
@@ -363,10 +363,10 @@
     <string name="country_finland">Finland</string>
     <string name="country_indonesia">Indonesia</string>
     <string name="country_italy">Italy</string>
-    <string name="country_japan">Japan</string>
+    <string name="country_japan">Hapon</string>
     <string name="country_portugal">Portugal</string>
     <string name="country_russia">Russia</string>
-    <string name="country_spain">Spain</string>
+    <string name="country_spain">España</string>
     <string name="country_taiwan">Taiwan</string>
     <string name="country_brazil">Brazil</string>
     <string name="settings_date_format">Date format</string>
