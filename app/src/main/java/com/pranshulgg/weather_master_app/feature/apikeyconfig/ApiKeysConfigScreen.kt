@@ -56,7 +56,7 @@ fun ApiKeysConfigScreen(navController: NavController) {
                     SettingTile.DialogTextFieldTile(
                         overline = {
                             Column {
-                                Text(it.displayLink)
+                                Text(it.signupLink ?: it.displayLink)
                                 it.apiKeyNote?.let { note ->
                                     Text(
                                         text = note,

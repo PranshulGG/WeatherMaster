@@ -11,6 +11,7 @@ enum class Source(
     val fullName: String,
     val countryNameRes: Int? = null,
     val requiresUserApiKey: Boolean = false, // Source must not be selectable until the user has provided their API key
+    val signupLink: String? = null, // Shown instead of displayLink on the API key entry screen, when set
     val apiKeyNote: String? = null, // Optional hint shown under the link on the API key entry screen
     val regionalButWorldwideSupport: Boolean = false,
     val capabilities: Set<Capability>,
@@ -109,9 +110,10 @@ enum class Source(
     MET_OFFICE(
         displayName = "Met Office",
         fullName = "Meteorological Office",
-        displayLink = "https://datahub.metoffice.gov.uk/pricing/site-specific",
+        displayLink = "https://www.metoffice.gov.uk/",
         countryNameRes = R.string.country_united_kingdom,
         requiresUserApiKey = true,
+        signupLink = "https://datahub.metoffice.gov.uk/pricing/site-specific",
         apiKeyNote = "Subscribe to the \"Global Spot\" option",
         regionalButWorldwideSupport = true,
         capabilities = setOf(Capability.WEATHER)
