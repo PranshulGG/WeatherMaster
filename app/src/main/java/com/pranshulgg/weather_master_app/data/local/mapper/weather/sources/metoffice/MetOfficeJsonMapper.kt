@@ -137,8 +137,8 @@ fun MetOfficeForecastJson.toDomain(location: Location): Weather {
                 hourly.map { it.screenDewPointTemperature ?: -1.0 }.average().takeIf { it != -1.0 }
 
             WeatherDaily(
-                temperatureMin = day.dayMaxScreenTemperature,
-                temperatureMax = day.nightMinScreenTemperature,
+                temperatureMin = day.nightMinScreenTemperature,
+                temperatureMax = day.dayMaxScreenTemperature,
                 windSpeed = WindSpeedUnit.MPS.convert(
                     avgWindSpeed,
                     WindSpeedUnit.KPH
