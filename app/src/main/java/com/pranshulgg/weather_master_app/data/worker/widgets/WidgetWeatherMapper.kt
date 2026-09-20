@@ -111,8 +111,8 @@ fun widgetWeatherMapper(
                 .maxByOrNull { index -> index.uvIndex ?: 0.0 }
 
             WidgetDailyItem(
-                tempMax = "${maxTemperature}°",
-                tempMin = "${minTemperature}°",
+                tempMax = "${maxTemperature ?: "-"}°",
+                tempMin = "${minTemperature ?: "-"}°",
                 conditionIcon = icon,
                 time = toWeekdayString(it.time, timezone),
                 conditionName = conditionName,
