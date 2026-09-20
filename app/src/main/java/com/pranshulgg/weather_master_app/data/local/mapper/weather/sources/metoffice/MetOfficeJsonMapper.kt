@@ -124,7 +124,7 @@ fun MetOfficeForecastJson.toDomain(location: Location): Weather {
             )
 
             val precipitationProbabilityMax = max(
-                day.nightProbabilityOfPrecipitation ?: -1.0,
+                day.dayProbabilityOfPrecipitation ?: -1.0,
                 day.nightProbabilityOfPrecipitation ?: -1.0
             ).takeIf { it != -1.0 }
 
