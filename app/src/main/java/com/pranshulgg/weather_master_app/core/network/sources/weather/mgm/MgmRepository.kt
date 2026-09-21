@@ -25,10 +25,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-// The daily-forecast station also serves as the current-conditions station (confirmed live:
-// "merkezId" from the location lookup is what /web/sondurumlar expects, not "sondurumIstNo" -
-// the latter is just informational). Hourly station is separate and can be absent for some
-// rural locations, matching breezy-weather's MGM source.
+// The daily-forecast station ("gunlukTahminIstNo") is also used for the current-conditions call.
+// /web/tahminler/gunluk only returns data for that station - the location lookup's "merkezId"
+// returns an empty list there (confirmed live, e.g. Ankara: 90601 works, 90609 doesn't) - so
+// there is no fallback to it. Hourly station is separate and can be absent for some rural
+// locations, matching breezy-weather's MGM source.
 private data class MgmStations(val dailyStationId: Long, val hourlyStationId: Long?)
 
 /**
@@ -124,7 +125,7 @@ class MgmRepository @Inject constructor(
             api.fetchLocation(location.latitude, location.longitude)
         }.getOrNull() ?: return null
 
-        val dailyStationId = response.dailyStationId ?: response.currentStationId ?: return null
+        val dailyStationId = response.dailyStationId ?: return null
 
         return MgmStations(dailyStationId, response.hourlyStationId)
     }
