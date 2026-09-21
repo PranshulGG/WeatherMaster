@@ -190,19 +190,20 @@ private data class MgmDailyEntry(
 
 private fun toDailyEntries(daily: MgmDailyJson): List<Pair<Long, MgmDailyEntry>> {
     val days = listOf(
-        Triple(daily.dateDay1, 0, daily.conditionDay1),
-        Triple(daily.dateDay2, 1, daily.conditionDay2),
-        Triple(daily.dateDay3, 2, daily.conditionDay3),
-        Triple(daily.dateDay4, 3, daily.conditionDay4),
-        Triple(daily.dateDay5, 4, daily.conditionDay5),
+        Triple(daily.dateDay0, 0, daily.conditionDay0),
+        Triple(daily.dateDay1, 1, daily.conditionDay1),
+        Triple(daily.dateDay2, 2, daily.conditionDay2),
+        Triple(daily.dateDay3, 3, daily.conditionDay3),
+        Triple(daily.dateDay4, 4, daily.conditionDay4),
+        Triple(daily.dateDay5, 5, daily.conditionDay5),
     )
 
-    val minTemps = listOf(daily.minTempDay1, daily.minTempDay2, daily.minTempDay3, daily.minTempDay4, daily.minTempDay5)
-    val maxTemps = listOf(daily.maxTempDay1, daily.maxTempDay2, daily.maxTempDay3, daily.maxTempDay4, daily.maxTempDay5)
-    val windSpeeds = listOf(daily.windSpeedDay1, daily.windSpeedDay2, daily.windSpeedDay3, daily.windSpeedDay4, daily.windSpeedDay5)
-    val windDirections = listOf(daily.windDirectionDay1, daily.windDirectionDay2, daily.windDirectionDay3, daily.windDirectionDay4, daily.windDirectionDay5)
-    val humidityMins = listOf(daily.minHumidityDay1, daily.minHumidityDay2, daily.minHumidityDay3, daily.minHumidityDay4, daily.minHumidityDay5)
-    val humidityMaxs = listOf(daily.maxHumidityDay1, daily.maxHumidityDay2, daily.maxHumidityDay3, daily.maxHumidityDay4, daily.maxHumidityDay5)
+    val minTemps = listOf(daily.minTempDay0, daily.minTempDay1, daily.minTempDay2, daily.minTempDay3, daily.minTempDay4, daily.minTempDay5)
+    val maxTemps = listOf(daily.maxTempDay0, daily.maxTempDay1, daily.maxTempDay2, daily.maxTempDay3, daily.maxTempDay4, daily.maxTempDay5)
+    val windSpeeds = listOf(daily.windSpeedDay0, daily.windSpeedDay1, daily.windSpeedDay2, daily.windSpeedDay3, daily.windSpeedDay4, daily.windSpeedDay5)
+    val windDirections = listOf(daily.windDirectionDay0, daily.windDirectionDay1, daily.windDirectionDay2, daily.windDirectionDay3, daily.windDirectionDay4, daily.windDirectionDay5)
+    val humidityMins = listOf(daily.minHumidityDay0, daily.minHumidityDay1, daily.minHumidityDay2, daily.minHumidityDay3, daily.minHumidityDay4, daily.minHumidityDay5)
+    val humidityMaxs = listOf(daily.maxHumidityDay0, daily.maxHumidityDay1, daily.maxHumidityDay2, daily.maxHumidityDay3, daily.maxHumidityDay4, daily.maxHumidityDay5)
 
     return days.mapNotNull { (date, index, condition) ->
         val time = date?.mgmTimestampToMilliseconds() ?: return@mapNotNull null
@@ -216,5 +217,5 @@ private fun toDailyEntries(daily: MgmDailyJson): List<Pair<Long, MgmDailyEntry>>
             humidityMax = humidityMaxs[index].orNullIfSentinel(),
             condition = condition,
         )
-    }
+    }.distinctBy { it.first }
 }

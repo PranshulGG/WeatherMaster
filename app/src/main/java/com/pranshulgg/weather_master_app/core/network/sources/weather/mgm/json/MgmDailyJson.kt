@@ -2,9 +2,18 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json
 
 import com.google.gson.annotations.SerializedName
 
-// MGM returns "Gun0" as a duplicate of "Gun1" (same date, same values) rather than a distinct
-// 6th day - confirmed live. The 5 distinct forecast days are Gun1..Gun5, so Gun0 is skipped here.
+// "Gun0" is either today (a distinct day, before the local date rolls over to Gun1) or a copy of
+// Gun1 (same date, same values) - confirmed live at different times of day. The mapper reads
+// Gun0..Gun5 and drops Gun0 when its date equals Gun1's.
 data class MgmDailyJson(
+    @SerializedName("enDusukGun0") val minTempDay0: Double?,
+    @SerializedName("enYuksekGun0") val maxTempDay0: Double?,
+    @SerializedName("enDusukNemGun0") val minHumidityDay0: Double?,
+    @SerializedName("enYuksekNemGun0") val maxHumidityDay0: Double?,
+    @SerializedName("hadiseGun0") val conditionDay0: String?,
+    @SerializedName("ruzgarHizGun0") val windSpeedDay0: Double?,
+    @SerializedName("ruzgarYonGun0") val windDirectionDay0: Double?,
+    @SerializedName("tarihGun0") val dateDay0: String?,
     @SerializedName("enDusukGun1") val minTempDay1: Double?,
     @SerializedName("enDusukGun2") val minTempDay2: Double?,
     @SerializedName("enDusukGun3") val minTempDay3: Double?,
