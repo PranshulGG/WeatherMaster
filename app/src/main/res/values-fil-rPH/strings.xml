@@ -102,7 +102,7 @@
     <string name="action_confirm">Kumpirmahin</string>
     <string name="weather">Panahon</string>
     <string name="setting_custom_color">Gumamit ng pagsasayang kulay</string>
-    <string name="setting_custom_color_secondary">Select a seed color to generate the theme</string>
+    <string name="setting_custom_color_secondary">Pumili sa kulay ng binhi para makabuo ng tema</string>
     <string name="setting_dynamic_colors">Dinamiko na kulay</string>
     <string name="setting_dynamic_colors_secondary">Gamitin ang kulay sa wallpaper</string>
     <string name="setting_amoled_theme">AMOLED</string>
@@ -131,7 +131,7 @@
     <string name="weather_aqi_description_poor">Ilang miyembro ng publiko ay may karanasang epekto sa kalusugan; miyembro ng grupong sensitibo ay karanasang mas seryoso ang epekto sa kalusugan.</string>
     <string name="weather_aqi_description_very_poor">Alerto sa kalusugan: Ang panganib ng epekto sa kalusugan ay tumaas sa lahat.</string>
     <string name="weather_aqi_description_hazardous">Babala sa kalusugan ng kondisyong pang-emerhensya: lahat ay mas malamang maapektuhan.</string>
-    <string name="weather_aqi_pm_description">Small solid particles and liquid droplets found in the air. It’s emitted from motor vehicles, wood heaters, and industry. Fires and dust storms can also produce high concentrations of Particulate Matter</string>
+    <string name="weather_aqi_pm_description">Maliliit na partikular at mga patak na matatagpuan sa hangin. Ito ay nilalabas ng mga sasakyan na may makina, mga pampainit na gamit ang kahoy, at industriya. Mga apoy at bagyo ng alikabok ay maaring ring makagawa ng mataas na konsentrasyon ng partikulo</string>
     <string name="weather_aqi_no2_description">A gas and a major component of central city air pollution. It mainly comes from vehicles, industry, power stations, and heating</string>
     <string name="weather_aqi_O3_description">A gas found in the stratosphere. It protects us from harmful ultraviolet radiation and the troposphere. Ozone is a harmful pollutant produced by a chemical reaction between the sun light, organic gasses, and nitrogen oxides (e.g. Cars, Power plants)</string>
     <string name="weather_aqi_so2_description">A toxic gas with a pungent, irritating odor. It can come from electric industries that burn fossil fuels, petrol refineries, cement manufacturing, and volcano emissions</string>
