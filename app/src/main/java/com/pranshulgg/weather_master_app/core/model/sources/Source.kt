@@ -196,6 +196,12 @@ enum class Source(
         capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
     ),
 
+    MGM(
+        displayName = "MGM",
+        fullName = "Meteoroloji Genel Müdürlüğü",
+        displayLink = "https://www.mgm.gov.tr/",
+        capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
+    ),
     OPEN_WEATHER(
         displayName = "OpenWeather",
         fullName = "OpenWeather",
@@ -242,6 +248,7 @@ private val sourcesByCountry = buildMap {
     put("TW", listOf(Source.CWA))
     put("JP", listOf(Source.JMA))
     put("BR", listOf(Source.INMET))
+    put("TR", listOf(Source.MGM))
 
 }
 
