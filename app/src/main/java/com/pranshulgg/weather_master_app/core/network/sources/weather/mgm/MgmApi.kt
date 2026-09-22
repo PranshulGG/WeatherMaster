@@ -1,14 +1,48 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.mgm
 
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json.MgmCurrentJson
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json.MgmDailyJson
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json.MgmHourlyResultJson
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json.MgmLocationJson
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
-
 
 interface MgmApi {
 
+
+    @GET("web/merkezler/lokasyon")
+    suspend fun fetchLocation(
+        @Query("enlem") latitude: Double,
+        @Query("boylam") longitude: Double,
+    ): Response<MgmLocationJson>
+
+    @GET("web/sondurumlar")
+    suspend fun fetchCurrent(
+        @Query("merkezid") stationId: Long,
+    ): Response<List<MgmCurrentJson>>
+
+
+    @GET("web/tahminler/gunluk")
+    suspend fun fetchDaily(
+        @Query("istno") stationId: Long,
+    ): Response<List<MgmDailyJson>>
+
+    @GET("web/tahminler/saatlik")
+    suspend fun fetchHourly(
+        @Query("istno") stationId: Long,
+    ): Response<List<MgmHourlyResultJson>>
+
+    @GET("web/meteoalarm/{day}")
+    suspend fun fetchAlerts(
+        @Path("day") day: String,
+    )
 
     companion object {
         const val BASE_URL = "https://servis.mgm.gov.tr/"
