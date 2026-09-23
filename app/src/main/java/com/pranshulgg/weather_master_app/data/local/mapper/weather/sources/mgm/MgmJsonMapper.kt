@@ -8,12 +8,10 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
-import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.model.GismeteoModelHourly
 import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.MgmWeatherConditionMap
 import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json.MgmDailyJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json.MgmHourlyForecastJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json.bundle.MgmBundle
-import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.iso8601TimestampToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.normalizeToDay
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
@@ -24,6 +22,9 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import kotlin.time.Duration.Companion.hours
 
+/**
+ * JMA integration inspired by the investigation and analysis by https://github.com/reveler-hub
+ */
 private fun Double?.takeIfValid(): Double? {
     return this?.takeIf { it > -9000.0 }
 }
