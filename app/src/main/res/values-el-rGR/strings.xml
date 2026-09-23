@@ -440,5 +440,6 @@
     <string name="setting_next_day_forecast_notification_set_time">Set time for next day forecast notification</string>
     <string name="label_disabled">Ανενεργό</string>
     <string name="weather_refresh_delay_fixed">Παρακαλώ περίμενε 15 λεπτά πριν την ανανέωση</string>
+    <string name="country_turkey">Turkey</string>
 </resources>
 <!--<string name=""></string>-->
