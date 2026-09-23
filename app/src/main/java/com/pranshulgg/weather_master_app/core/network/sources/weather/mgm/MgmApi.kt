@@ -1,11 +1,14 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.mgm
 
+import android.util.Log
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json.MgmAlertJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json.MgmCurrentJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json.MgmDailyJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json.MgmHourlyResultJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.json.MgmLocationJson
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -39,10 +42,11 @@ interface MgmApi {
         @Query("istno") stationId: Long,
     ): Response<List<MgmHourlyResultJson>>
 
+
     @GET("web/meteoalarm/{day}")
     suspend fun fetchAlerts(
         @Path("day") day: String,
-    )
+    ): Response<List<MgmAlertJson>>
 
     companion object {
         const val BASE_URL = "https://servis.mgm.gov.tr/"
@@ -55,6 +59,7 @@ interface MgmApi {
 
             chain.proceed(new)
         }
+
 
         fun create(): MgmApi {
 
