@@ -440,5 +440,6 @@
     <string name="setting_next_day_forecast_notification_set_time">Maglaan ng oras para sa hula ng kasunod na araw</string>
     <string name="label_disabled">Di pinagana</string>
     <string name="weather_refresh_delay_fixed">Maghintay muna ng 15 minuto bago i-refresh muli</string>
+    <string name="country_turkey">Turkey</string>
 </resources>
 <!--<string name=""></string>-->
