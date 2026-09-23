@@ -446,5 +446,6 @@
     <string name="setting_next_day_forecast_notification_set_time">Установить время получения уведомления о прогнозе погоды на следующий день</string>
     <string name="label_disabled">Отключено</string>
     <string name="weather_refresh_delay_fixed">Пожалуйста, подождите 15 минут перед обновлением</string>
+    <string name="country_turkey">Turkey</string>
 </resources>
 <!--<string name=""></string>-->
