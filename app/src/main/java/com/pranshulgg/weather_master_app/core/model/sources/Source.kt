@@ -200,6 +200,7 @@ enum class Source(
         displayName = "MGM",
         fullName = "Meteoroloji Genel Müdürlüğü",
         displayLink = "https://www.mgm.gov.tr/",
+        countryNameRes = R.string.country_turkey,
         capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
     ),
     OPEN_WEATHER(
