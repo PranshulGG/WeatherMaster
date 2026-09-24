@@ -1,22 +1,15 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.kmi
 
-import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaApi
-import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.alerts.json.JmaWarningJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.json.JmaAmedasCurrentJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.json.JmaAmedasStationJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.json.JmaAreaJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.json.JmaForecastBlockJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.json.JmaHourlyJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.json.JmaWeekAreaEntryJson
+import com.pranshulgg.weather_master_app.core.network.sources.weather.kmi.json.KmiWeatherJson
 import okhttp3.OkHttpClient
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 import java.util.concurrent.TimeUnit
 
-
+// Source - https://github.com/jdejaegh/irm-kmi-api
 interface KmiApi {
 
     @GET("appv4/?s=getForecasts")
@@ -24,7 +17,7 @@ interface KmiApi {
         @Query("lat") lat: Double,
         @Query("long") lon: Double,
         @Query("k") key: String,
-    )
+    ): Response<KmiWeatherJson>
 
 
     companion object {
