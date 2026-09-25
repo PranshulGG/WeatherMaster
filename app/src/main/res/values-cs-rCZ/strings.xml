@@ -447,5 +447,6 @@
     <string name="label_disabled">Zakázáno</string>
     <string name="weather_refresh_delay_fixed">Počkejte prosím 15 minut před opětovným obnovením</string>
     <string name="country_turkey">Turkey</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->
