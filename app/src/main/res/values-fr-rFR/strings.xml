@@ -441,5 +441,6 @@
     <string name="label_disabled">Désactivé</string>
     <string name="weather_refresh_delay_fixed">Patientez 15 minutes avant de rafraîchir</string>
     <string name="country_turkey">Turquie</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->
