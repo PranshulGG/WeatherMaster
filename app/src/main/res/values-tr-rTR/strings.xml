@@ -441,5 +441,6 @@
     <string name="label_disabled">Devre dışı bırakıldı</string>
     <string name="weather_refresh_delay_fixed">Sayfayı yenilemeden önce lütfen 15 dakika bekleyiniz.</string>
     <string name="country_turkey">Turkey</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->
