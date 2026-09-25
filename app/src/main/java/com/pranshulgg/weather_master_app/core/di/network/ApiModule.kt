@@ -5,6 +5,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherApi
+import com.pranshulgg.weather_master_app.core.network.sources.airquality.moenv.MoenvApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.accu.AccuSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.GeoNamesSearchApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.geonames.timezone.GeoNamesTimezoneApi
@@ -194,4 +195,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideKmiApi(): KmiApi = KmiApi.create()
+
+    @Provides
+    @Singleton
+    fun provideMoenvApi(): MoenvApi = MoenvApi.create()
 }

@@ -52,6 +52,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweat
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiRepository
+import com.pranshulgg.weather_master_app.core.network.sources.airquality.moenv.MoenvApi
+import com.pranshulgg.weather_master_app.core.network.sources.airquality.moenv.MoenvRepository
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
@@ -313,4 +315,10 @@ object WeatherRepositoryModule {
         alertsDao: AlertsDao
     ): KmiRepository = KmiRepository(dao, weatherDao, api, apiKeysDao, locationKeysDao, alertsDao)
 
+    @Provides
+    @Singleton
+    fun provideMoenvRepository(
+        api: MoenvApi,
+        airQualityDao: AirQualityDao
+    ): MoenvRepository = MoenvRepository(api, airQualityDao)
 }
