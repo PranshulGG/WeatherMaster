@@ -131,11 +131,11 @@
     <string name="weather_aqi_description_poor">Alguns membres del públic general podrien començar a patir efectes sobre la salut; col·lectius més sensibles poden patir-ne de més severs.</string>
     <string name="weather_aqi_description_very_poor">Alerta de salut: El risc d\'efectes sobre la salut és elevat per a tothom.</string>
     <string name="weather_aqi_description_hazardous">Alerta per salut en condicions d\'emergència. Tothom en pot sortir mal parat.</string>
-    <string name="weather_aqi_pm_description">S\'han trobat partícules sòlides i gotetes a l\'aire. Són emeses per vehicles de motor, incineradors de fusta i les fàbriques. Els incendis i les tempestes també poden causar altes concentracions de partícules en suspensió.</string>
+    <string name="weather_aqi_pm_description">S\'han trobat partícules sòlides i gotetes a l\'aire. Són emeses per vehicles de motor, incineradors de fusta i les fàbriques. Els incendis i les tempestes també poden causar altes concentracions de partícules en suspensió</string>
     <string name="weather_aqi_no2_description">Un gas i un component major de la contaminació de l\'aire de les ciutats centrals. Principalment ve dels vehicles, la indústria, les centrals elèctriques, i l\'escalfament</string>
-    <string name="weather_aqi_O3_description">Un gas trobat a l\'estratosfera. Ens protegeix de les radiacions de les perilloses llums ultravioletes i la troposfera. L\'ozó és un poderós contaminant produït per una reacció química entre la llum solar, els gasos orgànics, i òxids de nitrogen (p. ex.  cotxes, centrals elèctriques)</string>
-    <string name="weather_aqi_so2_description">Un gas tòxic amb una olor picant i irritant. Pot venir de les indústries elèctriques que cremen fuels de fòssils, refineries de petroli, fabricació de ciment i emissions de volcà </string>
-    <string name="weather_aqi_co_description">Un gas de vehicles motoritzats o maquinària que crema fuels de fòssils </string>
+    <string name="weather_aqi_O3_description">Un gas trobat a l\'estratosfera. Ens protegeix de la perjudicial radiació ultraviolada i la troposfera. L\'ozó és un contaminant perjudicial produït per una reacció química entre la llum solar, els gasos orgànics, i òxids de nitrogen (p. ex. cotxes, centrals elèctriques)</string>
+    <string name="weather_aqi_so2_description">Un gas tòxic amb una penetrant olor irritant. Pot provenir de les indústries elèctriques que utilitzen combustibles fòssils, de refineries de petroli, de la fabricació de ciment i d\'emissions volcàniques</string>
+    <string name="weather_aqi_co_description">Un gas de vehicles motoritzats o maquinària que utilitzi combustibles fòssils</string>
     <string name="weather_airquality_about_index">Els índexs de la qualitat de l\'aire categoritza dades en brut a una escala de valoració descriptiva. Aquests índexs fan més fàcil identificar el nivell de contaminació i si hi han riscos associats</string>
     <string name="weather_average">Mitjana</string>
     <string name="weather_rain_block">Pluja</string>
@@ -232,7 +232,7 @@
     <string name="summary_uv_high_template_1">L\'índex ultraviolat es mantindrà alt a les %1$s.</string>
     <string name="summary_uv_high_template_2">S\'espera un nivell alt d\'índex ultraviolat a les %1$s.</string>
     <string name="summary_uv_high_template_3">S\'espera un alt índex ultraviolat al llarg de la tarda a partir de les %1$s.</string>
-    <string name="summary_uv_moderate_template_1">L\'índex ultravioltat es mantindrà moderat.</string>
+    <string name="summary_uv_moderate_template_1">L\'índex ultraviolat es mantindrà moderat.</string>
     <string name="summary_uv_moderate_template_2">S\'espera un índex ultraviolat moderat.</string>
     <string name="summary_uv_moderate_template_3">L\'índex ultraviolat es mantindrà moderat al llarg del dia.</string>
     <string name="weather_summary">Resum</string>
@@ -441,5 +441,6 @@
     <string name="label_disabled">Desactivat</string>
     <string name="weather_refresh_delay_fixed">Espera 15 minuts abans de refrescar</string>
     <string name="country_turkey">Turquia</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->
