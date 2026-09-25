@@ -38,10 +38,10 @@ class CacheResolverForAirQuality @Inject constructor(
         val cache = dao.getAirQualityForLocation(location.id)
         val shouldReturnCache = shouldReturnAirQualityCache(cache, isManualRefresh, isForceRefresh)
 
-        val locationRequiresApiKey = location.source.requiresUserApiKey
+        val locationRequiresApiKey = location.airQualitySource.requiresUserApiKey
 
         val apiKey = if (locationRequiresApiKey)
-            apiKeysDao.getApiKeyForSource(location.source) else null
+            apiKeysDao.getApiKeyForSource(location.airQualitySource) else null
 
         val domain = cache.toDomain()
 
