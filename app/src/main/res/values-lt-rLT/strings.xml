@@ -447,5 +447,6 @@
     <string name="label_disabled">Išjungta</string>
     <string name="weather_refresh_delay_fixed">Palaukite 15 min. prieš atnaujinant dar kartą</string>
     <string name="country_turkey">Turkey</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->
