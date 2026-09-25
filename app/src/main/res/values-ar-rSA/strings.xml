@@ -453,5 +453,6 @@
     <string name="label_disabled">معطل</string>
     <string name="weather_refresh_delay_fixed">يرجى الانتظار لمدة 15 دقيقة قبل تحديث الصفحة</string>
     <string name="country_turkey">Turkey</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->
