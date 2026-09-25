@@ -203,6 +203,13 @@ enum class Source(
         countryNameRes = R.string.country_turkey,
         capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
     ),
+    KMI(
+        displayName = "KMI",
+        fullName = "Royal Meteorological Institute of Belgium",
+        displayLink = "https://www.meteo.be/",
+        countryNameRes = R.string.country_belgium,
+        capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
+    ),
     OPEN_WEATHER(
         displayName = "OpenWeather",
         fullName = "OpenWeather",
@@ -250,6 +257,7 @@ private val sourcesByCountry = buildMap {
     put("JP", listOf(Source.JMA))
     put("BR", listOf(Source.INMET))
     put("TR", listOf(Source.MGM))
+    put("BE", listOf(Source.KMI))
 
 }
 

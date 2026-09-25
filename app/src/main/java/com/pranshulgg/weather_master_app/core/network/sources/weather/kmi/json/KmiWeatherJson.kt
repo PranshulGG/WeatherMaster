@@ -4,11 +4,22 @@ import com.google.gson.annotations.SerializedName
 
 data class KmiWeatherJson(
     val obs: KmiCurrentWeatherJson,
-    @SerializedName("for") val forecast: KmiForecastJson
+    @SerializedName("for") val forecast: KmiForecastJson,
+    val module: List<KmiModuleJson>
+)
+
+data class KmiModuleJson(
+    val type: String,
+    val data: KmiModuleDataJson
+)
+
+data class KmiModuleDataJson(
+    val levelValue: Double?,
 )
 
 data class KmiCurrentWeatherJson(
     val temp: Double?,
+    val timestamp: String,
     val ww: Double?,
 )
 
@@ -27,7 +38,12 @@ data class KmiDayJson(
     @SerializedName("ddText") val windDirectionText: KmiDayWindDirectionJson,
     val wind: KmiDayWindJson,
     val precipChance: Double?,
-    val precipQuantity: String?
+    val precipQuantity: String?,
+    val dayName: KmiDayNameJson?,
+)
+
+data class KmiDayNameJson(
+    val en: String?
 )
 
 data class KmiDayWindDirectionJson(

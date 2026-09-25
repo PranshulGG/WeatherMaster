@@ -141,9 +141,7 @@ class WeatherManager @Inject constructor(
                         && !location.source.isSourceSupportedFor(
                     countryCode = location.countryCode?.uppercase()
                 )
-
                 _errors.tryEmit(result.exception.toAppException())
-
             }
 
             is WeatherResult.RefreshNotAvailable -> {

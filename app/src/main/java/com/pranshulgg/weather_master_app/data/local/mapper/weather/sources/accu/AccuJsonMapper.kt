@@ -98,8 +98,7 @@ fun AccuWeatherBundle.toDomain(location: Location): Weather {
             val condition =
                 computeDailyWeatherCondition(List(12) { AccuWeatherConditionMap.getCondition(item.day.icon) } + AccuWeatherConditionMap.getCondition(
                     item.night.icon
-                ),
-                    WeatherCondition.NO_CONDITION_FOUND)
+                ), WeatherCondition.NO_CONDITION_FOUND)
 
 
             val precipitationProbabilityMax = listOf(

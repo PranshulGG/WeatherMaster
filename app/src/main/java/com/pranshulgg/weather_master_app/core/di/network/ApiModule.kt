@@ -25,6 +25,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.Inme
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetForecastApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetObservationApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.kmi.KmiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
@@ -189,4 +190,8 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideMgmApi(): MgmApi = MgmApi.create()
+
+    @Provides
+    @Singleton
+    fun provideKmiApi(): KmiApi = KmiApi.create()
 }

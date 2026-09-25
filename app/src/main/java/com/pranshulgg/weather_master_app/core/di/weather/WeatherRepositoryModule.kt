@@ -30,6 +30,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.kmi.KmiApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.kmi.KmiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
@@ -299,4 +301,16 @@ object WeatherRepositoryModule {
         locationKeysDao: LocationKeysDao,
         alertsDao: AlertsDao
     ): MgmRepository = MgmRepository(dao, weatherDao, api, apiKeysDao, locationKeysDao, alertsDao)
+
+    @Provides
+    @Singleton
+    fun provideKmiRepository(
+        dao: WeatherContextDao,
+        weatherDao: WeatherDao,
+        api: KmiApi,
+        apiKeysDao: ApiKeysDao,
+        locationKeysDao: LocationKeysDao,
+        alertsDao: AlertsDao
+    ): KmiRepository = KmiRepository(dao, weatherDao, api, apiKeysDao, locationKeysDao, alertsDao)
+
 }

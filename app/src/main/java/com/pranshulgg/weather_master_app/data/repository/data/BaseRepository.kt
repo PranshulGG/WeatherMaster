@@ -100,7 +100,8 @@ abstract class BaseRepository : WeatherRepository, AlertRepository, AirQualityRe
         } catch (e: Exception) {
             return@withContext WeatherResult.Error(
                 exception = e.toAppException(),
-                weather = cache
+                weather = cache,
+                rawException = e
             )
         }
 
@@ -152,6 +153,7 @@ abstract class BaseRepository : WeatherRepository, AlertRepository, AirQualityRe
                 } else AlertsDataPack(alerts = cache, location = location)
 
             } catch (e: Exception) {
+
                 return@withContext AlertResult.Error(
                     exception = e.toAppException(),
                     alerts = cache
