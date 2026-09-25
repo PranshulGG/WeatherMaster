@@ -441,5 +441,6 @@
     <string name="label_disabled">Di pinagana</string>
     <string name="weather_refresh_delay_fixed">Maghintay muna ng 15 minuto bago i-refresh muli</string>
     <string name="country_turkey">Turkey</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->
