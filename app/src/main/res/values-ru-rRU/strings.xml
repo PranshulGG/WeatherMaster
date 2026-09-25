@@ -447,5 +447,6 @@
     <string name="label_disabled">Отключено</string>
     <string name="weather_refresh_delay_fixed">Пожалуйста, подождите 15 минут перед обновлением</string>
     <string name="country_turkey">Турция</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->
