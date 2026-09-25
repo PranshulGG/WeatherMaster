@@ -441,5 +441,6 @@
     <string name="label_disabled">Desabilitado</string>
     <string name="weather_refresh_delay_fixed">Por favor, aguarde 15 minutos antes de recarregar</string>
     <string name="country_turkey">Turquía</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->
