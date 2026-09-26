@@ -13,6 +13,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdRep
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofor.MeteoforRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaRepository
@@ -48,6 +49,7 @@ class SourceRepositoryProvider @Inject constructor(
     private val meteoamRepository: MeteoamRepository,
     private val ipmaRepository: IpmaRepository,
     private val gismeteoRepository: GismeteoRepository,
+    private val meteoforRepository: MeteoforRepository,
     private val metOfficeRepository: MetOfficeRepository,
     private val aemetRepository: AemetRepository,
     private val imdRepository: ImdRepository,
@@ -81,6 +83,7 @@ class SourceRepositoryProvider @Inject constructor(
         meteoamRepository,
         ipmaRepository,
         gismeteoRepository,
+        meteoforRepository,
         metOfficeRepository,
         aemetRepository,
         imdRepository,
