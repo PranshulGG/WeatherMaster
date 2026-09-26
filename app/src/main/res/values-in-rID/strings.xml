@@ -437,5 +437,7 @@
     <string name="setting_next_day_forecast_notification_set_time">Atur waktu notifikasi ramalan harian</string>
     <string name="label_disabled">Dimatikan</string>
     <string name="weather_refresh_delay_fixed">Harap tunggu 15 sebelum memperbarui</string>
+    <string name="country_turkey">Turki</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->

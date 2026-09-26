@@ -198,7 +198,7 @@
     <string name="setting_updates">تحديثات</string>
     <string name="setting_disable_battery_opt_title">تعطيل تحسين أداء البطارية</string>
     <string name="setting_disable_battery_opt_secondary">إذا لم تعمل التحديثات في الخلفية، فقد يكون خاصية تحسين أداء البطارية هو ما يقيد هذا التطبيق</string>
-    <string name="setting_dontkillmyapp_title">تحديثات الخلفية لا يعمل</string>
+    <string name="setting_dontkillmyapp_title">هل تحديثات الخلفية لا تعمل؟</string>
     <string name="setting_dontkillmyapp_secondary">يقوم بعض بائعي الأجهزة بتقييد التطبيقات في الخلفية. تحقق من dontkillmyapp.com لمعرفة خطوات إصلاح ذلك</string>
     <string name="setting_weather_sources_secondary">قائمة بجميع المصادر المدعومة</string>
     <string name="setting_join_discord">انضم إلى خادم ديسكورد</string>
@@ -243,7 +243,7 @@
     <string name="summary_uv_extreme_template_3">من المتوقع أن تكون أشعة الشمس شديدة جدًّا في %1$s.</string>
     <string name="summary_uv_high_template_1">ستظل مستويات الأشعة فوق البنفسجية في %1$s مرتفعة.</string>
     <string name="summary_uv_high_template_2">من المتوقع حدوث تعرض شديد للأشعة فوق البنفسجية في %1$s.</string>
-    <string name="summary_uv_high_template_3">من المتوقع أن تسود ظروف أشعة فوق البنفسجية عالية طوال فترة بعد الظهر في %1$s.</string>
+    <string name="summary_uv_high_template_3">من المتوقع أن تسود ظروف أشعة فوق البنفسجية عالية طوال فترة بعد الظهر في %1$.</string>
     <string name="summary_uv_moderate_template_1">ستظل مستويات الأشعة فوق البنفسجية معتدلة.</string>
     <string name="summary_uv_moderate_template_2">من المتوقع التعرض لأشعة فوق البنفسجية بدرجة معتدلة.</string>
     <string name="summary_uv_moderate_template_3">سيظل التعرض لأشعة الشمس معتدلاً طوال اليوم.</string>
@@ -272,7 +272,7 @@
     <string name="visibility_description_very_poor">ضباب كثيف أو هطول أمطار؛ ظروف سفر مقيدة</string>
     <string name="visibility_description_dense">انخفاض حاد؛ يؤثر على حركة المرور وعمليات المطار</string>
     <string name="text_dawn">الفجر</string>
-    <string name="text_dusk">(الغسق) أول الليل</string>
+    <string name="text_dusk">أول الليل</string>
     <string name="text_day_length">طول النهار</string>
     <string name="weather_sun_moon">الشمس والقمر</string>
     <string name="moonphase_new_moon">القمر الجديد</string>
@@ -309,14 +309,14 @@
     <string name="weather_wind_direction_from">من %1$s</string>
     <string name="day_length_hr">%1$s ساعات</string>
     <string name="error_no_results">لم يتم العثور على أي نتائج</string>
-    <string name="summary_overview_template_same_condition">وستظل النسبة %1$s طوال النهار والليل.</string>
+    <string name="summary_overview_template_same_condition">من المتوقع أن تظل %1$s طوال الليل والنهار.</string>
     <string name="summary_overview_template_day_night_condition">ستكون درجة الحرارة %1$s خلال النهار، ثم تنخفض إلى %2$s في الليل.</string>
     <string name="summary_rain_template_day_night">خلال النهار، من المتوقع هطول أمطار في منطقة %1$s بنسبة %2$s. الليلة، تبلغ نسبة احتمال هطول الأمطار في منطقة %4$s %3$s.</string>
     <string name="summary_rain_template_day">خلال النهار، من المتوقع هطول أمطار في منطقة %1$s بنسبة %2$s.</string>
     <string name="summary_rain_template_night">الليلة، تبلغ احتمالية هطول الأمطار حوالي %2$s بنسبة %1$s.</string>
     <string name="summary_snow_template_day_night">من المتوقع تساقط الثلوج في حوالي %1$s خلال النهار، مع احتمال يبلغ %2$s. وخلال الليل، يظل تساقط الثلوج ممكنًا، مع احتمال يبلغ %3$s في حوالي %4$s.</string>
     <string name="summary_snow_template_day">من المتوقع تساقط الثلوج في حوالي %1$s خلال النهار، مع احتمال يبلغ %2$s.</string>
-    <string name="summary_snow_template_night">خلال الليل، تبلغ احتمالية تساقط الثلوج في منطقة %2$s %1$s.</string>
+    <string name="summary_snow_template_night">خلال الليل، تبلغ احتمالية %1$s تساقط الثلوج عند %2$s.</string>
     <string name="summary_temp_template_extreme">من المتوقع أن تشهد الأجواء حرارة شديدة خلال النهار، حيث ستصل درجة الحرارة العظمى إلى %1$s. وستنخفض درجات الحرارة الليلة إلى حوالي %2$s.</string>
     <string name="summary_temp_template_warm">سيكون الجو دافئًا خلال النهار، حيث ستصل درجات الحرارة العظمى إلى ما يقارب %1$s. أما الليلة، فستنخفض درجات الحرارة إلى حوالي %2$s.</string>
     <string name="summary_temp_template_mild">من المتوقع أن يكون الطقس معتدلاً، حيث ستصل درجات الحرارة إلى %1$s. وخلال الليل، ستنخفض درجات الحرارة إلى حوالي %2$s.</string>
@@ -452,4 +452,7 @@
     <string name="setting_next_day_forecast_notification_set_time">تحديد موعد إرسال إشعار توقعات الطقس لليوم التالي</string>
     <string name="label_disabled">معطل</string>
     <string name="weather_refresh_delay_fixed">يرجى الانتظار لمدة 15 دقيقة قبل تحديث الصفحة</string>
-</resources><!--<string name=""></string>-->
+    <string name="country_turkey">Turkey</string>
+    <string name="country_belgium">Belgium</string>
+</resources>
+<!--<string name=""></string>-->

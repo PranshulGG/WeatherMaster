@@ -437,5 +437,7 @@
     <string name="setting_next_day_forecast_notification_set_time">设置次日天气预报通知的时间</string>
     <string name="label_disabled">已停用</string>
     <string name="weather_refresh_delay_fixed">请在 15 分钟后再刷新</string>
+    <string name="country_turkey">土耳其</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->

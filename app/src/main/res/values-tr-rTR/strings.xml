@@ -440,5 +440,7 @@
     <string name="setting_next_day_forecast_notification_set_time">Sonraki günün hava durumu bildirimini almak için zaman belirleyin</string>
     <string name="label_disabled">Devre dışı bırakıldı</string>
     <string name="weather_refresh_delay_fixed">Sayfayı yenilemeden önce lütfen 15 dakika bekleyiniz.</string>
+    <string name="country_turkey">Turkey</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->

@@ -446,5 +446,7 @@
     <string name="setting_next_day_forecast_notification_set_time">Nustatykite kitos dienos orų prognozės pranešimo laiką</string>
     <string name="label_disabled">Išjungta</string>
     <string name="weather_refresh_delay_fixed">Palaukite 15 min. prieš atnaujinant dar kartą</string>
+    <string name="country_turkey">Turkey</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->

@@ -441,5 +441,7 @@
     <string name="setting_next_day_forecast_notification_set_time">Ajasta huomisen ennuste -ilmoitus</string>
     <string name="label_disabled">Ei käytössä</string>
     <string name="weather_refresh_delay_fixed">Odotathan 15 minuuttia ennen pävittämistä</string>
+    <string name="country_turkey">Turkki</string>
+    <string name="country_belgium">Belgium</string>
 </resources>
 <!--<string name=""></string>-->
