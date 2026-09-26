@@ -23,7 +23,7 @@ import java.time.format.DateTimeFormatter
 import kotlin.time.Duration.Companion.hours
 
 /**
- * JMA integration inspired by the investigation and analysis by https://github.com/reveler-hub
+ * MGM integration inspired by the investigation and analysis by https://github.com/reveler-hub
  */
 private fun Double?.takeIfValid(): Double? {
     return this?.takeIf { it > -9000.0 }
