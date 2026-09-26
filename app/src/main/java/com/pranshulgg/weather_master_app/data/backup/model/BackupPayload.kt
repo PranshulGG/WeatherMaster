@@ -101,6 +101,7 @@ data class AppPrefsBackup(
     val isShowWeatherAnimations: Boolean? = null,
     val isWeatherBasedTheme: Boolean? = null,
     val is24HrTimeFormat: Boolean? = null,
+    val dateFormat: String? = null,
     val isShowSummary: Boolean? = null,
     val isGoogleSansFlex: Boolean? = null
 )
