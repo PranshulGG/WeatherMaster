@@ -450,6 +450,11 @@
     <string name="country_brazil">Brazil</string>
 
     <string name="settings_date_format">Date format</string>
+    <string name="date_format_system" translatable="false">System default</string>
+    <string name="date_format_mm_dd" translatable="false">MM/DD (09/10)</string>
+    <string name="date_format_dd_mm" translatable="false">DD.MM (10.09)</string>
+    <string name="date_format_month_day" translatable="false">Month Day (September 10)</string>
+    <string name="date_format_day_month" translatable="false">Day Month (10 September)</string>
     <string name="widget_settings_display_hourly_secondary">Displays hourly instead of daily forecast</string>
     <string name="settings_widget_background">Widget background</string>
     <string name="settings_widget_weather_background">Weather background</string>
