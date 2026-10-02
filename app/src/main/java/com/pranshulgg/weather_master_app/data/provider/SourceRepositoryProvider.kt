@@ -4,6 +4,7 @@ import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherRepository
+import com.pranshulgg.weather_master_app.core.network.sources.airquality.moenv.MoenvRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.accu.AccuRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.aemet.AemetRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.bmkg.BmkgRepository
@@ -64,6 +65,9 @@ class SourceRepositoryProvider @Inject constructor(
     private val wmoSevereWeatherRepository: WmoSevereWeatherRepository,
     private val fpasRepository: FpasRepository,
 
+    // AIR QUALITY
+    private val moenvRepository: MoenvRepository,
+
     ) {
 
     val repositories = listOf(
@@ -93,7 +97,8 @@ class SourceRepositoryProvider @Inject constructor(
         fpasRepository,
         openWeatherRepository,
         mgmRepository,
-        kmiRepository
+        kmiRepository,
+        moenvRepository
     )
 
     fun getWeatherRepository(source: Source): WeatherRepository {
