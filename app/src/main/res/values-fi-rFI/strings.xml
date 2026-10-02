@@ -54,7 +54,7 @@
     <string name="weather_very_hot">Erittäin kuumaa</string>
     <string name="weather_very_cold">Erittäin kylmää</string>
     <string name="weather_haze">Sumua</string>
-    <string name="weather_rain">Sateista</string>
+    <string name="weather_rain">Sadetta</string>
     <string name="weather_no_condition">Säätilaa ei löytynyt</string>
     <string name="weather_uv_low">Matala</string>
     <string name="weather_uv_moderate">Kohtalainen</string>
