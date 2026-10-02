@@ -216,6 +216,16 @@ enum class Source(
         displayLink = "https://openweathermap.org/",
         capabilities = setOf(Capability.WEATHER, Capability.AIR_QUALITY),
         requiresUserApiKey = true
+    ),
+    MOENV(
+        displayName = "MOENV",
+        fullName = "Ministry of Environment",
+        displayLink = "https://data.moenv.gov.tw/en/dataset/detail/aqx_p_432",
+        countryNameRes = R.string.country_taiwan,
+        requiresUserApiKey = true,
+        signupLink = "https://data.moenv.gov.tw/api_term",
+        apiKeyNote = "Check \"Atmosphere\" under Follow dataset categories when signing up",
+        capabilities = setOf(Capability.AIR_QUALITY)
     );
 
     // Sources that provide snow/rain as precipitation
@@ -253,7 +263,7 @@ private val sourcesByCountry = buildMap {
     put("FR", listOf(Source.METEO_FRANCE))
     put("ES", listOf(Source.AEMET))
     put("IN", listOf(Source.IMD))
-    put("TW", listOf(Source.CWA))
+    put("TW", listOf(Source.CWA, Source.MOENV))
     put("JP", listOf(Source.JMA))
     put("BR", listOf(Source.INMET))
     put("TR", listOf(Source.MGM))
