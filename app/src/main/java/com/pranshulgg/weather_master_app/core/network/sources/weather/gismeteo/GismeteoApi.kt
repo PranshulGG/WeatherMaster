@@ -26,7 +26,7 @@ interface GismeteoApi {
     @GET("inf_android/cities/")
     suspend fun fetchLocations(
         @Query("lat") lat: Double,
-        @Query("lon") lon: Double,
+        @Query("lng") lon: Double,
         @Query("lat_lng") latLng: Int = 1,
         @Query("count") count: Int = 10,
 
