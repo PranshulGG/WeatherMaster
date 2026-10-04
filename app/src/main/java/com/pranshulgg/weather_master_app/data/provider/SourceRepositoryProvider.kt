@@ -66,9 +66,9 @@ class SourceRepositoryProvider @Inject constructor(
     private val fpasRepository: FpasRepository,
 
     // AIR QUALITY
-    private val moenvRepository: MoenvRepository,
+    private val moenvRepository: MoenvRepository
 
-    ) {
+) {
 
     val repositories = listOf(
         openMeteoRepository,
@@ -102,19 +102,19 @@ class SourceRepositoryProvider @Inject constructor(
     )
 
     fun getWeatherRepository(source: Source): WeatherRepository {
-        return repositories.filterIsInstance<WeatherRepository>().firstOrNull {
+        return repositories.firstOrNull {
             it.weatherSource == source
         } ?: openMeteoRepository
     }
 
     fun getAlertRepository(source: Source): AlertRepository? {
-        return repositories.filterIsInstance<AlertRepository>().firstOrNull {
+        return repositories.firstOrNull {
             it.alertSource == source
         }
     }
 
     fun getAirQualityRepository(source: Source): AirQualityRepository? {
-        return repositories.filterIsInstance<AirQualityRepository>().firstOrNull {
+        return repositories.firstOrNull {
             it.airQualitySource == source
         }
     }
