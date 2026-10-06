@@ -44,7 +44,7 @@
     <string name="weather_clear_sky">Klart</string>
     <string name="weather_overcast">Mulet</string>
     <string name="weather_partly_cloudy">Halvklart</string>
-    <string name="weather_heavy_rain">Ösregn </string>
+    <string name="weather_heavy_rain">Ösregn</string>
     <string name="weather_light_rain">Lätt regn</string>
     <string name="weather_light_snow">Lätt snöfall </string>
     <string name="weather_snow">Snöigt</string>
