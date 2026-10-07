@@ -36,6 +36,16 @@ object NotificationChannels {
                 NotificationManager.IMPORTANCE_DEFAULT
             )
         )
+
+        notificationManager.createNotificationChannel(
+            NotificationChannel(
+                NotificationConfig.ALERT_CHANNEL_ID,
+                context.getString(R.string.weather_alerts),
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                enableVibration(true)
+            }
+        )
     }
 
 }
