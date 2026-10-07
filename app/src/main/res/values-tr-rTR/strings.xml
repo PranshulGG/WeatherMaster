@@ -192,7 +192,7 @@
     <string name="setting_join_discord">Discord sunucumuza katıl</string>
     <string name="setting_about_app_secondary">Versiyon, kullanım koşulları, gizlilik ve dahası</string>
     <string name="setting_about_app">Uygulama hakkında</string>
-    <string name="about_terms_conditions">Kullanım Koşulları</string>
+    <string name="about_terms_conditions">Hükümler &amp; Koşullar</string>
     <string name="about_privacy_policy">Gizlilik Politikası</string>
     <string name="about_create_issue">Bir sorun bildir</string>
     <string name="about_view_on_github">Github\'da görüntüle</string>
