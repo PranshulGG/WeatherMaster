@@ -46,9 +46,7 @@ class AlertNotification(private val context: Context) {
             .setSmallIcon(R.drawable.warning_24px)
             .setContentTitle(alert.event)
             .setContentText(alert.description)
-            .setStyle(
-                NotificationCompat.BigTextStyle().bigText(alert.description)
-            )
+            .setStyle(NotificationCompat.BigTextStyle().bigText(alert.description))
             .setColor(
                 ContextCompat.getColor(
                     context,

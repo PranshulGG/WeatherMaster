@@ -43,4 +43,13 @@ class NotificationScreenViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(defaultLocation = location)
         }
     }
+
+    fun getAlerts(locationId: String?) {
+        if (locationId == null) return
+
+        viewModelScope.launch {
+            val alerts = locationsRepo.getAlertsForLocation(locationId)
+            _uiState.value = _uiState.value.copy(alerts = alerts.mapNotNull { it })
+        }
+    }
 }
