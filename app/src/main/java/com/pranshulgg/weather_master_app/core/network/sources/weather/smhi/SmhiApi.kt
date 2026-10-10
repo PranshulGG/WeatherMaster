@@ -16,8 +16,8 @@ interface SmhiApi {
 
     @GET("geotype/point/lon/{lon}/lat/{lat}/data.json")
     suspend fun fetchWeather(
-        @Path("lat") latitude: Double,
-        @Path("lon") longitude: Double,
+        @Path("lat") latitude: String,
+        @Path("lon") longitude: String,
     ): Response<SmhiForecastJson>
 
 

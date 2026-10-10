@@ -64,7 +64,6 @@ fun OpenWeatherJsonBundle.toDomain(location: Location): Weather {
             uvIndex = null,
             weatherCondition = OpenWeatherConditionMap.getCondition(current.weather[0].icon),
             feelsLike = current.main.feelsLike,
-            time = current.dt.secondsToMilliseconds(),
             dewPoint = current.main.dewPoint,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

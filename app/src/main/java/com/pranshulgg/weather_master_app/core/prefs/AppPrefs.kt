@@ -41,6 +41,8 @@ object AppPrefs {
 
     private val _isTabletLayoutEnabled = mutableStateOf(true)
 
+    private val _isAlertNotificationEnabled = mutableStateOf(false)
+
 
     fun initPrefs(context: Context) {
         PreferencesHelper.init(context)
@@ -86,6 +88,9 @@ object AppPrefs {
             PreferencesHelper.getBool("isNextDayForecastNotificationEnabled") ?: false
 
         _isTabletLayoutEnabled.value = PreferencesHelper.getBool("isTabletLayoutEnabled") ?: true
+
+        _isAlertNotificationEnabled.value =
+            PreferencesHelper.getBool("isAlertNotificationEnabled") ?: false
 
     }
 
@@ -206,5 +211,11 @@ object AppPrefs {
             _isTabletLayoutEnabled.value = it
             PreferencesHelper.setBool("isTabletLayoutEnabled", it)
         },
+
+        isAlertNotificationEnabled = _isAlertNotificationEnabled.value,
+        setAlertNotificationEnabled = {
+            _isAlertNotificationEnabled.value = it
+            PreferencesHelper.setBool("isAlertNotificationEnabled", it)
+        }
     )
 }

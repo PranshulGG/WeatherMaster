@@ -43,7 +43,7 @@
     <string name="weather_no_data">Aucune donnée météo disponible</string>
     <string name="weather_clear_sky">Ciel dégagé</string>
     <string name="weather_overcast">Ciel couvert</string>
-    <string name="weather_partly_cloudy">Ciel partiellement nuageux</string>
+    <string name="weather_partly_cloudy">Partiellement nuageux</string>
     <string name="weather_heavy_rain">Forte pluie</string>
     <string name="weather_light_rain">Pluie légère</string>
     <string name="weather_light_snow">Neige légère</string>
@@ -440,5 +440,7 @@
     <string name="setting_next_day_forecast_notification_set_time">Définir l\'heure de la notification des prévisions du lendemain</string>
     <string name="label_disabled">Désactivé</string>
     <string name="weather_refresh_delay_fixed">Patientez 15 minutes avant de rafraîchir</string>
+    <string name="country_turkey">Turquie</string>
+    <string name="country_belgium">Belgique</string>
 </resources>
 <!--<string name=""></string>-->

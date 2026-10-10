@@ -85,7 +85,6 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
                     WindSpeedUnit.MPS
                 )
             ),
-            time = current.timeStamp.iso8601TimestampToMilliseconds(),
             dewPoint = current.dewpoint.metric?.toSafeDouble(),
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

@@ -22,7 +22,6 @@ import com.pranshulgg.weather_master_app.data.local.entity.location.WeatherLocat
 )
 data class CurrentWeatherEntity(
     val locationId: String,
-
     val temperature: Double?,
     val humidity: Double?,
     val windSpeed: Double?,
@@ -33,10 +32,7 @@ data class CurrentWeatherEntity(
     val uvIndex: Double?,
     val weatherCondition: WeatherCondition,
     val feelsLike: Double?,
-    val time: Long,
     val dewPoint: Double?,
-
     val utcOffsetSeconds: Long?,
-
     val lastUpdatedInMilli: Long
 )

@@ -108,7 +108,6 @@ fun FmiWeather.toDomain(location: Location): Weather {
                 currentDataForParam("rh"),
                 currentDataForParam("ws_10min")
             ),
-            time = if (current != null) current["t2m"]?.get(0)!!.time!!.iso8601TimestampToMilliseconds() else forecast.keys.sorted()[currentHour],
             dewPoint = currentDataForParam("td"),
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

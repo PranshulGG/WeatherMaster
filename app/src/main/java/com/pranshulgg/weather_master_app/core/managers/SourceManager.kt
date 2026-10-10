@@ -59,8 +59,10 @@ class SourceManager @Inject constructor(
             previous = location,
             updated = updatedLocation
         )
-        locationStore.setLoading(true)
-        locationStore.setActiveLocation(updatedLocation)
+        if (location != updatedLocation) {
+            locationStore.setLoading(true)
+            locationStore.setActiveLocation(updatedLocation)
+        }
         pendingRequests.queueRequest(
             location = updatedLocation,
             isForceRefresh = forceRefreshForWeather,

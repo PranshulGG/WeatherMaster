@@ -7,30 +7,36 @@ enum class AlertSeverity(
     val label: Int,
     val color: Color,
     val contentColor: Color,
+    val colorRes: Int
 ) {
     CRITICAL(
         R.string.alert_severity_critical,
         Color(0xFFD32F2F),
-        Color(0xFFFFEBEE)
+        Color(0xFFFFEBEE),
+        R.color.alert_CRITICAL
     ),
     HIGH(
         R.string.alert_severity_high,
         Color(0xFFF57C00),
-        Color(0xFFFFF4E0)
+        Color(0xFFFFF4E0),
+        R.color.alert_HIGH
     ),
     MODERATE(
         R.string.alert_severity_medium,
         Color(0xFFFBC02D),
-        Color(0xFF5C4300)
+        Color(0xFF5C4300),
+        R.color.alert_MODERATE
     ),
     LOW(
         R.string.alert_severity_low,
         Color(0xFF388E3C),
-        Color(0xFF0F3D0F)
+        Color(0xFF0F3D0F),
+        R.color.alert_LOW
     ),
     UNKNOWN(
         R.string.alert_severity_unknown,
         Color(0xFF757575),
-        Color(0xFFF3E5F5)
+        Color(0xFFF3E5F5),
+        R.color.alert_UNKNOWN
     )
 }

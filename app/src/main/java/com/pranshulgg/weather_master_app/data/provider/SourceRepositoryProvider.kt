@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.data.provider
 
 import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.network.sources.airquality.moenv.MoenvRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherRepository
@@ -13,14 +14,17 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdRep
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofor.MeteoforRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.kmi.KmiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.MgmRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherRepository
@@ -46,6 +50,7 @@ class SourceRepositoryProvider @Inject constructor(
     private val meteoamRepository: MeteoamRepository,
     private val ipmaRepository: IpmaRepository,
     private val gismeteoRepository: GismeteoRepository,
+    private val meteoforRepository: MeteoforRepository,
     private val metOfficeRepository: MetOfficeRepository,
     private val aemetRepository: AemetRepository,
     private val imdRepository: ImdRepository,
@@ -54,13 +59,18 @@ class SourceRepositoryProvider @Inject constructor(
     private val jmaRepository: JmaRepository,
     private val inmetRepository: InmetRepository,
     private val openWeatherRepository: OpenWeatherRepository,
+    private val mgmRepository: MgmRepository,
+    private val kmiRepository: KmiRepository,
 
     // ALERTS
     private val alertsWeatherApiRepository: AlertsWeatherApiRepository,
     private val wmoSevereWeatherRepository: WmoSevereWeatherRepository,
     private val fpasRepository: FpasRepository,
 
-    ) {
+    // AIR QUALITY
+    private val moenvRepository: MoenvRepository
+
+) {
 
     val repositories = listOf(
         openMeteoRepository,
@@ -77,6 +87,7 @@ class SourceRepositoryProvider @Inject constructor(
         meteoamRepository,
         ipmaRepository,
         gismeteoRepository,
+        meteoforRepository,
         metOfficeRepository,
         aemetRepository,
         imdRepository,
@@ -87,23 +98,26 @@ class SourceRepositoryProvider @Inject constructor(
         alertsWeatherApiRepository,
         wmoSevereWeatherRepository,
         fpasRepository,
-        openWeatherRepository
+        openWeatherRepository,
+        mgmRepository,
+        kmiRepository,
+        moenvRepository
     )
 
     fun getWeatherRepository(source: Source): WeatherRepository {
-        return repositories.filterIsInstance<WeatherRepository>().firstOrNull {
+        return repositories.firstOrNull {
             it.weatherSource == source
         } ?: openMeteoRepository
     }
 
     fun getAlertRepository(source: Source): AlertRepository? {
-        return repositories.filterIsInstance<AlertRepository>().firstOrNull {
+        return repositories.firstOrNull {
             it.alertSource == source
         }
     }
 
     fun getAirQualityRepository(source: Source): AirQualityRepository? {
-        return repositories.filterIsInstance<AirQualityRepository>().firstOrNull {
+        return repositories.firstOrNull {
             it.airQualitySource == source
         }
     }

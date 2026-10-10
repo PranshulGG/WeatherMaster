@@ -19,6 +19,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.gismeteo.GismeteoRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofor.MeteoforRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.imd.ImdRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.IbgeApi
@@ -30,6 +31,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.kmi.KmiApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.kmi.KmiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
@@ -38,6 +41,8 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.MgmApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.MgmRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
@@ -198,6 +203,15 @@ object WeatherRepositoryModule {
 
     @Provides
     @Singleton
+    fun provideMeteoforRepository(
+        dao: WeatherContextDao,
+        api: GismeteoApi,
+        weatherDao: WeatherDao,
+        locationKeysDao: LocationKeysDao
+    ): MeteoforRepository = MeteoforRepository(dao, weatherDao, api, locationKeysDao)
+
+    @Provides
+    @Singleton
     fun provideMetOfficeRepository(
         dao: WeatherContextDao,
         api: MetOfficeApi,
@@ -286,4 +300,27 @@ object WeatherRepositoryModule {
         apiKeysDao: ApiKeysDao
     ): OpenWeatherRepository =
         OpenWeatherRepository(dao, weatherDao, api, airQualityDao, apiKeysDao)
+
+    @Provides
+    @Singleton
+    fun provideMgmRepository(
+        dao: WeatherContextDao,
+        weatherDao: WeatherDao,
+        api: MgmApi,
+        apiKeysDao: ApiKeysDao,
+        locationKeysDao: LocationKeysDao,
+        alertsDao: AlertsDao
+    ): MgmRepository = MgmRepository(dao, weatherDao, api, apiKeysDao, locationKeysDao, alertsDao)
+
+    @Provides
+    @Singleton
+    fun provideKmiRepository(
+        dao: WeatherContextDao,
+        weatherDao: WeatherDao,
+        api: KmiApi,
+        apiKeysDao: ApiKeysDao,
+        locationKeysDao: LocationKeysDao,
+        alertsDao: AlertsDao
+    ): KmiRepository = KmiRepository(dao, weatherDao, api, apiKeysDao, locationKeysDao, alertsDao)
+
 }

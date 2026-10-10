@@ -23,9 +23,11 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertSeverity
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefs
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
@@ -39,6 +41,8 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import com.pranshulgg.weather_master_app.feature.notifications.NotificationConfig
+import com.pranshulgg.weather_master_app.feature.notifications.alert.AlertNotification
+import com.pranshulgg.weather_master_app.feature.notifications.alert.AlertNotificationIdHelper
 import com.pranshulgg.weather_master_app.feature.notifications.isNotificationPermissionGranted
 import com.pranshulgg.weather_master_app.feature.notifications.ongoing.OnGoingNotification
 import com.pranshulgg.weather_master_app.feature.notifications.rememberNotificationPermissionLauncher
@@ -50,7 +54,8 @@ import java.util.Date
 data class NotificationsScreenUiState(
     val weather: Weather? = null,
     val units: WeatherUnits? = null,
-    val defaultLocation: Location? = null
+    val defaultLocation: Location? = null,
+    val alerts: List<Alert> = emptyList()
 )
 
 @Composable
@@ -63,6 +68,7 @@ fun NotificationsScreen(navController: NavController) {
         viewModel.getDefaultLocation()
         viewModel.getUnitsOnce()
         viewModel.getWeather(uiState.defaultLocation?.id)
+        viewModel.getAlerts(uiState.defaultLocation?.id)
     }
 
     var isTimePickerOpen by remember { mutableStateOf(false) }
@@ -148,6 +154,12 @@ fun NotificationsScreen(navController: NavController) {
     })
 
 
+    val isAlertsNotificationEnabled = prefs.isAlertNotificationEnabled
+
+    val alertNotification = AlertNotification(context)
+
+
+
     LargeTopBarScaffold(
         title = stringResource(R.string.settings_notifications),
         navigationIcon = { NavigateUpBtn(navController) },
@@ -190,6 +202,26 @@ fun NotificationsScreen(navController: NavController) {
                                 OnGoingNotification.update(uiState.weather, context, uiState.units)
                             } else {
                                 OnGoingNotification.remove(context)
+                            }
+                        },
+                    ),
+                    SettingTile.SwitchTile(
+                        leading = { SettingsTileIcon(R.drawable.warning_24px) },
+                        title = "Alert notifications",
+                        description = "Show notifications for weather warnings when available",
+                        enabled = isNotificationPermissionGranted,
+                        checked = isAlertsNotificationEnabled,
+                        onCheckedChange = {
+
+                            prefs.setAlertNotificationEnabled(it)
+
+                            if (it && uiState.alerts.isNotEmpty()) {
+                                for (alert in uiState.alerts) {
+                                    alertNotification.show(
+                                        alert,
+                                        AlertNotificationIdHelper.getNextId()
+                                    )
+                                }
                             }
                         },
                     ),
@@ -253,7 +285,7 @@ fun NotificationsScreen(navController: NavController) {
                     ),
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.schedule_48px) },
-                        title = stringResource(R.string.setting_today_forecast_notification_set_time),
+                        title = stringResource(R.string.setting_next_day_forecast_notification_set_time),
                         description = if (isNextDayForecastNotificationEnabled) {
                             SimpleDateFormat(pattern, getCurrentAppLocale()).format(
                                 Date(chosenTimeNextDay)

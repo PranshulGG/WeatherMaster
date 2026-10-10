@@ -144,7 +144,6 @@ fun JmaForecastBundle.toDomain(location: Location): Weather {
             uvIndex = null,
             weatherCondition = nearestHourPoint?.condition ?: WeatherCondition.NO_CONDITION_FOUND,
             feelsLike = amedasFeelsLike,
-            time = currentTime,
             dewPoint = null,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

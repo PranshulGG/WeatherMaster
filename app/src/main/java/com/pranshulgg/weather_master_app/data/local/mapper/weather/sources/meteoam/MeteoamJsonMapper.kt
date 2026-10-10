@@ -88,7 +88,6 @@ fun MeteoamWeatherBundle.toDomain(location: Location): Weather {
                 current.temperature.value, current.humidity.value,
                 WindSpeedUnit.KPH.convert(current.windSpeedKmh.value, WindSpeedUnit.MPS)
             ),
-            time = time.iso8601TimestampToMilliseconds(),
             dewPoint = null,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

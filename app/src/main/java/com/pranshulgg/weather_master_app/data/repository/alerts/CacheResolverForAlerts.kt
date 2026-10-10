@@ -49,7 +49,7 @@ class CacheResolverForAlerts @Inject constructor(
             location.alertsLastFetchedAt
         )
 
-        val locationRequiresApiKey = location.source.requiresUserApiKey
+        val locationRequiresApiKey = location.alertSource.requiresUserApiKey
 
         val apiKey = if (locationRequiresApiKey)
             apiKeysDao.getApiKeyForSource(location.source) else null

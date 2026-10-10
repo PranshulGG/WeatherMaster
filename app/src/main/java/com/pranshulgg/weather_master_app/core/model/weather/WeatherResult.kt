@@ -13,7 +13,11 @@ sealed class WeatherResult(
 
     data class RefreshNotAvailable(val weather: Weather) : WeatherResult()
 
-    data class Error(val exception: Exception, val weather: Weather?) : WeatherResult()
+    data class Error(
+        val exception: Exception,
+        val weather: Weather?,
+        val rawException: Exception? = null
+    ) : WeatherResult()
 
     class NotSupported : WeatherResult()
 

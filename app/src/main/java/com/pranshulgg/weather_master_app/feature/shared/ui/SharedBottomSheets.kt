@@ -55,6 +55,7 @@ object SharedBottomSheet {
     ) {
         if (show) {
             val recommendedSources = getSourcesForCountry(countryCode?.uppercase())
+                .filter { Capability.WEATHER in it.capabilities }
             val globalSources = getSourcesGlobal().filter { Capability.WEATHER in it.capabilities }
 
             val isApiKeyAvailable: (Source) -> Boolean = { source ->

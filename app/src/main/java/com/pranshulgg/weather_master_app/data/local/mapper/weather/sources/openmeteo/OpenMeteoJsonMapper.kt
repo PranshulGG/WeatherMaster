@@ -62,7 +62,6 @@ fun OpenMeteoWeatherJson.toDomain(location: Location): Weather {
             uvIndex = current.uvIndex,
             weatherCondition = OpenMeteoWeatherConditionMap.getCondition(current.weatherCode),
             feelsLike = current.feelsLike,
-            time = current.time.secondsToMilliseconds(), // Open-Meteo returns in seconds
             dewPoint = hourly.dewPoint[currentHourIndex],
             utcOffsetSeconds = utcOffsetSeconds,
             lastUpdatedInMilli = System.currentTimeMillis()

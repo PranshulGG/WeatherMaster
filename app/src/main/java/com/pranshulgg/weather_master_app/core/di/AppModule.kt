@@ -22,6 +22,7 @@ import com.pranshulgg.weather_master_app.data.local.dao.weather.ApiKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherBlocksDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherUnitsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.nws.NwsDao
+import com.pranshulgg.weather_master_app.data.provider.devicelocation.ChinaOfflineGeocoder
 import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherBlocksRepository
@@ -61,14 +62,16 @@ object AppModule {
         nominatimRepository: NominatimRepository,
         @ApplicationContext context: Context,
         alertsDao: AlertsDao,
-        sourceManager: SourceManager
+        sourceManager: SourceManager,
+        chinaOfflineGeocoder: ChinaOfflineGeocoder
     ): WeatherContextRepository = WeatherContextRepository(
         dao,
         airQualityDao,
         context,
         nominatimRepository,
         alertsDao,
-        sourceManager
+        sourceManager,
+        chinaOfflineGeocoder
     )
 
 

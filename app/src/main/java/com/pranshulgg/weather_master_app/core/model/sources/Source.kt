@@ -11,6 +11,8 @@ enum class Source(
     val fullName: String,
     val countryNameRes: Int? = null,
     val requiresUserApiKey: Boolean = false, // Source must not be selectable until the user has provided their API key
+    val signupLink: String? = null, // Shown instead of displayLink on the API key entry screen, when set
+    val apiKeyNote: String? = null, // Optional hint shown under the link on the API key entry screen
     val regionalButWorldwideSupport: Boolean = false,
     val capabilities: Set<Capability>,
 //    val providesAlerts: Boolean = false,
@@ -105,12 +107,21 @@ enum class Source(
         regionalButWorldwideSupport = true,
         capabilities = setOf(Capability.WEATHER)
     ),
+    METEOFOR(
+        displayName = "Meteofor",
+        fullName = "Meteofor",
+        displayLink = "https://meteofor.com.ua/",
+        countryNameRes = R.string.country_ukraine,
+        capabilities = setOf(Capability.WEATHER)
+    ),
     MET_OFFICE(
         displayName = "Met Office",
         fullName = "Meteorological Office",
         displayLink = "https://www.metoffice.gov.uk/",
         countryNameRes = R.string.country_united_kingdom,
         requiresUserApiKey = true,
+        signupLink = "https://datahub.metoffice.gov.uk/pricing/site-specific",
+        apiKeyNote = "Subscribe to the \"Global Spot\" option",
         regionalButWorldwideSupport = true,
         capabilities = setOf(Capability.WEATHER)
     ),
@@ -192,12 +203,36 @@ enum class Source(
         capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
     ),
 
+    MGM(
+        displayName = "MGM",
+        fullName = "Meteoroloji Genel Müdürlüğü",
+        displayLink = "https://www.mgm.gov.tr/",
+        countryNameRes = R.string.country_turkey,
+        capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
+    ),
+    KMI(
+        displayName = "KMI",
+        fullName = "Royal Meteorological Institute of Belgium",
+        displayLink = "https://www.meteo.be/",
+        countryNameRes = R.string.country_belgium,
+        capabilities = setOf(Capability.WEATHER, Capability.ALERTS)
+    ),
     OPEN_WEATHER(
         displayName = "OpenWeather",
         fullName = "OpenWeather",
         displayLink = "https://openweathermap.org/",
         capabilities = setOf(Capability.WEATHER, Capability.AIR_QUALITY),
         requiresUserApiKey = true
+    ),
+    MOENV(
+        displayName = "MOENV",
+        fullName = "Ministry of Environment",
+        displayLink = "https://data.moenv.gov.tw/en/dataset/detail/aqx_p_432",
+        countryNameRes = R.string.country_taiwan,
+        requiresUserApiKey = true,
+        signupLink = "https://data.moenv.gov.tw/api_term",
+        apiKeyNote = "Check \"Atmosphere\" under Follow dataset categories when signing up",
+        capabilities = setOf(Capability.AIR_QUALITY)
     );
 
     // Sources that provide snow/rain as precipitation
@@ -230,14 +265,17 @@ private val sourcesByCountry = buildMap {
     listOf("IT", "VA").forEach { put(it, listOf(Source.METEO_AM)) }
     put("PT", listOf(Source.IPMA))
     put("RU", listOf(Source.GISMETEO))
+    put("UA", listOf(Source.METEOFOR))
     listOf("GB", "UK").forEach { put(it, listOf(Source.MET_OFFICE)) }
     put("NO", listOf(Source.MET_NORWAY))
     put("FR", listOf(Source.METEO_FRANCE))
     put("ES", listOf(Source.AEMET))
     put("IN", listOf(Source.IMD))
-    put("TW", listOf(Source.CWA))
+    put("TW", listOf(Source.CWA, Source.MOENV))
     put("JP", listOf(Source.JMA))
     put("BR", listOf(Source.INMET))
+    put("TR", listOf(Source.MGM))
+    put("BE", listOf(Source.KMI))
 
 }
 

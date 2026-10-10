@@ -129,7 +129,6 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 current.relativeHumidity.value,
                 current.windSpeed.value?.kmhToMs()
             ),
-            time = current.timestamp.iso8601TimestampToMilliseconds(),
             dewPoint = hourly.periods[currentHourIndex].dewPoint.value,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

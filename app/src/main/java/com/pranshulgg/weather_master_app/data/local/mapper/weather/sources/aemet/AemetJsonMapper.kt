@@ -76,7 +76,6 @@ fun AemetForecastJson.toDomain(location: Location): Weather {
             uvIndex = null,
             weatherCondition = current?.condition ?: WeatherCondition.NO_CONDITION_FOUND,
             feelsLike = current?.feelsLike,
-            time = currentTime,
             dewPoint = null,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

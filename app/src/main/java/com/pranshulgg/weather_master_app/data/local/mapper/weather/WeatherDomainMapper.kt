@@ -25,7 +25,6 @@ fun WeatherCurrent.toCurrentWeatherEntity(
     uvIndex = uvIndex,
     weatherCondition = weatherCondition,
     feelsLike = feelsLike,
-    time = time,
     dewPoint = dewPoint,
     utcOffsetSeconds = utcOffsetSeconds,
     lastUpdatedInMilli = lastUpdatedInMilli

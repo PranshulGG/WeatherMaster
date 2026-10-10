@@ -86,7 +86,8 @@ fun LocationsScreen(
 
     val requestLocation = rememberLocationPermissionLauncher(
         onForegroundGranted = {
-            backgroundLocationPermissionInfoDialogOpen = true
+//            backgroundLocationPermissionInfoDialogOpen = true
+            viewModel.saveDeviceLocation()
         },
         onDenied = {
             SnackbarManager.show(R.string.location_permission_required)

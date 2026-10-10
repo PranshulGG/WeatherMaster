@@ -48,6 +48,7 @@ import com.pranshulgg.weather_master_app.widgets.config.WidgetConfig
 import com.pranshulgg.weather_master_app.widgets.model.WidgetVariant
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTextTheme
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
+import kotlin.math.round
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -57,6 +58,9 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
     var clockSize by remember { mutableFloatStateOf(36f) }
     var showClock by remember { mutableStateOf(true) }
     var dateFormat by remember { mutableStateOf("EEE d MMM") }
+
+    var selectedFontSize by remember { mutableFloatStateOf(1f) }
+    var selectedIconSize by remember { mutableFloatStateOf(1f) }
 
     val formats = listOf("EEE d MMM", "EEE MMM d", "EEE MM-dd")
     val clockSizes = listOf(
@@ -100,7 +104,7 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                     .fillMaxWidth()
                     .padding(16.dp)
             ) {
-                GlanceWidgetPreview(clockSize, showClock, dateFormat, widgetTextTheme, hideWeather)
+                GlanceWidgetPreview(clockSize, showClock, dateFormat, widgetTextTheme, hideWeather, selectedFontSize, selectedIconSize)
             }
 
             SettingSection(
@@ -154,6 +158,34 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
 
                             widgetTextTheme = selected
                         }
+                    ),
+                    SettingTile.DialogSliderTile(
+                        title = stringResource(R.string.settings_widget_font_size),
+                        dialogTitle = stringResource(R.string.settings_widget_font_size),
+                        leading = { SettingsTileIcon(R.drawable.format_size_24px) },
+                        description = "${round(selectedFontSize * 10) / 10}",
+                        isDescriptionAsValue = true,
+                        valueRange = 0.1f..2f,
+                        initialValue = selectedFontSize,
+                        labelFormatter = { "${round(it * 10) / 10}" },
+                        steps = 18,
+                        onValueSubmitted = {
+                            selectedFontSize = it
+                        },
+                    ),
+                    SettingTile.DialogSliderTile(
+                        title = stringResource(R.string.settings_widget_icon_size),
+                        dialogTitle = stringResource(R.string.settings_widget_icon_size),
+                        leading = { SettingsTileIcon(R.drawable.photo_size_select_large_24px) },
+                        description = "${round(selectedIconSize * 10) / 10}",
+                        isDescriptionAsValue = true,
+                        valueRange = 0.1f..2f,
+                        initialValue = selectedIconSize,
+                        labelFormatter = { "${round(it * 10) / 10}" },
+                        steps = 18,
+                        onValueSubmitted = {
+                            selectedIconSize = it
+                        },
                     )
                 )
             )
@@ -167,7 +199,9 @@ fun GlanceWidgetConfig(onDone: (WidgetConfig) -> Unit = {}) {
                             showClock = showClock,
                             dateFormat = dateFormat,
                             widgetTextTheme = widgetTextTheme,
-                            hideWeather = hideWeather
+                            hideWeather = hideWeather,
+                            fontSize = selectedFontSize,
+                            iconSize = selectedIconSize
                         )
                     )
                 },
@@ -194,7 +228,9 @@ private fun GlanceWidgetPreview(
     showClock: Boolean = true,
     format: String,
     textTheme: WidgetTextTheme,
-    hideWeather: Boolean
+    hideWeather: Boolean,
+    fontSize: Float,
+    iconSize: Float
 ) {
 
     val textColor = when (textTheme) {
@@ -231,17 +267,17 @@ private fun GlanceWidgetPreview(
         }
         Text(
             date,
-            fontSize = 20.sp,
+            fontSize = 20.sp * fontSize,
             color = textColor,
             style = style
         )
         if (!hideWeather) {
             Gap(5.dp)
             Row(verticalAlignment = Alignment.CenterVertically) {
-                WeatherIconBox(R.drawable.weather_partly_cloudy_day, size = 24.dp)
+                WeatherIconBox(R.drawable.weather_partly_cloudy_day, size = 24.dp  * iconSize)
                 Gap(horizontal = 5.dp)
-                Text("29° • ", color = textColor, fontSize = 18.sp, style = style)
-                Text("Clear sky", color = textColor, fontSize = 18.sp, style = style)
+                Text("29° • ", color = textColor, fontSize = 18.sp * fontSize, style = style)
+                Text("Clear sky", color = textColor, fontSize = 18.sp * fontSize, style = style)
             }
         }
     }

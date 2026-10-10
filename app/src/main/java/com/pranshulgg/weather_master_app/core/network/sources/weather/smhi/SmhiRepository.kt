@@ -14,6 +14,7 @@ import com.pranshulgg.weather_master_app.data.repository.capability.AlertCapabil
 import com.pranshulgg.weather_master_app.data.repository.capability.WeatherCapability
 import com.pranshulgg.weather_master_app.data.repository.data.BaseRepository
 import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -36,9 +37,10 @@ class SmhiRepository @Inject constructor(
                 cacheModel: CacheModel
             ): WeatherDataPack {
                 val response = safeApiCall {
+                    // SMHI returns 404 for coordinates with more than 6 decimal places
                     api.fetchWeather(
-                        location.latitude,
-                        location.longitude
+                        location.latitude.toCoordinateString(),
+                        location.longitude.toCoordinateString()
                     )
                 }.getOrThrow()
 
@@ -65,3 +67,5 @@ class SmhiRepository @Inject constructor(
     override fun alertCapability(): AlertCapability? = null
 
 }
+
+private fun Double.toCoordinateString(): String = String.format(Locale.ROOT, "%.4f", this)

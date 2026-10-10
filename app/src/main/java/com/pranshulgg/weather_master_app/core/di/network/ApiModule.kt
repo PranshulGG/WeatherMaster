@@ -2,6 +2,7 @@ package com.pranshulgg.weather_master_app.core.di.network
 
 import com.pranshulgg.weather_master_app.core.network.github.GithubApi
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.NominatimApi
+import com.pranshulgg.weather_master_app.core.network.sources.airquality.moenv.MoenvApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherApi
@@ -25,10 +26,12 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.Inme
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetForecastApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.InmetObservationApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.kmi.KmiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.MgmApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.airquality.OpenMeteoAqiApi
@@ -184,4 +187,16 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideOpenWeatherApi(): OpenWeatherApi = OpenWeatherApi.create()
+
+    @Provides
+    @Singleton
+    fun provideMgmApi(): MgmApi = MgmApi.create()
+
+    @Provides
+    @Singleton
+    fun provideKmiApi(): KmiApi = KmiApi.create()
+
+    @Provides
+    @Singleton
+    fun provideMoenvApi(): MoenvApi = MoenvApi.create()
 }

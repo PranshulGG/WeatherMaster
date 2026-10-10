@@ -28,7 +28,9 @@ enum class MoonPhase(val displayName: Int, val icon: Int) {
         R.string.moonphase_last_quarter,
         R.drawable.moonphase_third_quarter
     ), // TODO: FIX NAMING
-    WANING_CRESCENT(R.string.moonphase_waning_crescent, R.drawable.moonphase_waning_crescent)
+    WANING_CRESCENT(R.string.moonphase_waning_crescent, R.drawable.moonphase_waning_crescent),
+
+    UNKNOWN(R.string.weather_no_data, R.drawable.weather_not_available)
 }
 
 fun getMoonPhase(phase: Double): MoonPhase {

@@ -64,7 +64,6 @@ fun ChinaForecastJson.toDomain(location: Location): Weather {
                 current.weather.toSafeDouble()?.toInt()
             ),
             feelsLike = current.feelsLike.value.toSafeDouble(),
-            time = current.pubTime.iso8601TimestampToMilliseconds(),
             dewPoint = null,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

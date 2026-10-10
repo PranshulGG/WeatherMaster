@@ -36,6 +36,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.toIcon
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.SettingsTileIcon
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.getLastUpdatedTimeString
 import com.pranshulgg.weather_master_app.feature.shared.components.LocationItem
 
@@ -127,7 +128,7 @@ fun LocationsScreenContent(
                         onLocationSelect(location)
                     },
                     icon = icon.toIcon(
-                        targetTimeMilli = weather?.current?.time ?: System.currentTimeMillis(),
+                        targetTimeMilli = if (weather != null) getCurrentTimeFor(weather.location.timezone) else System.currentTimeMillis(),
                         daily = weather?.daily?.firstOrNull()
                     ),
                     isSelected = location.id == activeLocation?.id,

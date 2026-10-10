@@ -33,6 +33,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
 import com.pranshulgg.weather_master_app.core.utils.weather.airquality.AirQualityColors
 import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
@@ -46,13 +47,12 @@ fun AirQualityScreen(navController: NavController, index: Int = 0, locationId: S
     val viewModel: BlocksScreenViewModel = hiltViewModel()
 
 
-
-
     val airQuality = viewModel.weather.collectAsState().value.airQuality ?: return
     val weather = viewModel.weather.collectAsState().value.weather ?: return
 
     val hourly = airQuality.hourly
-    val time = if (index != 0) weather.daily[index].time else weather.current.time
+    val time =
+        if (index != 0) weather.daily[index].time else getCurrentTimeFor(weather.location.timezone)
     val context = LocalContext.current
     val date = toDateString(weather.daily[index].time, weather.location.timezone)
 

@@ -25,6 +25,11 @@ class WeatherBlocksManager @Inject constructor(
         items: List<WeatherBlock>,
         isDaily: Boolean = false
     ) {
+        if (isDaily) {
+            weatherBlocksStore.setForDaily(items)
+        } else {
+            weatherBlocksStore.set(items)
+        }
         weatherBlocksRepository.saveBlocks(items.map {
             WeatherBlock(
                 type = it.type,
@@ -34,11 +39,5 @@ class WeatherBlocksManager @Inject constructor(
                 id = it.id
             )
         }, isDaily)
-
-        if (isDaily) {
-            weatherBlocksStore.setForDaily(items)
-        } else {
-            weatherBlocksStore.set(items)
-        }
     }
 }
