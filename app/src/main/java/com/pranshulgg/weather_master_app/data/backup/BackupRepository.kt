@@ -103,6 +103,7 @@ class BackupRepository @Inject constructor(
         isShowWeatherAnimations = PreferencesHelper.getBool("isShowWeatherAnimations"),
         isWeatherBasedTheme = PreferencesHelper.getBool("isWeatherBasedTheme"),
         is24HrTimeFormat = PreferencesHelper.getBool("is24HrTimeFormat"),
+        dateFormat = PreferencesHelper.getString("dateFormat"),
         isShowSummary = PreferencesHelper.getBool("isShowSummary"),
         isGoogleSansFlex = PreferencesHelper.getBool("isGoogleSansFlex")
     )
@@ -120,6 +121,7 @@ class BackupRepository @Inject constructor(
         isShowWeatherAnimations?.let { PreferencesHelper.setBool("isShowWeatherAnimations", it) }
         isWeatherBasedTheme?.let { PreferencesHelper.setBool("isWeatherBasedTheme", it) }
         is24HrTimeFormat?.let { PreferencesHelper.setBool("is24HrTimeFormat", it) }
+        dateFormat?.let { PreferencesHelper.setString("dateFormat", it) }
         isShowSummary?.let { PreferencesHelper.setBool("isShowSummary", it) }
         isGoogleSansFlex?.let { PreferencesHelper.setBool("isGoogleSansFlex", it) }
     }

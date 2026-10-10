@@ -45,6 +45,9 @@ data class AppPrefsState(
     val is24HrTimeFormat: Boolean,
     val set24HrTimeFormat: (Boolean) -> Unit,
 
+    val dateFormat: String,
+    val setDateFormat: (String) -> Unit,
+
     val isShowSummary: Boolean,
     val setShowSummary: (Boolean) -> Unit,
 
@@ -59,6 +62,7 @@ data class AppPrefsState(
 
     val isTabletLayoutEnabled: Boolean,
     val setTabletLayout: (Boolean) -> Unit,
+)
 
     val isAlertNotificationEnabled: Boolean,
     val setAlertNotificationEnabled: (Boolean) -> Unit
