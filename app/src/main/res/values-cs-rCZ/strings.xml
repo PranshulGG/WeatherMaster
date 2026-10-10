@@ -374,6 +374,7 @@
     <string name="country_russia">Rusko</string>
     <string name="country_spain">Španělsko</string>
     <string name="country_taiwan">Tchaj-wan</string>
+    <string name="country_ukraine">Ukraine</string>
     <string name="country_brazil">Brazílie</string>
     <string name="settings_date_format">Formát dat</string>
     <string name="widget_settings_display_hourly_secondary">Zobrazuje hodinovou předpověď namísto denní</string>
@@ -446,7 +447,7 @@
     <string name="setting_next_day_forecast_notification_set_time">Nastavit čas k zobrazení oznámení o předpovědi na zítřejší den</string>
     <string name="label_disabled">Zakázáno</string>
     <string name="weather_refresh_delay_fixed">Počkejte prosím 15 minut před opětovným obnovením</string>
-    <string name="country_turkey">Turkey</string>
-    <string name="country_belgium">Belgium</string>
+    <string name="country_turkey">Turecko</string>
+    <string name="country_belgium">Belgie</string>
 </resources>
 <!--<string name=""></string>-->
