@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
+import android.net.Uri
 import android.provider.CalendarContract
 import android.util.TypedValue
 import android.widget.RemoteViews
@@ -55,22 +56,33 @@ private fun createDate(
 
         setTextViewTextSize(viewId, TypedValue.COMPLEX_UNIT_SP, size)
 
-        val calendarIntent = Intent(
-            Intent.ACTION_VIEW,
-            CalendarContract.CONTENT_URI
-        ).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        }
-
-        val calendarPendingIntent = PendingIntent.getActivity(
-            context,
-            101,
-            calendarIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
+        val calendarPendingIntent = getCalendarPendingIntent(context)
 
         setOnClickPendingIntent(viewId, calendarPendingIntent)
     }
+}
+
+
+fun getCalendarPendingIntent(context: Context): PendingIntent {
+    val builder: Uri.Builder = CalendarContract.CONTENT_URI.buildUpon().appendPath("time")
+
+    val currentTime = System.currentTimeMillis()
+
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        data = builder.build()
+        putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, currentTime)
+        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+    }
+
+    val pendingIntent = PendingIntent.getActivity(
+        context,
+        0,
+        intent,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+    )
+
+    return pendingIntent
+
 }
 
 @Composable
