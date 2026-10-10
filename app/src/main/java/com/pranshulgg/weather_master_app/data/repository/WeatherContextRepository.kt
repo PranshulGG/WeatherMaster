@@ -216,7 +216,10 @@ class WeatherContextRepository @Inject constructor(
         return true
     }
 
-    suspend fun saveDeviceLocation() {
+    // Resolves the device's current location (coordinates + reverse-geocoded address) without
+    // persisting it, so the caller can let the user pick a weather source for it before saving -
+    // see #1184: this used to hardcode Source.OPEN_METEO and save immediately.
+    suspend fun resolveDeviceLocation(): Location {
 
         val location = suspendCancellableCoroutine { cont ->
             getDeviceLocation.getDeviceLocation(
@@ -241,8 +244,7 @@ class WeatherContextRepository @Inject constructor(
             null
         }
 
-
-        if (address != null && address.city != null) {
+        return if (address != null && address.city != null) {
 
             val countryCode = if (address.countryCode.isNullOrBlank()) {
                 getCountryCode(context, location.latitude, location.longitude, chinaOfflineGeocoder)
@@ -250,17 +252,13 @@ class WeatherContextRepository @Inject constructor(
                 address.countryCode
             }
 
-            saveLocation(
-                location.toDomain(context).copy(
-                    name = address.city,
-                    country = address.country,
-                    countryCode = countryCode
-                )
+            location.toDomain(context).copy(
+                name = address.city,
+                country = address.country,
+                countryCode = countryCode
             )
         } else {
-            saveLocation(
-                location.toDomain(context)
-            )
+            location.toDomain(context)
         }
     }
 
