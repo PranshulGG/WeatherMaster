@@ -26,12 +26,6 @@ import javax.inject.Inject
 
 /**
  * Meteofor (Ukraine) weather source implemented by https://github.com/reveler-hub
- *
- * Meteofor is Gismeteo's Ukraine-facing rebrand (same company, same backend -
- * gismeteo.ua has redirected to meteofor.com since June 2023) - reuses
- * GismeteoApi/GismeteoRepository's parsing as-is, under its own Source
- * identity so Ukraine gets an appropriately-branded recommended source
- * instead of "Gismeteo (Russia)".
  */
 class MeteoforRepository @Inject constructor(
     val dao: WeatherContextDao,

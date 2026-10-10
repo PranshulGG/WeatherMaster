@@ -151,6 +151,9 @@ internal fun findClosestLocation(location: Location, stream: InputStream): Long?
     return closestId.toSafeDouble()?.roundToLong()
 }
 
+/**
+ * Gismeteo and Meteofor (Ukraine) forecast XML parser
+ */
 internal fun parseXml(stream: InputStream): GismeteoModel {
     val parser = Xml.newPullParser()
     parser.setInput(stream, null)
