@@ -17,7 +17,7 @@ import com.pranshulgg.weather_master_app.data.worker.gadgetbridge.sendGadgetBrid
 import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundWeatherUpdateNotification
 import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundWeatherUpdateNotification.showErrorNotification
 import com.pranshulgg.weather_master_app.data.worker.widgets.RainWidgetStateBuilder
-import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
+import com.pranshulgg.weather_master_app.data.worker.widgets.WidgetWeatherUpdater
 import com.pranshulgg.weather_master_app.data.worker.widgets.widgetWeatherMapper
 import com.pranshulgg.weather_master_app.widgets.model.RainWidgetState
 import com.pranshulgg.weather_master_app.feature.notifications.ongoing.OnGoingNotification
@@ -137,7 +137,7 @@ class WeatherWorker @AssistedInject constructor(
                 }
             }
 
-            WeatherWidgetUpdater(context).update(json, rainJson)
+            WidgetWeatherUpdater(context).update(json, rainJson)
         }
 
     }

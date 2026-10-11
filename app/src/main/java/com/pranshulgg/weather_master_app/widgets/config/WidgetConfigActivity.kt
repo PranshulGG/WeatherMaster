@@ -17,7 +17,7 @@ import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.ui.theme.ThemeVariantType
 import com.pranshulgg.weather_master_app.core.ui.theme.WeatherMasterTheme
 import com.pranshulgg.weather_master_app.core.ui.theme.isThemeDark
-import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
+import com.pranshulgg.weather_master_app.data.worker.widgets.WidgetWeatherUpdater
 import com.pranshulgg.weather_master_app.widgets.froggy.FroggyWidget
 import com.pranshulgg.weather_master_app.widgets.froggy.FroggyWidgetReceiver
 import com.pranshulgg.weather_master_app.widgets.froggy.ui.FroggyWidgetConfig
@@ -66,7 +66,7 @@ class WidgetConfigActivity : ComponentActivity() {
                 ?.provider
         setResult(RESULT_CANCELED)
 
-        val updater = WeatherWidgetUpdater(this)
+        val updater = WidgetWeatherUpdater(this)
 
         val onDone: (WidgetConfig) -> Unit = {
             lifecycleScope.launch {

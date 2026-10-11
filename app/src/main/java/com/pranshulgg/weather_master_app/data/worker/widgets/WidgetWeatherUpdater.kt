@@ -12,7 +12,6 @@ import com.pranshulgg.weather_master_app.widgets.froggy.FroggyWidget
 import com.pranshulgg.weather_master_app.widgets.glance.GlanceWidget
 import com.pranshulgg.weather_master_app.widgets.hourly.WidgetHourly
 import com.pranshulgg.weather_master_app.widgets.pill.WidgetPill
-import com.pranshulgg.weather_master_app.widgets.rain.RainWidget
 import com.pranshulgg.weather_master_app.widgets.summary.SummaryWidget
 import com.pranshulgg.weather_master_app.widgets.uvindex.UvIndexWidget
 import com.pranshulgg.weather_master_app.widgets.weather.WeatherWidget
@@ -21,7 +20,7 @@ import com.pranshulgg.weather_master_app.widgets.weather4.Weather4Widget
 import com.pranshulgg.weather_master_app.widgets.weather5.Weather5Widget
 import com.pranshulgg.weather_master_app.widgets.weatherhorizontal.WeatherHorizontalWidget
 
-class WeatherWidgetUpdater(
+class WidgetWeatherUpdater(
     private val context: Context
 ) {
 
@@ -43,8 +42,6 @@ class WeatherWidgetUpdater(
 
     private val widgetFroggy = FroggyWidget()
 
-    private val rainWidget = RainWidget()
-
     suspend fun update(json: String, rainJson: String? = null) {
         val manager = GlanceAppWidgetManager(context)
         suspend fun <T : GlanceAppWidget> updateWidgets(
@@ -53,29 +50,19 @@ class WeatherWidgetUpdater(
         ) {
             ids.forEach { id ->
                 updateAppWidgetState(context, WeatherWidgetStateDefinition, id) { current ->
-                    current.copy(json = json, config = current.config)
+                    current.copy(
+                        json = json,
+                        // Rain-widget state rides along: null keeps existing data
+                        rainJson = rainJson ?: current.rainJson,
+                        config = current.config
+                    )
                 }
+
             }
 
             widget.updateAll(context)
 
         }
-
-        suspend fun updateRainWidgets(ids: List<GlanceId>) {
-            ids.forEach { id ->
-                updateAppWidgetState(context, WeatherWidgetStateDefinition, id) { current ->
-                    // keep the last rain state when the caller has no fresh
-                    // rain data (e.g. in-app refresh path without builder)
-                    current.copy(
-                        json = json,
-                        config = current.config,
-                        rainJson = rainJson ?: current.rainJson
-                    )
-                }
-            }
-            rainWidget.updateAll(context)
-        }
-
         updateWidgets(widget, manager.getGlanceIds(WeatherWidget::class.java))
         updateWidgets(pill, manager.getGlanceIds(WidgetPill::class.java))
         updateWidgets(summary, manager.getGlanceIds(SummaryWidget::class.java))
@@ -87,7 +74,6 @@ class WeatherWidgetUpdater(
         updateWidgets(widgetUvIndex, manager.getGlanceIds(UvIndexWidget::class.java))
         updateWidgets(widgetWeather5, manager.getGlanceIds(Weather5Widget::class.java))
         updateWidgets(widgetFroggy, manager.getGlanceIds(FroggyWidget::class.java))
-        updateRainWidgets(manager.getGlanceIds(RainWidget::class.java))
 
     }
 

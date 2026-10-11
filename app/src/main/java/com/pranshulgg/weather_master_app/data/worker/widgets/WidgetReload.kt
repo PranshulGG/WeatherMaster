@@ -49,6 +49,6 @@ class WidgetReload @Inject constructor(
             null
         }
 
-        WeatherWidgetUpdater(context).update(json, rainJson)
+        WidgetWeatherUpdater(context).update(json, rainJson)
     }
 }
