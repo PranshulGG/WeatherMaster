@@ -69,7 +69,11 @@ class OpenWeatherRepository @Inject constructor(
                  * depending on which version the user wants to use
                  * We use this to determine wether to use OneCall 4.0 or free version
                  */
-                val key = cacheModel.apiKey!!.split("&")
+
+                val containsSuffix = cacheModel.apiKey!!.contains("&")
+
+                val key = if (containsSuffix) cacheModel.apiKey.split("&")
+                else listOf(cacheModel.apiKey, "")
 
                 val resolvedKey = key.first()
                 val isOneCall4 = key[1] == "one_call_4"
