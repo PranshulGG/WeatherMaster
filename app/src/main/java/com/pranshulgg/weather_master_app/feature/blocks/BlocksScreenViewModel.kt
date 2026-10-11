@@ -4,59 +4,51 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pranshulgg.weather_master_app.core.managers.WeatherBlocksManager
+import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcast
 import com.pranshulgg.weather_master_app.core.network.sources.weather.rain.RainNowcastRepository
-import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
+import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
+import com.pranshulgg.weather_master_app.data.store.InitializationStore
+import com.pranshulgg.weather_master_app.data.store.LocationStore
+import com.pranshulgg.weather_master_app.data.store.WeatherBlocksStore
+import com.pranshulgg.weather_master_app.data.store.WeatherStore
+import com.pranshulgg.weather_master_app.data.store.WeatherUnitsStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class BlocksScreenViewModel @Inject constructor(
-    private val locationsRepo: LocationsRepository,
-    private val weatherUnitsRepository: WeatherUnitsRepository,
+    weatherStore: WeatherStore,
+    locationStore: LocationStore,
+    weatherUnitsStore: WeatherUnitsStore,
     private val rainNowcastRepository: RainNowcastRepository
 ) : ViewModel() {
 
-    private var _uiState = mutableStateOf(BlockScreenUiState())
-    val uiState: State<BlockScreenUiState> = _uiState
+    val weather = weatherStore.data
+    val location = locationStore.data
+    val units = weatherUnitsStore.data
 
+    private var _rainNowcast = mutableStateOf<RainNowcast?>(null)
+    val rainNowcast: State<RainNowcast?> = _rainNowcast
 
-    fun getWeather(locationId: String) {
+    /**
+     * 2 hour rain nowcast for the block's location (KNMI radar, DWD radar or
+     * the keyless Open-Meteo minutely-15 fallback). Null when the location has
+     * no nowcast coverage.
+     */
+    fun getRainNowcast(location: Location) {
         viewModelScope.launch {
-            val data = locationsRepo.getWeatherForLocation(locationId)
-            _uiState.value = _uiState.value.copy(weather = data)
-        }
-    }
-
-    fun getRainNowcast(locationId: String) {
-        viewModelScope.launch {
-            val location = try {
-                locationsRepo.getLocationForId(locationId)
-            } catch (e: Exception) {
-                null
-            } ?: return@launch
             val nowcast = try {
                 rainNowcastRepository.getNowcast(location)
             } catch (e: Exception) {
                 null
             }
-            _uiState.value = _uiState.value.copy(rainNowcast = nowcast)
+            _rainNowcast.value = nowcast
         }
     }
 
-    fun getAirQuality(locationId: String) {
-        viewModelScope.launch {
-            val data = locationsRepo.getAirQualityForLocation(locationId)
-            _uiState.value = _uiState.value.copy(airQuality = data)
-        }
-    }
-
-    fun getUnitsOnce() {
-        viewModelScope.launch {
-            val units = weatherUnitsRepository.getUnitsOnce()
-            _uiState.value = _uiState.value.copy(units = units ?: WeatherUnits.getDefault())
-        }
-    }
 }

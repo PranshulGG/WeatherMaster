@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +36,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
 import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
@@ -50,17 +52,12 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
 
     val viewModel: BlocksScreenViewModel = hiltViewModel()
 
-    LaunchedEffect(Unit) {
-        viewModel.getUnitsOnce()
-        viewModel.getWeather(locationId)
-    }
 
-
-    val uiState = viewModel.uiState.value
-    val weather = uiState.weather
+    val weather = viewModel.weather.collectAsState().value.weather
     val hourly = weather?.hourly ?: return
-    val units = uiState.units
-    val time = if (index != 0) weather.daily[index].time else weather.current.time
+    val units = viewModel.units.collectAsState().value.units
+    val time =
+        if (index != 0) weather.daily[index].time else getCurrentTimeFor(weather.location.timezone)
     val context = LocalContext.current
     val data = findMatchingHourly(
         hourly,

@@ -42,6 +42,7 @@ import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
 import com.pranshulgg.weather_master_app.widgets.params.WidgetSizePoints
+import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
 import kotlinx.serialization.json.Json
@@ -166,8 +167,6 @@ class FroggyWidget : GlanceAppWidget() {
                             Image(
                                 provider = ImageProvider(state.currentFrog),
                                 contentDescription = null,
-                                contentScale = ContentScale.Crop,
-
                                 modifier = GlanceModifier.fillMaxWidth()
                             )
                         }
@@ -175,7 +174,10 @@ class FroggyWidget : GlanceAppWidget() {
 
 
                 }
+            } else {
+                ReloadButton()
             }
+
         }
     }
 }

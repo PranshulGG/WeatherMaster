@@ -1,8 +1,11 @@
 package com.pranshulgg.weather_master_app.widgets.ui.views
 
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.Color
+import android.provider.AlarmClock
 import android.util.TypedValue
 import android.widget.RemoteViews
 import androidx.compose.runtime.Composable
@@ -53,7 +56,18 @@ private fun createClock(
 
         setTextViewTextSize(viewId, TypedValue.COMPLEX_UNIT_SP, size)
 
+        val clockIntent = Intent(AlarmClock.ACTION_SHOW_ALARMS).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        }
 
+        val clockPendingIntent = PendingIntent.getActivity(
+            context,
+            100,
+            clockIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        setOnClickPendingIntent(viewId, clockPendingIntent)
     }
 }
 

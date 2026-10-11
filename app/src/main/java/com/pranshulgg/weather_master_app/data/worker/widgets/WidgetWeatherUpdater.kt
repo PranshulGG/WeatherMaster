@@ -20,7 +20,7 @@ import com.pranshulgg.weather_master_app.widgets.weather4.Weather4Widget
 import com.pranshulgg.weather_master_app.widgets.weather5.Weather5Widget
 import com.pranshulgg.weather_master_app.widgets.weatherhorizontal.WeatherHorizontalWidget
 
-class WidgetWeatherUpdater(
+class WeatherWidgetUpdater(
     private val context: Context
 ) {
 

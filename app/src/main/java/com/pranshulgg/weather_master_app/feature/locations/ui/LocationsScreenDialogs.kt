@@ -9,7 +9,6 @@ import com.pranshulgg.weather_master_app.feature.shared.WeatherViewModel
 
 @Composable
 fun LocationScreenConfirmationDialog(
-    weatherViewModel: WeatherViewModel,
     viewModel: LocationsScreenViewModel
 ) {
     val uiState = viewModel.uiState.value
@@ -18,7 +17,7 @@ fun LocationScreenConfirmationDialog(
         show = uiState.isConfirmationDialogOpen,
         onConfirm = {
             if (uiState.longClickedLocation != null) {
-                weatherViewModel.deleteLocation(uiState.longClickedLocation.id)
+                viewModel.deleteLocation(uiState.longClickedLocation.id)
             }
             viewModel.hideConfirmationDialog()
         },

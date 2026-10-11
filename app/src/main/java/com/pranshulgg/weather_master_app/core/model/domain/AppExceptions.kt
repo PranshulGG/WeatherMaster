@@ -40,6 +40,8 @@ sealed class AppException(message: String? = null) : Exception(message) {
     class BackupFileIOError : AppException()
     class BackupMissingDefaultLocation : AppException()
 
+    class RefreshNotAvailable : AppException()
+
 }
 
 fun AppException.toMessageRes(): Int {
@@ -62,6 +64,7 @@ fun AppException.toMessageRes(): Int {
         is AppException.BackupFileCorrupted -> R.string.error_backup_file_corrupted
         is AppException.BackupFileIOError -> R.string.error_backup_file_io
         is AppException.BackupMissingDefaultLocation -> R.string.error_backup_missing_default_location
+        is AppException.RefreshNotAvailable -> R.string.weather_refresh_delay_fixed
     }
 }
 

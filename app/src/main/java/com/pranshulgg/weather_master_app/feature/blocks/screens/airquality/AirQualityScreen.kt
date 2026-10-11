@@ -16,6 +16,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -32,6 +33,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
 import com.pranshulgg.weather_master_app.core.utils.weather.airquality.AirQualityColors
 import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
@@ -44,19 +46,13 @@ fun AirQualityScreen(navController: NavController, index: Int = 0, locationId: S
 
     val viewModel: BlocksScreenViewModel = hiltViewModel()
 
-    LaunchedEffect(Unit) {
-        viewModel.getUnitsOnce()
-        viewModel.getWeather(locationId)
-        viewModel.getAirQuality(locationId)
-    }
 
-
-    val uiState = viewModel.uiState.value
-    val airQuality = uiState.airQuality ?: return
-    val weather = uiState.weather ?: return
+    val airQuality = viewModel.weather.collectAsState().value.airQuality ?: return
+    val weather = viewModel.weather.collectAsState().value.weather ?: return
 
     val hourly = airQuality.hourly
-    val time = if (index != 0) weather.daily[index].time else weather.current.time
+    val time =
+        if (index != 0) weather.daily[index].time else getCurrentTimeFor(weather.location.timezone)
     val context = LocalContext.current
     val date = toDateString(weather.daily[index].time, weather.location.timezone)
 

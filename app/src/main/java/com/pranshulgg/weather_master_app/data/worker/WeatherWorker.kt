@@ -6,19 +6,24 @@ import androidx.annotation.RequiresPermission
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
+import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertResult
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.data.provider.SourceRepositoryProvider
-import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
+import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
+import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
 import com.pranshulgg.weather_master_app.data.worker.gadgetbridge.sendGadgetBridgeWeatherData
 import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundWeatherUpdateNotification
 import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundWeatherUpdateNotification.showErrorNotification
 import com.pranshulgg.weather_master_app.data.worker.widgets.RainWidgetStateBuilder
-import com.pranshulgg.weather_master_app.data.worker.widgets.WidgetWeatherUpdater
+import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
 import com.pranshulgg.weather_master_app.data.worker.widgets.widgetWeatherMapper
+import com.pranshulgg.weather_master_app.feature.notifications.alert.AlertNotification
+import com.pranshulgg.weather_master_app.feature.notifications.alert.AlertNotificationIdHelper
 import com.pranshulgg.weather_master_app.widgets.model.RainWidgetState
 import com.pranshulgg.weather_master_app.feature.notifications.ongoing.OnGoingNotification
 import dagger.assisted.Assisted
@@ -28,10 +33,10 @@ import dagger.assisted.AssistedInject
 class WeatherWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted params: WorkerParameters,
-    private val repositoryProvider: SourceRepositoryProvider,
-    private val locationsRepository: LocationsRepository,
+    private val weatherContextRepository: WeatherContextRepository,
     private val appVisibility: AppVisibility,
     private val weatherUnitsRepository: WeatherUnitsRepository,
+    private val sourceDataRepository: SourceDataRepository,
     private val rainWidgetStateBuilder: RainWidgetStateBuilder
 ) : CoroutineWorker(context, params) {
 
@@ -53,9 +58,13 @@ class WeatherWorker @AssistedInject constructor(
                 "isOnGoingNotificationEnabled"
             ) ?: false
 
+            val isAlertNotificationEnabled =
+                PreferencesHelper.getBool("isAlertNotificationEnabled") ?: false
+            val alertNotification = AlertNotification(context = applicationContext)
+
 
             // Get the locations and units
-            val locations = locationsRepository.getLocationsOnce()
+            val locations = weatherContextRepository.getLocationsOnce()
             val default = locations.find { it.isDefault }
             val units = weatherUnitsRepository.getUnitsOnce()
 
@@ -71,24 +80,30 @@ class WeatherWorker @AssistedInject constructor(
             BackgroundWeatherUpdateNotification.showNotification(default.name, applicationContext)
 
 
-            // Get the repository
-            val repo = repositoryProvider.getWeatherRepository(default.source)
+            var weather: Weather? = null
+            var alerts: List<Alert> = emptyList()
 
-            val result = repo.getWeather(
+            sourceDataRepository.getData(
                 location = default,
                 isManualRefresh = true,
-                isForceRefresh = false
+                onAlerts = {
+                    if (it is AlertResult.Success) {
+                        alerts = it.alerts
+                    }
+                },
+                onAirQuality = {},
+                onWeather = {
+                    if (it is WeatherResult.RefreshNotAvailable) {
+                        weather = it.weather
+                    } else if (it is WeatherResult.Success) {
+                        weather = it.weather
+                    }
+                }
             )
 
-
-            if (result !is WeatherResult.Success) {
+            if (weather == null) {
                 return Result.success()
             }
-
-
-            val weather = result.weather
-
-
 
             if (sendDataToGadgetBridge) {
                 sendGadgetBridgeWeatherData(applicationContext, weather)
@@ -97,6 +112,16 @@ class WeatherWorker @AssistedInject constructor(
             if (isOnGoingNotificationEnabled) {
                 OnGoingNotification.update(weather, applicationContext, units)
             }
+
+            if (isAlertNotificationEnabled && alerts.isNotEmpty()) {
+                for (alert in alerts) {
+                    alertNotification.show(
+                        alert,
+                        AlertNotificationIdHelper.getNextId()
+                    )
+                }
+            }
+
 
             updateAllWidgets(applicationContext, weather, units, rainWidgetStateBuilder)
 
@@ -122,6 +147,7 @@ class WeatherWorker @AssistedInject constructor(
         ) {
             val json = widgetWeatherMapper(data, context, units)
 
+            // rain widget state for the default/device location only
             val rainJson = rainWidgetStateBuilder?.let { builder ->
                 data.location.takeIf { it.isDefault || it.isDeviceLocation }?.let { location ->
                     try {
@@ -137,7 +163,7 @@ class WeatherWorker @AssistedInject constructor(
                 }
             }
 
-            WidgetWeatherUpdater(context).update(json, rainJson)
+            WeatherWidgetUpdater(context).update(json, rainJson)
         }
 
     }

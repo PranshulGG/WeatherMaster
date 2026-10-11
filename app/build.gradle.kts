@@ -30,7 +30,7 @@ val weatherapiKey =
 val keystoreFile = file("../keystore/release.jks")
 val hasKeystore = keystoreFile.exists()
 
-val versionNameString = "3.10.4"
+val versionNameString = "3.10.6"
 
 val playStore = false
 
@@ -49,7 +49,7 @@ android {
         }
         minSdk = 26
         targetSdk = 36
-        versionCode = 65
+        versionCode = 67
         versionName = versionNameString
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -165,6 +165,11 @@ dependencies {
     implementation(libs.okhttp.logging)
     implementation(libs.common.suncalc)
     implementation(libs.androidx.appcompat)
+
+    implementation(libs.jts.core)
+    implementation(libs.jts.io.common)
+
+    implementation(libs.jackson.module.kotlin)
 
 //    coreLibraryDesugaring(libs.desugar.jdk.libs) // Not sure but it causes timezone crashes on some devices
     implementation(libs.androidx.hilt.navigation.compose)

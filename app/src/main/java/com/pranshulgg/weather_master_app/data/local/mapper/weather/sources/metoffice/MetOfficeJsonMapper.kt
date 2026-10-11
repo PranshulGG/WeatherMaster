@@ -70,7 +70,6 @@ fun MetOfficeForecastJson.toDomain(location: Location): Weather {
             uvIndex = hourly[currentHourIndex].uvIndex,
             weatherCondition = MetOfficeWeatherConditionMap.getCondition(hourly[currentHourIndex].significantWeatherCode),
             feelsLike = hourly[currentHourIndex].feelsLikeTemperature,
-            time = currentTime,
             dewPoint = hourly[currentHourIndex].screenDewPointTemperature,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()
@@ -125,7 +124,7 @@ fun MetOfficeForecastJson.toDomain(location: Location): Weather {
             )
 
             val precipitationProbabilityMax = max(
-                day.nightProbabilityOfPrecipitation ?: -1.0,
+                day.dayProbabilityOfPrecipitation ?: -1.0,
                 day.nightProbabilityOfPrecipitation ?: -1.0
             ).takeIf { it != -1.0 }
 
@@ -138,8 +137,8 @@ fun MetOfficeForecastJson.toDomain(location: Location): Weather {
                 hourly.map { it.screenDewPointTemperature ?: -1.0 }.average().takeIf { it != -1.0 }
 
             WeatherDaily(
-                temperatureMin = day.dayMaxScreenTemperature,
-                temperatureMax = day.nightMinScreenTemperature,
+                temperatureMin = day.nightMinScreenTemperature,
+                temperatureMax = day.dayMaxScreenTemperature,
                 windSpeed = WindSpeedUnit.MPS.convert(
                     avgWindSpeed,
                     WindSpeedUnit.KPH

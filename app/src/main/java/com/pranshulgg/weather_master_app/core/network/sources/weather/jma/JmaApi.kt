@@ -14,8 +14,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import java.util.concurrent.TimeUnit
 
-// All endpoints are free, public, no API key or auth of any kind - confirmed live for every
-// call this source makes.
 interface JmaApi {
 
     @GET("common/const/area.json")

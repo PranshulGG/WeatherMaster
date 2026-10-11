@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -22,6 +23,7 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
 import com.pranshulgg.weather_master_app.core.utils.weather.forecast.findMatchingHourly
 import com.pranshulgg.weather_master_app.feature.blocks.BlocksScreenViewModel
@@ -35,22 +37,13 @@ fun RainScreen(navController: NavController, index: Int = 0, locationId: String)
 
     val viewModel: BlocksScreenViewModel = hiltViewModel()
 
-    LaunchedEffect(Unit) {
-        viewModel.getUnitsOnce()
-        viewModel.getWeather(locationId)
-        if (index == 0) {
-            viewModel.getRainNowcast(locationId)
-        }
-    }
-
-
-    val uiState = viewModel.uiState.value
-    val weather = uiState.weather
+    val weather = viewModel.weather.collectAsState().value.weather
     val hourly = weather?.hourly ?: return
     val context = LocalContext.current
-    val units = uiState.units
+    val units = viewModel.units.collectAsState().value.units
     val zoneId = weather.location.timezone
-    val time = if (index != 0) weather.daily[index].time else weather.current.time
+    val time =
+        if (index != 0) weather.daily[index].time else getCurrentTimeFor(weather.location.timezone)
 
 
     val data = findMatchingHourly(
@@ -64,10 +57,16 @@ fun RainScreen(navController: NavController, index: Int = 0, locationId: String)
     )
     val date = toDateString(weather.daily[index].time, weather.location.timezone)
 
+    // 2 hour rain nowcast above the daily bars ("today" only)
+    if (index == 0) {
+        LaunchedEffect(weather.location.id) {
+            viewModel.getRainNowcast(weather.location)
+        }
+    }
+    val nowcast = viewModel.rainNowcast.value
+
 
     val isOnlyPrecipitation = !weather.location.source.providesSnowFall()
-
-    val nowcast = uiState.rainNowcast
 
 
     LargeTopBarScaffold(
@@ -101,13 +100,15 @@ fun RainScreen(navController: NavController, index: Int = 0, locationId: String)
 //                context = context,
 //                unit = units.precipitationUnit
 //            )
-            RainNowcastCard(
-                nowcast = nowcast,
-                zoneId = zoneId,
-                unit = units.precipitationUnit,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
-            Gap(14.dp)
+            if (nowcast != null) {
+                RainNowcastCard(
+                    nowcast = nowcast,
+                    zoneId = zoneId,
+                    unit = units.precipitationUnit,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+                Gap(14.dp)
+            }
             RainHourlyCard(data, zoneId, units.precipitationUnit, context)
             Gap(14.dp)
             AboutCard { AboutCardText(stringResource(R.string.weather_about_precipitation)) }

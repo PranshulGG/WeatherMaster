@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -33,6 +34,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.AvatarIcon
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
@@ -52,18 +54,12 @@ fun UvIndexScreen(navController: NavController, index: Int = 0, locationId: Stri
 
     val viewModel: BlocksScreenViewModel = hiltViewModel()
 
-    LaunchedEffect(Unit) {
-        viewModel.getUnitsOnce()
-        viewModel.getWeather(locationId)
-    }
-
-
-    val uiState = viewModel.uiState.value
-    val weather = uiState.weather
+    val weather = viewModel.weather.collectAsState().value.weather
     val hourly = weather?.hourly ?: return
     val context = LocalContext.current
 
-    val time = if (index != 0) weather.daily[index].time else weather.current.time
+    val time =
+        if (index != 0) weather.daily[index].time else getCurrentTimeFor(weather.location.timezone)
 
     val data =
         findMatchingHourly(

@@ -12,7 +12,7 @@ import com.pranshulgg.weather_master_app.data.backup.model.toBackupDto
 import com.pranshulgg.weather_master_app.data.backup.model.toEntity
 import com.pranshulgg.weather_master_app.data.local.WeatherMasterDatabase
 import com.pranshulgg.weather_master_app.data.local.dao.location.LocationKeysDao
-import com.pranshulgg.weather_master_app.data.local.dao.location.LocationsDao
+import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.ApiKeysDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherBlocksDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherUnitsDao
@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 class BackupRepository @Inject constructor(
     private val db: WeatherMasterDatabase,
-    private val locationsDao: LocationsDao,
+    private val weatherContextDao: WeatherContextDao,
     private val locationKeysDao: LocationKeysDao,
     private val apiKeysDao: ApiKeysDao,
     private val weatherUnitsDao: WeatherUnitsDao,
@@ -30,7 +30,7 @@ class BackupRepository @Inject constructor(
 ) {
 
     suspend fun buildBackup(includeApiKeys: Boolean): BackupPayload {
-        val locations = locationsDao.getLocationsOnce()
+        val locations = weatherContextDao.getLocationsOnce()
         val locationKeys = locationKeysDao.getAllCityKeys()
         val apiKeys = if (includeApiKeys) apiKeysDao.getAllApiKeys() else emptyList()
         val weatherUnits = weatherUnitsDao.getOnce()
@@ -66,8 +66,8 @@ class BackupRepository @Inject constructor(
 
         db.withTransaction {
             locationKeysDao.deleteAll()
-            locationsDao.deleteAllLocations()
-            locationsDao.insertAllLocations(payload.locations.map { it.toEntity() })
+            weatherContextDao.deleteAllLocations()
+            weatherContextDao.insertAllLocations(payload.locations.map { it.toEntity() })
             locationKeysDao.insertAll(payload.locationKeys.map { it.toEntity() })
 
             // An empty list means the export toggle was off (or there was nothing to export),

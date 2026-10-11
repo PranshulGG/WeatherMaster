@@ -71,7 +71,6 @@ fun GismeteoModel.toDomain(location: Location): Weather {
             uvIndex = null,
             weatherCondition = GismeteoWeatherConditionMap.getCondition(current.icon),
             feelsLike = current.feelsLike,
-            time = fixTimeString(current.time).iso8601TimestampToMilliseconds(),
             dewPoint = null,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis(),

@@ -79,6 +79,7 @@ fun UvIndexHourlyCard(data: List<WeatherHourly>, zoneId: String) {
                     val item = data[index]
 
                     val percentage = ((item.uvIndex!!.minus(min)).div((max - min))).times(100)
+
                     val barHeight = if (!percentage.isNaN()) max(
                         (percentage.div(100.0)).times(140),
                         5.0
@@ -96,7 +97,7 @@ fun UvIndexHourlyCard(data: List<WeatherHourly>, zoneId: String) {
                                 Modifier
                                     .width(18.dp)
                                     .height(140.dp),
-                                color = MaterialTheme.colorScheme.surface,
+                                color = MaterialTheme.colorScheme.surfaceContainer,
                                 shape = CircleShape
                             ) {}
                             Surface(

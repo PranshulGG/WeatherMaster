@@ -368,6 +368,7 @@
     <string name="country_russia">Rússia</string>
     <string name="country_spain">Espanha</string>
     <string name="country_taiwan">Taiwan</string>
+    <string name="country_ukraine">Ukraine</string>
     <string name="country_brazil">Brasil</string>
     <string name="settings_date_format">Formato de data</string>
     <string name="widget_settings_display_hourly_secondary">Exibe a previsão por hora em vez da previsão diária</string>
@@ -439,5 +440,8 @@
     <string name="setting_next_day_forecast_notification">Notificação da previsão do tempo de amanhã</string>
     <string name="setting_next_day_forecast_notification_set_time">Definir horário para a notificação da previsão do tempo de amanhã</string>
     <string name="label_disabled">Desabilitado</string>
+    <string name="weather_refresh_delay_fixed">Por favor, aguarde 15 minutos antes de recarregar</string>
+    <string name="country_turkey">Turquía</string>
+    <string name="country_belgium">Bélgica</string>
 </resources>
 <!--<string name=""></string>-->

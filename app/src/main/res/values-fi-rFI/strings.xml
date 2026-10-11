@@ -54,7 +54,7 @@
     <string name="weather_very_hot">Erittäin kuumaa</string>
     <string name="weather_very_cold">Erittäin kylmää</string>
     <string name="weather_haze">Sumua</string>
-    <string name="weather_rain">Sateista</string>
+    <string name="weather_rain">Sadetta</string>
     <string name="weather_no_condition">Säätilaa ei löytynyt</string>
     <string name="weather_uv_low">Matala</string>
     <string name="weather_uv_moderate">Kohtalainen</string>
@@ -298,7 +298,7 @@
     <string name="weather_wind_direction_from">Tuuli %1$s</string>
     <string name="day_length_hr">%1$s tuntia</string>
     <string name="error_no_results">Tuloksia ei löytynyt</string>
-    <string name="summary_overview_template_same_condition">Luvassa %1$s päivällä ja yöllä.</string>
+    <string name="summary_overview_template_same_condition">Luvassa %1$s koko vuorokauden.</string>
     <string name="summary_overview_template_day_night_condition"> Päivällä on %1$s, yöksi luvassa %2$s.</string>
     <string name="summary_rain_template_day_night">Päivällä on luvassa sadetta noin kello %1$s %2$s todennäköisyydellä. Yöllä on %3$s todennäköisyys sateeseen noin kello %4$s.</string>
     <string name="summary_rain_template_day">Päivällä on luvassa sadetta noin kello %1$s %2$s todennäköisyydellä.</string>
@@ -369,6 +369,7 @@
     <string name="country_russia">Venäjä</string>
     <string name="country_spain">Espanja</string>
     <string name="country_taiwan">Taiwan</string>
+    <string name="country_ukraine">Ukraina</string>
     <string name="country_brazil">Brasilia</string>
     <string name="settings_date_format">Päivämäärän muoto</string>
     <string name="widget_settings_display_hourly_secondary">Näytä tunneittainen ennuste päivittäisen sijaan</string>
@@ -439,6 +440,9 @@
     <string name="setting_today_forecast_notification_set_time">Ajasta päivän ennuste -ilmoitus</string>
     <string name="setting_next_day_forecast_notification">Huomisen ennuste -ilmoitus</string>
     <string name="setting_next_day_forecast_notification_set_time">Ajasta huomisen ennuste -ilmoitus</string>
-    <string name="label_disabled">Pois käytöstä</string>
+    <string name="label_disabled">Ei käytössä</string>
+    <string name="weather_refresh_delay_fixed">Odotathan 15 minuuttia ennen pävittämistä</string>
+    <string name="country_turkey">Turkki</string>
+    <string name="country_belgium">Belgia</string>
 </resources>
 <!--<string name=""></string>-->

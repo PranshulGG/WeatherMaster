@@ -340,7 +340,6 @@ private fun createCurrentFromObservation(
         uvIndex = null,
         weatherCondition = WeatherCondition.NO_CONDITION_FOUND,
         feelsLike = computeApparentTemperature(temp, humidity, windMs),
-        time = timeMilli,
         dewPoint = null,
         utcOffsetSeconds = null,
         lastUpdatedInMilli = System.currentTimeMillis()
@@ -399,7 +398,6 @@ private fun createCurrentFromForecast(
         uvIndex = null,
         weatherCondition = condition,
         feelsLike = computeApparentTemperature(temp, humidity, windMs),
-        time = System.currentTimeMillis(),
         dewPoint = null,
         utcOffsetSeconds = null,
         lastUpdatedInMilli = System.currentTimeMillis()

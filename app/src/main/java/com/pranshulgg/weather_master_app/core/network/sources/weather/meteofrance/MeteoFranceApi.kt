@@ -2,10 +2,8 @@ package com.pranshulgg.weather_master_app.core.network.sources.weather.meteofran
 
 import com.pranshulgg.weather_master_app.BuildConfig
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.json.MeteoFranceForecastJson
-import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.json.MetNorwayForecastJson
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

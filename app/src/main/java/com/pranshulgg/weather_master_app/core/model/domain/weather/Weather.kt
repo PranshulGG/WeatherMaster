@@ -23,7 +23,6 @@ data class WeatherCurrent(
     val uvIndex: Double?,
     val weatherCondition: WeatherCondition,
     val feelsLike: Double?,
-    val time: Long, // NOTE: ALWAYS MILLISECONDS
     val dewPoint: Double?,
     val utcOffsetSeconds: Long?,
     val lastUpdatedInMilli: Long

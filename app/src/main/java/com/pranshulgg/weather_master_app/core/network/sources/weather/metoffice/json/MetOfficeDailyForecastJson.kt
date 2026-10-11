@@ -71,6 +71,7 @@ data class MetOfficeDailyForecastTimeSeriesJson(
     val dayLowerBoundMaxFeelsLikeTemp: Double?,
     val nightLowerBoundMinFeelsLikeTemp: Double?,
 
+    val dayProbabilityOfPrecipitation: Double?,
     val nightProbabilityOfPrecipitation: Double?,
     val nightProbabilityOfSnow: Double?,
     val nightProbabilityOfHeavySnow: Double?,

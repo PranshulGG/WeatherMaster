@@ -46,7 +46,6 @@ fun BmkgForecastBundle.toDomain(location: Location): Weather {
                 current.humidity,
                 WindSpeedUnit.KPH.convert(current.windSpeed, WindSpeedUnit.MPS)
             ),
-            time = current.datetime.iso8601TimestampToMilliseconds(),
             dewPoint = null,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

@@ -4,6 +4,7 @@ import android.util.Log
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherHourly
 import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import java.time.Instant
 import java.time.ZoneId
@@ -33,13 +34,14 @@ fun findMatchingDaily(
 
 fun findMatchingHourly(
     data: List<WeatherHourly>,
-    currentMilli: Long,
+    currentMilli: Long?,
     source: Source,
     zoneId: String,
     alwaysReturn24Hrs: Boolean = false,
     keepPastHour: Boolean = false
 ): List<WeatherHourly> {
 
+    val currentMilli = currentMilli ?: getCurrentTimeFor(zoneId)
 
     val index = data.indexOfFirst { it.time >= currentMilli }
 
@@ -70,7 +72,9 @@ fun findHourlyIndexForTime(time: List<Long>, startMilli: Long = System.currentTi
     return maxOf(0, (startIndex))
 }
 
-fun isSameDay(time1: Long, time2: Long, zoneId: String): Boolean {
+fun isSameDay(time1: Long, time2: Long?, zoneId: String): Boolean {
+    val time2 = time2 ?: getCurrentTimeFor(zoneId)
+
     val zone = safeZoneId(zoneId)
     return Instant.ofEpochMilli(time1).atZone(zone).toLocalDate() ==
             Instant.ofEpochMilli(time2).atZone(zone).toLocalDate()

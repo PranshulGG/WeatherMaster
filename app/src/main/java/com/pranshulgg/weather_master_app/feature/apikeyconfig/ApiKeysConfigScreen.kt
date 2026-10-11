@@ -56,7 +56,18 @@ fun ApiKeysConfigScreen(navController: NavController) {
                 tiles = sourcesRequireApiKey.map {
 
                     SettingTile.DialogTextFieldTile(
-                        overline = { Text(it.displayLink) },
+                        overline = {
+                            Column {
+                                Text(it.signupLink ?: it.displayLink)
+                                it.apiKeyNote?.let { note ->
+                                    Text(
+                                        text = note,
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
+                            }
+                        },
                         title = it.displayName,
                         description = if (it == Source.KNMI) {
                             stringResource(R.string.knmi_api_key_description)

@@ -47,7 +47,6 @@ fun DwdWeatherJsonBundle.toDomain(location: Location): Weather {
                 current.humidity?.toDouble(),
                 current.windSpeed?.kmhToMs()
             ),
-            time = current.timestamp.iso8601TimestampToMilliseconds(),
             dewPoint = current.dewPoint,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

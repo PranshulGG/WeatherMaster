@@ -21,6 +21,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
@@ -51,15 +52,8 @@ import java.util.concurrent.TimeUnit
 fun SunMoonScreen(navController: NavController, index: Int, locationId: String) {
     val viewModel: BlocksScreenViewModel = hiltViewModel()
 
-    LaunchedEffect(Unit) {
-        viewModel.getUnitsOnce()
-        viewModel.getWeather(locationId)
-    }
-
-
-    val uiState = viewModel.uiState.value
-    val weather = uiState.weather
-    val daily = uiState.weather?.daily ?: return
+    val weather = viewModel.weather.collectAsState().value.weather
+    val daily = weather?.daily ?: return
     val prefs = LocalAppPrefs.current
     val is24hr = prefs.is24HrTimeFormat
 

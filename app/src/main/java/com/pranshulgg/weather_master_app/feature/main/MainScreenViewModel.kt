@@ -6,8 +6,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.managers.WeatherBlocksManager
+import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.network.github.GithubRepository
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
+import com.pranshulgg.weather_master_app.data.store.InitializationStore
+import com.pranshulgg.weather_master_app.data.store.LocationStore
+import com.pranshulgg.weather_master_app.data.store.WeatherBlocksStore
+import com.pranshulgg.weather_master_app.data.store.WeatherStore
+import com.pranshulgg.weather_master_app.data.store.WeatherUnitsStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
@@ -18,7 +25,19 @@ import kotlin.coroutines.cancellation.CancellationException
 class MainScreenViewModel @Inject constructor(
     private val githubRepository: GithubRepository,
     @ApplicationContext private val context: Context,
+    weatherStore: WeatherStore,
+    locationStore: LocationStore,
+    initializationStore: InitializationStore,
+    weatherUnitsStore: WeatherUnitsStore,
+    weatherBlocksStore: WeatherBlocksStore,
+    private val weatherBlocksManager: WeatherBlocksManager
 ) : ViewModel() {
+
+    val weather = weatherStore.data
+    val location = locationStore.data
+    val initialization = initializationStore.data
+    val units = weatherUnitsStore.data
+    val weatherBlocks = weatherBlocksStore.data
 
     private var _uiState = mutableStateOf(MainScreenUiState())
     val uiState: State<MainScreenUiState> = _uiState
@@ -29,18 +48,6 @@ class MainScreenViewModel @Inject constructor(
                 checkForUpdates()
             }
         }
-    }
-
-    fun showWeatherSourcesForLocationSheet(isLoading: Boolean) {
-        if (isLoading) {
-            SnackbarManager.show(R.string.error_refresh_waiting_before_action)
-            return
-        }
-        _uiState.value = _uiState.value.copy(isWeatherSourcesForLocationSheetOpen = true)
-    }
-
-    fun hideWeatherSourcesForLocationSheet() {
-        _uiState.value = _uiState.value.copy(isWeatherSourcesForLocationSheetOpen = false)
     }
 
     fun showWeatherSourcesInfoForLocationSheet() {
@@ -88,5 +95,11 @@ class MainScreenViewModel @Inject constructor(
 
     fun showChangelogSheet() {
         _uiState.value = _uiState.value.copy(isChangelogSheetOpen = true)
+    }
+
+    fun saveBlocks(blocks: List<WeatherBlock>) {
+        viewModelScope.launch {
+            weatherBlocksManager.saveBlocks(items = blocks)
+        }
     }
 }

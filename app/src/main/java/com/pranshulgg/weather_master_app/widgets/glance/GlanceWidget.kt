@@ -83,7 +83,12 @@ class GlanceWidget : GlanceAppWidget() {
                             WidgetClock(config.clockSize, context, textColor.second)
                         }
 
-                        WidgetDate(config.dateFormat, context, size = 20f, color = textColor.second)
+                        WidgetDate(
+                            config.dateFormat,
+                            context,
+                            size = 20f * config.fontSize,
+                            color = textColor.second
+                        )
 
                         if (!config.hideWeather) {
                             Spacer(GlanceModifier.height(5.dp))
@@ -91,7 +96,7 @@ class GlanceWidget : GlanceAppWidget() {
                                 Image(
                                     provider = ImageProvider(state.currentIcon),
                                     contentDescription = null,
-                                    modifier = GlanceModifier.size(24.dp)
+                                    modifier = GlanceModifier.size(24.dp * config.iconSize)
                                 )
                                 Spacer(GlanceModifier.width(5.dp))
 
@@ -99,7 +104,7 @@ class GlanceWidget : GlanceAppWidget() {
                                     "${state.currentTemp} • ",
                                     style = TextStyle(
                                         color = textColor.first,
-                                        fontSize = 18.sp
+                                        fontSize = 18.sp * config.fontSize
                                     ),
                                 )
 
@@ -107,7 +112,7 @@ class GlanceWidget : GlanceAppWidget() {
                                     state.currentCondition,
                                     style = TextStyle(
                                         color = textColor.first,
-                                        fontSize = 18.sp
+                                        fontSize = 18.sp * config.fontSize
                                     )
                                 )
                             }

@@ -2,10 +2,12 @@ package com.pranshulgg.weather_master_app.data.worker.gadgetbridge
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import org.json.JSONArray
 import org.json.JSONObject
 import kotlin.math.roundToInt
@@ -14,7 +16,7 @@ import kotlin.math.roundToInt
 fun sendGadgetBridgeWeatherData(context: Context, weather: Weather) {
     try {
         val rootWeatherJson = JSONObject().apply {
-            put("timestamp", weather.current.time / 1000L)
+            put("timestamp", getCurrentTimeFor(weather.location.timezone) / 1000L)
             put("location", weather.location.name)
             put("currentTemp", weather.current.temperature?.inKelvin())
             put("todayMinTemp", weather.daily[0].temperatureMin?.inKelvin())
@@ -53,19 +55,15 @@ fun sendGadgetBridgeWeatherData(context: Context, weather: Weather) {
             put("hourly", hourlyArray)
         }
 
-        val intent = Intent().apply {
-            action = "nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER"
-            setClassName(
-                "nodomain.freeyourgadget.gadgetbridge",
-                "nodomain.freeyourgadget.gadgetbridge.externalevents.GenericWeatherReceiver"
-            )
-            putExtra("WeatherJson", rootWeatherJson.toString())
-            addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
-        }
-
-        context.sendBroadcast(intent)
-
-
+        context.packageManager
+            .queryBroadcastReceivers(Intent("nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER"), PackageManager.GET_RESOLVED_FILTER)
+            .forEach {
+                context.sendBroadcast(Intent("nodomain.freeyourgadget.gadgetbridge.ACTION_GENERIC_WEATHER").apply {
+                    setPackage(it.activityInfo.applicationInfo.packageName)
+                    putExtra("WeatherJson", rootWeatherJson.toString())
+                    addFlags(Intent.FLAG_RECEIVER_FOREGROUND)
+                })
+            }
     } catch (e: Exception) {
     }
 }

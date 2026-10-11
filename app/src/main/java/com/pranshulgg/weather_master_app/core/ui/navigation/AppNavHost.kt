@@ -123,26 +123,17 @@ fun AppNavHost(
                     BackupScreen(navController)
                 }
                 composable(
-                    route = "${NavRoutes.DAILY}/{index}/{locationId}",
+                    route = "${NavRoutes.DAILY}/{index}",
                     arguments = listOf(
                         navArgument("index") {
                             type = NavType.IntType
                             defaultValue = 0
-                        },
-                        navArgument("locationId") {
-                            type = NavType.StringType
                         }
                     )
                 ) { backStackEntry ->
                     val index = backStackEntry.arguments?.getInt("index") ?: 0
-                    val locationId = backStackEntry.arguments?.getString("locationId")
 
-                    val rootEntry = remember(backStackEntry) {
-                        navController.getBackStackEntry("root")
-                    }
-                    val weatherViewModel: WeatherViewModel = hiltViewModel(rootEntry)
-
-                    DailyScreen(navController, index, locationId!!, weatherViewModel)
+                    DailyScreen(navController, index)
                 }
                 composable(
                     route = "${NavRoutes.ALERTS}/{locationId}",
@@ -189,22 +180,9 @@ fun AppNavHost(
                 }
 
                 composable(
-                    route = "${NavRoutes.EDIT_LOCATION}/{locationId}",
-                    arguments = listOf(
-                        navArgument("locationId") {
-                            type = NavType.StringType
-                        }
-                    )
-                ) { backStackEntry ->
-
-                    val locationId = backStackEntry.arguments?.getString("locationId")
-
-                    val rootEntry = remember(backStackEntry) {
-                        navController.getBackStackEntry("root")
-                    }
-                    val weatherViewModel: WeatherViewModel = hiltViewModel(rootEntry)
-
-                    EditLocationScreen(navController, locationId!!, weatherViewModel)
+                    route = NavRoutes.EDIT_LOCATION,
+                ) {
+                    EditLocationScreen(navController)
                 }
                 composable(
                     route = "{block}/{index}/{locationId}",

@@ -2,7 +2,7 @@ package com.pranshulgg.weather_master_app.feature.settings.notifications
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
+import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 @HiltViewModel
 class NotificationScreenViewModel @Inject constructor(
-    private val locationsRepo: LocationsRepository,
+    private val locationsRepo: WeatherContextRepository,
     private val weatherUnitsRepository: WeatherUnitsRepository
 ) : ViewModel() {
     private var _uiState = mutableStateOf(NotificationsScreenUiState())
@@ -41,6 +41,15 @@ class NotificationScreenViewModel @Inject constructor(
         viewModelScope.launch {
             val location = locationsRepo.getLocationsOnce().find { it.isDefault }
             _uiState.value = _uiState.value.copy(defaultLocation = location)
+        }
+    }
+
+    fun getAlerts(locationId: String?) {
+        if (locationId == null) return
+
+        viewModelScope.launch {
+            val alerts = locationsRepo.getAlertsForLocation(locationId)
+            _uiState.value = _uiState.value.copy(alerts = alerts.mapNotNull { it })
         }
     }
 }

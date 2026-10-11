@@ -1,4 +1,4 @@
-package com.pranshulgg.weather_master_app.data.repository.data
+package com.pranshulgg.weather_master_app.data.repository.weather
 
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.sources.Source
@@ -18,7 +18,8 @@ interface WeatherRepository {
     suspend fun getWeather(
         location: Location,
         isManualRefresh: Boolean = false,
-        isForceRefresh: Boolean
+        isForceRefresh: Boolean,
+        cacheModel: CacheModel
     ): WeatherResult
 
 }

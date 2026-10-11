@@ -3,6 +3,7 @@ package com.pranshulgg.weather_master_app.feature.main.ui.weatherAnimations
 import androidx.compose.runtime.Composable
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 
 @Composable
 fun WeatherAnimations(weather: Weather, isFroggyLayout: Boolean) {
@@ -10,7 +11,7 @@ fun WeatherAnimations(weather: Weather, isFroggyLayout: Boolean) {
     val day = weather.daily.firstOrNull()
 
     val isDay = if (day != null && day.sunrise != null && day.sunset != null) {
-        weather.current.time in day.sunrise..day.sunset
+        getCurrentTimeFor(weather.location.timezone) in day.sunrise..day.sunset
     } else {
         true
     }

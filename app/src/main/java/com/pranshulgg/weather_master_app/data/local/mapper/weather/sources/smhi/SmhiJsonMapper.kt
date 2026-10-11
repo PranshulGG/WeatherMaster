@@ -53,7 +53,6 @@ fun SmhiForecastJson.toDomain(location: Location): Weather {
                 current.humidity?.toDouble(),
                 current.windSpeed
             ),
-            time = currentTime,
             dewPoint = null,
             utcOffsetSeconds = null,
             lastUpdatedInMilli = System.currentTimeMillis()

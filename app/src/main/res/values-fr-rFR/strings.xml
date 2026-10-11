@@ -43,7 +43,7 @@
     <string name="weather_no_data">Aucune donnée météo disponible</string>
     <string name="weather_clear_sky">Ciel dégagé</string>
     <string name="weather_overcast">Ciel couvert</string>
-    <string name="weather_partly_cloudy">Ciel partiellement nuageux</string>
+    <string name="weather_partly_cloudy">Partiellement nuageux</string>
     <string name="weather_heavy_rain">Forte pluie</string>
     <string name="weather_light_rain">Pluie légère</string>
     <string name="weather_light_snow">Neige légère</string>
@@ -368,6 +368,7 @@
     <string name="country_russia">Russie</string>
     <string name="country_spain">Espagne</string>
     <string name="country_taiwan">Taiwan</string>
+    <string name="country_ukraine">Ukraine</string>
     <string name="country_brazil">Brésil</string>
     <string name="settings_date_format">Format de la date</string>
     <string name="widget_settings_display_hourly_secondary">Affiche les prévisions par heure plutôt que par jour</string>
@@ -408,8 +409,8 @@
     <string name="widget_weather_today_max_uv_at">Vers %1$s</string>
     <string name="country_united_kingdom">Royaume-Uni</string>
     <string name="region_europe">Europe</string>
-    <string name="settings_api_key_config">Configuration des clés d\'API</string>
-    <string name="source_regional_global">Régional avec couverture mondiale</string>
+    <string name="settings_api_key_config">Configuration des clés API</string>
+    <string name="source_regional_global">Sources régionales avec couverture mondiale</string>
     <string name="error_no_api_key">Aucune clé API n\'a été trouvée. Veuillez ajouter votre clé depuis les paramètres</string>
     <string name="error_api_key_rejected">Votre clé API a été refusée. Elle est peut-être invalide ou expirée — vérifiez la dans les paramètres.</string>
     <string name="weather_mixed_precipitation">Averses</string>
@@ -439,5 +440,8 @@
     <string name="setting_next_day_forecast_notification">Notification des prévisions du lendemain</string>
     <string name="setting_next_day_forecast_notification_set_time">Définir l\'heure de la notification des prévisions du lendemain</string>
     <string name="label_disabled">Désactivé</string>
+    <string name="weather_refresh_delay_fixed">Patientez 15 minutes avant de rafraîchir</string>
+    <string name="country_turkey">Turquie</string>
+    <string name="country_belgium">Belgique</string>
 </resources>
 <!--<string name=""></string>-->

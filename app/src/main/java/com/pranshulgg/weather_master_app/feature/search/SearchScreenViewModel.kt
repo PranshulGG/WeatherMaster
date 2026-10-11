@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.sources.Capability
 import com.pranshulgg.weather_master_app.core.model.sources.SearchSource
+import com.pranshulgg.weather_master_app.core.model.sources.getSourcesForCountry
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
@@ -18,7 +19,7 @@ import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
 import com.pranshulgg.weather_master_app.data.provider.SearchRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
-import com.pranshulgg.weather_master_app.data.repository.LocationsRepository
+import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
@@ -27,7 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
     val repo: SearchRepositoryProvider,
-    val locationsRepo: LocationsRepository,
+    val weatherContextRepository: WeatherContextRepository,
     val geoNamesTimezoneRepository: GeoNamesTimezoneRepository,
     private val apiKeysRepo: ApiKeysRepository,
 ) : ViewModel() {
@@ -84,9 +85,16 @@ class SearchScreenViewModel @Inject constructor(
                 val alertSource = if (Capability.ALERTS in weatherSource.capabilities) {
                     weatherSource
                 } else {
-                    resolved.alertSource
+                    getSourcesForCountry(resolved.countryCode?.uppercase())
+                        .firstOrNull { Capability.ALERTS in it.capabilities }
+                        ?: resolved.alertSource
                 }
-                locationsRepo.saveLocation(resolved.copy(source = weatherSource, alertSource = alertSource))
+                weatherContextRepository.saveLocation(
+                    resolved.copy(
+                        source = weatherSource,
+                        alertSource = alertSource
+                    )
+                )
                 onBack()
             } catch (e: Exception) {
                 val appExpectation = e.toAppException()

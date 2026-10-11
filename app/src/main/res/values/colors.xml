@@ -13,4 +13,12 @@
     <color name="transparent">#00000000</color>
     <color name="widgetHourlyContainerColorLight">#e6e6e6</color>
     <color name="widgetHourlyContainerColorDark">#333333</color>
+
+    <color name="alert_CRITICAL">#D32F2F</color>
+    <color name="alert_HIGH">#F57C00</color>
+    <color name="alert_MODERATE">#FBC02D</color>
+    <color name="alert_LOW">#388E3C</color>
+    <color name="alert_UNKNOWN">#757575</color>
+
 </resources>
+
