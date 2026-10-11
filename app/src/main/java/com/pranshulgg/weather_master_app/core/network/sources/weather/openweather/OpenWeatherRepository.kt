@@ -65,7 +65,7 @@ class OpenWeatherRepository @Inject constructor(
             ): WeatherDataPack {
 
                 /**
-                 * API key may be stored with or without "_one_call_4" suffix
+                 * API key may be stored with or without "&one_call_4" suffix
                  * depending on which version the user wants to use
                  * We use this to determine wether to use OneCall 4.0 or free version
                  */
