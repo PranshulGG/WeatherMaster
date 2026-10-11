@@ -36,6 +36,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.airquality.OpenMeteoAqiApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherOneCallApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiApi
 import dagger.Module
@@ -187,6 +188,10 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideOpenWeatherApi(): OpenWeatherApi = OpenWeatherApi.create()
+    
+    @Provides
+    @Singleton
+    fun provideOpenWeatherOneCallApi(): OpenWeatherOneCallApi = OpenWeatherOneCallApi.create()
 
     @Provides
     @Singleton
@@ -199,4 +204,5 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideMoenvApi(): MoenvApi = MoenvApi.create()
+
 }
