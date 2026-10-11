@@ -220,6 +220,7 @@ enum class Source(
     OPEN_WEATHER(
         displayName = "OpenWeather",
         fullName = "OpenWeather",
+        apiKeyNote = "To use One Call 4.0, append `_one_call_4` to the end of your API key (e.g., your_api_key_one_call_4). This requires an active One Call 4.0 subscription",
         displayLink = "https://openweathermap.org/",
         capabilities = setOf(Capability.WEATHER, Capability.AIR_QUALITY),
         requiresUserApiKey = true

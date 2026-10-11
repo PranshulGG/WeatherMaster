@@ -56,15 +56,26 @@ class OpenWeatherRepository @Inject constructor(
                 isForceRefresh: Boolean,
                 cacheModel: CacheModel
             ): WeatherDataPack {
+
+                /**
+                 * API key may be stored with or without "_one_call_4" suffix
+                 * depending on which version the user wants to use
+                 * We use this to determine wether to use OneCall 4.0 or free version
+                 */
+                val key = cacheModel.apiKey!!.split("_one_call_4")
+
+                val resolvedKey = key.first()
+                val isOneCall4 = key[1] == "_one_call_4"
+
                 val current = safeApiCall {
                     api.fetchCurrent(
-                        location.latitude, location.longitude, cacheModel.apiKey!!
+                        location.latitude, location.longitude, cacheModel.apiKey
                     )
                 }.getOrThrow()
 
                 val forecast = safeApiCall {
                     api.fetchForecast(
-                        location.latitude, location.longitude, cacheModel.apiKey!!
+                        location.latitude, location.longitude, cacheModel.apiKey
                     )
                 }.getOrThrow()
 

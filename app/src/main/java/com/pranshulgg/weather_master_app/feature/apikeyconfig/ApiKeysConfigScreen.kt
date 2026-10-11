@@ -75,6 +75,7 @@ fun ApiKeysConfigScreen(navController: NavController) {
                         placeholderTextField = "API key",
                         initialText = apiKeys[it]?.getOrNull(0)?.apiKey ?: "",
                         placeholderAsValue = true,
+                        textFieldDescription = it.apiKeyNote
                     )
                 }
             )
