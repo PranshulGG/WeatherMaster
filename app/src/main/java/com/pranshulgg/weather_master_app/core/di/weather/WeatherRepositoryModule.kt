@@ -48,6 +48,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsRep
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherOneCallApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.OpenWeatherRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweather.PirateWeatherRepository
@@ -297,9 +298,10 @@ object WeatherRepositoryModule {
         weatherDao: WeatherDao,
         api: OpenWeatherApi,
         airQualityDao: AirQualityDao,
-        apiKeysDao: ApiKeysDao
+        apiKeysDao: ApiKeysDao,
+        oneCallApi: OpenWeatherOneCallApi
     ): OpenWeatherRepository =
-        OpenWeatherRepository(dao, weatherDao, api, airQualityDao, apiKeysDao)
+        OpenWeatherRepository(dao, weatherDao, api, oneCallApi, airQualityDao, apiKeysDao)
 
     @Provides
     @Singleton
