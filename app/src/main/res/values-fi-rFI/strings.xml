@@ -369,6 +369,7 @@
     <string name="country_russia">Venäjä</string>
     <string name="country_spain">Espanja</string>
     <string name="country_taiwan">Taiwan</string>
+    <string name="country_ukraine">Ukraina</string>
     <string name="country_brazil">Brasilia</string>
     <string name="settings_date_format">Päivämäärän muoto</string>
     <string name="widget_settings_display_hourly_secondary">Näytä tunneittainen ennuste päivittäisen sijaan</string>
