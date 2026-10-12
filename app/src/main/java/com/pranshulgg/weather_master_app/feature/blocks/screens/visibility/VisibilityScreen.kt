@@ -82,10 +82,10 @@ fun VisibilityScreen(navController: NavController, index: Int = 0, locationId: S
 
     )
     val zoneId = weather.location.timezone
-
+    val prefs = LocalAppPrefs.current
     val date = toDateString(
         weather.daily[index].time,
-        weather.location.timezone
+        weather.location.timezone, prefs = prefs
     )
     val scale = getVisibilityScaleFor(units.distanceUnit)
     val visibility = data.map { it.visibility }

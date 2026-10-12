@@ -3,6 +3,9 @@ package com.pranshulgg.weather_master_app.core.utils.formatters
 import android.content.Context
 import android.text.format.DateFormat
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.prefs.AppPrefs
+import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
+import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.utils.locale.getCurrentAppLocale
 import java.time.Instant
 import java.time.ZoneId
@@ -45,14 +48,42 @@ fun toWeekdayString(timeMilli: Long, zoneId: String): String {
     return formatter.format(zonedDateTime)
 }
 
-fun toDateString(timeMilli: Long, zoneId: String, pattern: String = "ddMMMM"): String {
+//fun toDateString(timeMilli: Long, zoneId: String, pattern: String = "ddMMMM"): String {
+//    val instant = Instant.ofEpochMilli(timeMilli)
+//    val zonedDateTime = instant.atZone(safeZoneId(zoneId))
+//    val formatter = DateTimeFormatter
+//        .ofPattern(getLocalizedPattern(pattern), getCurrentAppLocale())
+//
+//    return formatter.format(zonedDateTime)
+//
+//}
+
+
+// From https://github.com/PranshulGG/WeatherMaster/pull/1146/ @gietabhi10
+fun toDateString(
+    timeMilli: Long,
+    zoneId: String,
+    pattern: String = "ddMMMM",
+    prefs: AppPrefsState
+): String {
     val instant = Instant.ofEpochMilli(timeMilli)
     val zonedDateTime = instant.atZone(safeZoneId(zoneId))
+
+
+    val isShortPattern =
+        pattern == "Mdd" || pattern == "MMdd" || pattern == "ddMM" || pattern == "dM"
+    val effectivePattern = when (prefs.dateFormat) {
+        "MM/dd" -> if (isShortPattern) "MM/dd" else "MMMM d"
+        "dd.MM" -> if (isShortPattern) "dd.MM" else "d MMMM"
+        "MMMM d" -> if (isShortPattern) "MM/dd" else "MMMM d"
+        "d MMMM" -> if (isShortPattern) "dd.MM" else "d MMMM"
+        else -> getLocalizedPattern(pattern)
+    }
+
     val formatter = DateTimeFormatter
-        .ofPattern(getLocalizedPattern(pattern), getCurrentAppLocale())
+        .ofPattern(effectivePattern, getCurrentAppLocale())
 
     return formatter.format(zonedDateTime)
-
 }
 
 fun getLastUpdatedTimeString(context: Context, timeMilli: Long): String {

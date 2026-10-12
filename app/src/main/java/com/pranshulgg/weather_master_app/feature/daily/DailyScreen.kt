@@ -85,7 +85,12 @@ fun DailyScreen(
             )
 
 
-            DailyForecastHeroHeader(selectedDaily, locationStore.activeLocation!!, unitsStore.units)
+            DailyForecastHeroHeader(
+                selectedDaily,
+                locationStore.activeLocation!!,
+                unitsStore.units,
+                prefs
+            )
 
             Column(
                 modifier = Modifier.padding(16.dp),

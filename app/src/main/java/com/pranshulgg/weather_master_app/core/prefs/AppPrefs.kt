@@ -43,6 +43,8 @@ object AppPrefs {
 
     private val _isAlertNotificationEnabled = mutableStateOf(false)
 
+    private val _dateFormat = mutableStateOf("system")
+
 
     fun initPrefs(context: Context) {
         PreferencesHelper.init(context)
@@ -92,6 +94,8 @@ object AppPrefs {
 
         _isAlertNotificationEnabled.value =
             PreferencesHelper.getBool("isAlertNotificationEnabled") ?: false
+
+        _dateFormat.value = PreferencesHelper.getString("dateFormat") ?: "system"
 
     }
 
@@ -217,6 +221,11 @@ object AppPrefs {
         setAlertNotificationEnabled = {
             _isAlertNotificationEnabled.value = it
             PreferencesHelper.setBool("isAlertNotificationEnabled", it)
-        }
+        },
+        dateFormat = _dateFormat.value,
+        setDateFormat = {
+            _dateFormat.value = it
+            PreferencesHelper.setString("dateFormat", it)
+        },
     )
 }

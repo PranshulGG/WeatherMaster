@@ -23,6 +23,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
+import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
@@ -35,7 +36,12 @@ import kotlin.math.roundToInt
 
 
 @Composable
-fun DailyCard(weather: Weather, units: WeatherUnits, navController: NavController) {
+fun DailyCard(
+    weather: Weather,
+    units: WeatherUnits,
+    navController: NavController,
+    prefs: AppPrefsState
+) {
 
     if (!isWeatherDailyDomainSafe(weather)) return
 
@@ -82,7 +88,7 @@ fun DailyCard(weather: Weather, units: WeatherUnits, navController: NavControlle
                         date = toDateString(
                             item.time,
                             weather.location.timezone,
-                            pattern = "Mdd"
+                            pattern = "Mdd", prefs = prefs
                         )
                     )
 

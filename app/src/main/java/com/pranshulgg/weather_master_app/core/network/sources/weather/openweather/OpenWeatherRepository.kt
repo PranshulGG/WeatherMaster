@@ -14,6 +14,7 @@ import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualit
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.FinishedAirQualityResult
 import com.pranshulgg.weather_master_app.core.network.calls.safeApiCall
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.json.bundle.OpenWeatherJsonBundle
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openweather.json.bundle.OpenWeatherOneCallJsonBundle
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.isCurrentAirQualitySafe
 import com.pranshulgg.weather_master_app.core.utils.weather.cache.shouldReturnAirQualityCache
 import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
@@ -39,6 +40,7 @@ class OpenWeatherRepository @Inject constructor(
     val dao: WeatherContextDao,
     val weatherDao: WeatherDao,
     val api: OpenWeatherApi,
+    val oneCallApi: OpenWeatherOneCallApi,
     val airQualityDao: AirQualityDao,
     val apiKeysDao: ApiKeysDao
 ) : BaseRepository() {
@@ -46,6 +48,11 @@ class OpenWeatherRepository @Inject constructor(
     override val weatherSource = Source.OPEN_WEATHER
     override val airQualitySource = Source.OPEN_WEATHER
     override val alertSource = Source.NONE
+
+    companion object {
+        private const val ONE_CALL_V4_HOURLY_COUNT = 48
+        private const val ONE_CALL_V4_DAILY_COUNT = 8
+    }
 
     override fun weatherCapability(): WeatherCapability {
         return object : WeatherCapability {
@@ -56,24 +63,66 @@ class OpenWeatherRepository @Inject constructor(
                 isForceRefresh: Boolean,
                 cacheModel: CacheModel
             ): WeatherDataPack {
-                val current = safeApiCall {
-                    api.fetchCurrent(
-                        location.latitude, location.longitude, cacheModel.apiKey!!
-                    )
-                }.getOrThrow()
 
-                val forecast = safeApiCall {
-                    api.fetchForecast(
-                        location.latitude, location.longitude, cacheModel.apiKey!!
-                    )
-                }.getOrThrow()
+                /**
+                 * API key may be stored with or without "&one_call_4" suffix
+                 * depending on which version the user wants to use
+                 * We use this to determine wether to use OneCall 4.0 or free version
+                 */
 
-                val final = OpenWeatherJsonBundle(
-                    current = current,
-                    forecast = forecast
-                )
+                val containsSuffix = cacheModel.apiKey!!.contains("&")
 
-                val domain = final.toDomain(location)
+                val key = if (containsSuffix) cacheModel.apiKey.split("&")
+                else listOf(cacheModel.apiKey, "")
+
+                val resolvedKey = key.first()
+                val isOneCall4 = key[1] == "one_call_4"
+                val now = System.currentTimeMillis()
+
+                val domain = if (isOneCall4) {
+                    val oneCallCurrent = safeApiCall {
+                        oneCallApi.fetchCurrent(
+                            location.latitude, location.longitude, resolvedKey
+                        )
+                    }
+
+                    val startEpochSeconds = now / 1000
+
+                    val currentJson = oneCallCurrent.getOrNull()
+                    if (currentJson != null) {
+                        val hourly = safeApiCall {
+                            oneCallApi.fetchHourly(
+                                location.latitude,
+                                location.longitude,
+                                ONE_CALL_V4_HOURLY_COUNT,
+                                startEpochSeconds,
+                                resolvedKey
+                            )
+                        }.getOrThrow()
+
+                        val daily = safeApiCall {
+                            oneCallApi.fetchDaily(
+                                location.latitude,
+                                location.longitude,
+                                ONE_CALL_V4_DAILY_COUNT,
+                                startEpochSeconds,
+                                resolvedKey
+                            )
+                        }.getOrThrow()
+
+                        OpenWeatherOneCallJsonBundle(
+                            current = currentJson,
+                            hourly = hourly,
+                            daily = daily
+                        ).toDomain(location)
+                    } else {
+                        useFreeVersion(location, resolvedKey)
+                    }
+
+                } else {
+                    useFreeVersion(location, resolvedKey)
+                }
+
 
                 return WeatherDataPack(domain)
             }
@@ -90,6 +139,18 @@ class OpenWeatherRepository @Inject constructor(
                 return FinishedWeatherResult(weather = data)
             }
         }
+    }
+
+    private suspend fun useFreeVersion(location: Location, apiKey: String): Weather {
+        val current = safeApiCall {
+            api.fetchCurrent(location.latitude, location.longitude, apiKey)
+        }.getOrThrow()
+
+        val forecast = safeApiCall {
+            api.fetchForecast(location.latitude, location.longitude, apiKey)
+        }.getOrThrow()
+
+        return OpenWeatherJsonBundle(current = current, forecast = forecast).toDomain(location)
     }
 
     override fun airQualityCapability(): AirQualityCapability {

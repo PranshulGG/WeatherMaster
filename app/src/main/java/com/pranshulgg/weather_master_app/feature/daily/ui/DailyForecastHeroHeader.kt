@@ -17,6 +17,8 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherDaily
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
+import com.pranshulgg.weather_master_app.core.prefs.AppPrefs
+import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 import com.pranshulgg.weather_master_app.core.utils.formatters.toDateString
@@ -27,10 +29,11 @@ import kotlin.math.roundToInt
 fun DailyForecastHeroHeader(
     daily: WeatherDaily,
     location: Location,
-    units: WeatherUnits
+    units: WeatherUnits,
+    prefs: AppPrefsState
 ) {
 
-    val date = toDateString(daily.time, location.timezone)
+    val date = toDateString(daily.time, location.timezone, prefs = prefs)
     val context = LocalContext.current
 
     val maxTemp =

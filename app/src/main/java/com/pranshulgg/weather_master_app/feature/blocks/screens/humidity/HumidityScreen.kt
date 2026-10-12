@@ -31,6 +31,7 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.uv.toColor
 import com.pranshulgg.weather_master_app.core.model.weather.uv.toLabel
+import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.AvatarIcon
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
@@ -69,6 +70,8 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
 
     )
 
+    val prefs = LocalAppPrefs.current
+
     val dewPointScaleText = listOf(
         "Dry and comfortable", "Comfortable", "Sticky", "Muggy", "Uncomfortable"
     )
@@ -90,7 +93,7 @@ fun HumidityScreen(navController: NavController, index: Int = 0, locationId: Str
         Color(0xFFFB8C00)
     )
 
-    val date = toDateString(weather.daily[index].time, weather.location.timezone)
+    val date = toDateString(weather.daily[index].time, weather.location.timezone, prefs = prefs)
     val dewPointData = data.map { it.dewPoint }
 
     val zoneId = weather.location.timezone

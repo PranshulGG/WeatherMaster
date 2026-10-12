@@ -111,7 +111,7 @@ fun PhoneLayout(
                 )
             }
         }
-        DailyCard(weather, units, navController)
+        DailyCard(weather, units, navController, prefs)
         WeatherBlocks(
             weather,
             airQuality,

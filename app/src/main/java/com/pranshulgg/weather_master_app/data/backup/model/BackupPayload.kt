@@ -14,11 +14,12 @@ import com.pranshulgg.weather_master_app.data.local.entity.weather.blocks.Weathe
 import com.pranshulgg.weather_master_app.data.local.entity.weather.units.AppWeatherUnitsEntity
 import kotlinx.serialization.Serializable
 
+/**
+ * Implemented by https://github.com/reveler-hub
+ */
+
 const val BACKUP_SCHEMA_VERSION = 1
 
-// Dedicated DTOs rather than the Room @Entity classes directly - the entities' shape is
-// governed by WeatherMasterDatabase's migration history, which shouldn't also have to stay
-// backward-compatible with old export files.
 @Serializable
 data class BackupPayload(
     val schemaVersion: Int = BACKUP_SCHEMA_VERSION,
@@ -74,9 +75,6 @@ data class WeatherUnitsBackup(
     val precipitationUnit: PrecipitationUnit
 )
 
-// type is stored as a plain string (WeatherBlockType.name), not the enum directly -
-// kotlinx.serialization fails the whole decode on an unrecognized enum constant, and a string
-// lets a future block type addition degrade to "skip this one row" instead.
 @Serializable
 data class WeatherBlockBackup(
     val isDaily: Boolean,
@@ -85,8 +83,6 @@ data class WeatherBlockBackup(
     val position: Int
 )
 
-// Every field nullable: null means "leave this pref alone" on import, not "clear it" - so an
-// older/partial export file still imports cleanly.
 @Serializable
 data class AppPrefsBackup(
     val appTheme: String? = null,
@@ -101,6 +97,7 @@ data class AppPrefsBackup(
     val isShowWeatherAnimations: Boolean? = null,
     val isWeatherBasedTheme: Boolean? = null,
     val is24HrTimeFormat: Boolean? = null,
+    val dateFormat: String? = null,
     val isShowSummary: Boolean? = null,
     val isGoogleSansFlex: Boolean? = null
 )

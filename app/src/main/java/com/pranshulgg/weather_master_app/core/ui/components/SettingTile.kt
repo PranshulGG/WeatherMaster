@@ -96,7 +96,8 @@ sealed class SettingTile {
         val initialText: String = "",
         val trailing: (@Composable (() -> Unit))? = null,
         val placeholderAsValue: Boolean = false,
-        val overline: (@Composable (() -> Unit))? = null
+        val overline: (@Composable (() -> Unit))? = null,
+        val textFieldDescription: String? = null
     ) : SettingTile()
 
     data class DialogSliderTile(
@@ -255,7 +256,8 @@ fun SettingSection(
                     itemBgColor = itemBgColor,
                     trailing = tile.trailing,
                     placeholderAsValue = tile.placeholderAsValue,
-                    overline = tile.overline
+                    overline = tile.overline,
+                    textFieldDescription = tile.textFieldDescription
                 )
 
                 is SettingTile.DialogSliderTile -> DialogSliderTile(

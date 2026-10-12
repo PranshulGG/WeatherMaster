@@ -72,8 +72,10 @@ fun UvIndexScreen(navController: NavController, index: Int = 0, locationId: Stri
 
         )
 
+    val prefs = LocalAppPrefs.current
+
     val uvIndexes = UvIndex.entries
-    val date = toDateString(weather.daily[index].time, weather.location.timezone)
+    val date = toDateString(weather.daily[index].time, weather.location.timezone, prefs = prefs)
     val uvIndexData = data.map { it.uvIndex }
     val zoneId = weather.location.timezone
 

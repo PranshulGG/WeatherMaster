@@ -8,6 +8,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.pranshulgg.weather_master_app.core.ui.components.Gap
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
@@ -23,7 +24,8 @@ fun DialogTextFieldTile(
     itemBgColor: Color,
     trailing: (@Composable (() -> Unit))? = null,
     placeholderAsValue: Boolean = false,
-    overline: @Composable (() -> Unit)? = null
+    overline: @Composable (() -> Unit)? = null,
+    textFieldDescription: String? = null
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var textFieldValue by remember(initialText) { mutableStateOf(initialText) }
@@ -87,14 +89,25 @@ fun DialogTextFieldTile(
             onDismissRequest = { showDialog = false },
             title = { Text(headline) },
             text = {
-                OutlinedTextField(
-                    value = textFieldValue,
-                    onValueChange = { textFieldValue = it },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp),
-                    placeholder = { Text(placeholderTextField) },
-                )
+                Column() {
+                    OutlinedTextField(
+                        value = textFieldValue,
+                        onValueChange = { textFieldValue = it },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        placeholder = { Text(placeholderTextField) },
+                    )
+                    textFieldDescription?.let {
+                        Gap(vertical = 4.dp)
+                        Text(
+                            it,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+
+                }
             },
             confirmButton = {
                 TextButton(
