@@ -80,7 +80,7 @@ fun PhoneLayout(
             )
         }
         HourlyCard(weather, units)
-        DailyCard(weather, units, navController)
+        DailyCard(weather, units, navController, prefs)
         WeatherBlocks(
             weather,
             airQuality,

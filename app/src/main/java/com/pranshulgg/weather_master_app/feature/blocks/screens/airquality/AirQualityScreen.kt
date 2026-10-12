@@ -29,6 +29,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.airquality.AirQuality
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityLevel
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.toName
+import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
@@ -49,12 +50,13 @@ fun AirQualityScreen(navController: NavController, index: Int = 0, locationId: S
 
     val airQuality = viewModel.weather.collectAsState().value.airQuality ?: return
     val weather = viewModel.weather.collectAsState().value.weather ?: return
+    val prefs = LocalAppPrefs.current
 
     val hourly = airQuality.hourly
     val time =
         if (index != 0) weather.daily[index].time else getCurrentTimeFor(weather.location.timezone)
     val context = LocalContext.current
-    val date = toDateString(weather.daily[index].time, weather.location.timezone)
+    val date = toDateString(weather.daily[index].time, weather.location.timezone, prefs = prefs)
 
     val data = findMatchingHourly(
         hourly,

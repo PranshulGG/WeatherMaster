@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
@@ -53,9 +54,11 @@ fun SnowScreen(navController: NavController, index: Int = 0, locationId: String)
         weather.location.source,
         weather.location.timezone,
         keepPastHour = true
-
     )
-    val date = toDateString(weather.daily[index].time, weather.location.timezone)
+
+    val prefs = LocalAppPrefs.current
+
+    val date = toDateString(weather.daily[index].time, weather.location.timezone, prefs = prefs)
 
 
 

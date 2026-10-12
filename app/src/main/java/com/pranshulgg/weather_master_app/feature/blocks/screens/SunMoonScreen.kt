@@ -57,7 +57,7 @@ fun SunMoonScreen(navController: NavController, index: Int, locationId: String) 
     val prefs = LocalAppPrefs.current
     val is24hr = prefs.is24HrTimeFormat
 
-    val date = toDateString(daily[index].time, weather.location.timezone)
+    val date = toDateString(daily[index].time, weather.location.timezone, prefs = prefs)
 
     val duskFormatted = if (is24hr) to24HourTimeString(
         daily[index].dusk!!,

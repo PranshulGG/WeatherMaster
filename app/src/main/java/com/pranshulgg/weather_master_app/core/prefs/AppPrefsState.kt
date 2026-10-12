@@ -61,7 +61,10 @@ data class AppPrefsState(
     val setTabletLayout: (Boolean) -> Unit,
 
     val isAlertNotificationEnabled: Boolean,
-    val setAlertNotificationEnabled: (Boolean) -> Unit
+    val setAlertNotificationEnabled: (Boolean) -> Unit,
+
+    val dateFormat: String,
+    val setDateFormat: (String) -> Unit
 )
 
 

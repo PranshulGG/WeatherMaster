@@ -107,7 +107,7 @@ fun TabletLayout(
                     )
                 }
                 HourlyCard(weather, units)
-                DailyCard(weather, units, navController)
+                DailyCard(weather, units, navController, prefs)
 
                 CreditsBottomSection(
                     weather,

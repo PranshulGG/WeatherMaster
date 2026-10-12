@@ -48,6 +48,15 @@ fun AppearanceScreen(navController: NavController) {
         DialogOption("system", stringResource(R.string.setting_system_font))
     )
 
+    val dateFormatOptions = listOf(
+        DialogOption("system", stringResource(R.string.date_format_system)),
+        DialogOption("MM/dd", stringResource(R.string.date_format_mm_dd)),
+        DialogOption("dd.MM", stringResource(R.string.date_format_dd_mm)),
+        DialogOption("MMMM d", stringResource(R.string.date_format_month_day)),
+        DialogOption("d MMMM", stringResource(R.string.date_format_day_month))
+    )
+
+
     val activity = LocalActivity.current as Activity
 
     LargeTopBarScaffold(
@@ -139,7 +148,7 @@ fun AppearanceScreen(navController: NavController) {
             )
 
             SettingSection(
-                title = "Weather",
+                title = stringResource(R.string.weather),
                 tiles = listOf(
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.tune_24px) },
@@ -211,6 +220,15 @@ fun AppearanceScreen(navController: NavController) {
                         checked = prefs.is24HrTimeFormat,
                         onCheckedChange = { checked ->
                             prefs.set24HrTimeFormat(checked)
+                        }
+                    ),
+                    SettingTile.DialogOptionTile(
+                        leading = { SettingsTileIcon(R.drawable.date_range_24px) },
+                        title = stringResource(R.string.settings_date_format),
+                        options = dateFormatOptions,
+                        selectedOption = prefs.dateFormat,
+                        onOptionSelected = {
+                            prefs.setDateFormat(it)
                         }
                     )
                 )
