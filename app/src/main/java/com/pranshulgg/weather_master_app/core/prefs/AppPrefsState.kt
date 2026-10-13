@@ -64,7 +64,10 @@ data class AppPrefsState(
     val setAlertNotificationEnabled: (Boolean) -> Unit,
 
     val dateFormat: String,
-    val setDateFormat: (String) -> Unit
+    val setDateFormat: (String) -> Unit,
+
+    val isNewVersionMessageEnabled: Boolean,
+    val setNewVersionMessageEnabled: (Boolean) -> Unit
 )
 
 

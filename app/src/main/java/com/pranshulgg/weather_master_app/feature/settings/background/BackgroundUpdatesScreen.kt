@@ -170,6 +170,13 @@ fun BackgroundUpdatesScreen(navController: NavController) {
                             BatteryOptimizationHelper.requestDisableBatteryOptimization(context)
                         }
                     ),
+                    SettingTile.SwitchTile(
+                        title = "Show a “New version available” message",
+                        checked = prefs.isNewVersionMessageEnabled,
+                        onCheckedChange = {
+                            prefs.setNewVersionMessageEnabled(it)
+                        }
+                    ),
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.help_24px) },
                         title = stringResource(R.string.setting_dontkillmyapp_title),

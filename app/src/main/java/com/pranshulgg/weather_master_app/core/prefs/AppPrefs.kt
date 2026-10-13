@@ -43,6 +43,8 @@ object AppPrefs {
 
     private val _dateFormat = mutableStateOf("system")
 
+    private val _isNewVersionMessageEnabled = mutableStateOf(true)
+
 
     fun initPrefs(context: Context) {
         PreferencesHelper.init(context)
@@ -92,6 +94,9 @@ object AppPrefs {
             PreferencesHelper.getBool("isAlertNotificationEnabled") ?: false
 
         _dateFormat.value = PreferencesHelper.getString("dateFormat") ?: "system"
+
+        _isNewVersionMessageEnabled.value =
+            PreferencesHelper.getBool("isNewVersionMessageEnabled") ?: true
 
     }
 
@@ -217,5 +222,11 @@ object AppPrefs {
             _dateFormat.value = it
             PreferencesHelper.setString("dateFormat", it)
         },
+
+        isNewVersionMessageEnabled = _isNewVersionMessageEnabled.value,
+        setNewVersionMessageEnabled = {
+            _isNewVersionMessageEnabled.value = it
+            PreferencesHelper.setBool("isNewVersionMessageEnabled", it)
+        }
     )
 }
