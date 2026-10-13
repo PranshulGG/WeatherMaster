@@ -19,6 +19,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.N
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.json.bundle.NwsWeatherJsonBundle
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.iso8601TimestampToMilliseconds
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.normalizeToDay
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.calculations.computeApparentTemperature
@@ -112,6 +113,19 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
         location.longitude
     )
 
+    /**
+     * NWS drops a day's daytime period once it has passed, so in the evening the forecast starts
+     * with "Tonight". Use the night period for a day that has no daytime period, otherwise today
+     * is missing from daily (and hourly day/night icons, sun and moon blocks use the wrong day)
+     */
+    val today = getCurrentTimeFor(zoneId).normalizeToDay(zoneId)
+
+    val dailyPeriods = daily.periods
+        .groupBy { it.startTime.iso8601TimestampToMilliseconds().normalizeToDay(zoneId) }
+        .mapNotNull { (day, periods) ->
+            periods.firstOrNull { it.isDayTime } ?: periods.first().takeIf { day >= today }
+        }
+
     return Weather(
         location = location,
         current = WeatherCurrent(
@@ -159,7 +173,7 @@ fun NwsWeatherJsonBundle.toDomain(location: Location): Weather {
                 dewPoint = it.dewPoint.value
             )
         },
-        daily = daily.periods.filter { it.isDayTime }.map { item ->
+        daily = dailyPeriods.map { item ->
 
 
             val index = daily.periods.indexOf(item)
