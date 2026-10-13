@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.pranshulgg.weather_master_app.BuildConfig
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
@@ -170,13 +171,15 @@ fun BackgroundUpdatesScreen(navController: NavController) {
                             BatteryOptimizationHelper.requestDisableBatteryOptimization(context)
                         }
                     ),
-                    SettingTile.SwitchTile(
-                        title = "Show a “New version available” message",
-                        checked = prefs.isNewVersionMessageEnabled,
-                        onCheckedChange = {
-                            prefs.setNewVersionMessageEnabled(it)
-                        }
-                    ),
+                    if (!BuildConfig.IS_PLAYSTORE_BUILD) {
+                        SettingTile.SwitchTile(
+                            title = "Show a “New version available” message",
+                            checked = prefs.isNewVersionMessageEnabled,
+                            onCheckedChange = {
+                                prefs.setNewVersionMessageEnabled(it)
+                            }
+                        )
+                    } else null,
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.help_24px) },
                         title = stringResource(R.string.setting_dontkillmyapp_title),
