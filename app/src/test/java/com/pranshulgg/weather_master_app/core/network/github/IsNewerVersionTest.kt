@@ -36,9 +36,24 @@ class IsNewerVersionTest {
     }
 
     @Test
+    fun preReleaseNotNewerThanReleaseOfSameVersion() {
+        assertFalse(isNewerVersion(latestTag = "v3.0.0-beta1", currentTag = "v3.0.0"))
+    }
+
+    @Test
+    fun prefixWhitespaceAndBuildMetadataIgnored() {
+        assertFalse(isNewerVersion(latestTag = " v3.10.6 ", currentTag = "v3.10.6"))
+        assertFalse(isNewerVersion(latestTag = "V3.10.6", currentTag = "v3.10.6"))
+        assertFalse(isNewerVersion(latestTag = "v3.10.6", currentTag = "v3.11.0+git.abc123"))
+        assertFalse(isNewerVersion(latestTag = "v1.2.3", currentTag = "v1.2.3+5-x"))
+    }
+
+    @Test
     fun unparseableTagsFallBackToTextComparison() {
         assertTrue(isNewerVersion(latestTag = "latest", currentTag = "v3.10.6"))
         assertFalse(isNewerVersion(latestTag = "nightly", currentTag = "nightly"))
         assertTrue(isNewerVersion(latestTag = "v3.10.6", currentTag = ""))
+        // too large for an Int
+        assertTrue(isNewerVersion(latestTag = "v99999999999", currentTag = "v3.10.6"))
     }
 }

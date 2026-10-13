@@ -48,12 +48,12 @@ class GithubRepository @Inject constructor(
  * Only true when the release is newer than the installed version, so builds newer than the
  * latest release (e.g. built from main) aren't told to "update" to an older version
  *
- * Tags look like "v3.10.6" or "v3.0.0-beta3". If a tag can't be parsed, falls back to
- * comparing the tags as text
+ * Tags look like "v3.10.6" or "v3.0.0-beta3" (a "V" prefix and "+build" metadata are ignored).
+ * If a tag can't be parsed, falls back to comparing the tags as text
  */
 internal fun isNewerVersion(latestTag: String, currentTag: String): Boolean {
     fun parse(tag: String): Pair<List<Int>, Boolean>? {
-        val version = tag.trim().removePrefix("v")
+        val version = tag.trim().removePrefix("v").removePrefix("V").substringBefore("+")
         val numbers = version.substringBefore("-").split(".").map { it.toIntOrNull() ?: return null }
         return numbers to version.contains("-")
     }
@@ -62,8 +62,8 @@ internal fun isNewerVersion(latestTag: String, currentTag: String): Boolean {
     val (current, currentIsPreRelease) = parse(currentTag) ?: return latestTag != currentTag
 
     for (i in 0 until maxOf(latest.size, current.size)) {
-        val diff = latest.getOrElse(i) { 0 } - current.getOrElse(i) { 0 }
-        if (diff != 0) return diff > 0
+        val comparison = latest.getOrElse(i) { 0 }.compareTo(current.getOrElse(i) { 0 })
+        if (comparison != 0) return comparison > 0
     }
 
     // Same numbers: a release is newer than a pre-release of the same version
