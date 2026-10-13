@@ -372,7 +372,7 @@
     <string name="country_russia">רוסיה</string>
     <string name="country_spain">ספרד</string>
     <string name="country_taiwan">טאיוואן</string>
-    <string name="country_ukraine">Ukraine</string>
+    <string name="country_ukraine">אוקראינה</string>
     <string name="country_brazil">ברזיל</string>
     <string name="settings_date_format">תבנית תאריך</string>
     <string name="widget_settings_display_hourly_secondary">הצגת תחזית שעתית במקום תחזית יומית</string>
@@ -430,14 +430,14 @@
     <string name="error_empty_response_body">השרת החזיר תגובה ריקה.</string>
     <string name="error_bad_request">השרת לא יכל לעבד את הבקשה.</string>
     <string name="error_unauthorized">Authentication with the service failed.</string>
-    <string name="error_forbidden">Access to this resource was denied.</string>
+    <string name="error_forbidden">נדחתה הגישה למשאב זה.</string>
     <string name="error_not_found">המשאב המבוקש לא נמצא.</string>
     <string name="error_request_timeout">השרת לא הגיב בזמן.</string>
     <string name="error_too_many_requests">הגעת למכסת השימוש.</string>
     <string name="settings_notifications">התראות</string>
     <string name="settings_notifications_secondary">Scheduled notifications, on-going notification, and more</string>
     <string name="weather_precipitation_probability">Precipitation probability %1$s</string>
-    <string name="error_failed_background_updates">Failed background updates</string>
+    <string name="error_failed_background_updates">עדכוני הרקע נכשלו</string>
     <string name="setting_on_going_notification">התראה פעילה</string>
     <string name="setting_today_forecast_notification">התראת תחזית של היום</string>
     <string name="setting_today_forecast_notification_set_time">קביעת שעה לקבלת התראת תחזית של היום</string>
