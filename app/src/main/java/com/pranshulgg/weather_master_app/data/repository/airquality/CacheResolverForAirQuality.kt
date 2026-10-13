@@ -46,7 +46,7 @@ class CacheResolverForAirQuality @Inject constructor(
         val domain = cache.toDomain()
 
         if (locationRequiresApiKey && apiKey?.apiKey.isNullOrBlank()) {
-            AirQualityCacheModel(
+            return AirQualityCacheModel(
                 cachedAirQuality = domain,
                 type = AirQualityCacheModelResultType.NO_API_KEY_ERROR,
                 apiKey = apiKey?.apiKey

@@ -57,7 +57,7 @@ class CacheResolverForAlerts @Inject constructor(
         val domain = cache.mapNotNull { it?.toDomain() }
 
         if (locationRequiresApiKey && apiKey?.apiKey.isNullOrBlank()) {
-            AlertCacheModel(
+            return AlertCacheModel(
                 cachedAlerts = domain,
                 type = AlertCacheModelResultType.NO_API_KEY_ERROR,
                 apiKey = apiKey?.apiKey

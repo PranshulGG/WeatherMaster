@@ -57,7 +57,7 @@ class CacheResolverForWeather @Inject constructor(
             apiKeysDao.getApiKeyForSource(location.source) else null
 
         if (locationRequiresApiKey && apiKey?.apiKey.isNullOrBlank()) {
-            CacheModel(
+            return CacheModel(
                 cachedWeather = cache?.toDomain(),
                 cachedHourly = existingHourly,
                 type = CacheModelResultType.NO_API_KEY_ERROR,
