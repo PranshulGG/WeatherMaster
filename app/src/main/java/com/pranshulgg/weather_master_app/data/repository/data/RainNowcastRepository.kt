@@ -26,6 +26,9 @@ import javax.inject.Singleton
  * with its own coverage knowledge. No provider names or geographies are
  * hardcoded here.
  */
+/**
+ * Initial rain nowcast integration implemented by https://github.com/Hizoul
+ */
 @Singleton
 class RainNowcastRepository @Inject constructor(
     private val sourceRepositoryProvider: SourceRepositoryProvider

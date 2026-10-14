@@ -24,6 +24,9 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 /**
+ * Initial KNMI nowcast source integration implemented by https://github.com/Hizoul
+ */
+/**
  * KNMI repository.
  *
  * The KNMI Dataplatform publishes no point-forecast feed this app could use

@@ -76,6 +76,9 @@ import kotlin.math.ceil
  * the number of ticks can scale with the widget width: wider widgets use
  * finer buckets and show more data instead of stretching the same bars.
  */
+/**
+ * Initial rain nowcast integration implemented by https://github.com/Hizoul
+ */
 class RainWidget : GlanceAppWidget() {
 
     override val sizeMode = SizeMode.Exact

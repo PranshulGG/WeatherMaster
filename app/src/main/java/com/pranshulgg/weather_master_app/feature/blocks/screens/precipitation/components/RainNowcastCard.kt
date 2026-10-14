@@ -95,6 +95,9 @@ private fun yAxisStep(maxIntensity: Double): Double = when {
 }
 
 /**
+ * Initial rain nowcast integration implemented by https://github.com/Hizoul
+ */
+/**
  * Buienradar-style chart for the high-resolution rain nowcast: one bar per
  * 5-minute (radar) or 15-minute (model) interval, with a y-axis, hour
  * separators and tap-to-inspect: tapping a bar selects it and shows the
