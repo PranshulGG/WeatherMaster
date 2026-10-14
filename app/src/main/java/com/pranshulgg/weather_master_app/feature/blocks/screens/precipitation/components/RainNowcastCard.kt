@@ -475,7 +475,10 @@ private fun TimeAxis(
                 color = if (index == 0) MaterialTheme.colorScheme.primary
                         else MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = if (index == 0) FontWeight.SemiBold else null,
-                textAlign = TextAlign.Center,
+                // The first label's box is clamped to the row's left edge, so
+                // center-aligning it would drift the text into the second
+                // bar's zone — start-align it there instead (like the widget).
+                textAlign = if (index == 0) TextAlign.Start else TextAlign.Center,
                 modifier = Modifier
                     .offset(x = with(density) { left.toDp() })
                     .width(with(density) { boxPx.toDp() })
