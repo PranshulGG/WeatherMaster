@@ -131,7 +131,7 @@ fun RainNowcastCard(
     val maxMmPerHour = nowcast.maxIntensity()
 
     Surface(
-        color = MaterialTheme.colorScheme.surfaceBright,
+        color = MaterialTheme.colorScheme.surface,
         shape = MaterialTheme.shapes.extraLarge,
         shadowElevation = ShadowElevation.level2,
         modifier = modifier
