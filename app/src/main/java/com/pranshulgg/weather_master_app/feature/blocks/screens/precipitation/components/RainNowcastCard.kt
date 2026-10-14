@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -109,6 +110,14 @@ fun RainNowcastCard(
     if (nowcast == null) return
     val context = LocalContext.current
     val prefs = LocalAppPrefs.current
+
+    // A pointer gesture cancelled mid-scrub (e.g. the composable leaving
+    // composition while the finger is down) never reaches the lift reset in
+    // the gesture handler — clear the flag here too, so the navigation
+    // drawer's pull-in never wedges disabled.
+    DisposableEffect(nowcast?.points) {
+        onDispose { NowcastDragState.set(false) }
+    }
 
     val zone = remember(zoneId) { ZoneId.of(zoneId) }
     val now = remember(nowcast.points) { System.currentTimeMillis() }
@@ -269,7 +278,10 @@ private fun NowcastBarChart(
         Column(
             modifier = Modifier
                 .width(30.dp)
-                .height((maxBarHeight + 20).dp),
+                // Skip the bars column's 20dp selection-tooltip band so the
+                // tick scale aligns exactly with the bar area beneath it.
+                .padding(top = 20.dp)
+                .height(maxBarHeight.dp),
             verticalArrangement = Arrangement.SpaceBetween,
             horizontalAlignment = Alignment.End
         ) {

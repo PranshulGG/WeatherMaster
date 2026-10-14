@@ -28,8 +28,11 @@ const val PROVIDER_DWD = "DWD"
  * outside KNMI/DWD radar coverage. Model precipitation at 15-minute
  * resolution — lower fidelity than radar, so the UI renders 15-minute bars
  * for it instead of 5-minute ones.
+ *
+ * The name MUST match `Source.OPEN_METEO.displayName` exactly: call sites
+ * map a returned providerName back to its Source entry via the registry.
  */
-const val PROVIDER_OPEN_METEO = "Open-Meteo"
+const val PROVIDER_OPEN_METEO = "Open Meteo"
 
 /** DWD RV value scale: raw grid units are 0.01 mm per 5 minutes. */
 const val DWD_MM_PER_UNIT = 0.01
@@ -63,13 +66,17 @@ private fun inflateZlib(data: ByteArray): ByteArray? {
         inflater.setInput(data)
         val output = ByteArrayOutputStream(data.size * 4)
         val buffer = ByteArray(8192)
+        // Cap the inflated output: the data comes off the network and a sane
+        // crop grid is at most a few hundred KB — refuse decompression bombs.
+        val maxOutputBytes = 4_000_000
         while (!inflater.finished()) {
             val n = inflater.inflate(buffer)
             if (n == 0 && inflater.needsInput()) break
             output.write(buffer, 0, n)
+            if (output.size() > maxOutputBytes) break
         }
         inflater.end()
-        output.toByteArray()
+        if (output.size() > maxOutputBytes) null else output.toByteArray()
     } catch (e: Exception) {
         null
     }

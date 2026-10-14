@@ -133,11 +133,13 @@ class KnmiRepository @Inject constructor(
                     .addQueryParameter(
                         "X",
                         (((location.longitude - BBOX_MIN_LON) / (BBOX_MAX_LON - BBOX_MIN_LON)) * WMS_WIDTH).toInt()
+                            .coerceIn(0, WMS_WIDTH - 1)
                             .toString()
                     )
                     .addQueryParameter(
                         "Y",
                         (((BBOX_MAX_LAT - location.latitude) / (BBOX_MAX_LAT - BBOX_MIN_LAT)) * WMS_HEIGHT).toInt()
+                            .coerceIn(0, WMS_HEIGHT - 1)
                             .toString()
                     )
                     .addQueryParameter("TIME", formatUtcWms(timeUtc))
@@ -189,7 +191,10 @@ class KnmiRepository @Inject constructor(
                 }
             }
 
-            if (points.isEmpty()) Log.w(TAG, "KNMI nowcast EMPTY (cycle=$cycleStart parsed=0)")
+            if (points.isEmpty()) {
+                Log.w(TAG, "KNMI nowcast EMPTY (cycle=$cycleStart parsed=0)")
+                return@withContext null
+            }
 
             RainNowcast(
                 points = points.sortedBy { it.time },

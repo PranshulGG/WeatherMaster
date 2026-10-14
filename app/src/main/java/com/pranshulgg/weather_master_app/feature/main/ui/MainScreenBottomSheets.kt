@@ -96,7 +96,9 @@ object MainScreenBottomSheets {
                             val providerSource =
                                 Source.entries.firstOrNull { it.displayName == provider }
                             SettingTile.ActionTile(
-                                title = "Rain nowcast · $provider",
+                                title = stringResource(
+                                    R.string.nowcast_provider_tile_title, provider
+                                ),
                                 description = providerSource?.displayLink,
                                 onClick = {
                                     providerSource?.displayLink?.let { link ->

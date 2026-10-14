@@ -5,8 +5,11 @@ import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.sources.nowcastCandidateSources
 import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcast
 import com.pranshulgg.weather_master_app.data.provider.SourceRepositoryProvider
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
 import java.time.Instant
 import javax.inject.Inject
@@ -46,6 +49,11 @@ class RainNowcastRepository @Inject constructor(
     private val cache = java.util.concurrent.ConcurrentHashMap<String, CacheEntry>()
     private val inFlight = java.util.concurrent.ConcurrentHashMap<String, Deferred<RainNowcast?>>()
 
+    // Application-owned IO scope of this singleton: it primes the cycle cache
+    // and must outlive any single caller (main screen, rain detail page and
+    // the widget refresh can all trigger a fetch for the same location).
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
     private fun locationKey(location: Location): String =
         "${Math.round(location.latitude * 100.0)}_${Math.round(location.longitude * 100.0)}"
 
@@ -66,24 +74,19 @@ class RainNowcastRepository @Inject constructor(
             }
         }
 
-        // Coalesce concurrent requests for the same location: the second
-        // caller waits for the first one's result instead of hammering the
-        // radar APIs.
-        val existing = inFlight[key]
-        if (existing != null && existing.isActive) {
-            return try {
-                existing.await()
-            } catch (e: Exception) {
-                null
-            }
+        // Atomically install exactly one deferred per location: concurrent
+        // callers await the winner's result instead of hammering the radar
+        // APIs. A caller cancelling its await must NOT discard the priming
+        // fetch nor poison the cycle cache — hence the rethrow below.
+        val deferred = synchronized(inFlight) {
+            inFlight[key]?.takeIf { it.isActive }
+                ?: scope.async { fetchNowcast(location, now) }
+                    .also { inFlight[key] = it }
         }
-
-        val deferred = kotlinx.coroutines.CoroutineScope(Dispatchers.IO).async {
-            fetchNowcast(location, now)
-        }
-        inFlight[key] = deferred
         val result = try {
             deferred.await()
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             Log.w(TAG, "nowcast fetch failed: ${e.message}")
             null
