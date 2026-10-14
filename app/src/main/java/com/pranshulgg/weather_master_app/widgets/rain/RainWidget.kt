@@ -127,7 +127,7 @@ private fun RainWidgetContent(
     weatherState: WidgetWeather?
 ) {
     Column(
-        modifier = GlanceModifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 10.dp)
+        modifier = GlanceModifier.fillMaxWidth().padding(horizontal = 12.dp, vertical = 8.dp)
     ) {
         // On the narrowest widget sizes the promoted header cluster gets
         // crammed and the single line would truncate (losing the wind info);
@@ -248,7 +248,7 @@ private fun RainWidgetContent(
             }
         }
 
-        Spacer(GlanceModifier.height(8.dp))
+        Spacer(GlanceModifier.height(6.dp))
 
         val chartHeightDp = 64.dp
         if (state.isNowcast && state.slots.isNotEmpty()) {
@@ -336,7 +336,10 @@ private fun NowcastChartImage(
     Image(
         provider = ImageProvider(bitmap),
         contentDescription = null,
-        modifier = GlanceModifier.fillMaxWidth().height(chartHeightDp + 20.dp)
+        // The bitmap is yLabelHeadroom(4dp) + chart + label strip(14sp) ≈
+        // chartHeight + 18dp exactly — keep the view height matched so the
+        // label strip at the bitmap's very bottom is never scaled/cropped.
+        modifier = GlanceModifier.fillMaxWidth().height(chartHeightDp + 18.dp)
     )
 }
 
