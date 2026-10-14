@@ -106,6 +106,7 @@ fun RainScreen(navController: NavController, index: Int = 0, locationId: String)
                     nowcast = nowcast,
                     zoneId = zoneId,
                     unit = units.precipitationUnit,
+                    surfaceColor = MaterialTheme.colorScheme.surfaceBright,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
                 Gap(14.dp)

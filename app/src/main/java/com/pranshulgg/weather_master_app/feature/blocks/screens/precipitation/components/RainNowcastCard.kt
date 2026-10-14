@@ -105,6 +105,9 @@ fun RainNowcastCard(
     nowcast: RainNowcast?,
     zoneId: String,
     unit: PrecipitationUnit,
+    // Main screen cards use colorScheme.surface; the precipitation detail
+    // page cards use surfaceBright — pass it along from the call site.
+    surfaceColor: Color = MaterialTheme.colorScheme.surface,
     modifier: Modifier = Modifier
 ) {
     if (nowcast == null) return
@@ -140,7 +143,7 @@ fun RainNowcastCard(
     val maxMmPerHour = nowcast.maxIntensity()
 
     Surface(
-        color = MaterialTheme.colorScheme.surface,
+        color = surfaceColor,
         shape = MaterialTheme.shapes.extraLarge,
         shadowElevation = ShadowElevation.level2,
         modifier = modifier
