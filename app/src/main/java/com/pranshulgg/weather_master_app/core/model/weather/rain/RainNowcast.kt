@@ -19,6 +19,11 @@ data class RainNowcastPoint(
  * Points come from the best available source:
  * - KNMI radar_forecast_2.0 5-minute radar extrapolation via WMS (NL)
  * - DWD Radarkomposit RV 5-minute radar extrapolation via Bright Sky (DE)
+ * - Open-Meteo minutely_15 15-minute model data (worldwide fallback)
+ *
+ * The provider is resolved through the capability system: sources declare
+ * `Capability.RAIN_NOWCAST` and each serves the data for its coverage from
+ * its own repository.
  */
 data class RainNowcast(
     val points: List<RainNowcastPoint>,

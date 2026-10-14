@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.core.model.sources
 
 import com.pranshulgg.weather_master_app.R
+import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 
 
 // TODO: implement alerts / air quality for sources that support it
@@ -11,8 +12,10 @@ enum class Source(
     val fullName: String,
     val countryNameRes: Int? = null,
     val requiresUserApiKey: Boolean = false, // Source must not be selectable until the user has provided their API key
+    val optionalUserApiKey: Boolean = false, // Optional key: usable without, stored when provided (usually for a personal/larger quota). Shown on the API key config screen.
     val signupLink: String? = null, // Shown instead of displayLink on the API key entry screen, when set
     val apiKeyNote: String? = null, // Optional hint shown under the link on the API key entry screen
+    val apiKeyDescriptionRes: Int? = null, // Optional longer description shown on the API key config screen tile
     val regionalButWorldwideSupport: Boolean = false,
     val capabilities: Set<Capability>,
 //    val providesAlerts: Boolean = false,
@@ -22,7 +25,7 @@ enum class Source(
         displayName = "Open Meteo",
         fullName = "Open Meteo",
         displayLink = "https://open-meteo.com/",
-        capabilities = setOf(Capability.WEATHER, Capability.AIR_QUALITY)
+        capabilities = setOf(Capability.WEATHER, Capability.AIR_QUALITY, Capability.RAIN_NOWCAST)
     ),
     NWS(
         displayName = "NWS",
@@ -43,7 +46,7 @@ enum class Source(
         fullName = "Bright Sky DWD",
         displayLink = "https://brightsky.dev",
         countryNameRes = R.string.country_germany,
-        capabilities = setOf(Capability.WEATHER)
+        capabilities = setOf(Capability.WEATHER, Capability.RAIN_NOWCAST)
     ),
     METEO_FRANCE(
         displayName = "Météo-France",
@@ -200,8 +203,9 @@ enum class Source(
         fullName = "Royal Netherlands Meteorological Institute",
         displayLink = "https://developer.dataplatform.knmi.nl/",
         countryNameRes = R.string.country_netherlands,
-        requiresUserApiKey = false, // anonymous shared quota; key optional (rain nowcast)
-        capabilities = setOf(Capability.WEATHER)
+        optionalUserApiKey = true, // anonymous shared quota by default; personal key gives a bigger quota
+        apiKeyDescriptionRes = R.string.knmi_api_key_description,
+        capabilities = setOf(Capability.RAIN_NOWCAST)
     ),
     INMET(
         displayName = "INMET",
@@ -285,6 +289,7 @@ private val sourcesByCountry = buildMap {
     put("BR", listOf(Source.INMET))
     put("TR", listOf(Source.MGM))
     put("BE", listOf(Source.KMI))
+    put("NL", listOf(Source.KNMI))
 
 }
 
@@ -337,5 +342,30 @@ fun Source.isGlobal(): Boolean {
 enum class Capability {
     WEATHER,
     ALERTS,
-    AIR_QUALITY
+    AIR_QUALITY,
+    RAIN_NOWCAST
 }
+
+/**
+ * Ordered candidate sources for a location's rain nowcast, purely
+ * capability-driven (no source names are hardcoded at call sites):
+ *
+ * 1. the location's own nowcast source, when one was picked and it still
+ *    declares the capability,
+ * 2. the location's weather source, when it declares the capability,
+ * 3. the recommended sources for the location's country,
+ * 4. the global sources.
+ */
+fun Location.nowcastCandidateSources(): List<Source> = buildList {
+    nowcastSource.takeIf { it != Source.NONE }?.let { add(it) }
+    add(source)
+    addAll(getSourcesForCountry(countryCode?.uppercase()))
+    addAll(getSourcesGlobal())
+}.distinct().filter { Capability.RAIN_NOWCAST in it.capabilities }
+
+/**
+ * The nowcast source a location would use with its current setup — used to
+ * preselect the pickers for locations that have no stored choice yet.
+ */
+fun Location.resolveNowcastSource(): Source? =
+    nowcastCandidateSources().firstOrNull()

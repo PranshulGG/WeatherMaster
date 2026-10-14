@@ -83,8 +83,8 @@ object MainScreenBottomSheets {
                         ),
 
                         // Rain nowcast provider; the nowcast card shows
-                        // "© <provider>" when active. Null outside KNMI/DWD
-                        // coverage or when no nowcast was fetched.
+                        // "© <provider>" when active. Null when no nowcast
+                        // was resolved for this location.
                         //
                         // Skipped when the weather-source tile above already
                         // names the same provider (e.g. DWD in Germany: the
@@ -93,20 +93,21 @@ object MainScreenBottomSheets {
                         nowcastProvider?.takeIf {
                             it != location?.source?.displayName
                         }?.let { provider ->
+                            val providerSource =
+                                Source.entries.firstOrNull { it.displayName == provider }
                             SettingTile.ActionTile(
                                 title = "Rain nowcast · $provider",
-                                description = when (provider) {
-                                    "KNMI" -> "https://developer.dataplatform.knmi.nl/"
-                                    "DWD" -> "https://www.brightsky.dev/"
-                                    else -> null
-                                },
+                                description = providerSource?.displayLink,
                                 onClick = {
-                                    when (provider) {
-                                        "KNMI" -> uriHandler.openUri("https://developer.dataplatform.knmi.nl/")
-                                        "DWD" -> uriHandler.openUri("https://www.brightsky.dev/")
+                                    providerSource?.displayLink?.let { link ->
+                                        uriHandler.openUri(link)
                                     }
                                 },
-                                trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
+                                trailing = {
+                                    if (providerSource != null) {
+                                        SettingsTileIcon(R.drawable.open_in_new_24px)
+                                    }
+                                }
                             )
                         }
                     )

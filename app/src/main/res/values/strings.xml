@@ -524,6 +524,8 @@
     <string name="location_permission_background_secondary">Allow background location access to keep your saved device location updated even when the app is closed or running in the background</string>
 
     <string name="weather_airquality_source">Air quality source</string>
+    <string name="weather_nowcast_source">Rain nowcast source</string>
+    <string name="nowcast_source_sheet_description">Source of the 2 hour rain radar nowcast shown on the rain card and widget. Radar providers give 5-minute precision, model providers 15-minute. The recommended source is preselected.</string>
 
     <string name="country_india">India</string>
 

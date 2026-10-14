@@ -8,7 +8,7 @@ import com.pranshulgg.weather_master_app.core.managers.WeatherBlocksManager
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcast
-import com.pranshulgg.weather_master_app.core.network.sources.weather.rain.RainNowcastRepository
+import com.pranshulgg.weather_master_app.data.repository.data.RainNowcastRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import com.pranshulgg.weather_master_app.data.store.InitializationStore

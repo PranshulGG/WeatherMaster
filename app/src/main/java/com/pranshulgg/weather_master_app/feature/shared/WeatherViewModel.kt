@@ -17,7 +17,7 @@ import com.pranshulgg.weather_master_app.core.managers.requests.PendingRequests
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
-import com.pranshulgg.weather_master_app.core.network.sources.weather.rain.RainNowcastRepository
+import com.pranshulgg.weather_master_app.data.repository.data.RainNowcastRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import com.pranshulgg.weather_master_app.data.store.LocationStore
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
@@ -103,10 +103,11 @@ class WeatherViewModel @Inject constructor(
 
 
     /**
-     * Fetches the 2 hour rain nowcast (KNMI radar, DWD radar or the keyless
-     * Open-Meteo minutely-15 fallback) for the given location and publishes it
-     * to the ui state. Independent of the weather source, so the block simply
-     * hides itself when there is no nowcast for the location.
+     * Fetches the 2 hour rain nowcast for the location from its nowcast
+     * source (resolved through the capability system, KNMI radar / DWD radar
+     * / the keyless Open-Meteo minutely-15 fallback) and publishes it to the
+     * ui state. The block simply hides itself when there is no nowcast for
+     * the location.
      */
     private fun loadRainNowcast(location: Location) {
         rainNowcastJob?.cancel()

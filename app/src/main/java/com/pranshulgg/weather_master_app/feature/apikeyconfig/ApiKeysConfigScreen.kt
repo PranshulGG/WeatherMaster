@@ -28,7 +28,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 fun ApiKeysConfigScreen(navController: NavController) {
 
     val sourcesRequireApiKey = Source.entries.filter {
-        it.requiresUserApiKey || it == Source.KNMI // optional key = bigger quota for the rain nowcast
+        it.requiresUserApiKey || it.optionalUserApiKey
     }
 
     val viewModel: ApiKeysConfigScreenViewModel = hiltViewModel()
@@ -46,7 +46,7 @@ fun ApiKeysConfigScreen(navController: NavController) {
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
-                text = "Only sources that require an API key will be shown here. Add and save your key to use the sources",
+                text = "Only sources that require an API key will be shown here, plus sources with an optional key (e.g. for a personal quota). Add and save your key to use the sources",
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 16.dp)
@@ -69,9 +69,9 @@ fun ApiKeysConfigScreen(navController: NavController) {
                             }
                         },
                         title = it.displayName,
-                        description = if (it == Source.KNMI) {
-                            stringResource(R.string.knmi_api_key_description)
-                        } else null,
+                        description = it.apiKeyDescriptionRes?.let { res ->
+                            stringResource(res)
+                        },
                         onTextSubmitted = { key ->
                             viewModel.saveKey(key.trim(), it)
                         },

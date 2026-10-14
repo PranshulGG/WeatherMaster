@@ -7,7 +7,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.PrecipitationUnit
 import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcast
 import com.pranshulgg.weather_master_app.core.model.weather.toName
-import com.pranshulgg.weather_master_app.core.network.sources.weather.rain.RainNowcastRepository
+import com.pranshulgg.weather_master_app.data.repository.data.RainNowcastRepository
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
 import com.pranshulgg.weather_master_app.core.utils.formatters.to24HourTimeString

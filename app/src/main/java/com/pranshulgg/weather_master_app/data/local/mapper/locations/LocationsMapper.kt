@@ -95,6 +95,7 @@ fun Location.toEntity(): WeatherLocationEntity =
         airQualitySource = airQualitySource,
         customName = customName,
         openMeteoModel = openMeteoModel,
+        nowcastSource = nowcastSource,
         alertsLastFetchedAt = alertsLastFetchedAt
     )
 
@@ -122,5 +123,6 @@ fun WeatherLocationEntity.toDomain(): Location =
         airQualitySource = airQualitySource,
         customName = customName,
         openMeteoModel = openMeteoModel,
+        nowcastSource = nowcastSource,
         alertsLastFetchedAt = alertsLastFetchedAt
     )
