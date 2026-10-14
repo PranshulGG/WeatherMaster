@@ -138,7 +138,6 @@
     <string name="rain_nowcast_title">Rain</string>
     <string name="setting_highlight_rain">Highlight rain</string>
     <string name="setting_highlight_rain_secondary">Show the high-resolution rain nowcast (next 2 hours) right after the hourly forecast on the main screen</string>
-    <string name="knmi_api_key_title">KNMI</string>
     <string name="knmi_api_key_description">Optional: personal API key for the KNMI rain nowcast (Netherlands). Leave empty to use anonymous access. Free key: developer.dataplatform.knmi.nl</string>
     <string name="weather_air_quality_index">Air quality index</string>
     <string name="setting_translate_app">Translate this app</string>
