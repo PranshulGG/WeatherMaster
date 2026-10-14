@@ -66,12 +66,16 @@ fun ApiKeysConfigScreen(navController: NavController) {
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
+                                it.apiKeyDescriptionRes?.let { res ->
+                                    Text(
+                                        text = stringResource(res),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
                             }
                         },
                         title = it.displayName,
-                        description = it.apiKeyDescriptionRes?.let { res ->
-                            stringResource(res)
-                        },
                         onTextSubmitted = { key ->
                             viewModel.saveKey(key.trim(), it)
                         },
@@ -81,6 +85,7 @@ fun ApiKeysConfigScreen(navController: NavController) {
                         initialText = apiKeys[it]?.getOrNull(0)?.apiKey ?: "",
                         placeholderAsValue = true,
                         textFieldDescription = it.apiKeyNote
+                            ?: it.apiKeyDescriptionRes?.let { res -> stringResource(res) }
                     )
                 }
             )
