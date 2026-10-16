@@ -23,9 +23,12 @@ import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTim
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getSunTimings
 import com.pranshulgg.weather_master_app.core.utils.weather.calculations.computeApparentTemperature
 import java.time.LocalDate
+import java.time.MonthDay
 import java.time.Year
 import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.Locale
+import kotlin.math.abs
 import kotlin.math.roundToInt
 
 
@@ -108,7 +111,6 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
         },
         daily = daily.mapIndexed { index, it ->
 
-
             val time = dateToMillis(it.date, location.timezone)
 
 
@@ -140,17 +142,23 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
     )
 }
 
+/**
+ * ECCC dates have no year (e.g. "Fri, 1 Jan"), so use the year that puts the date closest to today.
+ * The weekday is ignored
+ * From https://github.com/PranshulGG/WeatherMaster/pull/1202 by https://github.com/GaijinSystems
+ */
 private fun dateToMillis(dateStr: String, zoneId: String): Long {
 
-    val formatted = dateStr.replace(Regex(" (\\d) ")) { " 0${it.groupValues[1]} " }
+    val zone = safeZoneId(zoneId)
+    val formatter = DateTimeFormatter.ofPattern("d MMM", Locale.ENGLISH)
+    val today = LocalDate.now(zone)
 
-    val dateWithYear = "$formatted ${Year.now().value}"
+    val monthDay = MonthDay.parse(dateStr.substringAfter(",").trim(), formatter)
 
-    val formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy", Locale.ENGLISH)
-
-    val localDate = LocalDate.parse(dateWithYear, formatter)
-
-    return localDate.atStartOfDay(safeZoneId(zoneId)).toInstant().toEpochMilli()
+    return (-1..1).map {
+        monthDay.atYear(today.year + it)
+    }.minBy { abs(ChronoUnit.DAYS.between(today, it)) }.atStartOfDay(zone).toInstant()
+        .toEpochMilli()
 }
 
 private fun getMaxPrecipitationProbability(
