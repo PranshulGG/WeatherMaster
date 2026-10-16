@@ -6,6 +6,17 @@ data class EcccWeatherJson(
     val observation: EcccCurrentWeatherJson,
     val hourlyFcst: EcccHourlyWeatherJson,
     val dailyFcst: EcccDailyWeatherJson,
+    val pastHourly: EcccPastHourlyWeatherJson?,
+)
+
+// PAST HOURLY (observations for the last 24 hours)
+data class EcccPastHourlyWeatherJson(
+    val hours: List<EcccPastHourlyWeatherItemJson?>?
+)
+
+data class EcccPastHourlyWeatherItemJson(
+    val timeStamp: String?,
+    val temperature: String?,
 )
 
 // CURRENT
