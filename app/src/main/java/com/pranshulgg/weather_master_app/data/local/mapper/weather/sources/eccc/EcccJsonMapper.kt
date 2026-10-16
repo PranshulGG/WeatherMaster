@@ -13,10 +13,13 @@ import com.pranshulgg.weather_master_app.core.model.weather.PressureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.core.model.weather.wind.WindDirection
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccConditionMap
+import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.json.EcccDailyWeatherItemJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.json.EcccHourlyWeatherItemJson
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.json.EcccWeatherJson
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.iso8601TimestampToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.normalizeToDay
 import com.pranshulgg.weather_master_app.core.utils.extensions.DateTimeExtensions.secondsToMilliseconds
+import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.safeZoneId
 import com.pranshulgg.weather_master_app.core.utils.formatters.toSafeDouble
 import com.pranshulgg.weather_master_app.core.utils.weather.astronomy.getMoonTimings
@@ -37,26 +40,59 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
     val hourly = this.hourlyFcst.hourly
 
 
-    val dailyNight =
-        this.dailyFcst.daily.filter { it.periodLabel == "Night" || it.periodLabel == "Tonight" }
+    val isNight = { item: EcccDailyWeatherItemJson ->
+        item.periodLabel == "Night" || item.periodLabel == "Tonight"
+    }
 
-    val daily =
-        this.dailyFcst.daily.filter { it.periodLabel != "Night" && it.periodLabel != "Tonight" }
-            .take(dailyNight.size)
+    val today = getCurrentTimeFor(location.timezone).normalizeToDay(location.timezone)
+
+    /**
+     * ECCC drops a day's daytime period once it has passed, so in the evening the forecast starts
+     * with "Tonight". Pair day and night periods by date (not by position, which shifted every low
+     * by a day) and keep today with only its night period, otherwise today is missing from daily.
+     * Days without a night period (the last one) are skipped like before
+     */
+    val daily = this.dailyFcst.daily
+        // A period whose date can't be parsed is skipped instead of failing the whole forecast
+        .mapNotNull { period ->
+            runCatching { dateToMillis(period.date, location.timezone) }.getOrNull()
+                ?.let { it to period }
+        }
+        .groupBy({ it.first }, { it.second })
+        .mapNotNull { (time, periods) ->
+            // If a date ever has two night periods, use the later one (the night that follows the day)
+            val night = periods.lastOrNull(isNight) ?: return@mapNotNull null
+            val day = periods.firstOrNull { !isNight(it) }
+
+            if (day == null && time != today) null else Triple(time, day, night)
+        }
+
+    // Only needed once today's daytime period is gone: highest temperature observed or still forecast today
+    val todayHigh by lazy {
+        val isToday = { millis: Long -> millis.normalizeToDay(location.timezone) == today }
+
+        listOf(
+            this.pastHourly?.hours.orEmpty().filterNotNull()
+                .filter { item ->
+                    item.timeStamp?.let { runCatching { isToday(it.iso8601TimestampToMilliseconds()) }.getOrNull() } == true
+                }
+                .mapNotNull { it.temperature.toSafeDouble() },
+            hourly
+                .filter { isToday(it.epochTime.secondsToMilliseconds()) }
+                .mapNotNull { it.temperature.metric?.toSafeDouble() },
+            listOfNotNull(current.temperature.metric?.toSafeDouble())
+        ).flatten().maxOrNull()
+    }
 
     val sunTimings = getSunTimings(
-        daily.map {
-            dateToMillis(it.date, location.timezone)
-        },
+        daily.map { it.first },
         location.timezone,
         location.latitude,
         location.longitude
     )
 
     val moonTimings = getMoonTimings(
-        daily.map {
-            dateToMillis(it.date, location.timezone)
-        },
+        daily.map { it.first },
         location.timezone,
         location.latitude,
         location.longitude
@@ -109,22 +145,22 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
                 precipitationProbability = it.precipProbability?.toIntOrNull()
             )
         },
-        daily = daily.mapIndexed { index, it ->
+        daily = daily.mapIndexed { index, (time, day, night) ->
 
-            val time = dateToMillis(it.date, location.timezone)
+            val period = day ?: night
 
 
             WeatherDaily(
-                temperatureMin = dailyNight[index].temperature.metric?.toSafeDouble(),
-                temperatureMax = it.temperature.metric?.toSafeDouble(),
+                temperatureMin = night.temperature.metric?.toSafeDouble(),
+                temperatureMax = if (day != null) day.temperature.metric?.toSafeDouble() else todayHigh,
                 windSpeed = null,
                 windDirection = null,
                 rainSum = 0.0,
                 snowfallSum = null,
                 uvIndexMax = null,
-                weatherCondition = EcccConditionMap.getCondition(it.iconCode),
+                weatherCondition = EcccConditionMap.getCondition(period.iconCode),
                 time = time,
-                precipitationProbabilityMax = it.precipProbability?.toSafeDouble()?.roundToInt()
+                precipitationProbabilityMax = period.precipProbability?.toSafeDouble()?.roundToInt()
                     ?: getMaxPrecipitationProbability(hourly, time),
                 sunrise = sunTimings[index].sunrise,
                 sunset = sunTimings[index].sunset,
