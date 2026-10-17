@@ -41,32 +41,42 @@ fun ChangelogContent(hideSheet: () -> Unit) {
         ) {
             Gap(5.dp)
             ChangelogBox {
+                ChangelogHeader("New stuff")
+                ChangelogText("New sources:")
+                ChangelogSubText("MGM (Turky) Alerts/Weather #1079")
+                ChangelogSubText("KMI (Belgium) Alerts/Weather #997, #381, #1122")
+                ChangelogSubText("MOENV (Taiwan) Air Quality source by @reveler-hub")
+                ChangelogSubText("Meteofor (Ukraine) Weather by @reveler-hub")
+                ChangelogText("Point Met Office's API key link to the right DataHub product by @reveler-hub")
+                ChangelogText("Option added to receive notifications for weather alerts. Can be turned on in Settings → Notifications #316")
+                ChangelogText("Custom date format #1142")
+                ChangelogText("Add an option to disable the “New version available” message (Only Github versions)")
+            }
+            ChangelogBox {
                 ChangelogHeader("Fixed")
-                ChangelogText("Fix crashes when location services are turned off")
-                ChangelogText("Fixed wrong moonrise/moonset time #1105")
-                ChangelogText("Fixed scrolling issues #1062")
-                ChangelogText("Fix \"None\" showing as source in the weather sources screen #1109 by @reveler-hub")
-                ChangelogText("Fix unrounded pressure values on hourly detail card by @reveler-hub")
-                ChangelogText("Fixed wrong translation for air quality @reveler-hub #1147")
-                ChangelogText("Fix alerts-only country-recommended sources leaking into weather picker @reveler-hub")
-                ChangelogText("Use real-time instead of outdated saved timestamp #1088")
-                ChangelogText("Fixed app not launching when clicking on the notifications")
-                ChangelogText("Fixed country code error for locations in China")
-                ChangelogText("Fixed Froggy widget cropping issue")
+                ChangelogText("Correctly map met office temperature values by @fardog")
+                ChangelogText("Handle null temperature values in widget @fardog")
+                ChangelogText("Use the day precipitation probability for Met Office's daily max by @reveler-hub")
+                ChangelogText("Fix infinite loading when exiting Edit Location without changing anything")
+                ChangelogText("Fix air-quality API key lookup using the wrong source by @reveler-hub")
+                ChangelogText("Fix alert API key lookup using the wrong source")
+                ChangelogText("Fix SMHI 404 for coordinates with more than 6 decimals by @nikiosna")
+                ChangelogText("Fix Gismeteo location lookup sending wrong query parameter by @reveler-hub")
+                ChangelogText("Fix widget dates not opening calendar apps when clicked")
+                ChangelogText("Fix issues where errors would not display if the API key is missing or not set")
+                ChangelogText("NWS fix: hourly forecast shows sun icons after sunset until midnight after an evening refresh by @GaijinSystems #1199")
+                ChangelogText("ECCC: fix forecast dates around new year by @GaijinSystems")
+
             }
             ChangelogBox {
                 ChangelogHeader("Improvements")
-                ChangelogText("Add option to disable tablet layout  #1111")
-                ChangelogText("Color adjustments for hourly forecasts")
-                ChangelogText("Widgets and Notifications should work without the internet if cached data is available")
-                ChangelogText("Refactored app architecture")
+                ChangelogText("Remove max width/height for \"Weather 1\" widget by @fardog")
                 ChangelogText("Updated all translations")
-                ChangelogText("Add support for third-party gadgetbridge receivers by @FlammeGamer")
-                ChangelogText("Remove unused background location permission")
-                ChangelogText("Widget clock or date now opens the calendar/clock app if available")
-                ChangelogText("Add missing comma in \"EEE d MMMM\" by @VadosG")
-                ChangelogText("Use rounded chips in the legend  by @RakshithBhat03")
-                ChangelogText("Option to change font size for Glance widget")
+                ChangelogText("Add OneCall 4.0 API support to OpenWeather source #1119 @reveler-hub")
+                ChangelogText("ECCC: keep today in daily forecast after its daytime period ends by @GaijinSystems")
+                ChangelogText("Removed notification sounds for background updates and scheduled notifications #1211")
+                ChangelogText("Added missing strings")
+
             }
         }
 
@@ -97,7 +107,7 @@ private fun ChangelogText(text: String) {
             style = MaterialTheme.typography.bodyMedium
         )
         Text(
-            text,
+            text.trim(),
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.bodyMedium
         )
@@ -117,7 +127,7 @@ private fun ChangelogSubText(text: String) {
             style = MaterialTheme.typography.bodyMedium
         )
         Text(
-            text,
+            text.trim(),
             color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.bodyMedium
         )
