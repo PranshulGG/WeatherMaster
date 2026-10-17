@@ -155,15 +155,17 @@ class WeatherContextRepository @Inject constructor(
         }
 
 
-        val location = suspendCancellableCoroutine { cont ->
-            getDeviceLocation.getDeviceLocation(
-                context,
-                onTimeout = {
-                    callback.onTimeout(cont)
-                }) { result ->
-                callback.onSuccess(cont, result)
+        val location =
+            suspendCancellableCoroutine { cont ->
+                getDeviceLocation.getDeviceLocation(
+                    context,
+                    onTimeout = {
+                        callback.onTimeout(cont)
+                    }
+                ) { result ->
+                    callback.onSuccess(cont, result)
+                }
             }
-        }
 
 
         val newLat = location.latitude ?: return false

@@ -80,7 +80,11 @@ class WeatherManager @Inject constructor(
                 var effectiveForceRefreshForAlerts = isForceRefreshForAlerts
 
                 if (location.isDeviceLocation && !skipDeviceLocationCheck) {
-                    val positionChanged = weatherContextRepository.updateDeviceLocationPosition()
+                    val positionChanged = try {
+                        weatherContextRepository.updateDeviceLocationPosition()
+                    } catch (e: AppException.CurrentLocationUnavailable) {
+                        false
+                    }
                     if (positionChanged) {
                         effectiveLocation = weatherContextRepository.getLocationForId(location.id)
                         effectiveForceRefresh = true
