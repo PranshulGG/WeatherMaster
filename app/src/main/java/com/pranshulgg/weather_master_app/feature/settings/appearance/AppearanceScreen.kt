@@ -184,6 +184,15 @@ fun AppearanceScreen(navController: NavController) {
                             prefs.setShowSummary(checked)
                         }
                     ),
+                    SettingTile.SwitchTile(
+                        leading = { SettingsTileIcon(R.drawable.water_drop_24px) },
+                        title = stringResource(R.string.setting_highlight_rain),
+                        description = stringResource(R.string.setting_highlight_rain_secondary),
+                        checked = prefs.isHighlightRain,
+                        onCheckedChange = { checked ->
+                            prefs.setHighlightRain(checked)
+                        }
+                    ),
                 )
             )
 

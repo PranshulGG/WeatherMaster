@@ -55,7 +55,7 @@ class WeatherCurrentDeleteTimeSpec : AutoMigrationSpec
         AlertEntity::class,
         ApiKeyEntity::class
     ],
-    version = 60,
+    version = 61,
     autoMigrations = [
         AutoMigration(from = 39, to = 40),
         AutoMigration(from = 42, to = 43),
@@ -71,7 +71,8 @@ class WeatherCurrentDeleteTimeSpec : AutoMigrationSpec
         AutoMigration(from = 56, to = 57),
         AutoMigration(from = 57, to = 58),
         AutoMigration(from = 58, to = 59),
-        AutoMigration(from = 59, to = 60, spec = WeatherCurrentDeleteTimeSpec::class)
+        AutoMigration(from = 59, to = 60, spec = WeatherCurrentDeleteTimeSpec::class),
+        AutoMigration(from = 60, to = 61)
     ],
 )
 
