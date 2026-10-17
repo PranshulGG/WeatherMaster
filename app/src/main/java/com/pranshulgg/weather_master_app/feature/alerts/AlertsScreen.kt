@@ -51,7 +51,7 @@ fun AlertsScreen(navController: NavController, locationId: String) {
     }
 
 
-    if (!uiState.alerts.isNotEmpty()) {
+    if (!uiState.alerts.isNotEmpty() || uiState.location == null) {
         return
     }
 

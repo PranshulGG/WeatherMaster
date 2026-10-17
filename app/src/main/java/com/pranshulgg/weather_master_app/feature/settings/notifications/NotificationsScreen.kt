@@ -67,8 +67,13 @@ fun NotificationsScreen(navController: NavController) {
     LaunchedEffect(uiState.defaultLocation) {
         viewModel.getDefaultLocation()
         viewModel.getUnitsOnce()
-        viewModel.getWeather(uiState.defaultLocation?.id)
-        viewModel.getAlerts(uiState.defaultLocation?.id)
+    }
+
+    LaunchedEffect(uiState.defaultLocation?.id) {
+        val locationId = uiState.defaultLocation?.id ?: return@LaunchedEffect
+
+        viewModel.getWeather(locationId)
+        viewModel.getAlerts(locationId)
     }
 
     var isTimePickerOpen by remember { mutableStateOf(false) }
