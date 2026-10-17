@@ -18,7 +18,10 @@ object NotificationChannels {
                 NotificationConfig.CHANNEL_ID,
                 context.getString(R.string.weather),
                 NotificationManager.IMPORTANCE_DEFAULT
-            )
+            ).apply {
+                setSound(null, null)
+                enableVibration(false)
+            }
         )
 
         notificationManager.createNotificationChannel(
@@ -26,7 +29,10 @@ object NotificationChannels {
                 BackgroundUpdateNotificationConfig.CHANNEL_ID,
                 context.getString(R.string.setting_background_updates),
                 NotificationManager.IMPORTANCE_DEFAULT
-            )
+            ).apply {
+                setSound(null, null)
+                enableVibration(false)
+            }
         )
 
         notificationManager.createNotificationChannel(
@@ -34,7 +40,10 @@ object NotificationChannels {
                 BackgroundUpdateNotificationConfig.ERROR_CHANNEL_ID,
                 context.getString(R.string.error_failed_background_updates),
                 NotificationManager.IMPORTANCE_DEFAULT
-            )
+            ).apply {
+                setSound(null, null)
+                enableVibration(false)
+            }
         )
 
         notificationManager.createNotificationChannel(
