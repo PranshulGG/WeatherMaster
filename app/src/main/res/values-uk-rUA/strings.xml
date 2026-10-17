@@ -374,7 +374,7 @@
     <string name="country_russia">Росія</string>
     <string name="country_spain">Іспанія</string>
     <string name="country_taiwan">Тайвань</string>
-    <string name="country_ukraine">Ukraine</string>
+    <string name="country_ukraine">Україна</string>
     <string name="country_brazil">Бразилія</string>
     <string name="settings_date_format">Формат дати</string>
     <string name="widget_settings_display_hourly_secondary">Показує погодинний прогноз замість щоденного</string>
@@ -446,8 +446,8 @@
     <string name="setting_next_day_forecast_notification">Сповіщення з прогнозом на наступний день</string>
     <string name="setting_next_day_forecast_notification_set_time">Виберіть час для сповіщення з прогнозом на наступний день</string>
     <string name="label_disabled">Вимкнено</string>
-    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
-    <string name="country_turkey">Turkey</string>
+    <string name="weather_refresh_delay_fixed">Будь ласка, зачекайте 15 хвилин перед оновленням</string>
+    <string name="country_turkey">Туреччина</string>
     <string name="country_belgium">Бельгія</string>
 </resources>
 <!--<string name=""></string>-->
