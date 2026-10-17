@@ -7,8 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.pranshulgg.weather_master_app.core.managers.LocationManager
 import com.pranshulgg.weather_master_app.core.model.domain.AppException
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
+import com.pranshulgg.weather_master_app.core.model.sources.Capability
+import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.model.sources.getSourcesForCountry
 import com.pranshulgg.weather_master_app.core.ui.snackbar.SnackbarManager
+import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import com.pranshulgg.weather_master_app.data.store.LocationStore
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +27,7 @@ import javax.inject.Inject
 class LocationsScreenViewModel @Inject constructor(
     private val weatherContextRepository: WeatherContextRepository,
     private val locationManager: LocationManager,
+    private val apiKeysRepo: ApiKeysRepository,
     locationStore: LocationStore
 ) : ViewModel() {
 
@@ -79,12 +85,53 @@ class LocationsScreenViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(isDeviceLocationLoading = true)
         viewModelScope.launch {
             try {
-                weatherContextRepository.saveDeviceLocation()
+                val resolved = weatherContextRepository.resolveDeviceLocation()
+                val apiKeys = apiKeysRepo.getAllApiKeys()
+                _uiState.value = _uiState.value.copy(
+                    pendingDeviceLocation = resolved,
+                    apiKeys = apiKeys,
+                    isWeatherSourcesForLocationSheetOpen = true
+                )
             } catch (e: Exception) {
                 if (e is CancellationException) throw e
                 SnackbarManager.show(AppException.CurrentLocationUnavailable().toMessageRes())
             } finally {
                 _uiState.value = _uiState.value.copy(isDeviceLocationLoading = false)
+            }
+        }
+    }
+
+    fun hideWeatherSourcesForLocationSheet() {
+        _uiState.value = _uiState.value.copy(isWeatherSourcesForLocationSheetOpen = false)
+    }
+
+    fun confirmDeviceLocationSource(weatherSource: Source) {
+        val resolved = _uiState.value.pendingDeviceLocation ?: return
+
+        viewModelScope.launch {
+            try {
+                val alertSource = if (Capability.ALERTS in weatherSource.capabilities) {
+                    weatherSource
+                } else {
+                    getSourcesForCountry(resolved.countryCode?.uppercase())
+                        .firstOrNull { Capability.ALERTS in it.capabilities }
+                        ?: resolved.alertSource
+                }
+
+                weatherContextRepository.saveLocation(
+                    resolved.copy(
+                        source = weatherSource,
+                        alertSource = alertSource
+                    )
+                )
+            } catch (e: Exception) {
+                if (e is CancellationException) throw e
+                SnackbarManager.show(e.toAppException().toMessageRes())
+            } finally {
+                _uiState.value = _uiState.value.copy(
+                    isWeatherSourcesForLocationSheetOpen = false,
+                    pendingDeviceLocation = null
+                )
             }
         }
     }
