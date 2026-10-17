@@ -66,6 +66,8 @@ fun ChangelogContent(hideSheet: () -> Unit) {
                 ChangelogText("Fix issues where errors would not display if the API key is missing or not set")
                 ChangelogText("NWS fix: hourly forecast shows sun icons after sunset until midnight after an evening refresh by @GaijinSystems #1199")
                 ChangelogText("ECCC: fix forecast dates around new year by @GaijinSystems")
+                ChangelogText("Fixed crashes on the alert and notification screens caused by a null location")
+                ChangelogText("Fixed crashes when the current location was not found")
 
             }
             ChangelogBox {
