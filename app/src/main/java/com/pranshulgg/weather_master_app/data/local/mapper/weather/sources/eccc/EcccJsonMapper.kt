@@ -44,30 +44,23 @@ fun EcccWeatherJson.toDomain(location: Location): Weather {
         item.periodLabel == "Night" || item.periodLabel == "Tonight"
     }
 
+
     val today = getCurrentTimeFor(location.timezone).normalizeToDay(location.timezone)
 
-    /**
-     * ECCC drops a day's daytime period once it has passed, so in the evening the forecast starts
-     * with "Tonight". Pair day and night periods by date (not by position, which shifted every low
-     * by a day) and keep today with only its night period, otherwise today is missing from daily.
-     * Days without a night period (the last one) are skipped like before
-     */
+
     val daily = this.dailyFcst.daily
-        // A period whose date can't be parsed is skipped instead of failing the whole forecast
-        .mapNotNull { period ->
-            runCatching { dateToMillis(period.date, location.timezone) }.getOrNull()
-                ?.let { it to period }
+        .mapNotNull { item ->
+            runCatching { dateToMillis(item.date, location.timezone) }.getOrNull()
+                ?.let { it to item }
         }
         .groupBy({ it.first }, { it.second })
-        .mapNotNull { (time, periods) ->
-            // If a date ever has two night periods, use the later one (the night that follows the day)
-            val night = periods.lastOrNull(isNight) ?: return@mapNotNull null
-            val day = periods.firstOrNull { !isNight(it) }
+        .mapNotNull { (time, items) ->
+            val night = items.lastOrNull(isNight) ?: return@mapNotNull null
+            val day = items.firstOrNull { !isNight(it) }
 
             if (day == null && time != today) null else Triple(time, day, night)
         }
 
-    // Only needed once today's daytime period is gone: highest temperature observed or still forecast today
     val todayHigh by lazy {
         val isToday = { millis: Long -> millis.normalizeToDay(location.timezone) == today }
 
