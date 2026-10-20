@@ -289,7 +289,7 @@
     <string name="weather_about_pressure">متوسط ضغط مستوى سطح البحر، وهو مقياس لمدى الضغط الذي يمارسه الغلاف الجوي، مع تعديله ليتناسب مع مستوى سطح البحر. ويمكن أن توفر مراقبة التغيرات التي تطرأ عليه مؤشراً مبكراً على التغيرات الجوية. وعادةً ما يعني انخفاض الضغط اقتراب طقس غير مستقر، بينما غالباً ما يعني ارتفاع الضغط أن الأحوال الجوية أصبحت أكثر استقراراً</string>
     <string name="weather_about_windspeed">سرعة الرياح هي معدل حركة الهواء أفقياً عبر نقطة معينة، مدفوعةً بالاختلافات في الضغط الجوي ودرجة الحرارة</string>
     <string name="unit_wind_kt">العقد</string>
-    <string name="unit_wind_bft">Beaufort</string>
+    <string name="unit_wind_bft">سُلَّم بوفورت</string>
     <string name="setting_day_summary">ملخص اليوم</string>
     <string name="setting_day_summary_secondary">عرض ملخص يومي تم إنشاؤه استنادًا إلى البيانات الساعية</string>
     <string name="setting_system">النظام</string>
