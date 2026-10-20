@@ -28,7 +28,7 @@
     <string name="search_provider">مزود البحث</string>
     <plurals name="time_minutes_ago">
         <item quantity="zero">منذ %d دقيقة</item>
-        <item quantity="one">منذ %d دقائق</item>
+        <item quantity="one">منذ %d دقيقة</item>
         <item quantity="two">منذ %d دقائق</item>
         <item quantity="few">منذ %d دقائق</item>
         <item quantity="many">منذ %d دقائق</item>
@@ -36,7 +36,7 @@
     </plurals>
     <plurals name="time_hours_ago">
         <item quantity="zero">منذ %d ساعة</item>
-        <item quantity="one">منذ %d ساعات</item>
+        <item quantity="one">منذ %d ساعة</item>
         <item quantity="two">منذ %d ساعات</item>
         <item quantity="few">منذ %d ساعات</item>
         <item quantity="many">منذ %d ساعات</item>
@@ -44,7 +44,7 @@
     </plurals>
     <plurals name="time_days_ago">
         <item quantity="zero">منذ %d يوم</item>
-        <item quantity="one">منذ %d أيام</item>
+        <item quantity="one">منذ %d يوم</item>
         <item quantity="two">منذ %d أيام</item>
         <item quantity="few">منذ %d أيام</item>
         <item quantity="many">منذ %d أيام</item>
@@ -207,7 +207,7 @@
     <string name="about_terms_conditions">الشروط والأحكام</string>
     <string name="about_privacy_policy">سياسة الخصوصية</string>
     <string name="about_create_issue">الإبلاغ عن مشكلة</string>
-    <string name="about_view_on_github">View on github</string>
+    <string name="about_view_on_github">عرض على GitHub</string>
     <string name="about_license">عرض على GitHub</string>
     <string name="message_new_version_available">إصدار جديد متاح</string>
     <string name="message_using_latest_version">أنت تستخدم احدث إصدار</string>
@@ -243,7 +243,7 @@
     <string name="summary_uv_extreme_template_3">من المتوقع أن تكون أشعة الشمس شديدة جدًّا في %1$s.</string>
     <string name="summary_uv_high_template_1">ستظل مستويات الأشعة فوق البنفسجية في %1$s مرتفعة.</string>
     <string name="summary_uv_high_template_2">من المتوقع حدوث تعرض شديد للأشعة فوق البنفسجية في %1$s.</string>
-    <string name="summary_uv_high_template_3">من المتوقع أن تسود ظروف أشعة فوق البنفسجية عالية طوال فترة بعد الظهر في %1$s.</string>
+    <string name="summary_uv_high_template_3">من المتوقع أن تسود ظروف أشعة فوق البنفسجية عالية طوال فترة بعد الظهر في %1$.</string>
     <string name="summary_uv_moderate_template_1">ستظل مستويات الأشعة فوق البنفسجية معتدلة.</string>
     <string name="summary_uv_moderate_template_2">من المتوقع التعرض لأشعة فوق البنفسجية بدرجة معتدلة.</string>
     <string name="summary_uv_moderate_template_3">سيظل التعرض لأشعة الشمس معتدلاً طوال اليوم.</string>
@@ -380,7 +380,7 @@
     <string name="country_russia">روسيا</string>
     <string name="country_spain">أسبانيا</string>
     <string name="country_taiwan">تايوان</string>
-    <string name="country_ukraine">Ukraine</string>
+    <string name="country_ukraine">اوكرانيا</string>
     <string name="country_brazil">البرازيل</string>
     <string name="settings_date_format">تنسيق التاريخ</string>
     <string name="widget_settings_display_hourly_secondary">يعرض التوقعات كل ساعة بدلاً من يومياً</string>
@@ -453,6 +453,7 @@
     <string name="setting_next_day_forecast_notification_set_time">تحديد موعد إرسال إشعار توقعات الطقس لليوم التالي</string>
     <string name="label_disabled">معطل</string>
     <string name="weather_refresh_delay_fixed">يرجى الانتظار لمدة 15 دقيقة قبل تحديث الصفحة</string>
-    <string name="country_turkey">Turkey</string>
-    <string name="country_belgium">Belgium</string>
-</resources><!--<string name=""></string>-->
+    <string name="country_turkey">تركيا</string>
+    <string name="country_belgium">بلجيكا</string>
+</resources>
+<!--<string name=""></string>-->
