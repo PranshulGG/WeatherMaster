@@ -51,7 +51,7 @@
 
 <br>
 
-# 🌦️ Supported weather sources
+# 🌦️ Supported sources
 
 - **Open Meteo**
 - **Met Norway**
@@ -68,9 +68,8 @@
 - **IPMA**
 - **WeatherApi.com**
 - **Gismeteo**
-- **Met Office** _(requires your own API key — sign up [here](https://www.metoffice.gov.uk/))_
-- **AEMET** _(requires your own API key — sign
-  up [here](https://opendata.aemet.es/centrodedescargas/altaUsuario))_
+- **Met Office**
+- **AEMET**
 - **IMD**
 - **WMO Severe Weather Information Centre**
 - **FOSS Public Alert Server**
@@ -79,6 +78,10 @@
 - **JMA**
 - **IMET**
 - **OpenWeather**
+- **MGM**
+- **KMI**
+- **MOENV**
+- **Meteofor**
 - _**And more to be added**_
 
 Some sources need a free API key from the provider before you can select them — add yours from a
