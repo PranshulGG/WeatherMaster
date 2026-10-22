@@ -28,5 +28,9 @@
  <li><b>Pirate Weather</b></li>
  <li><b>IMET</b></li>
  <li><b>OpenWeather</b></li>
+ <li><b>MGM</b></li>
+ <li><b>KMI</b></li>
+ <li><b>MOENV</b></li>
+ <li><b>Meteofor</b></li>
  <li><b>And more to be added</b></li>
 </ul>
