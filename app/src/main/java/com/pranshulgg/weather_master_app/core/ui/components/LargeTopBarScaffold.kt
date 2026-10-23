@@ -14,6 +14,8 @@ import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
@@ -48,7 +50,7 @@ fun LargeTopBarScaffold(
         floatingActionButtonPosition = floatingActionButtonPosition,
         topBar = {
             LargeFlexibleTopAppBar(
-                title = { Text(text = title) },
+                title = { Text(text = title, modifier = Modifier.semantics { heading() }) },
                 navigationIcon = navigationIcon,
                 scrollBehavior = scrollBehavior,
                 actions = actions,
