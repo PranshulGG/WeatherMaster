@@ -50,7 +50,7 @@ fun PressureBlock(
         if (isDaily) weather.daily[dailyIndex].pressureMsl else weather.current.pressureMsl
 
     val pressureConverted = PressureUnit.HPA.convert(pressure!!, units.pressureUnit)
-    val pressureHpa = weather.current.pressureMsl!!.roundToInt()
+    val pressureHpa = pressure.roundToInt()
 
     val progressDrawable = when {
         pressureHpa < 980 -> R.drawable.pressure_progress_low
