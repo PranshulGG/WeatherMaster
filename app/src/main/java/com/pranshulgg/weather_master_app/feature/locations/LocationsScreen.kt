@@ -188,7 +188,7 @@ private fun TopBar(onBack: () -> Unit) {
         },
         navigationIcon = {
             Tooltip(
-                "Navigate up",
+                stringResource(R.string.action_navigate_up),
                 preferredPosition = TooltipAnchorPosition.Below,
                 spacing = 10.dp
             ) {
@@ -197,7 +197,7 @@ private fun TopBar(onBack: () -> Unit) {
                 ) {
                     Symbol(
                         R.drawable.arrow_back_24px,
-                        desc = "arrow back icon",
+                        desc = stringResource(R.string.action_navigate_up),
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }
@@ -207,7 +207,7 @@ private fun TopBar(onBack: () -> Unit) {
             IconButton(onClick = {
                 SnackbarManager.show(R.string.location_long_press_info)
             }, shapes = IconButtonDefaults.shapes()) {
-                Symbol(R.drawable.info_24px)
+                Symbol(R.drawable.info_24px, desc = stringResource(R.string.action_show_info))
             }
         }
     )
@@ -226,6 +226,7 @@ private fun FloatingButton(navController: NavController) {
     ) {
         Symbol(
             R.drawable.search_24px,
+            desc = stringResource(R.string.search),
             color = MaterialTheme.colorScheme.onTertiaryContainer,
             size = 36.dp
         )
