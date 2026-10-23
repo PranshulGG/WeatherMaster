@@ -82,6 +82,7 @@ fun SearchFloatingToolbar(
                 ) {
                     Symbol(
                         R.drawable.search_24px,
+                        desc = stringResource(R.string.search),
                         color = MaterialTheme.colorScheme.onTertiaryContainer
                     )
                 }
@@ -144,6 +145,7 @@ private fun SearchFloatingBarContent(
                     ) {
                         Symbol(
                             R.drawable.close_24px,
+                            desc = stringResource(R.string.action_clear_search),
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }

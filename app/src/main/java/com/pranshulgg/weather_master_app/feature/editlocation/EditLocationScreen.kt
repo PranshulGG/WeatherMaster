@@ -153,7 +153,10 @@ fun EditLocationScreen(
                 onClick = { navController.navigate(NavRoutes.API_KEYS_CONFIG) },
                 shapes = IconButtonDefaults.shapes()
             ) {
-                Symbol(R.drawable.key_24px)
+                Symbol(
+                    R.drawable.key_24px,
+                    desc = stringResource(R.string.settings_api_key_config)
+                )
             }
         }
     ) { paddingValues ->
@@ -174,7 +177,10 @@ fun EditLocationScreen(
                         },
                         trailing = {
                             IconButton(onClick = { currentLocationName = locationText }) {
-                                Symbol(R.drawable.refresh_24px)
+                                Symbol(
+                                    R.drawable.refresh_24px,
+                                    desc = stringResource(R.string.action_reset_location_name)
+                                )
                             }
                         },
                         colorDesc = colorDesc,
@@ -204,7 +210,10 @@ fun EditLocationScreen(
                                     onClick = viewModel::showOpenMeteoModelsSheet,
                                     shapes = IconButtonDefaults.shapes()
                                 ) {
-                                    Symbol(R.drawable.settings_24px)
+                                    Symbol(
+                                        R.drawable.settings_24px,
+                                        desc = stringResource(R.string.open_meteo_models)
+                                    )
                                 }
                             }
 
