@@ -129,8 +129,8 @@ class WeatherContextRepository @Inject constructor(
         return dao.getDefaultLocation().map { it?.toDomain() }
     }
 
-    suspend fun getWeatherForLocation(locationId: String): Weather {
-        return dao.getWeatherForLocation(locationId).toDomain()!!
+    suspend fun getWeatherForLocation(locationId: String): Weather? {
+        return dao.getWeatherForLocation(locationId).toDomain()
     }
 
     suspend fun getAirQualityForLocation(locationId: String): AirQuality? {
