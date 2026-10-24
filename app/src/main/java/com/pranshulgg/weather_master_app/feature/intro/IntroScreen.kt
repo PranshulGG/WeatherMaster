@@ -16,14 +16,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialShapes
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberBottomSheetState
 import androidx.compose.material3.toShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,7 +45,9 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.location.Address
+import com.pranshulgg.weather_master_app.core.model.sources.Capability
 import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.model.sources.getSourcesForCountry
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
@@ -55,11 +60,12 @@ import com.pranshulgg.weather_master_app.data.provider.devicelocation.GetDeviceL
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.getCountryCode
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.rememberBackgroundLocationPermissionLauncher
 import com.pranshulgg.weather_master_app.data.provider.devicelocation.rememberLocationPermissionLauncher
+import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
 import com.pranshulgg.weather_master_app.feature.shared.ui.SharedDialogs
 import java.time.ZoneId
 import java.util.TimeZone
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun IntroScreen(navController: NavController) {
 
@@ -91,6 +97,7 @@ fun IntroScreen(navController: NavController) {
             }
 
             viewModel.saveDeviceLocation(location)
+            isLoading = false
         }
     }
 
@@ -263,6 +270,26 @@ fun IntroScreen(navController: NavController) {
             requestLocation()
         },
         onDismiss = { locationPermissionInfoDialogOpen = false }
+    )
+
+    val weatherSourcesSheetState = rememberBottomSheetState(
+        initialValue = SheetValue.Hidden,
+        enabledValues = setOf(SheetValue.Expanded, SheetValue.Hidden)
+    )
+
+    SharedBottomSheet.WeatherSourcesForLocationSheet(
+        countryCode = viewModel.pendingDeviceLocation?.countryCode,
+        show = viewModel.isWeatherSourcesForLocationSheetOpen,
+        selectedSource = getSourcesForCountry(viewModel.pendingDeviceLocation?.countryCode?.uppercase())
+            .firstOrNull { Capability.WEATHER in it.capabilities } ?: Source.OPEN_METEO,
+        sheetState = weatherSourcesSheetState,
+        onSave = { viewModel.confirmDeviceLocationSource(it) },
+        onDismiss = viewModel::hideWeatherSourcesForLocationSheet,
+        onClickApiConfig = {
+            navController.navigate(NavRoutes.API_KEYS_CONFIG)
+            viewModel.hideWeatherSourcesForLocationSheet()
+        },
+        apiKeys = viewModel.apiKeys
     )
 }
 
