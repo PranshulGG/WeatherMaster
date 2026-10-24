@@ -16,3 +16,6 @@ local.properties
 /weathermaster.jks
 /.idea
 gradle.properties
+.gradle-home/*
+.android-home
+*.verify

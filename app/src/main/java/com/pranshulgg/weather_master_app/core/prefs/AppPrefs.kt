@@ -34,6 +34,8 @@ object AppPrefs {
 
     private val _isGoogleSansFlex = mutableStateOf(false)
 
+    private val _isHighlightRain = mutableStateOf(false)
+
     private val _isTodayForecastNotificationEnabled = mutableStateOf(true)
     private val _isNextDayForecastNotificationEnabled = mutableStateOf(true)
 
@@ -82,6 +84,8 @@ object AppPrefs {
         _isShowSummary.value = PreferencesHelper.getBool("isShowSummary") ?: true
 
         _isGoogleSansFlex.value = PreferencesHelper.getBool("isGoogleSansFlex") ?: false
+
+        _isHighlightRain.value = PreferencesHelper.getBool("isHighlightRain") ?: false
 
         _isTodayForecastNotificationEnabled.value =
             PreferencesHelper.getBool("isTodayForecastNotificationEnabled") ?: false
@@ -192,6 +196,12 @@ object AppPrefs {
         setGoogleSansFlex = {
             _isGoogleSansFlex.value = it
             PreferencesHelper.setBool("isGoogleSansFlex", it)
+        },
+
+        isHighlightRain = _isHighlightRain.value,
+        setHighlightRain = {
+            _isHighlightRain.value = it
+            PreferencesHelper.setBool("isHighlightRain", it)
         },
 
         isTodayForecastNotificationEnabled = _isTodayForecastNotificationEnabled.value,

@@ -35,6 +35,7 @@ import com.pranshulgg.weather_master_app.core.managers.WeatherBlocksManager
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcast
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.data.store.WeatherBlocksStore
@@ -66,6 +67,7 @@ fun MainScreenScaffold(
     activeLocation: Location?,
     weatherBlocks: WeatherBlocksStoreState,
     onUpdateBlocks: (List<WeatherBlock>) -> Unit,
+    nowcast: RainNowcast? = null
 ) {
 
 
@@ -176,7 +178,8 @@ fun MainScreenScaffold(
                                     isShowSummary,
                                     airQuality,
                                     weatherBlocks,
-                                    onUpdateBlocks
+                                    onUpdateBlocks,
+                                    nowcast
                                 )
                             } else {
                                 TabletLayout(
@@ -193,7 +196,8 @@ fun MainScreenScaffold(
                                     paddingValues,
                                     layoutDirection,
                                     weatherBlocks,
-                                    onUpdateBlocks
+                                    onUpdateBlocks,
+                                    nowcast
                                 )
                             }
                         }

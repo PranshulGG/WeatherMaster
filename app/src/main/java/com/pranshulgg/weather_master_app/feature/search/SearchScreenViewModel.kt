@@ -89,10 +89,17 @@ class SearchScreenViewModel @Inject constructor(
                         .firstOrNull { Capability.ALERTS in it.capabilities }
                         ?: resolved.alertSource
                 }
+                val nowcastSource = if (Capability.RAIN_NOWCAST in weatherSource.capabilities) {
+                    weatherSource
+                } else {
+                    // no stored choice: resolved at fetch time by capability chain
+                    resolved.nowcastSource
+                }
                 weatherContextRepository.saveLocation(
                     resolved.copy(
                         source = weatherSource,
-                        alertSource = alertSource
+                        alertSource = alertSource,
+                        nowcastSource = nowcastSource
                     )
                 )
                 onBack()

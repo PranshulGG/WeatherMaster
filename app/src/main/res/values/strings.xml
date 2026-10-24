@@ -12,6 +12,7 @@
     <string name="time_now">Now</string>
     <string name="day_today">Today</string>
     <string name="weather_refresh_delay">Please wait %1$d minutes before refreshing</string>
+    <string name="widget_refresh">Refresh</string>
     <string name="error_generic">Error occurred. Please try again</string>
     <string name="weather_moon">Moon</string>
     <string name="weather_sun">Sun</string>
@@ -134,6 +135,10 @@
     <string name="error_network">Network unavailable</string>
     <string name="weather_total_snow_day">Total snow for the day</string>
     <string name="weather_precipitation">Precipitation</string>
+    <string name="rain_nowcast_title">Rain</string>
+    <string name="setting_highlight_rain">Highlight rain</string>
+    <string name="setting_highlight_rain_secondary">Show the high-resolution rain nowcast (next 2 hours) right after the hourly forecast on the main screen</string>
+    <string name="knmi_api_key_description">Optional: personal API key for the KNMI rain nowcast (Netherlands). Leave empty to use anonymous access. Free key: developer.dataplatform.knmi.nl</string>
     <string name="weather_air_quality_index">Air quality index</string>
     <string name="setting_translate_app">Translate this app</string>
     <string name="setting_translate_app_secondary">Contribute by translating the app into your language on Crowdin</string>
@@ -443,6 +448,7 @@
     <string name="country_indonesia">Indonesia</string>
     <string name="country_italy">Italy</string>
     <string name="country_japan">Japan</string>
+    <string name="country_netherlands">Netherlands</string>
     <string name="country_portugal">Portugal</string>
     <string name="country_russia">Russia</string>
     <string name="country_spain">Spain</string>
@@ -517,6 +523,9 @@
     <string name="location_permission_background_secondary">Allow background location access to keep your saved device location updated even when the app is closed or running in the background</string>
 
     <string name="weather_airquality_source">Air quality source</string>
+    <string name="weather_nowcast_source">Rain nowcast source</string>
+    <string name="nowcast_provider_tile_title">Rain nowcast · %1$s</string>
+    <string name="nowcast_source_sheet_description">Source of the 2 hour rain radar nowcast shown on the rain card and widget. Radar providers give 5-minute precision, model providers 15-minute. The recommended source is preselected.</string>
 
     <string name="country_india">India</string>
 

@@ -91,6 +91,9 @@ interface WeatherContextDao {
     @Query("UPDATE weather_locations SET alertSource = :source WHERE id = :id")
     suspend fun updateAlertSourceForLocation(id: String, source: Source)
 
+    @Query("UPDATE weather_locations SET nowcastSource = :source WHERE id = :id")
+    suspend fun updateNowcastSourceForLocation(id: String, source: Source)
+
 
     @Query("UPDATE weather_locations SET customName = :name WHERE id = :id")
     suspend fun updateLocationCustomName(id: String, name: String?)

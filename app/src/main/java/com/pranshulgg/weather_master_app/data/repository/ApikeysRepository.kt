@@ -21,6 +21,11 @@ class ApiKeysRepository @Inject constructor(
         }
     }
 
+    /** The stored key for one source, or null when none was saved. */
+    suspend fun getKeyForSource(source: Source): String? {
+        return dao.getApiKeyForSource(source)?.apiKey
+    }
+
     suspend fun updateApiKeyForSource(source: Source, apiKey: String) {
         val entity = dao.getApiKeyForSource(source)
 
