@@ -234,6 +234,13 @@ enum class Source(
         signupLink = "https://data.moenv.gov.tw/api_term",
         apiKeyNote = "Check \"Atmosphere\" under Follow dataset categories when signing up",
         capabilities = setOf(Capability.AIR_QUALITY)
+    ),
+    METSERVICE_NZ(
+        displayName = "MetService NZ",
+        fullName = "Meteorological Service of New Zealand",
+        displayLink = "https://alerts.metservice.com/",
+        countryNameRes = R.string.country_new_zealand,
+        capabilities = setOf(Capability.ALERTS)
     );
 
     // Sources that provide snow/rain as precipitation
@@ -277,6 +284,7 @@ private val sourcesByCountry = buildMap {
     put("BR", listOf(Source.INMET))
     put("TR", listOf(Source.MGM))
     put("BE", listOf(Source.KMI))
+    put("NZ", listOf(Source.METSERVICE_NZ))
 
 }
 

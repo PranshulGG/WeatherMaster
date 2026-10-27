@@ -449,6 +449,7 @@
     <string name="country_taiwan">Taiwan</string>
     <string name="country_ukraine">Ukraine</string>
     <string name="country_brazil">Brazil</string>
+    <string name="country_new_zealand">New Zealand</string>
 
     <string name="settings_date_format">Date format</string>
     <string name="widget_settings_display_hourly_secondary">Displays hourly instead of daily forecast</string>
