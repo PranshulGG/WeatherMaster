@@ -368,7 +368,7 @@
     <string name="country_russia">Rusland</string>
     <string name="country_spain">Spanje</string>
     <string name="country_taiwan">Taiwan</string>
-    <string name="country_ukraine">Ukraine</string>
+    <string name="country_ukraine">Oekraïne</string>
     <string name="country_brazil">Brazilië</string>
     <string name="settings_date_format">Datum formaat</string>
     <string name="widget_settings_display_hourly_secondary">Weergave per uur in plaats van dagelijks weersvoorspelling</string>
@@ -440,8 +440,8 @@
     <string name="setting_next_day_forecast_notification">Weersverwachting melding voor de eerstvolgende dag</string>
     <string name="setting_next_day_forecast_notification_set_time">Zet een tijd voor de weersverwachting notificatie voor de eerstvolgende dag</string>
     <string name="label_disabled">Uitgeschakeld</string>
-    <string name="weather_refresh_delay_fixed">Please wait 15 minutes before refreshing</string>
-    <string name="country_turkey">Turkey</string>
-    <string name="country_belgium">Belgium</string>
+    <string name="weather_refresh_delay_fixed">Graag 15 min wachten voor het verversen</string>
+    <string name="country_turkey">Turkije</string>
+    <string name="country_belgium">België</string>
 </resources>
 <!--<string name=""></string>-->
