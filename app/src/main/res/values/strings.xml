@@ -560,6 +560,9 @@
     <string name="date_format_month_day" translatable="false">Month Day (September 10)</string>
     <string name="date_format_day_month" translatable="false">Day Month (10 September)</string>
 
+    <string name="notifications_setting_alert_notifications">Alert notifications</string>
+    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
+
 </resources>
 
     <!--<string name=""></string>-->
