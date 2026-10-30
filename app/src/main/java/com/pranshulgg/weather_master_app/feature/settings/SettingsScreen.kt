@@ -76,8 +76,8 @@ fun SettingsScreen(navController: NavController) {
                     ),
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.favorite_24px) },
-                        title = "Support",
-                        description = "If you enjoy the app, consider supporting its development",
+                        title = stringResource(R.string.settings_support),
+                        description = stringResource(R.string.settings_support_secondary),
                         onClick = { isDonationDialogOpen = true }
                     )
 
