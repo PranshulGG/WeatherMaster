@@ -455,5 +455,7 @@
     <string name="weather_refresh_delay_fixed">يرجى الانتظار لمدة 15 دقيقة قبل تحديث الصفحة</string>
     <string name="country_turkey">تركيا</string>
     <string name="country_belgium">بلجيكا</string>
+    <string name="notifications_setting_alert_notifications">Alert notifications</string>
+    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
 </resources>
 <!--<string name=""></string>-->
