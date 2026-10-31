@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 
@@ -20,7 +21,11 @@ fun NavigateUpBtn(navController: NavController) {
         spacing = 10.dp
     ) {
         IconButton(
-            onClick = { navController.popBackStack() }, shapes = IconButtonDefaults.shapes()
+            onClick = {
+                if (navController.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED) {
+                    navController.popBackStack()
+                }
+            }, shapes = IconButtonDefaults.shapes()
         ) {
             Symbol(
                 R.drawable.arrow_back_24px,
