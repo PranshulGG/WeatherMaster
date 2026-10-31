@@ -449,5 +449,7 @@
     <string name="weather_refresh_delay_fixed">Palaukite 15 min. prieš atnaujinant dar kartą</string>
     <string name="country_turkey">Turkija</string>
     <string name="country_belgium">Belgija</string>
+    <string name="notifications_setting_alert_notifications">Alert notifications</string>
+    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
 </resources>
 <!--<string name=""></string>-->

@@ -447,5 +447,7 @@
     <string name="weather_refresh_delay_fixed">נא להמתין רבע שעה לפני הרענון</string>
     <string name="country_turkey">טורקיה</string>
     <string name="country_belgium">בלגיה</string>
+    <string name="notifications_setting_alert_notifications">Alert notifications</string>
+    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
 </resources>
 <!--<string name=""></string>-->

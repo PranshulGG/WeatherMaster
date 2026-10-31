@@ -443,5 +443,7 @@
     <string name="weather_refresh_delay_fixed">Παρακαλώ περίμενε 15 λεπτά πριν την ανανέωση</string>
     <string name="country_turkey">Τουρκία</string>
     <string name="country_belgium">Βέλγιο</string>
+    <string name="notifications_setting_alert_notifications">Alert notifications</string>
+    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
 </resources>
 <!--<string name=""></string>-->

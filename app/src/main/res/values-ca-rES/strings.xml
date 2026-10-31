@@ -443,5 +443,7 @@
     <string name="weather_refresh_delay_fixed">Espera 15 minuts abans de refrescar</string>
     <string name="country_turkey">Turquia</string>
     <string name="country_belgium">Bèlgica</string>
+    <string name="notifications_setting_alert_notifications">Alert notifications</string>
+    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
 </resources>
 <!--<string name=""></string>-->

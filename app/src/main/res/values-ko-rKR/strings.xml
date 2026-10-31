@@ -440,5 +440,7 @@
     <string name="weather_refresh_delay_fixed">새로고침하기 전에 15분 기다려 주십시오</string>
     <string name="country_turkey">튀르키예</string>
     <string name="country_belgium">벨기에</string>
+    <string name="notifications_setting_alert_notifications">Alert notifications</string>
+    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
 </resources>
 <!--<string name=""></string>-->

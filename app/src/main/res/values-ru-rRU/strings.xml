@@ -449,5 +449,7 @@
     <string name="weather_refresh_delay_fixed">Пожалуйста, подождите 15 минут перед обновлением</string>
     <string name="country_turkey">Турция</string>
     <string name="country_belgium">Бельгия</string>
+    <string name="notifications_setting_alert_notifications">Оповещения</string>
+    <string name="notifications_setting_alert_notifications_secondary">Отображать уведомления о погодных предупреждениях, если они доступны</string>
 </resources>
 <!--<string name=""></string>-->

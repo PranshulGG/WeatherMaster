@@ -450,5 +450,7 @@ W ciągu dnia spodziewane są opady śniegu około %1$s z prawdopodobieństwem %
     <string name="weather_refresh_delay_fixed">Proszę odczekać 15 minut przed odświeżeniem</string>
     <string name="country_turkey">Turcja</string>
     <string name="country_belgium">Belgia</string>
+    <string name="notifications_setting_alert_notifications">Powiadomienia o alertach</string>
+    <string name="notifications_setting_alert_notifications_secondary">Pokazuj powiadomienia o ostrzeżeniach pogodowych, gdy są dostępne</string>
 </resources>
 <!--<string name=""></string>-->
