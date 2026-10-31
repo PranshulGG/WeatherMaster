@@ -28,6 +28,7 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
+import com.pranshulgg.weather_master_app.widgets.params.WidgetSizePoints
 import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetColors
 import com.pranshulgg.weather_master_app.widgets.ui.colors.WidgetTheme
@@ -37,7 +38,9 @@ import kotlinx.serialization.json.Json
 
 class WidgetHourly : GlanceAppWidget() {
 
-    override val sizeMode = SizeMode.Exact
+    override val sizeMode = SizeMode.Responsive(
+        sizes = WidgetSizePoints.SIZES
+    )
     override val stateDefinition =
         WeatherWidgetStateDefinition
 
