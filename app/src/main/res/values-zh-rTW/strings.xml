@@ -441,7 +441,7 @@
     <string name="weather_refresh_delay_fixed">請等待15分鐘後再重新整理</string>
     <string name="country_turkey">土耳其</string>
     <string name="country_belgium">比利時</string>
-    <string name="notifications_setting_alert_notifications">Alert notifications</string>
-    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
+    <string name="notifications_setting_alert_notifications">警報通知</string>
+    <string name="notifications_setting_alert_notifications_secondary">有天氣預警時顯示通知</string>
 </resources>
 <!--<string name=""></string>-->
