@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="app_name" translatable="false">WeatherMaster</string>
     <string name="app_launcher_name">Weather</string>
     <string name="weather_hourly_forecast">Hourly forecast</string>
@@ -562,6 +562,49 @@
 
     <string name="notifications_setting_alert_notifications">Alert notifications</string>
     <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
+
+    <string name="notification_updating_weather_for">Updating weather for %1$s</string>
+    <string name="notification_updating_weather">Updating weather</string>
+    <string name="notification_background_update_failed">Background update failed</string>
+    <string name="error_unknown">Unknown error</string>
+    <string name="notification_today_title_format">Today: %1$s • %2$s/%3$s</string>
+    <string name="notification_tomorrow_forecast_title_format">Tomorrow\'s forecast: %1$s • %2$s/%3$s</string>
+
+    <string name="action_change">Change</string>
+    <string name="error_source_not_supported">Source not supported</string>
+    <string name="error_source_not_supported_message">The currently selected source is not supported in your region. Please choose a different source</string>
+    <string name="api_keys_config_info">Only sources that require an API key will be shown here. Add and save your key to use the sources.</string>
+    <string name="setting_donate">Donate</string>
+    <string name="setting_tablet_layout">Tablet layout</string>
+    <string name="setting_tablet_layout_secondary">A separate layout for tablets or large-screen devices. Disabling this will use a single-column layout</string>
+    <string name="settings_show_new_version_message">Show a “New version available” message</string>
+    <string name="intro_title">Let’s Get Your Forecast</string>
+    <string name="intro_description">Allow location access to see your local forecast</string>
+    <string name="intro_enable_location">Enable Location</string>
+    <string name="intro_search_city">Search for a City</string>
+    <string name="intro_import_backup">Import a backup</string>
+    <string name="intro_loading">Loading&#8230;</string>
+    <string name="intro_importing">Importing&#8230;</string>
+
+    <string name="alert_effective">Effective %1$s</string>
+    <string name="alert_expires">Expires %1$s</string>
+    <string name="alert_source_prefix">Source %1$s</string>
+    <string name="label_unknown">Unknown</string>
+
+    <string name="open_meteo_model_description">The default BEST MATCH provides the best forecast for any given location worldwide. SEAMLESS combines all models from a given provider into a seamless prediction.</string>
+
+    <string name="alert_event_thunderstorm">Thunderstorm</string>
+    <string name="alert_event_rain">Heavy Rain</string>
+    <string name="alert_event_wind">Strong Wind &amp; Storm</string>
+    <string name="alert_event_snow">Heavy Snow</string>
+    <string name="alert_event_snow_ice">Snow &amp; Ice</string>
+    <string name="alert_event_fog">Dense Fog</string>
+    <string name="alert_event_heat">Extreme Heat</string>
+    <string name="alert_event_cold">Extreme Cold</string>
+    <string name="alert_event_coastal">Coastal Hazard</string>
+    <string name="alert_event_fire">Forest Fire Risk</string>
+    <string name="alert_event_avalanche">Avalanche Risk</string>
+    <string name="alert_event_flood">Flood Warning</string>
 
 </resources>
 

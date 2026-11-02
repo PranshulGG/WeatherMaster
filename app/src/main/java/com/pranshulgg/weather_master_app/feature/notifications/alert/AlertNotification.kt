@@ -12,6 +12,7 @@ import com.pranshulgg.weather_master_app.MainActivity
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.weather.alerts.AlertSeverity
+import com.pranshulgg.weather_master_app.core.utils.weather.alerts.getLocalizedAlertEvent
 import com.pranshulgg.weather_master_app.feature.notifications.NotificationConfig
 import com.pranshulgg.weather_master_app.feature.notifications.isNotificationPermissionGranted
 import java.util.concurrent.atomic.AtomicInteger
@@ -44,7 +45,7 @@ class AlertNotification(private val context: Context) {
 
         val notification = NotificationCompat.Builder(context, NotificationConfig.ALERT_CHANNEL_ID)
             .setSmallIcon(R.drawable.warning_24px)
-            .setContentTitle(alert.event)
+            .setContentTitle(getLocalizedAlertEvent(alert.event, context))
             .setContentText(alert.description)
             .setStyle(NotificationCompat.BigTextStyle().bigText(alert.description))
             .setColor(

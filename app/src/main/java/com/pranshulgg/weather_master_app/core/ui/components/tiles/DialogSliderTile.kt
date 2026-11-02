@@ -17,6 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 
+import androidx.compose.ui.res.stringResource
+import com.pranshulgg.weather_master_app.R
+
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun DialogSliderTile(
@@ -93,7 +96,7 @@ fun DialogSliderTile(
                     },
                     shapes = ButtonDefaults.shapes()
                 ) {
-                    Text("Save", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.action_save), style = MaterialTheme.typography.labelLarge)
                 }
             },
             dismissButton = {
@@ -101,7 +104,7 @@ fun DialogSliderTile(
                     onClick = { showDialog = false },
                     shapes = ButtonDefaults.shapes()
                 ) {
-                    Text("Cancel", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.action_cancel), style = MaterialTheme.typography.labelLarge)
                 }
 
             }

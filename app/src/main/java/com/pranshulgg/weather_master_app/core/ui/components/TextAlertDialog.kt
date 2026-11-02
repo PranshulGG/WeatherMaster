@@ -20,6 +20,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.res.stringResource
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -28,8 +30,8 @@ fun TextAlertDialog(
     show: Boolean,
     title: String,
     message: String,
-    confirmText: String = "Confirm",
-    dismissText: String = "Cancel",
+    confirmText: String = stringResource(R.string.action_confirm),
+    dismissText: String = stringResource(R.string.action_cancel),
     onConfirm: () -> Unit,
     onDismiss: () -> Unit
 ) {

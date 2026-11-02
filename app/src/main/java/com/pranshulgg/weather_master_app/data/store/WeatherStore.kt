@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 import javax.inject.Singleton
 
+import com.pranshulgg.weather_master_app.core.utils.weather.alerts.deduplicateAlerts
+
 data class WeatherStoreState(
     val weather: Weather? = null,
     val airQuality: AirQuality? = null,
@@ -37,7 +39,7 @@ class WeatherStore @Inject constructor() {
 
     fun setAlerts(alerts: List<Alert>) {
         _data.update {
-            it.copy(alerts = alerts)
+            it.copy(alerts = alerts.deduplicateAlerts())
         }
     }
 

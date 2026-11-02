@@ -16,6 +16,7 @@ import com.pranshulgg.weather_master_app.data.local.dao.airquality.AirQualityDao
 import com.pranshulgg.weather_master_app.data.local.dao.alerts.AlertsDao
 import com.pranshulgg.weather_master_app.data.local.dao.weather.WeatherContextDao
 import com.pranshulgg.weather_master_app.data.local.mapper.airquality.toDomain
+import com.pranshulgg.weather_master_app.core.utils.weather.alerts.deduplicateAlerts
 import com.pranshulgg.weather_master_app.data.local.mapper.alerts.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toDomain
 import com.pranshulgg.weather_master_app.data.local.mapper.locations.toEntity
@@ -272,11 +273,15 @@ class WeatherContextRepository @Inject constructor(
     }
 
     fun getAlertsForTotalLocations(): Flow<List<Alert?>> {
-        return alertsDao.getAlertsForTotalLocations().map { list -> list.map { it?.toDomain() } }
+        return alertsDao.getAlertsForTotalLocations().map { list ->
+            list.mapNotNull { it?.toDomain() }.deduplicateAlerts()
+        }
     }
 
     suspend fun getAlertsForLocation(locationId: String): List<Alert?> {
-        return alertsDao.getAlertsForLocation(locationId).map { it?.toDomain() }
+        return alertsDao.getAlertsForLocation(locationId)
+            .mapNotNull { it?.toDomain() }
+            .deduplicateAlerts()
     }
 
 }

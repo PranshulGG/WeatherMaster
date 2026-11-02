@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
+import androidx.compose.ui.res.stringResource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -143,14 +144,14 @@ fun IntroScreen(navController: NavController) {
                 Icon()
                 Gap(24.dp)
                 Text(
-                    "Let’s Get Your Forecast",
+                    stringResource(R.string.intro_title),
                     color = MaterialTheme.colorScheme.onSurface,
                     style = MaterialTheme.typography.headlineSmall,
                     fontWeight = FontWeight.W700
                 )
                 Gap(8.dp)
                 Text(
-                    "Allow location access to see your local forecast",
+                    stringResource(R.string.intro_description),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Center
@@ -168,7 +169,7 @@ fun IntroScreen(navController: NavController) {
                     shapes = ButtonDefaults.shapes()
                 ) {
                     Text(
-                        if (isLoading) "Loading..." else "Enable Location",
+                        if (isLoading) stringResource(R.string.intro_loading) else stringResource(R.string.intro_enable_location),
                         style = ButtonDefaults.textStyleFor(btnSize)
                     )
                 }
@@ -185,7 +186,7 @@ fun IntroScreen(navController: NavController) {
                     shapes = ButtonDefaults.shapes()
                 ) {
                     Text(
-                        "Search for a City",
+                        stringResource(R.string.intro_search_city),
                         style = ButtonDefaults.textStyleFor(btnSize),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -201,7 +202,7 @@ fun IntroScreen(navController: NavController) {
                     shapes = ButtonDefaults.shapes()
                 ) {
                     Text(
-                        if (isImportingBackup) "Importing..." else "Import a backup",
+                        if (isImportingBackup) stringResource(R.string.intro_importing) else stringResource(R.string.intro_import_backup),
                         style = ButtonDefaults.textStyleFor(btnSize),
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )

@@ -44,7 +44,7 @@ fun ApiKeysConfigScreen(navController: NavController) {
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
-                text = "Only sources that require an API key will be shown here. Add and save your key to use the sources",
+                text = stringResource(R.string.api_keys_config_info),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 16.dp)

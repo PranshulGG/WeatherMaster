@@ -1,6 +1,8 @@
 package com.pranshulgg.weather_master_app.feature.main.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.ui.components.TextAlertDialog
 
 object MainScreenDialogs {
@@ -16,9 +18,9 @@ object MainScreenDialogs {
             show,
             onDismiss = onDismiss,
             onConfirm = onConfirm,
-            confirmText = "Change",
-            title = "Source not supported",
-            message = "The currently selected source is not supported in your region. Please choose a different source"
+            confirmText = stringResource(R.string.action_change),
+            title = stringResource(R.string.error_source_not_supported),
+            message = stringResource(R.string.error_source_not_supported_message)
         )
     }
 
