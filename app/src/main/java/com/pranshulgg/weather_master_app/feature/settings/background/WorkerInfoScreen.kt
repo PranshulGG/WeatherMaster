@@ -15,6 +15,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
+import androidx.compose.ui.res.stringResource
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
 import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
@@ -59,7 +61,7 @@ fun WorkerInfoScreen(navController: NavController) {
 
 
     LargeTopBarScaffold(
-        title = "Worker info",
+        title = stringResource(R.string.settings_worker_info),
         navigationIcon = { NavigateUpBtn(navController) },
     ) { paddingValues ->
         Column(
@@ -75,8 +77,8 @@ fun WorkerInfoScreen(navController: NavController) {
             SettingSection(
                 tiles = listOf(
                     SettingTile.TextTile(
-                        title = "Last successful run",
-                        description = if (lastRun == null) "Never" else formatter(lastRun)
+                        title = stringResource(R.string.settings_worker_info_successful_run),
+                        description = if (lastRun == null) stringResource(R.string.label_never) else formatter(lastRun)
                     )
                 )
             )
@@ -85,15 +87,15 @@ fun WorkerInfoScreen(navController: NavController) {
                     title = enqueued.state.name,
                     tiles = listOf(
                         SettingTile.TextTile(
-                            title = "Run attempt",
+                            title = stringResource(R.string.worker_run_attempt),
                             description = enqueued.runAttemptCount.toString(),
                         ),
                         SettingTile.TextTile(
-                            title = "Tags",
+                            title = stringResource(R.string.worker_tags),
                             description = enqueued.tags.toString(),
                         ),
                         SettingTile.TextTile(
-                            title = "Next schedule",
+                            title = stringResource(R.string.worker_next_schedule),
                             description = formatter(enqueued.nextScheduleTimeMillis),
                         ),
                     )
@@ -104,11 +106,11 @@ fun WorkerInfoScreen(navController: NavController) {
                     title = cancelled.state.name,
                     tiles = listOf(
                         SettingTile.TextTile(
-                            title = "Run attempt",
+                            title = stringResource(R.string.worker_run_attempt),
                             description = cancelled.runAttemptCount.toString(),
                         ),
                         SettingTile.TextTile(
-                            title = "Tags",
+                            title = stringResource(R.string.worker_tags),
                             description = cancelled.tags.toString(),
                         ),
                     )
@@ -119,11 +121,11 @@ fun WorkerInfoScreen(navController: NavController) {
                     title = succeeded.state.name,
                     tiles = listOf(
                         SettingTile.TextTile(
-                            title = "Run attempt",
+                            title = stringResource(R.string.worker_run_attempt),
                             description = succeeded.runAttemptCount.toString(),
                         ),
                         SettingTile.TextTile(
-                            title = "Tags",
+                            title = stringResource(R.string.worker_tags),
                             description = succeeded.tags.toString(),
                         ),
                     )
@@ -134,11 +136,11 @@ fun WorkerInfoScreen(navController: NavController) {
                     title = failed.state.name,
                     tiles = listOf(
                         SettingTile.TextTile(
-                            title = "Run attempt",
+                            title = stringResource(R.string.worker_run_attempt),
                             description = failed.runAttemptCount.toString(),
                         ),
                         SettingTile.TextTile(
-                            title = "Tags",
+                            title = stringResource(R.string.worker_tags),
                             description = failed.tags.toString(),
                         ),
                     )

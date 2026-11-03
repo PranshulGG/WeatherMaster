@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name" translatable="false">WeatherMaster</string>
     <string name="app_launcher_name">Hava durumu</string>
     <string name="weather_hourly_forecast">Saatlik tahmin</string>
     <string name="action_save">Kaydet</string>
@@ -26,18 +27,22 @@
     <string name="search">Ara</string>
     <string name="location_current">Mevcut konum</string>
     <string name="search_provider">Arama sağlayıcısı</string>
+
     <plurals name="time_minutes_ago">
         <item quantity="one">%d dk. önce</item>
         <item quantity="other">%d dk. önce</item>
     </plurals>
+
     <plurals name="time_hours_ago">
         <item quantity="one">%d saat önce</item>
         <item quantity="other">%d saat önce</item>
     </plurals>
+
     <plurals name="time_days_ago">
         <item quantity="one">%d gün önce</item>
         <item quantity="other">%d gün önce</item>
     </plurals>
+
     <string name="time_just_now">Az önce</string>
     <string name="time_last_updated">Son güncelleme: %1$s</string>
     <string name="weather_no_data">Hava durumu verisi bulunamadı</string>
@@ -61,11 +66,15 @@
     <string name="weather_uv_high">Yüksek</string>
     <string name="weather_uv_very_high">Çok yüksek</string>
     <string name="weather_uv_extreme">Aşırı tehlikeli</string>
+
     <string name="setting_appearance">Görünüm</string>
     <string name="setting_appearance_secondary">Temalar, animasyonlar ve ölçü birimleri</string>
+
     <string name="setting_language">Dil</string>
+
     <string name="setting_units">Birimler</string>
     <string name="setting_units_secondary">Sıcaklık, rüzgâr hızı, basınç, mesafe ve yağış birimleri</string>
+
     <string name="setting_temperature_unit">Sıcaklık birimi</string>
     <string name="setting_wind_speed_unit">Rüzgâr hızı birimi</string>
     <string name="setting_pressure_unit">Basınç birimi</string>
@@ -84,29 +93,44 @@
     <string name="unit_precipitation_mm">Milimetre</string>
     <string name="unit_precipitation_inch">İnç</string>
     <string name="unit_precipitation_cm">Santimetre</string>
+
     <string name="weather_dew_point">Çiy noktası</string>
+
     <string name="setting_dark_theme">Koyu</string>
     <string name="setting_light_theme">Açık</string>
     <string name="setting_system_theme">Sistem varsayılanı</string>
+
     <string name="setting_app_theme">Uygulama teması</string>
+
     <string name="search_empty_state_title">Konum arayın</string>
     <string name="search_empty_state_secondary">Hava durumunu öğrenmek için bir şehir veya bölge adı girin</string>
+
     <string name="action_set_default">Varsayılan yap</string>
     <string name="action_delete">Sil</string>
+
     <string name="error_delete_default_location">Varsayılan konumu silemezsiniz</string>
+
     <string name="setting_app_looks">Arayüz ve tasarım</string>
+
     <string name="temp_feels_like">Hissedilen: %1$s</string>
+
     <string name="temp_max">En yüksek: %1$s</string>
     <string name="temp_min">En düşük: %1$s</string>
+
     <string name="search_results_provided">Arama sonuçları %1$s tarafından sağlanmaktadır</string>
     <string name="action_confirm">Onayla</string>
+
     <string name="weather">Hava durumu</string>
+
     <string name="setting_custom_color">Özel renk kullan</string>
     <string name="setting_custom_color_secondary">Temanın oluşturulacağı ana rengi seçin</string>
+
     <string name="setting_dynamic_colors">Dinamik renkler</string>
     <string name="setting_dynamic_colors_secondary">Duvar kâğıdınızın renk tonlarını kullanın</string>
+
     <string name="setting_amoled_theme">AMOLED siyahı</string>
     <string name="setting_amoled_theme_secondary">Koyu temada tam siyah renk kullanarak pil tasarrufu sağlayın</string>
+
     <string name="weather_total_rain_day">Bugünkü toplam yağmur</string>
     <string name="error_network">İnternet bağlantısı yok</string>
     <string name="weather_total_snow_day">Bugünkü toplam kar</string>
@@ -114,39 +138,51 @@
     <string name="weather_air_quality_index">Hava kalitesi indeksi</string>
     <string name="setting_translate_app">Çeviriye katkıda bulunun</string>
     <string name="setting_translate_app_secondary">Crowdin üzerinden uygulamayı dilimize kazandırmaya yardım edin</string>
+
     <string name="location_use_current">Mevcut konumu kullan</string>
     <string name="location_use_current_secondary">Bulunduğunuz yeri otomatik olarak algılayıp listenize ekleyin</string>
     <string name="location_permission_required">Konum izni gerekiyor</string>
+
     <string name="current_location_not_found">Mevcut konumunuz tespit edilemedi</string>
+
     <string name="error_server">İstek tamamlanamadı. Lütfen az sonra tekrar deneyin</string>
+
     <string name="weather_airquality_good">İyi</string>
     <string name="weather_airquality_fair">Makul</string>
     <string name="weather_airquality_moderate">Orta</string>
     <string name="weather_airquality_poor">Kötü</string>
     <string name="weather_airquality_very_poor">Çok kötü</string>
     <string name="weather_airquality_hazardous">Tehlikeli</string>
+
     <string name="weather_aqi_description_good">Hava tertemiz; hava kirliliği neredeyse hiçbir sağlık riski taşımıyor.</string>
     <string name="weather_aqi_description_fair">Hava kalitesi kabul edilebilir düzeyde. Ancak hava kirliliğine karşı sıra dışı hassasiyeti olanlar hafif risk altında olabilir.</string>
     <string name="weather_aqi_description_moderate">Hassas gruplar sağlık sorunları yaşayabilir. Genel halkın ciddi biçimde etkilenmesi beklenmez.</string>
     <string name="weather_aqi_description_poor">Hemen herkes olumsuz etkilenebilir; hassas gruptaki kişilerde ise daha ciddi sağlık sorunları görülebilir.</string>
     <string name="weather_aqi_description_very_poor">Sağlık alarmı: Hava şartları herkes için ciddi bir sağlık tehdidi oluşturuyor.</string>
     <string name="weather_aqi_description_hazardous">Acil durum uyarısı: Nüfusun tamamının etkilenme olasılığı çok yüksek; dışarıda bulunmaktan kaçının.</string>
+
     <string name="weather_aqi_pm_description">Havada asılı duran mikroskobik katı parçacıklar ve sıvı damlacıklarıdır. Motorlu taşıtlardan, odun sobalarından ve sanayi tesislerinden yayılır. Orman yangınları ve kum fırtınaları da partikül miktarını ciddi oranda artırabilir.</string>
     <string name="weather_aqi_no2_description">Şehir içi hava kirliliğinin başlıca unsurlarından biridir. Temelde egzoz gazları, fabrikalar, santraller ve ısınma amacıyla yakılan yakıtlardan kaynaklanır.</string>
     <string name="weather_aqi_O3_description">Stratosferdeyken bizi zararlı morötesi ışınlardan korur; ancak soluduğumuz havada güneş ışığı, organik gazlar ve azot oksitlerin (araçlar, enerji santralleri vb.) tepkimeye girmesiyle oluşan zararlı bir kirleticidir.</string>
     <string name="weather_aqi_so2_description">Genzi yakan, keskin kokulu zehirli bir gazdır. Fosil yakıt tüketen tesislerden, petrol rafinerilerinden, çimento fabrikalarından ve volkanik hareketlerden yayılır.</string>
     <string name="weather_aqi_co_description">Fosil yakıtla çalışan araçlardan veya iş makinelerinden havaya karışan zehirli bir gazdır.</string>
+
     <string name="weather_airquality_about_index">Hava kalitesi indeksi, karmaşık bilimsel verileri anlaşılır derecelere dönüştürür. Böylece kirlilik seviyesini ve getirdiği riskleri bir bakışta görebilirsiniz.</string>
+
     <string name="weather_average">Ortalama</string>
+
     <string name="weather_rain_block">Yağmur</string>
     <string name="weather_snow_block">Kar</string>
+
     <string name="search_source">Arama kaynağı</string>
     <string name="weather_source">Hava durumu kaynağı</string>
     <string name="weather_sources">Hava durumu kaynakları</string>
     <string name="sources">Kaynaklar</string>
     <string name="source">Kaynak</string>
     <string name="recommended_sources">Önerilen kaynaklar</string>
+
     <string name="global_sources">Küresel kaynaklar</string>
+
     <string name="weather_clear_with_cloudy">Açık, yer yer bulutlu</string>
     <string name="weather_clear_with_rain">Açık, yer yer yağmurlu</string>
     <string name="weather_clear_with_snow">Açık, yer yer karlı</string>
@@ -171,15 +207,20 @@
     <string name="weather_snow_then_clear">Önce karlı, ardından açık</string>
     <string name="weather_snow_then_cloudy">Önce karlı, ardından bulutlu</string>
     <string name="weather_snow_then_rain">Önce karlı, ardından yağmurlu</string>
+
     <string name="error_refresh_waiting_before_action">Lütfen güncellemenin tamamlanmasını bekleyin</string>
+
     <string name="weather_total_amount">Toplam miktar</string>
     <string name="setting_background_updates">Arka plan güncellemeleri</string>
     <string name="setting_background_updates_secondary">Güncelleme aralığı, pil optimizasyonu ve yardım</string>
+
     <string name="setting_notification_permission_req">Bildirim izni gerekiyor</string>
     <string name="setting_notification_permission_secondary">Hava durumu arka planda her güncellendiğinde uygulama size haber verir</string>
     <string name="setting_notification">Bildirim</string>
+
     <string name="time_hours">%1$s saat</string>
     <string name="time_hour">%1$s saat</string>
+
     <string name="info_already_ignoring_battery_opt">Pil kısıtlamaları zaten devre dışı</string>
     <string name="setting_additional">Ek ayarlar</string>
     <string name="setting_update_interval">Güncelleme sıklığı</string>
@@ -190,8 +231,10 @@
     <string name="setting_dontkillmyapp_secondary">Bazı telefon üreticileri arka plandaki uygulamaları zorla kapatır. Çözüm adımları için dontkillmyapp.com sitesini inceleyin</string>
     <string name="setting_weather_sources_secondary">Desteklenen tüm hava durumu kaynaklarının listesi</string>
     <string name="setting_join_discord">Discord topluluğumuza katılın</string>
+
     <string name="setting_about_app_secondary">Sürüm, koşullar, gizlilik ve fazlası</string>
     <string name="setting_about_app">Uygulama hakkında</string>
+
     <string name="about_terms_conditions">Kullanım Koşulları</string>
     <string name="about_privacy_policy">Gizlilik Politikası</string>
     <string name="about_create_issue">Hata bildir</string>
@@ -199,8 +242,10 @@
     <string name="about_license">Lisans</string>
     <string name="message_new_version_available">Yeni bir sürüm yayınlandı</string>
     <string name="message_using_latest_version">Zaten en güncel sürümü kullanıyorsunuz</string>
+
     <string name="about_check_for_updates">Güncellemeleri denetle</string>
     <string name="action_view">Görüntüle</string>
+
     <string name="setting_backup_restore">Yedekle ve Geri Yükle</string>
     <string name="setting_backup_restore_secondary">Kayıtlı konumlarınızı ve ayarlarınızı içe veya dışa aktarın</string>
     <string name="backup_export_action">Yedeği dışa aktar</string>
@@ -217,24 +262,32 @@
     <string name="error_backup_file_corrupted">Bu yedek dosyası bozuk veya geçersiz</string>
     <string name="error_backup_file_io">Yedek dosyası okunamadı veya yazılamadı</string>
     <string name="error_backup_missing_default_location">Yedek dosyasında varsayılan bir konum bulunamadığı için yüklenemiyor</string>
+
     <string name="setting_weather_sources_info">Ülke kodunuza göre her bölge için en doğru ve tutarlı tahmin kaynakları önerilir</string>
+
     <string name="setting_weather_animations">Hava durumu animasyonları</string>
     <string name="setting_weather_animations_secondary">Anlık hava koşullarına göre değişen canlı arayüz animasyonları</string>
+
     <string name="setting_froggy_layout">Kurbağalı görünüm</string>
     <string name="setting_froggy_layout_secondary">Klasikleşen Google Hava Durumu kurbağalı kartını gösterir. Kapatırsanız yeni Pixel tarzı sade kart kullanılır</string>
     <string name="setting_layout">Düzen</string>
     <string name="setting_weather_based_theme">Havaya göre dinamik tema</string>
     <string name="setting_weather_based_theme_secondary">Uygulama renklerini o anki hava koşullarına göre otomatik olarak uyarlar</string>
+
     <string name="unit_pressure_mmhg">Milimetre cıva</string>
+
     <string name="summary_uv_extreme_template_1">UV ışınları saat %1$s civarında aşırı tehlikeli seviyeye ulaşacak.</string>
     <string name="summary_uv_extreme_template_2">Saat %1$s sularında tehlikeli derecede yüksek UV değerleri bekleniyor.</string>
     <string name="summary_uv_extreme_template_3">Saat %1$s civarında güneş ışınları fazlasıyla yakıcı ve zararlı olacak.</string>
+
     <string name="summary_uv_high_template_1">UV seviyesi saat %1$s dolaylarında yüksek seyredecek.</string>
     <string name="summary_uv_high_template_2">Saat %1$s civarında yoğun UV maruziyeti bekleniyor; tedbirsiz çıkmayın.</string>
     <string name="summary_uv_high_template_3">Saat %1$s sularında öğleden sonra boyunca yüksek UV değerleri etkili olacak.</string>
+
     <string name="summary_uv_moderate_template_1">UV seviyesi makul düzeylerde kalacak.</string>
     <string name="summary_uv_moderate_template_2">Gün içinde ılımlı bir UV maruziyeti bekleniyor.</string>
     <string name="summary_uv_moderate_template_3">Güneş ışınları gün boyunca rahatsız etmeyecek seviyelerde seyredecek.</string>
+
     <string name="weather_summary">Özet</string>
     <string name="about_changelog">Değişiklik günlüğü</string>
     <string name="about">Hakkında</string>
@@ -245,6 +298,7 @@
     <string name="text_average_for_day">Günün ortalaması</string>
     <string name="weather_about_dewpoint">Çiy noktası, havadaki nemin insan bedeninde nasıl hissettirdiğini anlamanın en net yoludur. 20°C ve üzerine çıktığında hava yapış yapış ve boğucu hissettirmeye başlar; yazın serinleme ihtiyacını kestirmenin en güvenilir ölçütüdür.</string>
     <string name="weather_visibility_about">Görüş mesafesi; hava ve atmosfer koşulları görüşü engellemeden önce etraftaki nesneleri ne kadar uzaktan seçebildiğinizi belirtir.</string>
+
     <string name="text_excellent">Kusursuz</string>
     <string name="text_very_good">Çok iyi</string>
     <string name="text_good">İyi</string>
@@ -259,10 +313,12 @@
     <string name="visibility_description_poor">Pus, duman veya sis görüşü ciddi oranda düşürüyor</string>
     <string name="visibility_description_very_poor">Yoğun sis veya şiddetli yağış; seyahat koşullarını güçleştirir</string>
     <string name="visibility_description_dense">Görüş mesafesi kritik düzeyde; kara ve hava trafiğini aksatabilir</string>
+
     <string name="text_dawn">Şafak</string>
     <string name="text_dusk">Alacakaranlık</string>
     <string name="text_day_length">Gün uzunluğu</string>
     <string name="weather_sun_moon">Güneş ve Ay</string>
+
     <string name="moonphase_new_moon">Yeni ay</string>
     <string name="moonphase_waxing_crescent">Hilal</string>
     <string name="moonphase_first_quarter">İlk dördün</string>
@@ -276,18 +332,24 @@
     <string name="weather_about_dawn_dusk">Şafak, gün doğumundan hemen önce göğün aydınlanmaya başladığı vakittir. Alacakaranlık ise gün batımının hemen ardından ışığın yavaşça çekildiği zamandır.</string>
     <string name="weather_about_pressure">Deniz seviyesine indirgenmiş hava basıncıdır. Basınç hareketlerini takip etmek havanın gidişatını önceden haber verir: Basıncın düşmesi genellikle havanın bozacağına, yükselmesi ise havanın düzeleceğine ve sakinleşeceğine işarettir.</string>
     <string name="weather_about_windspeed">Rüzgâr hızı, sıcaklık ve basınç farklarından beslenen havanın yatay eksende ne kadar hızlı aktığını gösterir.</string>
+
     <string name="unit_wind_kt">Düğüm (Knot)</string>
     <string name="unit_wind_bft">Bofor (Beaufort)</string>
+
     <string name="setting_day_summary">Günün özeti</string>
     <string name="setting_day_summary_secondary">Saatlik verilere dayanarak hazırlanan günün özetini gösterir</string>
+
     <string name="setting_system">Sistem varsayılanı</string>
+
     <string name="weather_about_precipitation">Yağış miktarı, her saat için beklenen yağmur hacmini gösterir; miktar arttıkça yağmurun şiddeti de artar.</string>
     <string name="weather_about_snowfall">Kar miktarı, saatlik dilimlerde beklenen kar kalınlığını belirtir; değer arttıkça yerde birikecek kar tabakası kalınlaşır.</string>
     <string name="color_transparent">Saydam</string>
+
     <string name="setting_app_font">Uygulama yazı tipi</string>
     <string name="setting_system_font">Sistem yazı tipi</string>
     <string name="weather_minimum">En düşük</string>
     <string name="error_no_results_found">Hiçbir sonuç bulunamadı</string>
+
     <string name="text_time">Saat</string>
     <string name="settings_24hr_time">24 saat biçimini kullan</string>
     <string name="about_email">E-posta</string>
@@ -297,65 +359,79 @@
     <string name="weather_wind_direction_from">%1$s yönünden</string>
     <string name="day_length_hr">%1$s sa.</string>
     <string name="error_no_results">Hiçbir sonuç bulunamadı</string>
+
     <string name="summary_overview_template_same_condition">Hava gece ve gündüz boyunca %1$s kalacak.</string>
-    <string name="summary_overview_template_day_night_condition">Gündüz saatlerinde %1$s bir hava beklenirken, gece yerini %2$s bir havaya bırakacak.</string>
-    <string name="summary_rain_template_day_night">Gündüz saat %1$s civarında %2$s ihtimalle yağmur bekleniyor. Bu gece de saat %4$s sularında %3$s olasılıkla yağmur görülebilir.</string>
+    <string name="summary_overview_template_day_night_condition">Hava gündüz %1$s, gece ise %2$s olacak.</string>
+    <string name="summary_rain_template_day_night">Gündüz saat %1$s civarında %2$s ihtimalle yağmur bekleniyor. Bu gece saat %4$s civarında %3$s ihtimalle yağmur bekleniyor.</string>
     <string name="summary_rain_template_day">Gündüz saat %1$s civarında %2$s ihtimalle yağmur bekleniyor.</string>
-    <string name="summary_rain_template_night">Bu gece saat %2$s civarında yağmur ihtimali %1$s.</string>
-    <string name="summary_snow_template_day_night">Gündüz saat %1$s civarında %2$s ihtimalle kar bekleniyor. Gece boyunca da saat %4$s dolaylarında %3$s olasılıkla kar yağışı devam edebilir.</string>
-    <string name="summary_snow_template_day">Gündüz saat %1$s civarında %2$s ihtimalle kar yağışı bekleniyor.</string>
-    <string name="summary_snow_template_night">Gece saatlerinde yaklaşık %2$s gibi %1$s ihtimalle kar görülebilir.</string>
-    <string name="summary_temp_template_extreme">Gündüz sıcaklıkların %1$s seviyesini bulacağı kavurucu bir sıcak bekleniyor. Gece ise hava %2$s civarına kadar serinleyecek.</string>
-    <string name="summary_temp_template_warm">Gündüz hava ılık seyredecek ve sıcaklık %1$s civarına çıkacak. Gece ise %2$s seviyelerine kadar düşecek.</string>
-    <string name="summary_temp_template_mild">Sıcaklığın %1$s seviyelerine ulaşacağı ılık ve sakin bir gün bekleniyor. Gece ise hava %2$s civarına kadar serinleyecek.</string>
-    <string name="summary_temp_template_cool">Gündüz saatlerinde %1$s civarında serin bir hava etkili olacak. Gece sıcaklık %2$s dolaylarına kadar inecek.</string>
-    <string name="summary_temp_template_cold">Soğuk hava etkisini sürdürüyor; gündüz en yüksek sıcaklık %1$s civarında kalacak. Gece ise dondurucu bir havayla %2$s seviyesine gerileyecek.</string>
-    <string name="summary_overview_template_day_condition">Gündüz saatlerinde hava %1$s olacak.</string>
-    <string name="summary_overview_template_night_condition">Gece saatlerinde hava %1$s dönecek.</string>
+    <string name="summary_rain_template_night">Bu gece saat %2$s civarında %1$s ihtimalle yağmur bekleniyor.</string>
+
+    <string name="summary_snow_template_day_night">Gündüz saat %1$s civarında %2$s ihtimalle kar bekleniyor. Gece boyunca saat %4$s civarında %3$s ihtimalle kar yağışı devam edebilir.</string>
+    <string name="summary_snow_template_day">Gündüz saat %1$s civarında %2$s ihtimalle kar bekleniyor.</string>
+    <string name="summary_snow_template_night">Gece boyunca saat %2$s civarında %1$s ihtimalle kar bekleniyor.</string>
+
+    <string name="summary_temp_template_extreme">Gündüz %1$s dereceye varan aşırı sıcaklar bekleniyor. Gece sıcaklık %2$s civarına düşecek.</string>
+    <string name="summary_temp_template_warm">Gündüz sıcaklık en yüksek %1$s civarında seyredecek. Bu gece ise sıcaklık %2$s seviyelerine düşecek.</string>
+    <string name="summary_temp_template_mild">Sıcaklığın %1$s dereceye ulaşacağı ılık bir gün bekleniyor. Gece hava serinleyerek %2$s civarına düşecek.</string>
+    <string name="summary_temp_template_cool">Gündüz en yüksek %1$s civarında serin bir hava etkili olacak. Bu gece sıcaklık %2$s seviyesine gerileyecek.</string>
+    <string name="summary_temp_template_cold">Gündüz %1$s civarında seyreden soğuk hava devam edecek. Gece en düşük sıcaklık %2$s dereceye kadar düşecek.</string>
+
+    <string name="summary_overview_template_day_condition">Gündüz hava %1$s olacak.</string>
+    <string name="summary_overview_template_night_condition">Gece hava %1$s durumuna dönecek.</string>
+
     <string name="gadgetbridge_not_available_error">Gadgetbridge uygulaması yüklü değil</string>
-    <string name="settings_worker_info">Arka plan görevi bilgileri</string>
-    <string name="settings_send_data_gadgetbridge">Verileri Gadgetbridge\'e aktar</string>
-    <string name="aqi_PM25_full_label">2,5 mikrondan küçük ince partikül maddeler</string>
-    <string name="aqi_PM10_full_label">10 mikrondan küçük kaba partikül maddeler</string>
-    <string name="aqi_CO_full_label">Karbonmonoksit</string>
-    <string name="aqi_NO2_full_label">Azot dioksit</string>
-    <string name="aqi_SO2_full_label">Kükürt dioksit</string>
-    <string name="aqi_O3_full_label">Yer seviyesi ozon</string>
-    <string name="settings_worker_info_successful_run">Son başarılı güncelleme</string>
+
+    <string name="settings_worker_info">Worker bilgileri</string>
+    <string name="settings_send_data_gadgetbridge">Verileri Gadgetbridge\'e gönder</string>
+    <string name="aqi_PM25_full_label">2.5 mikrondan küçük ince partikül maddeler (PM2.5)</string>
+    <string name="aqi_PM10_full_label">10 mikrondan küçük kaba partikül maddeler (PM10)</string>
+    <string name="aqi_CO_full_label">Karbonmonoksit (CO)</string>
+    <string name="aqi_NO2_full_label">Azot dioksit (NO2)</string>
+    <string name="aqi_SO2_full_label">Kükürt dioksit (SO2)</string>
+    <string name="aqi_O3_full_label">Yer seviyesi ozonu (O3)</string>
+    <string name="settings_worker_info_successful_run">Son başarılı çalışma</string>
     <string name="label_never">Hiçbir zaman</string>
     <string name="worker_run_attempt">Çalıştırma denemesi</string>
     <string name="worker_tags">Etiketler</string>
-    <string name="worker_next_schedule">Sonraki planlanan zaman</string>
+    <string name="worker_next_schedule">Sonraki zamanlama</string>
+
     <string name="action_save_changes">Değişiklikleri kaydet</string>
-    <string name="weather_alert_source">Meteorolojik uyarı kaynağı</string>
+    <string name="weather_alert_source">Hava uyarısı kaynağı</string>
     <string name="location_edit">Konumu düzenle</string>
     <string name="weather_aqi_source">Hava kalitesi kaynağı</string>
     <string name="location_name">Konum adı</string>
     <string name="location_info">Konum bilgisi</string>
-    <string name="location_long_press_info">Daha fazla seçenek için konuma basılı tutun</string>
+    <string name="location_long_press_info">Daha fazla seçenek için konuma uzun basın</string>
+
     <string name="alert_severity_critical">Kritik</string>
     <string name="alert_severity_high">Yüksek</string>
     <string name="alert_severity_medium">Orta</string>
     <string name="alert_severity_low">Düşük</string>
     <string name="alert_severity_unknown">Bilinmiyor</string>
+
     <string name="confirm_delete_location">Konumu Sil</string>
     <string name="alert_delete_location_secondary">Bu konumu silmek istediğinizden emin misiniz?</string>
+
     <string name="weather_alerts">Uyarılar</string>
-    <string name="dew_point_scale_dry_comfortable">Kuru ve son derece rahat</string>
-    <string name="dew_point_scale_comfortable">Oldukça ferah</string>
-    <string name="dew_point_scale_sticky">Hafif yapışkan</string>
-    <string name="dew_point_scale_muggy">Boğucu ve bunaltıcı</string>
-    <string name="dew_point_scale_uncomfortable">Aşırı bunaltıcı</string>
+
+    <string name="dew_point_scale_dry_comfortable">Kuru ve konforlu</string>
+    <string name="dew_point_scale_comfortable">Konforlu</string>
+    <string name="dew_point_scale_sticky">Nemli ve yapış yapış</string>
+    <string name="dew_point_scale_muggy">Bunalıcı ve bunaltıcı</string>
+    <string name="dew_point_scale_uncomfortable">Rahatsız edici</string>
+
     <string name="action_requires_restart">Yeniden başlatma gerektirir</string>
     <string name="location_latitude">Enlem</string>
     <string name="location_longitude">Boylam</string>
-    <string name="settings_support">Geliştiriciye destek ol</string>
-    <string name="settings_support_secondary">Uygulamayı severek kullanıyorsanız gelişimine katkıda bulunabilirsiniz</string>
-    <string name="settings_your_device_language">Cihazınızın varsayılan dili</string>
-    <string name="label_system">Sistem varsayılanı</string>
+    <string name="settings_support">Destek ol</string>
+    <string name="settings_support_secondary">Uygulamayı beğendiyseniz, geliştirmemizi desteklemeyi düşünebilirsiniz</string>
+    <string name="settings_your_device_language">Cihaz diliniz</string>
+    <string name="label_system">Sistem</string>
+
     <string name="weather_active_alerts">Aktif uyarılar</string>
-    <string name="open_meteo_model_best_match">En İyi Eşleşen Model</string>
-    <string name="open_meteo_model_seamless">%1$s Kesintisiz</string>
+    <string name="open_meteo_model_best_match">En İyi Eşleşme</string>
+    <string name="open_meteo_model_seamless">%1$s Kesintisiz (Seamless)</string>
+
     <string name="country_usa">Amerika Birleşik Devletleri</string>
     <string name="country_sweden">İsveç</string>
     <string name="country_germany">Almanya</string>
@@ -370,24 +446,30 @@
     <string name="country_taiwan">Tayvan</string>
     <string name="country_ukraine">Ukrayna</string>
     <string name="country_brazil">Brezilya</string>
+
     <string name="settings_date_format">Tarih biçimi</string>
     <string name="widget_settings_display_hourly_secondary">Günlük tahmin yerine saatlik tahmini gösterir</string>
-    <string name="settings_widget_background">Araç takımı arka planı</string>
-    <string name="settings_widget_weather_background">Havaya göre arka plan</string>
-    <string name="settings_widget_weather_background_secondary">Araç takımının arka plan rengini o anki hava koşullarına göre değiştirir</string>
-    <string name="settings_widget_text_color">Araç takımı yazı rengi</string>
-    <string name="settings_widget_font_size">Yazı boyutu</string>
+    <string name="settings_widget_background">Widget arka planı</string>
+    <string name="settings_widget_weather_background">Hava durumuna göre arka plan</string>
+    <string name="settings_widget_weather_background_secondary">Widget arka plan rengini mevcut hava koşullarına göre değiştirir</string>
+    <string name="settings_widget_text_color">Widget metin rengi</string>
+    <string name="settings_widget_font_size">Yazı tipi boyutu</string>
     <string name="settings_widget_daily_forecast_count">Günlük tahmin sayısı</string>
     <string name="settings_widget_hourly_forecast_count">Saatlik tahmin sayısı</string>
     <string name="settings_widget_icon_size">Simge boyutu</string>
-    <string name="action_create_widget">Araç Takımı Ekle</string>
+    <string name="action_create_widget">Widget Oluştur</string>
+
     <string name="time_days">%1$s gün</string>
     <string name="time_day">%1$s gün</string>
-    <string name="label_variant">Model</string>
-    <string name="settings_widget_show_daily_weather">Günün hava durumunu göster</string>
-    <string name="settings_widget_show_daily_weather_secondary">Anlık durum yerine bugünün genel tahminini gösterir</string>
+
+    <string name="label_variant">Varyant</string>
+
+    <string name="settings_widget_show_daily_weather">Günlük hava durumunu göster</string>
+    <string name="settings_widget_show_daily_weather_secondary">Anlık hava koşulları yerine bugünün tahminini gösterir</string>
+
     <string name="settings_widget_show_clock">Saati göster</string>
     <string name="settings_widget_clock_size">Saat boyutu</string>
+
     <string name="unit_wind_kt_short">kt</string>
     <string name="unit_wind_bft_short">bft</string>
     <string name="unit_pressure_mmhg_short">mmHg</string>
@@ -402,48 +484,114 @@
     <string name="unit_precipitation_mm_short">mm</string>
     <string name="unit_precipitation_inch_short">inç</string>
     <string name="unit_precipitation_cm_short">cm</string>
+
     <string name="settings_widget_show_precip_probability">Yağış ihtimalini göster</string>
-    <string name="settings_widget_show_precip_probability_secondary">Yalnızca seçilen kaynak bu veriyi sağladığında gösterilir</string>
-    <string name="weather_current">Şu anki durum</string>
-    <string name="widget_weather_today_max_uv">Bugünün en yüksek UV değeri: %1$s</string>
-    <string name="widget_weather_today_max_uv_at">Saat %1$s sularında</string>
+    <string name="settings_widget_show_precip_probability_secondary">Yağış ihtimalini yalnızca seçilen kaynak sağladığında gösterir</string>
+
+    <string name="weather_current">Anlık</string>
+    <string name="widget_weather_today_max_uv">Bugünkü en yüksek: %1$s</string>
+    <string name="widget_weather_today_max_uv_at">Saat %1$s civarında</string>
+
     <string name="country_united_kingdom">Birleşik Krallık</string>
     <string name="region_europe">Avrupa</string>
-    <string name="settings_api_key_config">API anahtarı yapılandırması</string>
-    <string name="source_regional_global">Bölgesel (Küresel Kapsamlı)</string>
-    <string name="error_no_api_key">API anahtarı bulunamadı. Lütfen ayarlardan kendi anahtarınızı ekleyin</string>
-    <string name="error_api_key_rejected">API anahtarınız reddedildi. Geçersiz veya süresi dolmuş olabilir; ayarlar kısmından kontrol edin.</string>
-    <string name="weather_mixed_precipitation">Karışık yağış</string>
+
+    <string name="settings_api_key_config">API anahtarları yapılandırması</string>
+
+    <string name="source_regional_global">Küresel Kapsamlı Bölgesel Kaynak</string>
+
+    <string name="error_no_api_key">API anahtarı bulunamadı. Lütfen ayarlar bölümünden API anahtarınızı ekleyin</string>
+    <string name="error_api_key_rejected">API anahtarınız reddedildi. Geçersiz veya süresi dolmuş olabilir — API anahtarı ayarlarından kontrol edin.</string>
+
+    <string name="weather_mixed_precipitation">Karma yağış</string>
     <string name="weather_hail">Dolu</string>
     <string name="weather_sleet">Sulu kar</string>
+
     <string name="location_permission">Konum izni</string>
-    <string name="location_permission_secondary">Mevcut konumunuzu kaydedebilmek için konum erişimine izin verin. Konum bilginiz yalnızca seçtiğiniz hava durumu kaynaklarıyla paylaşılır</string>
-    <string name="location_permission_background">Arka planda konum izni</string>
-    <string name="location_permission_background_secondary">Uygulama kapalıyken bile hava durumunun güncel kalması için arka planda konum erişimine izin verin</string>
+    <string name="location_permission_secondary">Bulunduğunuz konumu kaydedebilmek için konum erişimine izin verin. Konumunuz sadece seçtiğiniz hava durumu kaynaklarıyla paylaşılır</string>
+
+    <string name="location_permission_background">Arka plan konum izni</string>
+    <string name="location_permission_background_secondary">Uygulama kapalıyken veya arka planda çalışırken bile cihaz konumunuzun güncel kalması için arka plan konum erişimine izin verin</string>
+
     <string name="weather_airquality_source">Hava kalitesi kaynağı</string>
+
     <string name="country_india">Hindistan</string>
+
     <string name="error_secure_connection_failed">Güvenli bağlantı kurulamadı</string>
-    <string name="error_empty_response_body">Sunucudan boş yanıt döndü.</string>
+
+    <string name="error_empty_response_body">Sunucu boş bir yanıt döndürdü.</string>
     <string name="error_bad_request">Sunucu isteği işleyemedi.</string>
-    <string name="error_unauthorized">Kimlik doğrulama başarısız oldu.</string>
-    <string name="error_forbidden">Bu kaynağa erişim izniniz yok.</string>
+    <string name="error_unauthorized">Servis kimlik doğrulaması başarısız oldu.</string>
+    <string name="error_forbidden">Bu kaynağa erişim reddedildi.</string>
     <string name="error_not_found">İstenen kaynak bulunamadı.</string>
     <string name="error_request_timeout">Sunucu zamanında yanıt vermedi.</string>
-    <string name="error_too_many_requests">İstek sınırına ulaşıldı. Lütfen biraz bekleyin.</string>
+    <string name="error_too_many_requests">İstek sınırına ulaşıldı.</string>
+
     <string name="settings_notifications">Bildirimler</string>
-    <string name="settings_notifications_secondary">Zamanlanmış tahminler, durum çubuğu bildirimi ve fazlası</string>
-    <string name="weather_precipitation_probability">Yağış ihtimali: %1$s</string>
-    <string name="error_failed_background_updates">Arka plan güncellemeleri aksadı</string>
+    <string name="settings_notifications_secondary">Zamanlanmış bildirimler, kalıcı bildirim ve daha fazlası</string>
+
+    <string name="weather_precipitation_probability">Yağış ihtimali %1$s</string>
+
+    <string name="error_failed_background_updates">Başarısız arka plan güncellemeleri</string>
+
     <string name="setting_on_going_notification">Kalıcı bildirim</string>
-    <string name="setting_today_forecast_notification">Günün hava durumu bildirimi</string>
-    <string name="setting_today_forecast_notification_set_time">Günün tahmin bildirim saatini ayarlayın</string>
-    <string name="setting_next_day_forecast_notification">Yarının hava durumu bildirimi</string>
-    <string name="setting_next_day_forecast_notification_set_time">Yarının tahmin bildirim saatini ayarlayın</string>
-    <string name="label_disabled">Kapalı</string>
-    <string name="weather_refresh_delay_fixed">Yenilemeden önce lütfen 15 dakika bekleyin</string>
+
+    <string name="setting_today_forecast_notification">Bugünkü hava tahmini bildirimi</string>
+    <string name="setting_today_forecast_notification_set_time">Bugünkü hava tahmini bildirim saatini ayarlayın</string>
+
+    <string name="setting_next_day_forecast_notification">Gelecek günün hava tahmini bildirimi</string>
+    <string name="setting_next_day_forecast_notification_set_time">Gelecek günün hava tahmini bildirim saatini ayarlayın</string>
+
+    <string name="label_disabled">Devre dışı</string>
+
+    <string name="weather_refresh_delay_fixed">Lütfen yeniden yenilemeden önce 15 dakika bekleyin</string>
+
     <string name="country_turkey">Türkiye</string>
     <string name="country_belgium">Belçika</string>
-    <string name="notifications_setting_alert_notifications">Alert notifications</string>
-    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
+
+    <string name="notifications_setting_alert_notifications">Hava uyarısı bildirimleri</string>
+    <string name="notifications_setting_alert_notifications_secondary">Hava durumu uyarıları mevcut olduğunda bildirim göster</string>
+
+    <string name="notification_updating_weather_for">%1$s için hava durumu güncelleniyor</string>
+    <string name="notification_updating_weather">Hava durumu güncelleniyor</string>
+    <string name="notification_background_update_failed">Arka plan güncellemesi başarısız</string>
+    <string name="error_unknown">Bilinmeyen hata</string>
+    <string name="notification_today_title_format">Bugün: %1$s • %2$s/%3$s</string>
+    <string name="notification_tomorrow_forecast_title_format">Yarının tahmini: %1$s • %2$s/%3$s</string>
+
+    <string name="action_change">Değiştir</string>
+    <string name="error_source_not_supported">Kaynak desteklenmiyor</string>
+    <string name="error_source_not_supported_message">Seçili hava durumu kaynağı bölgenizde desteklenmiyor. Lütfen farklı bir kaynak seçin</string>
+    <string name="api_keys_config_info">Burada yalnızca API anahtarı gerektiren kaynaklar gösterilir. Kaynağı kullanmak için anahtarınızı ekleyip kaydedin.</string>
+    <string name="setting_donate">Bağış yap</string>
+    <string name="setting_tablet_layout">Tablet düzeni</string>
+    <string name="setting_tablet_layout_secondary">Tabletler ve büyük ekranlı cihazlar için özel düzen. Devre dışı bırakılırsa tek sütunlu düzen kullanılır.</string>
+    <string name="settings_show_new_version_message">“Yeni sürüm mevcut” mesajını göster</string>
+    <string name="intro_title">Hava Tahmininizi Alalım</string>
+    <string name="intro_description">Bulunduğunuz yerin hava tahminini görmek için konum erişimine izin verin</string>
+    <string name="intro_enable_location">Konumu Etkinleştir</string>
+    <string name="intro_search_city">Bir Şehir Ara</string>
+    <string name="intro_import_backup">Yedek İçe Aktar</string>
+    <string name="intro_loading">Yükleniyor&#8230;</string>
+    <string name="intro_importing">İçe aktarılıyor&#8230;</string>
+
+    <string name="alert_effective">Başlangıç: %1$s</string>
+    <string name="alert_expires">Bitiş: %1$s</string>
+    <string name="alert_source_prefix">Kaynak: %1$s</string>
+    <string name="label_unknown">Bilinmiyor</string>
+
+    <string name="open_meteo_model_description">Varsayılan EN İYİ EŞLEŞME seçeneği, dünya çapındaki herhangi bir konum için en uygun tahmini sunar. KESİNTİSİZ seçeneği ise belirli bir sağlayıcının tüm modellerini bir araya getirerek pürüzsüz bir tahmin ortaya çıkarır.</string>
+
+    <string name="alert_event_thunderstorm">Gök Gürültülü Sağanak Yağış</string>
+    <string name="alert_event_rain">Kuvvetli Yağış</string>
+    <string name="alert_event_wind">Kuvvetli Rüzgar ve Fırtına</string>
+    <string name="alert_event_snow">Yoğun Kar Yağışı</string>
+    <string name="alert_event_snow_ice">Buzlanma ve Don</string>
+    <string name="alert_event_fog">Yoğun Sis</string>
+    <string name="alert_event_heat">Aşırı Sıcaklık</string>
+    <string name="alert_event_cold">Aşırı Soğuk</string>
+    <string name="alert_event_coastal">Kıyı Riski ve Dalga</string>
+    <string name="alert_event_fire">Orman Yangını Riski</string>
+    <string name="alert_event_avalanche">Çığ Riski</string>
+    <string name="alert_event_flood">Sel ve Su Baskını</string>
+
 </resources>
-<!--<string name=""></string>-->

@@ -166,7 +166,7 @@ class MgmRepository @Inject constructor(
                 val alertsForTomorrow =
                     safeApiCall { api.fetchAlerts(day = tomorrow) }.getOrElse { emptyList() }
 
-                val alerts = alertsForToday + alertsForTomorrow
+                val alerts = (alertsForToday + alertsForTomorrow).distinctBy { Triple(it.begin, it.end, it.text) }
 
 
                 return AlertsDataPack(

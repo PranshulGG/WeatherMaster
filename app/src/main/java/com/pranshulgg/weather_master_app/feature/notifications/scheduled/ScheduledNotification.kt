@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.pranshulgg.weather_master_app.MainActivity
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
@@ -115,12 +116,10 @@ class ScheduledNotification : BroadcastReceiver() {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
-        val title = buildString {
-            if (isToday) {
-                append("Today: ${weather.daily[0].condition} • ${weather.daily[0].maxTemp}/${weather.daily[0].minTemp}")
-            } else {
-                append("Tomorrow's forecast: ${weather.daily[1].condition} • ${weather.daily[1].maxTemp}/${weather.daily[1].minTemp}")
-            }
+        val title = if (isToday) {
+            context.getString(R.string.notification_today_title_format, weather.daily[0].condition, weather.daily[0].maxTemp, weather.daily[0].minTemp)
+        } else {
+            context.getString(R.string.notification_tomorrow_forecast_title_format, weather.daily[1].condition, weather.daily[1].maxTemp, weather.daily[1].minTemp)
         }
 
         val id = if (isToday) {

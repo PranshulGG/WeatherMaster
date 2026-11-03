@@ -102,7 +102,7 @@ object MainScreenBottomSheets {
                 if (location.alertSource != Source.NONE) {
                     Gap(8.dp)
                     SettingSection(
-                        title = "Alerts",
+                        title = stringResource(R.string.weather_alerts),
                         tiles = listOf(
                             SettingTile.ActionTile(
                                 title = alertSourceString,

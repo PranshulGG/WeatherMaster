@@ -65,7 +65,7 @@ object EditLocationBottomSheet {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 16.dp),
-                    placeholder = { Text("Name") },
+                    placeholder = { Text(stringResource(R.string.location_name)) },
                 )
             }
         }
@@ -403,7 +403,7 @@ object EditLocationBottomSheet {
                             .verticalScroll(rememberScrollState())
                     ) {
                         Text(
-                            "The default BEST MATCH provides the best forecast for any given location worldwide. SEAMLESS combines all models from a given provider into a seamless prediction.",
+                            stringResource(R.string.open_meteo_model_description),
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)

@@ -212,8 +212,8 @@ fun NotificationsScreen(navController: NavController) {
                     ),
                     SettingTile.SwitchTile(
                         leading = { SettingsTileIcon(R.drawable.warning_24px) },
-                        title = "Alert notifications",
-                        description = "Show notifications for weather warnings when available",
+                        title = stringResource(R.string.notifications_setting_alert_notifications),
+                        description = stringResource(R.string.notifications_setting_alert_notifications_secondary),
                         enabled = isNotificationPermissionGranted,
                         checked = isAlertsNotificationEnabled,
                         onCheckedChange = {

@@ -30,6 +30,7 @@ import com.pranshulgg.weather_master_app.core.ui.components.NavigateUpBtn
 import com.pranshulgg.weather_master_app.core.ui.components.SettingSection
 import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
+import com.pranshulgg.weather_master_app.core.utils.weather.alerts.deduplicateAlerts
 import com.pranshulgg.weather_master_app.feature.alerts.components.AlertCard
 import com.pranshulgg.weather_master_app.feature.settings.SettingsScreen
 
@@ -56,9 +57,10 @@ fun AlertsScreen(navController: NavController, locationId: String) {
     }
 
     LargeTopBarScaffold(
-        title = "Alerts",
+        title = stringResource(R.string.weather_alerts),
         navigationIcon = { NavigateUpBtn(navController) },
     ) { paddingValues ->
+        val distinctAlerts = uiState.alerts.filterNotNull().deduplicateAlerts()
         Column(
             modifier =
                 Modifier
@@ -67,10 +69,10 @@ fun AlertsScreen(navController: NavController, locationId: String) {
                     .padding(top = paddingValues.calculateTopPadding(), start = 16.dp, end = 16.dp),
             verticalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            uiState.alerts.filterNotNull().forEachIndexed { index, it ->
+            distinctAlerts.forEachIndexed { index, it ->
                 val isFirst = index == 0
-                val isLast = index == uiState.alerts.lastIndex
-                val isOnly = uiState.alerts.size == 1
+                val isLast = index == distinctAlerts.lastIndex
+                val isOnly = distinctAlerts.size == 1
                 val shape = when {
                     isOnly -> RoundedCornerShape(ShapeRadius.Large)
                     isFirst -> RoundedCornerShape(

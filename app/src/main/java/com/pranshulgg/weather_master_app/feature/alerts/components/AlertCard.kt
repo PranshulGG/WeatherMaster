@@ -16,7 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import com.pranshulgg.weather_master_app.core.utils.weather.alerts.getLocalizedAlertEvent
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
@@ -38,13 +40,13 @@ fun AlertCard(alert: Alert, prefs: AppPrefsState, zoneId: String, shape: Shape) 
         if (prefs.is24HrTimeFormat) "MMMddHmm" else "MMMddhmma"
     )
 
-    val formatter: (Long?) -> String? = {
+    val formatter: @Composable (Long?) -> String = {
         it?.let {
             val formatter = DateTimeFormatter.ofPattern(pattern)
             val instant = Instant.ofEpochMilli(it)
             val dateTime = instant.atZone(safeZoneId(zoneId)).toLocalDateTime()
             formatter.format(dateTime)
-        } ?: "Unknown"
+        } ?: stringResource(R.string.label_unknown)
     }
 
     Surface(
@@ -67,7 +69,7 @@ fun AlertCard(alert: Alert, prefs: AppPrefsState, zoneId: String, shape: Shape) 
             ) {
                 Column() {
                     Text(
-                        alert.event,
+                        getLocalizedAlertEvent(alert.event, LocalContext.current),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -85,12 +87,12 @@ fun AlertCard(alert: Alert, prefs: AppPrefsState, zoneId: String, shape: Shape) 
                             alert.severity?.contentColor ?: AlertSeverity.UNKNOWN.contentColor
                         )
                         Chip(
-                            "Effective ${formatter(alert.effective)}",
+                            stringResource(R.string.alert_effective, formatter(alert.effective)),
                             MaterialTheme.colorScheme.tertiaryContainer,
                             MaterialTheme.colorScheme.onTertiaryContainer
                         )
                         Chip(
-                            "Expires ${formatter(alert.expires)}",
+                            stringResource(R.string.alert_expires, formatter(alert.expires)),
                             MaterialTheme.colorScheme.primaryContainer,
                             MaterialTheme.colorScheme.onPrimaryContainer
                         )
@@ -110,7 +112,7 @@ fun AlertCard(alert: Alert, prefs: AppPrefsState, zoneId: String, shape: Shape) 
             HorizontalDivider()
             Gap(12.dp)
             Text(
-                "Source ${alert.source}",
+                stringResource(R.string.alert_source_prefix, alert.source ?: stringResource(R.string.label_unknown)),
                 color = MaterialTheme.colorScheme.secondary,
                 style = MaterialTheme.typography.labelMedium,
                 modifier = Modifier.padding(horizontal = 16.dp)

@@ -27,6 +27,10 @@ import java.time.Instant
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
+import androidx.compose.ui.platform.LocalContext
+import com.pranshulgg.weather_master_app.core.utils.weather.alerts.deduplicateAlerts
+import com.pranshulgg.weather_master_app.core.utils.weather.alerts.getLocalizedAlertEvent
+
 @Composable
 fun AlertsSection(
     alerts: List<Alert>,
@@ -34,6 +38,8 @@ fun AlertsSection(
     zoneId: String,
     onAlertClick: () -> Unit
 ) {
+    val context = LocalContext.current
+    val distinctAlerts = alerts.deduplicateAlerts()
 
     val pattern = getLocalizedPattern(
         if (prefs.is24HrTimeFormat) "MMMddHmm" else "MMMddhmma"
@@ -54,7 +60,7 @@ fun AlertsSection(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            alerts.forEach {
+            distinctAlerts.forEach {
                 ListItem(
                     colors = ListItemDefaults.colors(
                         containerColor = Color.Transparent
@@ -67,7 +73,7 @@ fun AlertsSection(
                             size = 32.dp
                         )
                     },
-                    content = { Text(it.event) },
+                    content = { Text(getLocalizedAlertEvent(it.event, context)) },
                     supportingContent = {
                         if (it.effective != null && it.expires != null) {
                             Text("${formatter(it.effective)} • ${formatter(it.expires)}")

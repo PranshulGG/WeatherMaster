@@ -13,7 +13,7 @@ object BackgroundWeatherUpdateNotification {
     fun showNotification(locationName: String?, context: Context) {
 
         val contentText =
-            if (locationName != null) "Updating weather for $locationName" else "Updating weather"
+            if (locationName != null) context.getString(R.string.notification_updating_weather_for, locationName) else context.getString(R.string.notification_updating_weather)
 
         val notification = context.let {
             NotificationCompat.Builder(
@@ -55,8 +55,8 @@ object BackgroundWeatherUpdateNotification {
                 BackgroundUpdateNotificationConfig.ERROR_CHANNEL_ID
             )
         }
-            .setContentTitle("Background update failed")
-            .setContentText(error ?: "Unknown error")
+            .setContentTitle(context.getString(R.string.notification_background_update_failed))
+            .setContentText(error ?: context.getString(R.string.error_unknown))
             .setSmallIcon(R.drawable.info_24px)
             .build()
 

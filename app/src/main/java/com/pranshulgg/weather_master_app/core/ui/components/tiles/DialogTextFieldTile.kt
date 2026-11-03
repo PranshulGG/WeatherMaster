@@ -8,6 +8,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
@@ -117,7 +119,7 @@ fun DialogTextFieldTile(
                     },
                     shapes = ButtonDefaults.shapes()
                 ) {
-                    Text("Save", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.action_save), style = MaterialTheme.typography.labelLarge)
                 }
             },
             dismissButton = {
@@ -125,7 +127,7 @@ fun DialogTextFieldTile(
                     onClick = { showDialog = false },
                     shapes = ButtonDefaults.shapes()
                 ) {
-                    Text("Cancel", style = MaterialTheme.typography.labelLarge)
+                    Text(stringResource(R.string.action_cancel), style = MaterialTheme.typography.labelLarge)
                 }
             }
         )

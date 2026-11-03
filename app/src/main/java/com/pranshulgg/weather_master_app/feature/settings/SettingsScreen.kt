@@ -147,7 +147,7 @@ fun SettingsScreen(navController: NavController) {
 
     DialogBasic(
         show = isDonationDialogOpen,
-        title = "Donate",
+        title = stringResource(R.string.setting_donate),
         dismissText = stringResource(R.string.action_cancel),
         showOnlyDismissAction = true,
         onConfirm = {},

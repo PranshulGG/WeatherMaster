@@ -144,14 +144,14 @@ fun BackgroundUpdatesScreen(navController: NavController) {
                     ),
                     SettingTile.ActionTile(
                         leading = { SettingsTileIcon(R.drawable.info_24px) },
-                        title = "Worker information",
+                        title = stringResource(R.string.settings_worker_info),
                         onClick = {
                             navController.navigate(NavRoutes.WORKER_INFO)
                         }
                     ),
                     SettingTile.SwitchTile(
                         leading = { SettingsTileIcon(R.drawable.aod_watch_24px) },
-                        title = "Send data to Gadgetbridge",
+                        title = stringResource(R.string.settings_send_data_gadgetbridge),
                         enabled = isGadgetBridgeInstalled,
                         checked = isSendDataToGadgetBridge,
                         onCheckedChange = {
@@ -173,7 +173,7 @@ fun BackgroundUpdatesScreen(navController: NavController) {
                     ),
                     if (!BuildConfig.IS_PLAYSTORE_BUILD) {
                         SettingTile.SwitchTile(
-                            title = "Show a “New version available” message",
+                            title = stringResource(R.string.settings_show_new_version_message),
                             checked = prefs.isNewVersionMessageEnabled,
                             onCheckedChange = {
                                 prefs.setNewVersionMessageEnabled(it)
