@@ -75,18 +75,18 @@
     <string name="unit_wind_kph">Kilometer per jam (km/j)</string>
     <string name="unit_pressure_hpa">Hektopaskal (hPa)</string>
     <string name="unit_pressure_inhg">Inci Merkuri (inHg)</string>
-    <string name="unit_distance_km">Kilometer</string>
-    <string name="unit_distance_mi">Mil</string>
-    <string name="unit_distance_m">Meter</string>
-    <string name="unit_precipitation_mm">Milimeter</string>
-    <string name="unit_precipitation_inch">Inci</string>
-    <string name="unit_precipitation_cm">Sentimeter</string>
+    <string name="unit_distance_km">Kilometer (km)</string>
+    <string name="unit_distance_mi">Mil (mi)</string>
+    <string name="unit_distance_m">Meter (m)</string>
+    <string name="unit_precipitation_mm">Milimeter (mm)</string>
+    <string name="unit_precipitation_inch">Inci (in)</string>
+    <string name="unit_precipitation_cm">Sentimeter (cm)</string>
     <string name="weather_dew_point">Titik embun</string>
     <string name="setting_dark_theme">Gelap</string>
     <string name="setting_light_theme">Terang</string>
     <string name="setting_system_theme">Ikuti sistem</string>
     <string name="setting_app_theme">Tema aplikasi</string>
-    <string name="search_empty_state_title">Cari lokasi</string>
+    <string name="search_empty_state_title">Telusuri lokasi</string>
     <string name="search_empty_state_secondary">Ketik nama kota atau lokasi untuk lihat cuaca</string>
     <string name="action_set_default">Jadikan default</string>
     <string name="action_delete">Hapus</string>
@@ -218,7 +218,7 @@
     <string name="setting_weather_animations">Animasi cuaca</string>
     <string name="setting_weather_animations_secondary">Animasi yang akan berubah tergantung cuaca sekarang</string>
     <string name="setting_froggy_layout">Tata Letak Froggy</string>
-    <string name="setting_froggy_layout_secondary">Gunakan gaya Froggy yg digunakan Google Weather lama. Matikan utk menggunakan gaya Pixel Weather yg baru.</string>
+    <string name="setting_froggy_layout_secondary">Gunakan gaya Froggy yg digunakan Google Weather lama. Matikan utk menggunakan gaya Pixel Weather yg baru</string>
     <string name="setting_layout">Tata Letak</string>
     <string name="setting_weather_based_theme">Sesuaikan tema dg cuaca skrg</string>
     <string name="setting_weather_based_theme_secondary">Menggunakan warna dari cuaca sekarang sebagai tema.</string>
@@ -440,7 +440,7 @@
     <string name="weather_refresh_delay_fixed">Harap tunggu 15 sebelum memperbarui</string>
     <string name="country_turkey">Turki</string>
     <string name="country_belgium">Belgia</string>
-    <string name="notifications_setting_alert_notifications">Alert notifications</string>
-    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
+    <string name="notifications_setting_alert_notifications">Notifikasi peringatan</string>
+    <string name="notifications_setting_alert_notifications_secondary">Beri notifikasi jika ada peringatan cuaca yang tersedia</string>
 </resources>
 <!--<string name=""></string>-->
