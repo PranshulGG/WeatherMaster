@@ -1,8 +1,8 @@
 package com.pranshulgg.weather_master_app.core.ui.components.tiles
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
@@ -14,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
@@ -40,11 +41,12 @@ fun SwitchTile(
     ) {
         ListItem(
 
-            modifier = if (switchEnabled) {
-                Modifier.clickable { onCheckedChange(!checked) }
-            } else {
-                Modifier
-            },
+            modifier = Modifier.toggleable(
+                value = checked,
+                enabled = switchEnabled,
+                role = Role.Switch,
+                onValueChange = onCheckedChange
+            ),
 
             colors = ListItemDefaults.colors(
                 containerColor = itemBgColor
@@ -56,11 +58,8 @@ fun SwitchTile(
                 Switch(
                     enabled = switchEnabled,
                     checked = checked,
-                    onCheckedChange = { newChecked ->
-                        if (checked != newChecked) {
-                            onCheckedChange(newChecked)
-                        }
-                    },
+                    // The whole row is the toggle, so TalkBack reads it as one switch
+                    onCheckedChange = null,
                     thumbContent = if (checked) {
                         {
                             Symbol(
@@ -112,13 +111,14 @@ fun SingleSwitchTile(
     ) {
         ListItem(
 
-            modifier = if (switchEnabled) {
-                Modifier
-                    .clickable { onCheckedChange(!checked) }
-                    .padding(start = 10.dp)
-            } else {
-                Modifier.padding(start = 10.dp)
-            },
+            modifier = Modifier
+                .toggleable(
+                    value = checked,
+                    enabled = switchEnabled,
+                    role = Role.Switch,
+                    onValueChange = onCheckedChange
+                )
+                .padding(start = 10.dp),
 
             leadingContent = leading,
             content = { Text(headline) },
@@ -127,11 +127,8 @@ fun SingleSwitchTile(
                 Switch(
                     enabled = switchEnabled,
                     checked = checked,
-                    onCheckedChange = { newChecked ->
-                        if (checked != newChecked) {
-                            onCheckedChange(newChecked)
-                        }
-                    },
+                    // The whole row is the toggle, so TalkBack reads it as one switch
+                    onCheckedChange = null,
                     thumbContent = if (checked) {
                         {
                             Symbol(
