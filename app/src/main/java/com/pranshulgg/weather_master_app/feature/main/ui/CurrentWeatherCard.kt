@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,6 +42,7 @@ fun CurrentWeatherCard(
         Column(
             modifier = Modifier
                 .padding(start = 16.dp, end = 16.dp, top = 6.dp)
+                .semantics(mergeDescendants = true) {}
         ) {
             Row(
                 modifier = Modifier
@@ -181,7 +183,8 @@ fun PixelStyleCurrentWeatherCard(weather: Weather, units: WeatherUnits, context:
     Column(
         modifier = Modifier
             .padding(start = 16.dp, end = 16.dp, top = 24.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .semantics(mergeDescendants = true) {},
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
