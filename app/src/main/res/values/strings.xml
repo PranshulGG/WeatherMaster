@@ -106,6 +106,12 @@
 
     <string name="action_set_default">Set as default</string>
     <string name="action_delete">Delete</string>
+    <string name="action_navigate_up">Navigate up</string>
+    <string name="action_show_menu">Show menu</string>
+    <string name="action_clear_search">Clear search</string>
+    <string name="action_reset_location_name">Reset location name</string>
+    <string name="action_show_info">Info</string>
+    <string name="open_meteo_models">Weather models</string>
 
     <string name="error_delete_default_location">Cannot delete default location</string>
 

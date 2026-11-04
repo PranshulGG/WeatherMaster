@@ -187,7 +187,11 @@ private fun AppVersionTile(
                     ),
                     shapes = IconButtonDefaults.shapes()
                 ) {
-                    Symbol(R.drawable.refresh_24px, color = MaterialTheme.colorScheme.onTertiary)
+                    Symbol(
+                        R.drawable.refresh_24px,
+                        desc = stringResource(R.string.about_check_for_updates),
+                        color = MaterialTheme.colorScheme.onTertiary
+                    )
                 }
             }
         )

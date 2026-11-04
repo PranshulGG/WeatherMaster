@@ -100,7 +100,12 @@ fun SearchScreen(navController: NavController) {
                     viewModel.showSearchSourcePickerSheet()
                 },
                 shapes = IconButtonDefaults.shapes()
-            ) { Symbol(R.drawable.settings_24px) }
+            ) {
+                Symbol(
+                    R.drawable.settings_24px,
+                    desc = stringResource(R.string.search_source)
+                )
+            }
         }
 
     ) { paddingValues ->
