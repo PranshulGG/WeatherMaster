@@ -27,6 +27,7 @@ import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateDefinition
 import com.pranshulgg.weather_master_app.widgets.WeatherWidgetStateJson
 import com.pranshulgg.weather_master_app.widgets.model.WidgetVariant
 import com.pranshulgg.weather_master_app.widgets.model.WidgetWeather
+import com.pranshulgg.weather_master_app.widgets.params.WidgetSizePoints
 import com.pranshulgg.weather_master_app.widgets.ui.ReloadButton
 import com.pranshulgg.weather_master_app.widgets.uvindex.ui.variants.UvIndexWidgetCompact
 import com.pranshulgg.weather_master_app.widgets.uvindex.ui.variants.UvIndexWidgetLarge
@@ -34,7 +35,9 @@ import kotlinx.serialization.json.Json
 
 class UvIndexWidget : GlanceAppWidget() {
 
-    override val sizeMode = SizeMode.Exact
+    override val sizeMode = SizeMode.Responsive(
+        sizes = WidgetSizePoints.SIZES
+    )
     override val stateDefinition =
         WeatherWidgetStateDefinition
 
