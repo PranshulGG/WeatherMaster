@@ -36,6 +36,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
+import com.pranshulgg.weather_master_app.core.model.domain.weather.ApiKey
+import com.pranshulgg.weather_master_app.core.model.sources.Capability
+import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.model.sources.getSourcesForCountry
 import com.pranshulgg.weather_master_app.core.ui.components.Symbol
 import com.pranshulgg.weather_master_app.core.ui.components.Tooltip
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
@@ -45,13 +49,17 @@ import com.pranshulgg.weather_master_app.data.provider.devicelocation.rememberLo
 import com.pranshulgg.weather_master_app.feature.locations.ui.LocationScreenConfirmationDialog
 import com.pranshulgg.weather_master_app.feature.locations.ui.LocationScreenSheet
 import com.pranshulgg.weather_master_app.feature.locations.ui.LocationsScreenContent
+import com.pranshulgg.weather_master_app.feature.shared.ui.SharedBottomSheet
 import com.pranshulgg.weather_master_app.feature.shared.ui.SharedDialogs
 
 data class LocationsScreenUiState(
     val isConfirmationDialogOpen: Boolean = false,
     val longClickedLocation: Location? = null,
     val isBottomSheetOpen: Boolean = false,
-    val isDeviceLocationLoading: Boolean = false
+    val isDeviceLocationLoading: Boolean = false,
+    val pendingDeviceLocation: Location? = null,
+    val isWeatherSourcesForLocationSheetOpen: Boolean = false,
+    val apiKeys: List<ApiKey> = emptyList()
 )
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -66,6 +74,10 @@ fun LocationsScreen(
     val locationStore = viewModel.location.collectAsState().value
 
     val sheetState = rememberBottomSheetState(
+        initialValue = SheetValue.Hidden,
+        enabledValues = setOf(SheetValue.Expanded, SheetValue.Hidden)
+    )
+    val weatherSourcesSheetState = rememberBottomSheetState(
         initialValue = SheetValue.Hidden,
         enabledValues = setOf(SheetValue.Expanded, SheetValue.Hidden)
     )
@@ -171,6 +183,21 @@ fun LocationsScreen(
             requestLocation()
         },
         onDismiss = { locationPermissionInfoDialogOpen = false }
+    )
+
+    SharedBottomSheet.WeatherSourcesForLocationSheet(
+        countryCode = uiState.value.pendingDeviceLocation?.countryCode,
+        show = uiState.value.isWeatherSourcesForLocationSheetOpen,
+        selectedSource = getSourcesForCountry(uiState.value.pendingDeviceLocation?.countryCode?.uppercase())
+            .firstOrNull { Capability.WEATHER in it.capabilities } ?: Source.OPEN_METEO,
+        sheetState = weatherSourcesSheetState,
+        onSave = { viewModel.confirmDeviceLocationSource(it) },
+        onDismiss = viewModel::hideWeatherSourcesForLocationSheet,
+        onClickApiConfig = {
+            navController.navigate(NavRoutes.API_KEYS_CONFIG)
+            viewModel.hideWeatherSourcesForLocationSheet()
+        },
+        apiKeys = uiState.value.apiKeys
     )
 }
 
