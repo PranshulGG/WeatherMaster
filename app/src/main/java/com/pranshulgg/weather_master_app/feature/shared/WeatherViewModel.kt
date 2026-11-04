@@ -17,6 +17,7 @@ import com.pranshulgg.weather_master_app.core.managers.requests.PendingRequests
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
+import com.pranshulgg.weather_master_app.data.repository.data.RainNowcastRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import com.pranshulgg.weather_master_app.data.store.LocationStore
 import com.pranshulgg.weather_master_app.feature.main.MainScreenWeatherUiState
@@ -43,11 +44,13 @@ class WeatherViewModel @Inject constructor(
     private val weatherUnitsManager: WeatherUnitsManager,
     private val weatherBlocksManager: WeatherBlocksManager,
     private val pendingRequests: PendingRequests,
-    private val autoRefreshes: AutoRefreshes
+    private val autoRefreshes: AutoRefreshes,
+    private val rainNowcastRepository: RainNowcastRepository
 ) : ViewModel() {
 
     private var _uiState = mutableStateOf(MainScreenWeatherUiState())
     val uiState: State<MainScreenWeatherUiState> = _uiState
+    private var rainNowcastJob: Job? = null
     val errors = weatherManager.errors
     val isUnSupportedSource = weatherManager.isUnsupportedSource
 
@@ -86,6 +89,9 @@ class WeatherViewModel @Inject constructor(
         isForceRefreshForAlerts: Boolean = false
     ) {
 
+        // high-res rain nowcast for the "Highlight rain" option
+        loadRainNowcast(location)
+
         weatherManager(
             location,
             isManualRefresh,
@@ -95,6 +101,25 @@ class WeatherViewModel @Inject constructor(
         )
     }
 
+
+    /**
+     * Fetches the 2 hour rain nowcast for the location from its nowcast
+     * source (resolved through the capability system, KNMI radar / DWD radar
+     * / the keyless Open-Meteo minutely-15 fallback) and publishes it to the
+     * ui state. The block simply hides itself when there is no nowcast for
+     * the location.
+     */
+    private fun loadRainNowcast(location: Location) {
+        rainNowcastJob?.cancel()
+        rainNowcastJob = viewModelScope.launch {
+            val nowcast = try {
+                rainNowcastRepository.getNowcast(location)
+            } catch (e: Exception) {
+                null
+            }
+            _uiState.value = _uiState.value.copy(rainNowcast = nowcast)
+        }
+    }
 
     fun setActiveLocation(location: Location, skipLoading: Boolean) {
         locationManager.setActive(location, skipLoading)

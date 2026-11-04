@@ -108,6 +108,20 @@
         </receiver>
 
         <receiver
+            android:name=".widgets.rain.RainWidgetReceiver"
+            android:label="Rain"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/rain_widget_info" />
+        </receiver>
+
+        <receiver
             android:name=".widgets.weatherhorizontal.WeatherHorizontalWidgetReceiver"
             android:label="Weather 2"
             android:exported="true">

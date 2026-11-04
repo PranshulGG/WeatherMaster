@@ -7,6 +7,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.alerts.Alert
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.toAppException
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
+import com.pranshulgg.weather_master_app.core.model.sources.Source
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherDataPack
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherResult
 import com.pranshulgg.weather_master_app.core.model.weather.airquality.AirQualityDataPack
@@ -32,7 +33,10 @@ import com.pranshulgg.weather_master_app.data.repository.alerts.AlertCacheModelR
 import com.pranshulgg.weather_master_app.data.repository.alerts.AlertRepository
 import com.pranshulgg.weather_master_app.data.repository.capability.AirQualityCapability
 import com.pranshulgg.weather_master_app.data.repository.capability.AlertCapability
+import com.pranshulgg.weather_master_app.data.repository.capability.NowcastCapability
 import com.pranshulgg.weather_master_app.data.repository.capability.WeatherCapability
+import com.pranshulgg.weather_master_app.data.repository.rain.NowcastRepository
+import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcast
 import com.pranshulgg.weather_master_app.data.repository.weather.CacheModel
 import com.pranshulgg.weather_master_app.data.repository.weather.CacheModelResultType
 import com.pranshulgg.weather_master_app.data.repository.weather.WeatherRepository
@@ -57,12 +61,34 @@ data class AirQualityAdditionalData(
 )
 
 
-abstract class BaseRepository : WeatherRepository, AlertRepository, AirQualityRepository {
+abstract class BaseRepository : WeatherRepository, AlertRepository, AirQualityRepository, NowcastRepository {
 
     protected abstract fun weatherCapability(): WeatherCapability?
     protected abstract fun alertCapability(): AlertCapability?
 
     protected abstract fun airQualityCapability(): AirQualityCapability?
+
+    /**
+     * The source this repository serves rain nowcast data for, NONE when it
+     * does not provide a nowcast feed at all. Sources with nowcast support
+     * override this together with [nowcastCapability].
+     */
+    open override val nowcastSource: Source = Source.NONE
+
+    /**
+     * Rain nowcast capability of this repository, null when the source does
+     * not provide rain nowcast data. Mirrors [weatherCapability] & co.
+     */
+    open fun nowcastCapability(): NowcastCapability? = null
+
+    final override suspend fun getNowcast(
+        location: Location,
+        now: java.time.Instant
+    ): RainNowcast? {
+        val capability = nowcastCapability() ?: return null
+        if (!capability.covers(location)) return null
+        return capability.fetchNowcast(location, now)
+    }
 
     final override suspend fun getWeather(
         location: Location,

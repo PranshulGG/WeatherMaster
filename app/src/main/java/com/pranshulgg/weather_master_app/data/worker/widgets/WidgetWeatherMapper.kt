@@ -5,9 +5,11 @@ import android.content.SharedPreferences
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
+import com.pranshulgg.weather_master_app.core.model.weather.WindSpeedUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toFroggy
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
 import com.pranshulgg.weather_master_app.core.model.weather.toLabel
+import com.pranshulgg.weather_master_app.core.model.weather.toName
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.utils.formatters.getCurrentTimeFor
 import com.pranshulgg.weather_master_app.core.utils.formatters.to12HourTimeString
@@ -131,7 +133,12 @@ fun widgetWeatherMapper(
         currentFrog = currentFrogIcon,
         locationName = weather.location.name,
         summary = daySummary,
-        weatherCondition = weather.current.weatherCondition
+        weatherCondition = weather.current.weatherCondition,
+        windSpeedText = WindSpeedUnit.KPH.convert(
+            weather.current.windSpeed, units.windUnit
+        )?.roundToInt()?.toString()?.let { "$it ${units.windUnit.toName(applicationContext, true)}" }
+            ?: "",
+        windDirectionLabel = weather.current.windDirection?.name ?: ""
     )
 
     // Convert to string

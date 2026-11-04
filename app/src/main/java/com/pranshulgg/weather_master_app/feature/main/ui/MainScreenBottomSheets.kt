@@ -24,14 +24,14 @@ object MainScreenBottomSheets {
         viewModel: MainScreenViewModel,
         location: Location?,
         sheetState: SheetState,
+        nowcastProvider: String? = null
     ) {
 
-        val uiState = viewModel.uiState.value
         val uriHandler = LocalUriHandler.current
 
 
 
-        if (uiState.isWeatherSourcesInfoForLocationSheetOpen) {
+        if (viewModel.uiState.value.isWeatherSourcesInfoForLocationSheetOpen) {
 
 
             val weatherSourceString = buildString {
@@ -80,7 +80,38 @@ object MainScreenBottomSheets {
                                 uriHandler.openUri(location.source.displayLink)
                             },
                             trailing = { SettingsTileIcon(R.drawable.open_in_new_24px) }
-                        )
+                        ),
+
+                        // Rain nowcast provider; the nowcast card shows
+                        // "© <provider>" when active. Null when no nowcast
+                        // was resolved for this location.
+                        //
+                        // Skipped when the weather-source tile above already
+                        // names the same provider (e.g. DWD in Germany: the
+                        // radar nowcast comes from Bright Sky DWD, the very
+                        // source the forecast uses) to avoid a duplicate row.
+                        nowcastProvider?.takeIf {
+                            it != location?.source?.displayName
+                        }?.let { provider ->
+                            val providerSource =
+                                Source.entries.firstOrNull { it.displayName == provider }
+                            SettingTile.ActionTile(
+                                title = stringResource(
+                                    R.string.nowcast_provider_tile_title, provider
+                                ),
+                                description = providerSource?.displayLink,
+                                onClick = {
+                                    providerSource?.displayLink?.let { link ->
+                                        uriHandler.openUri(link)
+                                    }
+                                },
+                                trailing = {
+                                    if (providerSource != null) {
+                                        SettingsTileIcon(R.drawable.open_in_new_24px)
+                                    }
+                                }
+                            )
+                        }
                     )
                 )
                 if (location.airQualitySource != Source.NONE) {

@@ -19,10 +19,12 @@ import com.pranshulgg.weather_master_app.data.repository.data.SourceDataReposito
 import com.pranshulgg.weather_master_app.data.worker.gadgetbridge.sendGadgetBridgeWeatherData
 import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundWeatherUpdateNotification
 import com.pranshulgg.weather_master_app.data.worker.notification.BackgroundWeatherUpdateNotification.showErrorNotification
+import com.pranshulgg.weather_master_app.data.worker.widgets.RainWidgetStateBuilder
 import com.pranshulgg.weather_master_app.data.worker.widgets.WeatherWidgetUpdater
 import com.pranshulgg.weather_master_app.data.worker.widgets.widgetWeatherMapper
 import com.pranshulgg.weather_master_app.feature.notifications.alert.AlertNotification
 import com.pranshulgg.weather_master_app.feature.notifications.alert.AlertNotificationIdHelper
+import com.pranshulgg.weather_master_app.widgets.model.RainWidgetState
 import com.pranshulgg.weather_master_app.feature.notifications.ongoing.OnGoingNotification
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -34,7 +36,8 @@ class WeatherWorker @AssistedInject constructor(
     private val weatherContextRepository: WeatherContextRepository,
     private val appVisibility: AppVisibility,
     private val weatherUnitsRepository: WeatherUnitsRepository,
-    private val sourceDataRepository: SourceDataRepository
+    private val sourceDataRepository: SourceDataRepository,
+    private val rainWidgetStateBuilder: RainWidgetStateBuilder
 ) : CoroutineWorker(context, params) {
 
     @RequiresPermission(Manifest.permission.POST_NOTIFICATIONS)
@@ -120,7 +123,7 @@ class WeatherWorker @AssistedInject constructor(
             }
 
 
-            updateAllWidgets(applicationContext, weather, units)
+            updateAllWidgets(applicationContext, weather, units, rainWidgetStateBuilder)
 
             PreferencesHelper.setLong("LAST_WORKER_SUCCESS_RUN", System.currentTimeMillis())
 
@@ -140,10 +143,27 @@ class WeatherWorker @AssistedInject constructor(
             context: Context,
             data: Weather,
             units: WeatherUnits,
+            rainWidgetStateBuilder: RainWidgetStateBuilder? = null
         ) {
             val json = widgetWeatherMapper(data, context, units)
 
-            WeatherWidgetUpdater(context).update(json)
+            // rain widget state for the default/device location only
+            val rainJson = rainWidgetStateBuilder?.let { builder ->
+                data.location.takeIf { it.isDefault || it.isDeviceLocation }?.let { location ->
+                    try {
+                        builder.build(context, location, data, units)?.let { state ->
+                            kotlinx.serialization.json.Json.encodeToString(
+                                RainWidgetState.serializer(),
+                                state
+                            )
+                        }
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+            }
+
+            WeatherWidgetUpdater(context).update(json, rainJson)
         }
 
     }

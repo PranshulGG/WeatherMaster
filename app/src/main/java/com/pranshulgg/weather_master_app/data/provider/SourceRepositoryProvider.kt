@@ -20,6 +20,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.inmet.Inme
 import com.pranshulgg.weather_master_app.core.network.sources.weather.ipma.IpmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.jma.JmaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.kmi.KmiRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.knmi.KnmiRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteoam.MeteoamRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofrance.MeteoFranceRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayRepository
@@ -32,6 +33,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.pirateweat
 import com.pranshulgg.weather_master_app.core.network.sources.weather.smhi.SmhiRepository
 import com.pranshulgg.weather_master_app.data.repository.airquality.AirQualityRepository
 import com.pranshulgg.weather_master_app.data.repository.alerts.AlertRepository
+import com.pranshulgg.weather_master_app.data.repository.rain.NowcastRepository
 import com.pranshulgg.weather_master_app.data.repository.weather.WeatherRepository
 import javax.inject.Inject
 
@@ -68,7 +70,10 @@ class SourceRepositoryProvider @Inject constructor(
     private val fpasRepository: FpasRepository,
 
     // AIR QUALITY
-    private val moenvRepository: MoenvRepository
+    private val moenvRepository: MoenvRepository,
+
+    // RAIN NOWCAST
+    private val knmiRepository: KnmiRepository
 
 ) {
 
@@ -101,7 +106,8 @@ class SourceRepositoryProvider @Inject constructor(
         openWeatherRepository,
         mgmRepository,
         kmiRepository,
-        moenvRepository
+        moenvRepository,
+        knmiRepository
     )
 
     fun getWeatherRepository(source: Source): WeatherRepository {
@@ -119,6 +125,12 @@ class SourceRepositoryProvider @Inject constructor(
     fun getAirQualityRepository(source: Source): AirQualityRepository? {
         return repositories.firstOrNull {
             it.airQualitySource == source
+        }
+    }
+
+    fun getNowcastRepository(source: Source): NowcastRepository? {
+        return repositories.firstOrNull {
+            it.nowcastSource == source
         }
     }
 

@@ -16,7 +16,11 @@ data class WidgetWeather(
     val locationName: String,
     val summary: String,
     val weatherCondition: WeatherCondition,
-    val uvIndex: Int? = null
+    val uvIndex: Int? = null,
+    /** Current wind speed, formatted in the user's unit, e.g. "12 km/h". Empty when unknown. */
+    val windSpeedText: String = "",
+    /** Dominant wind direction abbreviation, e.g. "SW". Empty when unknown. */
+    val windDirectionLabel: String = ""
 )
 
 @Serializable

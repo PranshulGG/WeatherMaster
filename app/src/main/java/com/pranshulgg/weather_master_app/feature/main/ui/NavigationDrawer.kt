@@ -7,6 +7,7 @@ import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.pranshulgg.weather_master_app.feature.blocks.screens.precipitation.components.NowcastDragState
 
 @Composable
 fun NavigationDrawer(
@@ -17,6 +18,7 @@ fun NavigationDrawer(
 
     DismissibleNavigationDrawer(
         drawerState = drawerState,
+        gesturesEnabled = !NowcastDragState.isDragging,
         drawerContent = drawerContent
     ) { content() }
 

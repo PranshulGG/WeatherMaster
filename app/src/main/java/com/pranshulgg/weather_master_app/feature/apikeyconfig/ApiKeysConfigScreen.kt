@@ -27,7 +27,9 @@ import com.pranshulgg.weather_master_app.core.ui.components.SettingTile
 @Composable
 fun ApiKeysConfigScreen(navController: NavController) {
 
-    val sourcesRequireApiKey = Source.entries.filter { it.requiresUserApiKey }
+    val sourcesRequireApiKey = Source.entries.filter {
+        it.requiresUserApiKey || it.optionalUserApiKey
+    }
 
     val viewModel: ApiKeysConfigScreenViewModel = hiltViewModel()
 
@@ -44,7 +46,7 @@ fun ApiKeysConfigScreen(navController: NavController) {
                 .verticalScroll(rememberScrollState())
         ) {
             Text(
-                text = "Only sources that require an API key will be shown here. Add and save your key to use the sources",
+                text = "Only sources that require an API key will be shown here, plus sources with an optional key (e.g. for a personal quota). Add and save your key to use the sources",
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(horizontal = 16.dp)
@@ -64,6 +66,13 @@ fun ApiKeysConfigScreen(navController: NavController) {
                                         color = MaterialTheme.colorScheme.onSurfaceVariant
                                     )
                                 }
+                                it.apiKeyDescriptionRes?.let { res ->
+                                    Text(
+                                        text = stringResource(res),
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
                             }
                         },
                         title = it.displayName,
@@ -76,6 +85,7 @@ fun ApiKeysConfigScreen(navController: NavController) {
                         initialText = apiKeys[it]?.getOrNull(0)?.apiKey ?: "",
                         placeholderAsValue = true,
                         textFieldDescription = it.apiKeyNote
+                            ?: it.apiKeyDescriptionRes?.let { res -> stringResource(res) }
                     )
                 }
             )
