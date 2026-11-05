@@ -146,7 +146,7 @@ class ScheduledNotification : BroadcastReceiver() {
             icon
         )
 
-        val notification = NotificationCompat.Builder(context, NotificationConfig.CHANNEL_ID)
+        val notification = NotificationCompat.Builder(context, NotificationConfig.FORECAST_CHANNEL_ID)
             .setSmallIcon(weather.current.currentConditionIcon)
             .setContentTitle(title)
             .setContentText(message)

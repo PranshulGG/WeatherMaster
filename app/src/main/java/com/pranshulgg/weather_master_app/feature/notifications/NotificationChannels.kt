@@ -55,6 +55,17 @@ object NotificationChannels {
                 enableVibration(true)
             }
         )
+
+        notificationManager.createNotificationChannel(
+            NotificationChannel(
+                NotificationConfig.FORECAST_CHANNEL_ID,
+                context.getString(R.string.forecast_notifications),
+                NotificationManager.IMPORTANCE_DEFAULT
+            ).apply {
+                setSound(null, null)
+                enableVibration(false)
+            }
+        )
     }
 
 }
