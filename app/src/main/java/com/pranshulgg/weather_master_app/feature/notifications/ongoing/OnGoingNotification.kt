@@ -43,7 +43,7 @@ object OnGoingNotification {
         val locationName = weather.location.name
 
         populateCurrent(views, data, locationName)
-        populateCurrent(viewsSmall, data, locationName)
+        populateCurrent(viewsSmall, data, locationName, isCompact = true)
 
 
         views.removeAllViews(R.id.hourlyContainer)
@@ -127,22 +127,26 @@ object OnGoingNotification {
 private fun populateCurrent(
     views: RemoteViews,
     data: NotificationWeatherModel,
-    locationName: String
+    locationName: String,
+    isCompact: Boolean = false
 ) {
     val currentTemp = data.current.temp
     val currentIcon = data.current.currentConditionIcon
     val currentCondition = data.current.currentCondition
     views.setTextViewText(R.id.currentTemp, currentTemp)
-
-    views.setTextViewText(R.id.currentConditionLabel, currentCondition)
     views.setImageViewResource(R.id.currentIcon, currentIcon)
 
-
-    views.setTextViewText(
-        R.id.location,
-        locationName
-    )
-
+    if (isCompact) {
+        // The collapsed notification view only has room for a single line,
+        // so condition and location are combined here instead of stacked.
+        views.setTextViewText(
+            R.id.currentConditionLabel,
+            "$currentCondition • $locationName"
+        )
+    } else {
+        views.setTextViewText(R.id.currentConditionLabel, currentCondition)
+        views.setTextViewText(R.id.location, locationName)
+    }
 }
 
 private fun createTextBitmap(text: String?): Bitmap? {
