@@ -50,51 +50,63 @@ class ScheduledNotification : BroadcastReceiver() {
         val time = intent.getLongExtra("TIME", -1L)
         PreferencesHelper.init(context)
 
+        // Keep the process alive for the duration of the coroutine below:
+        // without goAsync(), the system is free to kill this process as
+        // soon as onReceive() returns, before the async weather fetch
+        // and notification post below get a chance to run.
+        val pendingResult = goAsync()
+
         CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val locations = weatherContextRepository.getLocationsOnce()
+                val default = locations.find { it.isDefault }
+                val units = weatherUnitsRepository.getUnitsOnce()
 
-            val locations = weatherContextRepository.getLocationsOnce()
-            val default = locations.find { it.isDefault }
-            val units = weatherUnitsRepository.getUnitsOnce()
-
-            if (default == null || units == null) {
-                return@launch
-            }
-
-
-            var data: Weather? = null
-
-            sourceDataRepository.getData(
-                location = default,
-                isManualRefresh = false,
-                onAlerts = {},
-                onAirQuality = {},
-                onWeather = {
-                    if (it is WeatherResult.RefreshNotAvailable) {
-                        data = it.weather
-                    } else if (it is WeatherResult.Success) {
-                        data = it.weather
-                    }
+                if (default == null || units == null) {
+                    return@launch
                 }
-            )
 
 
-            if (data != null) {
-                val data = notificationWeatherMapper(
-                    weather = data,
-                    applicationContext = context,
-                    units = units
+                var data: Weather? = null
+
+                sourceDataRepository.getData(
+                    location = default,
+                    isManualRefresh = false,
+                    onAlerts = {},
+                    onAirQuality = {},
+                    onWeather = {
+                        if (it is WeatherResult.RefreshNotAvailable) {
+                            data = it.weather
+                        } else if (it is WeatherResult.Success) {
+                            data = it.weather
+                        } else if (it is WeatherResult.Error) {
+                            data = it.weather
+                        }
+                    }
                 )
 
-                if (type == NotificationConfig.TODAY_FORECAST) {
-                    showNotification(context, data, true)
-                } else {
-                    showNotification(context, data, false)
-                }
-            }
 
-            if (time == -1L) return@launch
-            val nextDay = calculateNextDay(time)
-            NotificationScheduler.scheduleNotification(context, nextDay, type!!)
+                val fetchedWeather = data
+                if (fetchedWeather != null) {
+                    val data = notificationWeatherMapper(
+                        weather = fetchedWeather,
+                        applicationContext = context,
+                        units = units
+                    )
+
+                    if (type == NotificationConfig.TODAY_FORECAST) {
+                        showNotification(context, data, true)
+                    } else {
+                        showNotification(context, data, false)
+                    }
+                }
+
+                if (time == -1L) return@launch
+                val nextDay = calculateNextDay(time)
+                NotificationScheduler.scheduleNotification(context, nextDay, type!!)
+            } finally {
+                pendingResult.finish()
+            }
         }
     }
 
