@@ -416,6 +416,7 @@
 
 
     <string name="weather_alerts">Alerts</string>
+    <string name="forecast_notifications">Forecast notifications</string>
 
     <string name="dew_point_scale_dry_comfortable">Dry and comfortable</string>
     <string name="dew_point_scale_comfortable">Comfortable</string>

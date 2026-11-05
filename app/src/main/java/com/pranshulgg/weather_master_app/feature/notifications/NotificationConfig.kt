@@ -13,4 +13,6 @@ object NotificationConfig {
     const val ONGOING_NOTIFICATION_ID = 696769
 
     const val ALERT_CHANNEL_ID = "@pranshulgg_weather_master_alert_channel"
+
+    const val FORECAST_CHANNEL_ID = "@pranshulgg_weather_master_forecast_channel"
 }
