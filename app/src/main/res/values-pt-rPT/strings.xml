@@ -44,7 +44,7 @@
     <string name="weather_clear_sky">Céu limpo</string>
     <string name="weather_overcast">Nublado</string>
     <string name="weather_partly_cloudy">Parcialmente nublado</string>
-    <string name="weather_heavy_rain">Chuva pesada</string>
+    <string name="weather_heavy_rain">Chuva forte</string>
     <string name="weather_light_rain">Chuva fraca</string>
     <string name="weather_light_snow">Neve ligeira</string>
     <string name="weather_snow">Nevado</string>
@@ -138,8 +138,8 @@
     <string name="weather_aqi_co_description">A gas from motor vehicles or machinery that burns fossil fuels</string>
     <string name="weather_airquality_about_index">Air quality indexes categorize raw data into a descriptive rating scale. These indexes make it easier to identify the level of pollution and if there’s any associated risk</string>
     <string name="weather_average">Average</string>
-    <string name="weather_rain_block">Rain</string>
-    <string name="weather_snow_block">Snow</string>
+    <string name="weather_rain_block">Chuva</string>
+    <string name="weather_snow_block">Neve</string>
     <string name="search_source">Search source</string>
     <string name="weather_source">Weather source</string>
     <string name="weather_sources">Weather sources</string>
@@ -166,7 +166,7 @@
     <string name="weather_cloudy_then_rain">Cloudy then rain</string>
     <string name="weather_cloudy_then_snow">Cloudy then snow</string>
     <string name="weather_rain_then_clear">Rain then clear</string>
-    <string name="weather_rain_then_cloudy">Rain then cloudy</string>
+    <string name="weather_rain_then_cloudy">Chuva, depois nublado</string>
     <string name="weather_rain_then_snow">Rain then snow</string>
     <string name="weather_snow_then_clear">Snow then clear</string>
     <string name="weather_snow_then_cloudy">Snow then cloudy</string>
