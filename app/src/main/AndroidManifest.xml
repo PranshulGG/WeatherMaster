@@ -64,6 +64,11 @@
             android:name=".feature.notifications.scheduled.ScheduledNotification"
             android:enabled="true" />
 
+        <receiver
+            android:name=".feature.notifications.ongoing.OnGoingNotificationDismissReceiver"
+            android:enabled="true"
+            android:exported="false" />
+
         <!--WIDGETS-->
         <receiver
             android:name=".widgets.weather.WeatherWidgetReceiver"
