@@ -339,6 +339,7 @@
     <string name="confirm_delete_location">刪除位置</string>
     <string name="alert_delete_location_secondary">您確定要刪除此位置嗎？</string>
     <string name="weather_alerts">警報</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">乾爽舒適</string>
     <string name="dew_point_scale_comfortable">舒適</string>
     <string name="dew_point_scale_sticky">黏膩</string>
