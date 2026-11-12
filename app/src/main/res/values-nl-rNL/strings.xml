@@ -341,6 +341,7 @@
     <string name="confirm_delete_location">Locatie verwijderen</string>
     <string name="alert_delete_location_secondary">Weet je zeker dat je deze locatie wilt verwijderen?</string>
     <string name="weather_alerts">Waarschuwingen</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Droog en comfortabel</string>
     <string name="dew_point_scale_comfortable">Comfortabel</string>
     <string name="dew_point_scale_sticky">Kleverig</string>
