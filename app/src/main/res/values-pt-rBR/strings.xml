@@ -341,6 +341,7 @@
     <string name="confirm_delete_location">Excluir Local</string>
     <string name="alert_delete_location_secondary">Tem certeza que deseja excluir este local?</string>
     <string name="weather_alerts">Alertas</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Seco e confortável</string>
     <string name="dew_point_scale_comfortable">Confortável</string>
     <string name="dew_point_scale_sticky">Pegajoso</string>
