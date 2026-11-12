@@ -338,6 +338,7 @@
     <string name="confirm_delete_location">Hapus Lokasi</string>
     <string name="alert_delete_location_secondary">Apakah Anda yakin ingin menghapus lokasi ini?</string>
     <string name="weather_alerts">Peringatan</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Kering dan Nyaman</string>
     <string name="dew_point_scale_comfortable">Nyaman</string>
     <string name="dew_point_scale_sticky">Lengket</string>
