@@ -348,6 +348,7 @@ W ciągu dnia spodziewane są opady śniegu około %1$s z prawdopodobieństwem %
     <string name="confirm_delete_location">Usuń lokalizację</string>
     <string name="alert_delete_location_secondary">Czy na pewno chcesz usunąć tę lokalizację?</string>
     <string name="weather_alerts">Ostrzeżenia</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Sucho i komfortowo</string>
     <string name="dew_point_scale_comfortable">Komfortowo</string>
     <string name="dew_point_scale_sticky">Wilgotno</string>
