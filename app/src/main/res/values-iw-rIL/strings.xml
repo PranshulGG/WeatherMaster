@@ -345,6 +345,7 @@
     <string name="confirm_delete_location">מחיקת מיקום</string>
     <string name="alert_delete_location_secondary">למחוק מיקום זה?</string>
     <string name="weather_alerts">התרעות</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">יבשה ונוחה</string>
     <string name="dew_point_scale_comfortable">נוחה</string>
     <string name="dew_point_scale_sticky">דביקית</string>
