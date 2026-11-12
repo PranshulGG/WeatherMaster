@@ -341,6 +341,7 @@
     <string name="confirm_delete_location">Elimina la ubicació</string>
     <string name="alert_delete_location_secondary">Segur que vols eliminar aquesta ubicació?</string>
     <string name="weather_alerts">Avisos</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Sec i agradable</string>
     <string name="dew_point_scale_comfortable">Agradable</string>
     <string name="dew_point_scale_sticky">Humit</string>
