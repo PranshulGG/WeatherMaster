@@ -347,6 +347,7 @@
     <string name="confirm_delete_location">Odstranit místo</string>
     <string name="alert_delete_location_secondary">Opravdu chcete odstranit toto místo?</string>
     <string name="weather_alerts">Výstrahy</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Sucho a příjemně</string>
     <string name="dew_point_scale_comfortable">Komfortní</string>
     <string name="dew_point_scale_sticky">Vlhko</string>
