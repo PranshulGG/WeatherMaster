@@ -341,6 +341,7 @@
     <string name="confirm_delete_location">Burahin ang lokasyon</string>
     <string name="alert_delete_location_secondary">Sigurado ka ba na gusto mong burahin itong lokasyon?</string>
     <string name="weather_alerts">Alerto</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Tuyo at komportable</string>
     <string name="dew_point_scale_comfortable">Komportable</string>
     <string name="dew_point_scale_sticky">Malagkit</string>
