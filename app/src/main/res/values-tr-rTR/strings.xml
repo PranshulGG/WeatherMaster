@@ -341,6 +341,7 @@
     <string name="confirm_delete_location">Konumu Sil</string>
     <string name="alert_delete_location_secondary">Bu konumu silmek istediğinizden emin misiniz?</string>
     <string name="weather_alerts">Uyarılar</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Kuru ve son derece rahat</string>
     <string name="dew_point_scale_comfortable">Oldukça ferah</string>
     <string name="dew_point_scale_sticky">Hafif yapışkan</string>
