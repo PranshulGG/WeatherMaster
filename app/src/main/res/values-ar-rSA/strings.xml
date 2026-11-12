@@ -353,6 +353,7 @@
     <string name="confirm_delete_location">حذف الموقع</string>
     <string name="alert_delete_location_secondary">هل أنت متأكد من رغبتك في حذف هذا الموقع؟</string>
     <string name="weather_alerts">التنبيهات</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">جاف ومريح</string>
     <string name="dew_point_scale_comfortable">مريح</string>
     <string name="dew_point_scale_sticky">رطب ولزج</string>
