@@ -342,6 +342,7 @@
     <string name="confirm_delete_location">Poista sijainti</string>
     <string name="alert_delete_location_secondary">Oletko varma, että haluat poistaa tämän sijainnin?</string>
     <string name="weather_alerts">Varoitukset</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Kuiva ja miellyttävä</string>
     <string name="dew_point_scale_comfortable">Miellyttävä</string>
     <string name="dew_point_scale_sticky">Tahmea</string>
