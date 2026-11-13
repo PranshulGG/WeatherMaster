@@ -341,6 +341,7 @@
     <string name="confirm_delete_location">Standortlöschung bestätigen</string>
     <string name="alert_delete_location_secondary">Sind Sie sicher, dass Sie diesen Standort löschen möchten?</string>
     <string name="weather_alerts">Warnungen</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Trocken und angenehm</string>
     <string name="dew_point_scale_comfortable">Angenehm</string>
     <string name="dew_point_scale_sticky">klebrig</string>

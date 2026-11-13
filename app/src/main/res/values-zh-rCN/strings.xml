@@ -338,6 +338,7 @@
     <string name="confirm_delete_location">删除位置</string>
     <string name="alert_delete_location_secondary">确定要删除此位置吗？</string>
     <string name="weather_alerts">天气预警</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">干爽且舒适</string>
     <string name="dew_point_scale_comfortable">舒适</string>
     <string name="dew_point_scale_sticky">闷热</string>

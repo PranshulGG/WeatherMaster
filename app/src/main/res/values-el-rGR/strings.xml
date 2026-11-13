@@ -341,6 +341,7 @@
     <string name="confirm_delete_location">Διαγραφή τοποθεσίας</string>
     <string name="alert_delete_location_secondary">Θέλετε σίγουρα να διαγράψετε αυτή την τοποθεσία;</string>
     <string name="weather_alerts">Προειδοποιήσεις</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Ξηρό και άνετο</string>
     <string name="dew_point_scale_comfortable">Άνετο</string>
     <string name="dew_point_scale_sticky">Κολλώδες</string>

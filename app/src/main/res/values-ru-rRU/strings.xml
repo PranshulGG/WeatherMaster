@@ -347,6 +347,7 @@
     <string name="confirm_delete_location">Удалить локацию</string>
     <string name="alert_delete_location_secondary">Вы уверены, что хотите удалить локацию?</string>
     <string name="weather_alerts">Предупреждения</string>
+    <string name="forecast_notifications">Уведомления о прогнозе</string>
     <string name="dew_point_scale_dry_comfortable">Сухо и комфортно</string>
     <string name="dew_point_scale_comfortable">Комфортно</string>
     <string name="dew_point_scale_sticky">Липко</string>

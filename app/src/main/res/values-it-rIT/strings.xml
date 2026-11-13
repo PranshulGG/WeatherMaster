@@ -341,6 +341,7 @@
     <string name="confirm_delete_location">Elimina località</string>
     <string name="alert_delete_location_secondary">Sei sicuro di voler eliminare questa località?</string>
     <string name="weather_alerts">Avvisi</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Secco e confortevole</string>
     <string name="dew_point_scale_comfortable">Confortevole</string>
     <string name="dew_point_scale_sticky">Appiccicoso</string>

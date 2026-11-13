@@ -347,6 +347,7 @@ Monitorizarea evoluției acesteia poate oferi un indiciu timpuriu privind schimb
     <string name="confirm_delete_location">Șterge Locația</string>
     <string name="alert_delete_location_secondary">Sigur vrei să ștergi această locație?</string>
     <string name="weather_alerts">Alerte</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Dry and comfortable</string>
     <string name="dew_point_scale_comfortable">Comfortable</string>
     <string name="dew_point_scale_sticky">Sticky</string>

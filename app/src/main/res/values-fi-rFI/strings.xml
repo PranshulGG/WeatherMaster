@@ -342,6 +342,7 @@
     <string name="confirm_delete_location">Poista sijainti</string>
     <string name="alert_delete_location_secondary">Oletko varma, että haluat poistaa tämän sijainnin?</string>
     <string name="weather_alerts">Varoitukset</string>
+    <string name="forecast_notifications">Sääennusteilmoitukset</string>
     <string name="dew_point_scale_dry_comfortable">Kuiva ja miellyttävä</string>
     <string name="dew_point_scale_comfortable">Miellyttävä</string>
     <string name="dew_point_scale_sticky">Tahmea</string>
@@ -444,7 +445,7 @@
     <string name="weather_refresh_delay_fixed">Odotathan 15 minuuttia ennen pävittämistä</string>
     <string name="country_turkey">Turkki</string>
     <string name="country_belgium">Belgia</string>
-    <string name="notifications_setting_alert_notifications">Alert notifications</string>
-    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
+    <string name="notifications_setting_alert_notifications">Varoitusilmoitukset</string>
+    <string name="notifications_setting_alert_notifications_secondary">Näytä ilmoituksia säävaroituksista, kun mahdollista</string>
 </resources>
 <!--<string name=""></string>-->

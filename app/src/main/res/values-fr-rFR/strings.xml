@@ -341,6 +341,7 @@
     <string name="confirm_delete_location">Supprimer l\'emplacement</string>
     <string name="alert_delete_location_secondary">Voulez-vous vraiment supprimer cet emplacement ?</string>
     <string name="weather_alerts">Alertes</string>
+    <string name="forecast_notifications">Notifications de prévisions</string>
     <string name="dew_point_scale_dry_comfortable">Agréable et sec</string>
     <string name="dew_point_scale_comfortable">Agréable</string>
     <string name="dew_point_scale_sticky">Moite</string>

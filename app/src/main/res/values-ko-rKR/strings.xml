@@ -338,6 +338,7 @@
     <string name="confirm_delete_location">위치 삭제</string>
     <string name="alert_delete_location_secondary">이 위치를 삭제하시겠습니까?</string>
     <string name="weather_alerts">경고</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">건조하고 쾌적함</string>
     <string name="dew_point_scale_comfortable">쾌적함</string>
     <string name="dew_point_scale_sticky">끈적함</string>

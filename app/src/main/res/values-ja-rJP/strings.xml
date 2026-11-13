@@ -338,6 +338,7 @@
     <string name="confirm_delete_location">地点を削除</string>
     <string name="alert_delete_location_secondary">この地点を削除しますか？</string>
     <string name="weather_alerts">アラート</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">ドライで快適</string>
     <string name="dew_point_scale_comfortable">快適</string>
     <string name="dew_point_scale_sticky">ムシムシ</string>

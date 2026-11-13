@@ -347,6 +347,7 @@
     <string name="confirm_delete_location">Pašalinti vietovę</string>
     <string name="alert_delete_location_secondary">Ar tikrai norite pašalinti šią vietovę?</string>
     <string name="weather_alerts">Įspėjimai</string>
+    <string name="forecast_notifications">Forecast notifications</string>
     <string name="dew_point_scale_dry_comfortable">Sausa ir malonu</string>
     <string name="dew_point_scale_comfortable">Malonu</string>
     <string name="dew_point_scale_sticky">Darosi tvanku</string>
