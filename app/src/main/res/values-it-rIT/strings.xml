@@ -341,7 +341,7 @@
     <string name="confirm_delete_location">Elimina località</string>
     <string name="alert_delete_location_secondary">Sei sicuro di voler eliminare questa località?</string>
     <string name="weather_alerts">Avvisi</string>
-    <string name="forecast_notifications">Forecast notifications</string>
+    <string name="forecast_notifications">Notifiche previsioni</string>
     <string name="dew_point_scale_dry_comfortable">Secco e confortevole</string>
     <string name="dew_point_scale_comfortable">Confortevole</string>
     <string name="dew_point_scale_sticky">Appiccicoso</string>
@@ -369,7 +369,7 @@
     <string name="country_russia">Russia</string>
     <string name="country_spain">Spagna</string>
     <string name="country_taiwan">Taiwan</string>
-    <string name="country_ukraine">Ukraine</string>
+    <string name="country_ukraine">Ucraina</string>
     <string name="country_brazil">Brasile</string>
     <string name="settings_date_format">Formato data</string>
     <string name="widget_settings_display_hourly_secondary">Mostra le previsioni orarie invece di quelle giornaliere</string>
@@ -442,9 +442,9 @@
     <string name="setting_next_day_forecast_notification_set_time">Imposta l\'orario per la notifica sulle previsioni di domani</string>
     <string name="label_disabled">Disattivato</string>
     <string name="weather_refresh_delay_fixed">Per favore aspetta 15 minuti prima di aggiornare</string>
-    <string name="country_turkey">Turkey</string>
-    <string name="country_belgium">Belgium</string>
-    <string name="notifications_setting_alert_notifications">Alert notifications</string>
-    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
+    <string name="country_turkey">Turchia</string>
+    <string name="country_belgium">Belgio</string>
+    <string name="notifications_setting_alert_notifications">Notifiche allerte</string>
+    <string name="notifications_setting_alert_notifications_secondary">Mostra notifiche per allerte meteo quando sono disponibili</string>
 </resources>
 <!--<string name=""></string>-->

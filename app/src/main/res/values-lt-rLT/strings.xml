@@ -347,7 +347,7 @@
     <string name="confirm_delete_location">Pašalinti vietovę</string>
     <string name="alert_delete_location_secondary">Ar tikrai norite pašalinti šią vietovę?</string>
     <string name="weather_alerts">Įspėjimai</string>
-    <string name="forecast_notifications">Forecast notifications</string>
+    <string name="forecast_notifications">Prognozės pranešimai</string>
     <string name="dew_point_scale_dry_comfortable">Sausa ir malonu</string>
     <string name="dew_point_scale_comfortable">Malonu</string>
     <string name="dew_point_scale_sticky">Darosi tvanku</string>
@@ -450,7 +450,7 @@
     <string name="weather_refresh_delay_fixed">Palaukite 15 min. prieš atnaujinant dar kartą</string>
     <string name="country_turkey">Turkija</string>
     <string name="country_belgium">Belgija</string>
-    <string name="notifications_setting_alert_notifications">Alert notifications</string>
-    <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
+    <string name="notifications_setting_alert_notifications">Įspėjamieji pranešimai</string>
+    <string name="notifications_setting_alert_notifications_secondary">Pranešti apie oro sąlygų perspėjimus, jei tokių yra</string>
 </resources>
 <!--<string name=""></string>-->
