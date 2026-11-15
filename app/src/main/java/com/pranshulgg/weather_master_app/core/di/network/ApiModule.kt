@@ -32,6 +32,7 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.meteofranc
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metnorway.MetNorwayApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.metoffice.MetOfficeApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.mgm.MgmApi
+import com.pranshulgg.weather_master_app.core.network.sources.radar.librewxr.LibreWxrApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.nws.NwsApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.OpenMeteoApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.airquality.OpenMeteoAqiApi
@@ -72,6 +73,10 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideNwsApi(): NwsApi = NwsApi.create()
+
+    @Provides
+    @Singleton
+    fun provideLibreWxrApi(): LibreWxrApi = LibreWxrApi.create()
 
     @Provides
     @Singleton
