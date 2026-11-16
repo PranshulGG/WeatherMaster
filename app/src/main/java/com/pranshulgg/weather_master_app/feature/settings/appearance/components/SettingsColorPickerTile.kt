@@ -19,6 +19,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -39,6 +42,7 @@ fun ColorPickerBtn() {
     )
 
     var isSheetOpen by remember { mutableStateOf(false) }
+    val label = stringResource(R.string.action_choose_color)
 
     Surface(
         shape = RoundedCornerShape(50.dp),
@@ -52,10 +56,12 @@ fun ColorPickerBtn() {
                     color = Color(prefs.customThemeColor.toColorInt())
                 )
                 .clickable(
+                    role = Role.Button,
                     onClick = {
                         isSheetOpen = true
                     }
-                ),
+                )
+                .semantics { contentDescription = label },
         ) {
         }
     }
