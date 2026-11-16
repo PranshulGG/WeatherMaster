@@ -7,6 +7,7 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
@@ -15,8 +16,9 @@ import com.pranshulgg.weather_master_app.R
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun NavigateUpBtn(navController: NavController) {
+    val label = stringResource(R.string.action_navigate_up)
     Tooltip(
-        "Navigate up",
+        label,
         preferredPosition = TooltipAnchorPosition.Below,
         spacing = 10.dp
     ) {
@@ -29,7 +31,7 @@ fun NavigateUpBtn(navController: NavController) {
         ) {
             Symbol(
                 R.drawable.arrow_back_24px,
-                desc = "arrow back icon",
+                desc = label,
                 color = MaterialTheme.colorScheme.onSurface
             )
         }
