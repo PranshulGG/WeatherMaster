@@ -8,12 +8,14 @@ import com.pranshulgg.weather_master_app.data.provider.SourceRepositoryProvider
 import com.pranshulgg.weather_master_app.data.repository.WeatherContextRepository
 import com.pranshulgg.weather_master_app.data.repository.WeatherUnitsRepository
 import com.pranshulgg.weather_master_app.data.repository.data.SourceDataRepository
+import com.pranshulgg.weather_master_app.widgets.model.RainWidgetState
 import jakarta.inject.Inject
 
 class WidgetReload @Inject constructor(
     private val weatherContextRepository: WeatherContextRepository,
     private val weatherUnitsRepository: WeatherUnitsRepository,
-    private val sourceDataRepository: SourceDataRepository
+    private val sourceDataRepository: SourceDataRepository,
+    private val rainWidgetStateBuilder: RainWidgetStateBuilder
 ) {
 
     suspend fun reload(context: Context) {
@@ -46,6 +48,19 @@ class WidgetReload @Inject constructor(
         val weather = data ?: return
 
         val json = widgetWeatherMapper(weather, context, units)
-        WeatherWidgetUpdater(context).update(json)
+
+        // rain widget state rides along with the weather update
+        val rainJson = try {
+            rainWidgetStateBuilder.build(context, defaultLocation, weather, units)?.let { state ->
+                kotlinx.serialization.json.Json.encodeToString(
+                    RainWidgetState.serializer(),
+                    state
+                )
+            }
+        } catch (e: Exception) {
+            null
+        }
+
+        WeatherWidgetUpdater(context).update(json, rainJson)
     }
 }
