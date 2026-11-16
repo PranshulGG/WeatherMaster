@@ -22,13 +22,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.dp
 import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
+import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
@@ -68,6 +72,7 @@ fun HourlyCard(
 
 
     val prefs = LocalAppPrefs.current
+    val context = LocalContext.current
 
     val is24hr = prefs.is24HrTimeFormat
 
@@ -122,6 +127,7 @@ fun HourlyCard(
                         temperature = temperature,
                         isNow = index == 0,
                         icon = item.weatherCondition.toIcon(matchingDaily, item.time),
+                        condition = item.weatherCondition.toLabel(context),
                         isSameDay = isSameDay(item.time, currentMilli, weather.location.timezone)
                     )
 
@@ -141,12 +147,26 @@ private fun HourlyItem(
     temperature: Double?,
     isNow: Boolean,
     icon: Int,
+    condition: String,
     isSameDay: Boolean = true
 ) {
+
+    val precipitation = if (precipitationProbability > 0) stringResource(
+        R.string.weather_precipitation_probability,
+        "${precipitationProbability}%"
+    ) else null
 
     Column(
         modifier = Modifier
             .heightIn(120.dp)
+            .clearAndSetSemantics {
+                contentDescription = listOfNotNull(
+                    time,
+                    "${temperature?.roundToInt() ?: "-"}°",
+                    condition,
+                    precipitation
+                ).joinToString(", ")
+            }
             .alpha(if (!isSameDay) 0.6f else 1f)
             .padding(horizontal = 4.dp),
         verticalArrangement = Arrangement.Bottom,

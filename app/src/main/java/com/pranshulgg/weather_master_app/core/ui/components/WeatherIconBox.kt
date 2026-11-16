@@ -19,7 +19,7 @@ fun WeatherIconBox(icon: Int, size: Dp = 40.dp, modifier: Modifier = Modifier) {
     ) {
         Image(
             painter = painterResource(icon),
-            contentDescription = "",
+            contentDescription = null,
             modifier = Modifier
                 .matchParentSize()
         )
