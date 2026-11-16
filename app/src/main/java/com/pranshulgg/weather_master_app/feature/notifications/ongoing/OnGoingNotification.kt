@@ -89,6 +89,13 @@ object OnGoingNotification {
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
 
+        val deleteIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent(context, OnGoingNotificationDismissReceiver::class.java),
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
         val notification = NotificationCompat.Builder(
             context,
             NotificationConfig.CHANNEL_ID
@@ -98,6 +105,7 @@ object OnGoingNotification {
             .setOngoing(true)
             .setOnlyAlertOnce(true)
             .setContentIntent(pendingIntent)
+            .setDeleteIntent(deleteIntent)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 
