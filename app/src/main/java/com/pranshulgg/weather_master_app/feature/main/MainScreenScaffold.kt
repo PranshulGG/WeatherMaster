@@ -66,6 +66,8 @@ fun MainScreenScaffold(
     activeLocation: Location?,
     weatherBlocks: WeatherBlocksStoreState,
     onUpdateBlocks: (List<WeatherBlock>) -> Unit,
+    onOpenRadar: (() -> Unit)?,
+    pauseAnimations: Boolean,
 ) {
 
 
@@ -105,7 +107,7 @@ fun MainScreenScaffold(
             if (isWeatherBasedTheme) {
                 BackgroundGradient(weather, isScrolled)
             }
-            if (isShowWeatherAnimations) {
+            if (isShowWeatherAnimations && !pauseAnimations) {
                 AnimatedVisibility(
                     visible = isAnimationVisible,
                     enter = fadeIn(),
@@ -160,7 +162,8 @@ fun MainScreenScaffold(
                             drawerState,
                             activeLocation,
                             onEditLocation,
-                            layoutDirection
+                            layoutDirection,
+                            onOpenRadar = onOpenRadar
                         )
                         if (weather != null) {
                             if (!isTabletLike) {

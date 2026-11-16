@@ -21,6 +21,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -45,7 +46,8 @@ fun MainSearchBar(
     drawerState: DrawerState,
     activeLocation: Location?,
     onEditLocation: () -> Unit,
-    layoutDirection: LayoutDirection
+    layoutDirection: LayoutDirection,
+    onOpenRadar: (() -> Unit)?
 ) {
     val scope = rememberCoroutineScope()
     val showDrawer = {
@@ -106,6 +108,16 @@ fun MainSearchBar(
                 overflow = TextOverflow.Ellipsis
             )
             Gap(horizontal = 4.dp)
+            if (onOpenRadar != null) {
+                Tooltip(stringResource(R.string.radar_open), preferredPosition = TooltipAnchorPosition.Below) {
+                    IconButton(onClick = onOpenRadar) {
+                        Symbol(
+                            R.drawable.radar_24px,
+                            color = if (isFroggyLayout) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
+            }
             Tooltip("Edit location", preferredPosition = TooltipAnchorPosition.Below) {
                 IconButton(onClick = onEditLocation) {
                     Symbol(

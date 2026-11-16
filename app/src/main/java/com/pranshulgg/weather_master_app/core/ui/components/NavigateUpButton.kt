@@ -12,20 +12,25 @@ import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun NavigateUpBtn(navController: NavController) {
+    NavigateUpBtn(onClick = {
+        if (navController.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED) {
+            navController.popBackStack()
+        }
+    })
+}
+
+@OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun NavigateUpBtn(onClick: () -> Unit) {
     Tooltip(
         "Navigate up",
         preferredPosition = TooltipAnchorPosition.Below,
         spacing = 10.dp
     ) {
         IconButton(
-            onClick = {
-                if (navController.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED) {
-                    navController.popBackStack()
-                }
-            }, shapes = IconButtonDefaults.shapes()
+            onClick = onClick, shapes = IconButtonDefaults.shapes()
         ) {
             Symbol(
                 R.drawable.arrow_back_24px,
