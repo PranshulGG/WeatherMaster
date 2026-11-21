@@ -15,30 +15,25 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="match_parent"
-        android:gravity="start"
+        android:gravity="start|center_vertical"
         android:orientation="vertical">
 
         <TextView
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:id="@+id/currentConditionLabel"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textSize="16sp"
-            style="@style/TextAppearance.Compat.Notification" />
-
-
-        <TextView
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:id="@+id/location"
-            android:textSize="14sp"
             style="@style/TextAppearance.Compat.Notification" />
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="end"
         android:orientation="vertical">
@@ -48,7 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.Compat.Notification.Title"
-            android:textSize="34sp" />
+            android:textSize="22sp" />
 
 
     </LinearLayout>
