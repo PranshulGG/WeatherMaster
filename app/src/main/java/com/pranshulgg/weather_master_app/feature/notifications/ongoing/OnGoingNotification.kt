@@ -138,10 +138,10 @@ private fun populateCurrent(
 
     if (isCompact) {
         // The collapsed notification view only has room for a single line,
-        // so condition and location are combined here instead of stacked.
+        // so condition and location are combined here instead of stacked
         views.setTextViewText(
             R.id.currentConditionLabel,
-            "$currentCondition • $locationName"
+            currentCondition
         )
     } else {
         views.setTextViewText(R.id.currentConditionLabel, currentCondition)
