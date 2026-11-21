@@ -12,11 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * Android 14+ lets users swipe away FLAG_ONGOING_EVENT notifications (see #1214),
- * so this re-posts the ongoing weather notification from cache as soon as it's
- * dismissed instead of waiting for the next periodic WeatherWorker refresh.
- */
 @AndroidEntryPoint
 class OnGoingNotificationDismissReceiver : BroadcastReceiver() {
 
