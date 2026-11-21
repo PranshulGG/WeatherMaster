@@ -28,9 +28,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.cancel
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeout
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.time.Duration.Companion.milliseconds
+import kotlin.time.Duration.Companion.seconds
 
 @Singleton
 class WeatherManager @Inject constructor(
@@ -74,50 +76,57 @@ class WeatherManager @Inject constructor(
 
         weatherJob = scope.launch {
             try {
-                var effectiveLocation = location
-                var effectiveForceRefresh = isForceRefresh
-                var effectiveForceRefreshForAirQuality = isForceRefreshForAirQuality
-                var effectiveForceRefreshForAlerts = isForceRefreshForAlerts
+                // possible fix for https://github.com/PranshulGG/WeatherMaster/issues/1259
+                // It might be loading infinitely because there is no timeout
+                // We only set loading to false when we get a result back, such as an error or the weather
+                // But when nothing is returned, it loads indefinitely
+                withTimeout(10.seconds) {
+                    var effectiveLocation = location
+                    var effectiveForceRefresh = isForceRefresh
+                    var effectiveForceRefreshForAirQuality = isForceRefreshForAirQuality
+                    var effectiveForceRefreshForAlerts = isForceRefreshForAlerts
 
-                if (location.isDeviceLocation && !skipDeviceLocationCheck) {
-                    val positionChanged = try {
-                        weatherContextRepository.updateDeviceLocationPosition()
-                    } catch (e: AppException.CurrentLocationUnavailable) {
-                        false
+                    if (location.isDeviceLocation && !skipDeviceLocationCheck) {
+                        val positionChanged = try {
+                            weatherContextRepository.updateDeviceLocationPosition()
+                        } catch (e: AppException.CurrentLocationUnavailable) {
+                            false
+                        }
+                        if (positionChanged) {
+                            effectiveLocation =
+                                weatherContextRepository.getLocationForId(location.id)
+                            effectiveForceRefresh = true
+                            effectiveForceRefreshForAirQuality = true
+                            effectiveForceRefreshForAlerts = true
+                            locationStore.setActiveLocation(effectiveLocation)
+                        }
                     }
-                    if (positionChanged) {
-                        effectiveLocation = weatherContextRepository.getLocationForId(location.id)
-                        effectiveForceRefresh = true
-                        effectiveForceRefreshForAirQuality = true
-                        effectiveForceRefreshForAlerts = true
-                        locationStore.setActiveLocation(effectiveLocation)
+
+
+                    sourceDataRepository.getData(
+                        location = effectiveLocation,
+                        isManualRefresh = isManualRefresh,
+                        isForceRefresh = effectiveForceRefresh,
+                        isForceRefreshForAirQuality = effectiveForceRefreshForAirQuality,
+                        isForceRefreshForAlerts = effectiveForceRefreshForAlerts,
+                        onWeather = { result ->
+                            writeWeather(result, effectiveLocation)
+                        },
+                        onAlerts = { result ->
+                            writeAlerts(result)
+                        },
+                        onAirQuality = { result ->
+                            writeAirQuality(result)
+                        },
+                    )
+
+                    val elapsed = System.currentTimeMillis() - startTime
+                    val minLoadingTime = 1000L
+
+                    // Prevents loader flicker when responses return too quickly
+                    if (elapsed < minLoadingTime) {
+                        delay(duration = (minLoadingTime - elapsed).milliseconds)
                     }
-                }
-
-
-                sourceDataRepository.getData(
-                    location = effectiveLocation,
-                    isManualRefresh = isManualRefresh,
-                    isForceRefresh = effectiveForceRefresh,
-                    isForceRefreshForAirQuality = effectiveForceRefreshForAirQuality,
-                    isForceRefreshForAlerts = effectiveForceRefreshForAlerts,
-                    onWeather = { result ->
-                        writeWeather(result, effectiveLocation)
-                    },
-                    onAlerts = { result ->
-                        writeAlerts(result)
-                    },
-                    onAirQuality = { result ->
-                        writeAirQuality(result)
-                    },
-                )
-
-                val elapsed = System.currentTimeMillis() - startTime
-                val minLoadingTime = 1000L
-
-                // Prevents loader flicker when responses return too quickly
-                if (elapsed < minLoadingTime) {
-                    delay(duration = (minLoadingTime - elapsed).milliseconds)
                 }
             } finally {
                 externalManager.refreshWidgets()
