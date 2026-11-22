@@ -72,11 +72,16 @@ class LocationManager @Inject constructor(
         weatherContextRepository.deleteLocation(id)
 
         if (locationStore.data.value.activeLocation?.id == id) {
-            val defaultLocation = locationStore.data.value.locations
-                .first { it.isDefault }
+            val locations = locationStore.data.value.locations
 
-            setActive(defaultLocation, skipLoading = false)
+            val defaultLocation = locations.firstOrNull { it.isDefault }
+                ?: locations.firstOrNull()
+
+            if (defaultLocation != null) {
+                setActive(defaultLocation, skipLoading = false)
+            }
         }
+
     }
 
     fun setActive(location: Location, skipLoading: Boolean) {
