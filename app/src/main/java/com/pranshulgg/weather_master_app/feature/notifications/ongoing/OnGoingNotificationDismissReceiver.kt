@@ -12,6 +12,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+// On Android 14 and later, persistent notifications can be dismissed by the user
+// Here we regenerate the notification when it is dismissed
+// by @reveler-hub
 @AndroidEntryPoint
 class OnGoingNotificationDismissReceiver : BroadcastReceiver() {
 
