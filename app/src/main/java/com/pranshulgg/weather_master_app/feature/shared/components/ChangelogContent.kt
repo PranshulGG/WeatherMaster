@@ -41,44 +41,19 @@ fun ChangelogContent(hideSheet: () -> Unit) {
         ) {
             Gap(5.dp)
             ChangelogBox {
-                ChangelogHeader("New stuff")
-                ChangelogText("New sources:")
-                ChangelogSubText("MGM (Turky) Alerts/Weather #1079")
-                ChangelogSubText("KMI (Belgium) Alerts/Weather #997, #381, #1122")
-                ChangelogSubText("MOENV (Taiwan) Air Quality source by @reveler-hub")
-                ChangelogSubText("Meteofor (Ukraine) Weather by @reveler-hub")
-                ChangelogText("Point Met Office's API key link to the right DataHub product by @reveler-hub")
-                ChangelogText("Option added to receive notifications for weather alerts. Can be turned on in Settings → Notifications #316")
-                ChangelogText("Custom date format #1142")
-                ChangelogText("Add an option to disable the “New version available” message (Only Github versions)")
-            }
-            ChangelogBox {
                 ChangelogHeader("Fixed")
-                ChangelogText("Correctly map met office temperature values by @fardog")
-                ChangelogText("Handle null temperature values in widget @fardog")
-                ChangelogText("Use the day precipitation probability for Met Office's daily max by @reveler-hub")
-                ChangelogText("Fix infinite loading when exiting Edit Location without changing anything")
-                ChangelogText("Fix air-quality API key lookup using the wrong source by @reveler-hub")
-                ChangelogText("Fix alert API key lookup using the wrong source")
-                ChangelogText("Fix SMHI 404 for coordinates with more than 6 decimals by @nikiosna")
-                ChangelogText("Fix Gismeteo location lookup sending wrong query parameter by @reveler-hub")
-                ChangelogText("Fix widget dates not opening calendar apps when clicked")
-                ChangelogText("Fix issues where errors would not display if the API key is missing or not set")
-                ChangelogText("NWS fix: hourly forecast shows sun icons after sunset until midnight after an evening refresh by @GaijinSystems #1199")
-                ChangelogText("ECCC: fix forecast dates around new year by @GaijinSystems")
-                ChangelogText("Fixed crashes on the alert and notification screens caused by a null location")
-                ChangelogText("Fixed crashes when the current location was not found")
-
+                ChangelogText("Fix UI softlock from double-tapping the exit/back button #1235 by @reveler-hub")
+                ChangelogText("Switch Pill, Hourly, and UV Index widgets off SizeMode.Exact possible fix for #1217 by @reveler-hub")
+                ChangelogText("Fix scheduled forecast notifications silently failing to post by @reveler-hub")
+                ChangelogText("Fix clipped text in collapsed ongoing weather notification by @reveler-hub")
+                ChangelogText("Re-post ongoing weather notification immediately when dismissed by @reveler-hub")
             }
             ChangelogBox {
                 ChangelogHeader("Improvements")
-                ChangelogText("Remove max width/height for \"Weather 1\" widget by @fardog")
-                ChangelogText("Updated all translations")
-                ChangelogText("Add OneCall 4.0 API support to OpenWeather source #1119 @reveler-hub")
-                ChangelogText("ECCC: keep today in daily forecast after its daytime period ends by @GaijinSystems")
-                ChangelogText("Removed notification sounds for background updates and scheduled notifications #1211")
-                ChangelogText("Added missing strings")
-
+                ChangelogText("Updated translations")
+                ChangelogText("Split forecast notifications into their own channel #1242 by @reveler-hub")
+                ChangelogText("Predictive back gesture support on android 13–15 by  @reveler-hub")
+                ChangelogText("Alerts are sent only once instead of being duplicated #1215")
             }
         }
 
