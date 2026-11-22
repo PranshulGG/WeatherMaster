@@ -47,6 +47,8 @@ fun ChangelogContent(hideSheet: () -> Unit) {
                 ChangelogText("Fix scheduled forecast notifications silently failing to post by @reveler-hub")
                 ChangelogText("Fix clipped text in collapsed ongoing weather notification by @reveler-hub")
                 ChangelogText("Re-post ongoing weather notification immediately when dismissed by @reveler-hub")
+                ChangelogText("Fixed crash when no default location is found")
+                ChangelogText("Fixed crashes caused by null weather on the notification screen")
             }
             ChangelogBox {
                 ChangelogHeader("Improvements")
