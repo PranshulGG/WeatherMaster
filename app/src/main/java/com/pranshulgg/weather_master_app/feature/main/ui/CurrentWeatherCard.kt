@@ -205,9 +205,10 @@ fun PixelStyleCurrentWeatherCard(weather: Weather, units: WeatherUnits, context:
         Text(
             "${currentTemp?.roundToInt() ?: "-"}°",
             color = MaterialTheme.colorScheme.primary,
-            fontSize = 136.sp,
-            fontWeight = FontWeight.Bold,
+            fontSize = 140.sp,
+            fontWeight = FontWeight.Black,
         )
+
         Text(
             stringResource(R.string.temp_feels_like, "${feelsLike?.roundToInt() ?: "-"}°"),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
