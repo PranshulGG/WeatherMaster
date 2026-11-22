@@ -130,7 +130,7 @@ class WeatherContextRepository @Inject constructor(
     }
 
     suspend fun getWeatherForLocation(locationId: String): Weather? {
-        return dao.getWeatherForLocation(locationId).toDomain()
+        return dao.getWeatherForLocation(locationId)?.toDomain()
     }
 
     suspend fun getAirQualityForLocation(locationId: String): AirQuality? {

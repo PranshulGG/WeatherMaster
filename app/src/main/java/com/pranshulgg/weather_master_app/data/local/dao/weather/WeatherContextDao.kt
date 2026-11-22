@@ -56,7 +56,7 @@ interface WeatherContextDao {
 
     @Transaction
     @Query("SELECT * FROM weather_locations WHERE id = :locationId LIMIT 1")
-    suspend fun getWeatherForLocation(locationId: String): WeatherWithRelations
+    suspend fun getWeatherForLocation(locationId: String): WeatherWithRelations?
 
     @Transaction
     @Query("SELECT * FROM weather_locations WHERE id = :locationId")
