@@ -119,6 +119,29 @@ class WeatherWorker @AssistedInject constructor(
                 }
             }
 
+            if (isAlertNotificationEnabled && alerts.isNotEmpty()) {
+                val previousAlerts = PreferencesHelper.getStringList("PREVIOUS_ALERTS")
+                    ?: emptyList()
+
+                val currentAlerts = alerts.map { fingerprintForAlert(it) }
+
+                val newAlerts = alerts.filter {
+                    fingerprintForAlert(it) !in previousAlerts
+                }
+
+                for (alert in newAlerts) {
+                    alertNotification.show(
+                        alert,
+                        AlertNotificationIdHelper.getNextId()
+                    )
+                }
+
+                PreferencesHelper.setStringList(
+                    "PREVIOUS_ALERTS",
+                    currentAlerts
+                )
+            }
+
 
             updateAllWidgets(applicationContext, weather, units)
 
@@ -147,4 +170,10 @@ class WeatherWorker @AssistedInject constructor(
         }
 
     }
+}
+
+
+// This is to prevent duplicate alerts
+private fun fingerprintForAlert(alert: Alert): String {
+    return "${alert.event}_${alert.effective}_${alert.expires}_${alert.description}"
 }
