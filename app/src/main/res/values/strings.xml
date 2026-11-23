@@ -564,6 +564,11 @@
     <string name="notifications_setting_alert_notifications">Alert notifications</string>
     <string name="notifications_setting_alert_notifications_secondary">Show notifications for weather warnings when available</string>
 
+    <string name="radar">Radar</string>
+    <string name="radar_open">Open radar</string>
+    <string name="radar_play_loop">Play the last hour</string>
+    <string name="radar_pause_loop">Stop the loop</string>
+    <string name="radar_credit" translatable="false">Radar: LibreWXR (librewxr.net)</string>
 </resources>
 
     <!--<string name=""></string>-->
