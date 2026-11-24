@@ -75,14 +75,9 @@ fun SunBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBlo
             )
 
 
-            val sunrise = daily.sunrise
-            val sunset = daily.sunset
+            val sunrise = daily.sunrise!!
+            val sunset = daily.sunset!!
             val now = getCurrentTimeFor(weather.location.timezone)
-
-
-            val progress = if (now in daily.sunrise!!..daily.sunset!!)
-                ((now - sunrise).toFloat() / (sunset - sunrise))
-                    .coerceIn(0f, 1f) else 1f
 
 
             val sunBitmap = ImageBitmap.imageResource(id = R.drawable.sun_rise_set_icon)
@@ -114,7 +109,13 @@ fun SunBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBlo
 
                 val pathMeasure = PathMeasure().apply { setPath(path, false) }
                 pathMeasure.setPath(path, false)
-                val pos = pathMeasure.getPosition(pathMeasure.length * progress)
+                val pos = riseSetArcPosition(
+                    pathMeasure,
+                    horizonY = height * (1 - RISE_SET_PANEL_HEIGHT_FRACTION),
+                    now = now,
+                    rise = sunrise,
+                    set = sunset
+                )
 
                 val size = 58
 
@@ -151,7 +152,7 @@ fun SunBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBlo
             Surface(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .fillMaxHeight(0.4f)
+                    .fillMaxHeight(RISE_SET_PANEL_HEIGHT_FRACTION)
                     .fillMaxWidth(),
                 color = MaterialTheme.colorScheme.surfaceContainer.copy(0.5f)
             ) {

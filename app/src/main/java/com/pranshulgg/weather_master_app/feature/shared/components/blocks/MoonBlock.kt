@@ -75,11 +75,9 @@ fun MoonBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBl
             )
 
 
-            val moonrise = daily.moonrise
-            val moonset = daily.moonset
+            val moonrise = daily.moonrise!!
+            val moonset = daily.moonset!!
             val now = getCurrentTimeFor(weather.location.timezone)
-            val progress = ((now - moonrise!!).toFloat() / (moonset!! - moonrise))
-                .coerceIn(0f, 1f)
 
 
             val sunBitmap = ImageBitmap.imageResource(id = R.drawable.moon_rise_set_icon)
@@ -111,7 +109,13 @@ fun MoonBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBl
 
                 val pathMeasure = PathMeasure().apply { setPath(path, false) }
                 pathMeasure.setPath(path, false)
-                val pos = pathMeasure.getPosition(pathMeasure.length * progress)
+                val pos = riseSetArcPosition(
+                    pathMeasure,
+                    horizonY = height * (1 - RISE_SET_PANEL_HEIGHT_FRACTION),
+                    now = now,
+                    rise = moonrise,
+                    set = moonset
+                )
 
                 val size = 58
 
@@ -138,15 +142,15 @@ fun MoonBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBl
                 moonrise,
                 weather.location.timezone
             ) else to12HourTimeString(
-                moonrise!!,
+                moonrise,
                 weather.location.timezone,
                 "hh:mm a"
             )
             val moonsetFormatted = if (is24hr) to24HourTimeString(
-                moonset!!,
+                moonset,
                 weather.location.timezone
             ) else to12HourTimeString(
-                moonset!!,
+                moonset,
                 weather.location.timezone,
                 "hh:mm a"
             )
@@ -155,7 +159,7 @@ fun MoonBlock(weather: Weather, dailyIndex: Int, prefs: AppPrefsState, onClickBl
             Surface(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .fillMaxHeight(0.4f)
+                    .fillMaxHeight(RISE_SET_PANEL_HEIGHT_FRACTION)
                     .fillMaxWidth(),
                 color = MaterialTheme.colorScheme.surfaceContainer.copy(0.5f)
             ) {
