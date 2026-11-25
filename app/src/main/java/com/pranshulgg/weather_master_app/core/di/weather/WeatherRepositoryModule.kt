@@ -13,6 +13,9 @@ import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.CwaApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.cwa.CwaRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.dwd.DwdRepository
+import com.pranshulgg.weather_master_app.core.network.sources.weather.brightsky.BrightSkyRadarApi
+import com.pranshulgg.weather_master_app.core.network.sources.weather.knmi.KnmiRepository
+import com.pranshulgg.weather_master_app.data.repository.ApiKeysRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccApi
 import com.pranshulgg.weather_master_app.core.network.sources.weather.eccc.EcccRepository
 import com.pranshulgg.weather_master_app.core.network.sources.weather.fmi.FmiApi
@@ -112,8 +115,9 @@ object WeatherRepositoryModule {
     fun provideDwdRepository(
         dao: WeatherContextDao,
         api: DwdApi,
-        weatherDao: WeatherDao
-    ): DwdRepository = DwdRepository(dao, weatherDao, api)
+        weatherDao: WeatherDao,
+        brightSkyRadarApi: BrightSkyRadarApi
+    ): DwdRepository = DwdRepository(dao, weatherDao, api, brightSkyRadarApi)
 
     @Provides
     @Singleton
@@ -324,5 +328,11 @@ object WeatherRepositoryModule {
         locationKeysDao: LocationKeysDao,
         alertsDao: AlertsDao
     ): KmiRepository = KmiRepository(dao, weatherDao, api, apiKeysDao, locationKeysDao, alertsDao)
+
+    @Provides
+    @Singleton
+    fun provideKnmiRepository(
+        apiKeysRepository: ApiKeysRepository
+    ): KnmiRepository = KnmiRepository(apiKeysRepository)
 
 }

@@ -59,6 +59,10 @@ class EditLocationViewModel @Inject constructor(
         _uiState.value = _uiState.value.copy(selectedAlertSource = source)
     }
 
+    fun updateSelectedNowcastSource(source: Source) {
+        _uiState.value = _uiState.value.copy(selectedNowcastSource = source)
+    }
+
     fun updateSelectedAirQualitySource(source: Source) {
         _uiState.value = _uiState.value.copy(selectedAirQualitySource = source)
     }
@@ -79,6 +83,20 @@ class EditLocationViewModel @Inject constructor(
 
     fun hideAlertSourcesSheet() {
         _uiState.value = _uiState.value.copy(isAlertSourcesSheetOpen = false)
+    }
+
+    fun showNowcastSourcesSheet() {
+        viewModelScope.launch {
+
+            _uiState.value = _uiState.value.copy(
+                apiKeys = apiKeysRepo.getAllApiKeys(),
+                isNowcastSourcesSheetOpen = true
+            )
+        }
+    }
+
+    fun hideNowcastSourcesSheet() {
+        _uiState.value = _uiState.value.copy(isNowcastSourcesSheetOpen = false)
     }
 
     fun showAirQualitySourcesSheet() {
@@ -136,6 +154,7 @@ class EditLocationViewModel @Inject constructor(
         source: Source,
         airQualitySource: Source,
         alertSource: Source,
+        nowcastSource: Source,
         openMeteoModel: OpenMeteoModel,
         onBack: () -> Unit
     ) {
@@ -145,6 +164,7 @@ class EditLocationViewModel @Inject constructor(
                 source,
                 airQualitySource,
                 alertSource,
+                nowcastSource,
                 openMeteoModel
             )
 

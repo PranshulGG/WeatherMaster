@@ -96,6 +96,10 @@ class WeatherContextRepository @Inject constructor(
         dao.updateAlertSourceForLocation(id, source)
     }
 
+    suspend fun updateNowcastSourceForLocation(id: String, source: Source) {
+        dao.updateNowcastSourceForLocation(id, source)
+    }
+
     suspend fun getLocationForId(id: String): Location {
         return dao.getLocationForId(id).toDomain()
     }

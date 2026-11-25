@@ -39,6 +39,7 @@ import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.domain.location.Location
 import com.pranshulgg.weather_master_app.core.model.domain.weather.ApiKey
 import com.pranshulgg.weather_master_app.core.model.sources.Source
+import com.pranshulgg.weather_master_app.core.model.sources.resolveNowcastSource
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.LargeTopBarScaffold
@@ -59,7 +60,9 @@ data class EditLocationScreenUiState(
     val selectedWeatherSource: Source? = null,
     val selectedAlertSource: Source? = null,
     val selectedAirQualitySource: Source? = null,
+    val selectedNowcastSource: Source? = null,
     val isAlertSourcesSheetOpen: Boolean = false,
+    val isNowcastSourcesSheetOpen: Boolean = false,
     val isAirQualitySourcesSheetOpen: Boolean = false,
     val isEditLocationNameSheetOpen: Boolean = false,
     val isConfirmationDialogOpen: Boolean = false,
@@ -144,6 +147,20 @@ fun EditLocationScreen(
             append(" (${stringResource(it)})")
         }
     }
+
+    // Preselect exactly what the capability system would resolve for a
+    // location that has no stored nowcast source yet.
+    val effectiveNowcastSource =
+        uiState.selectedNowcastSource
+            ?: (locations.activeLocation.nowcastSource.takeIf { it != Source.NONE }
+                ?: locations.activeLocation.resolveNowcastSource())
+        ?: Source.NONE
+    val selectedNowcastSourceString = buildString {
+        append(effectiveNowcastSource.displayName)
+        effectiveNowcastSource.countryNameRes?.let {
+            append(" (${stringResource(it)})")
+        }
+    }
     LargeTopBarScaffold(
         title = stringResource(R.string.location_edit),
         navigationIcon = { NavigateUpBtn(navController) },
@@ -225,6 +242,14 @@ fun EditLocationScreen(
                         onClick = {
                             viewModel.showAirQualitySourcesSheet()
                         }
+                    ),
+                    SettingTile.ActionTile(
+                        title = stringResource(R.string.weather_nowcast_source),
+                        description = selectedNowcastSourceString,
+                        colorDesc = colorDesc,
+                        onClick = {
+                            viewModel.showNowcastSourcesSheet()
+                        }
                     )
                 )
             )
@@ -252,6 +277,8 @@ fun EditLocationScreen(
                             uiState.selectedAirQualitySource
                                 ?: locations.activeLocation.airQualitySource,
                             uiState.selectedAlertSource ?: locations.activeLocation.alertSource,
+                            uiState.selectedNowcastSource
+                                ?: locations.activeLocation.nowcastSource,
                             uiState.selectedOpenMeteoModel
                                 ?: locations.activeLocation.openMeteoModel,
                             onBack = {
@@ -342,6 +369,22 @@ fun EditLocationScreen(
                 onDismiss = viewModel::hideAirQualitySourcesSheet,
                 onClickApiConfig = {
                     viewModel.hideWeatherSourcesForLocationSheet()
+                    navController.navigate(NavRoutes.API_KEYS_CONFIG)
+                },
+                apiKeys = uiState.apiKeys,
+                countryCode = locations.activeLocation.countryCode
+            )
+
+            // RAIN NOWCAST SOURCES SHEET
+            EditLocationBottomSheet.NowcastSourcesSheet(
+                show = uiState.isNowcastSourcesSheetOpen,
+                sheetState = sheetState,
+                selectedSource = effectiveNowcastSource,
+                onSave = {
+                    viewModel.updateSelectedNowcastSource(it)
+                },
+                onDismiss = viewModel::hideNowcastSourcesSheet,
+                onClickApiConfig = {
                     navController.navigate(NavRoutes.API_KEYS_CONFIG)
                 },
                 apiKeys = uiState.apiKeys,

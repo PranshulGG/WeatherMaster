@@ -1,6 +1,7 @@
 package com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo
 
 import com.pranshulgg.weather_master_app.core.model.weather.openmeteo.OpenMeteoModel
+import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.json.OpenMeteoMinutely15Json
 import com.pranshulgg.weather_master_app.core.network.sources.weather.openmeteo.json.OpenMeteoWeatherJson
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,6 +21,8 @@ private const val HOURLY_FIELDS =
 private const val CURRENT_FIELDS =
     "rain,showers,snowfall,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl,relative_humidity_2m,temperature_2m,is_day,apparent_temperature,uv_index,cloud_cover"
 
+private const val MINUTELY_15_FIELDS = "precipitation"
+
 interface OpenMeteoApi {
 
 
@@ -34,6 +37,21 @@ interface OpenMeteoApi {
         @Query("timeformat") appendTimeFormat: String = "unixtime",
         @Query("models") model: String = OpenMeteoModel.BEST_MATCH.modelId,
     ): Response<OpenMeteoWeatherJson>
+
+    /**
+     * Minimal keyless minutely-15 request for the rain-nowcast fallback in
+     * regions without KNMI/DWD radar coverage. Only precipitation is pulled;
+     * the model (best_match) matches what the rest of the app uses.
+     */
+    @GET("forecast")
+    suspend fun fetchMinutely15Precipitation(
+        @Query("latitude") latitude: Double,
+        @Query("longitude") longitude: Double,
+        @Query("minutely_15") appendMinutely15: String = MINUTELY_15_FIELDS,
+        @Query("forecast_days") forecastDays: Int = 1,
+        @Query("timeformat") appendTimeFormat: String = "unixtime",
+        @Query("models") model: String = OpenMeteoModel.BEST_MATCH.modelId,
+    ): Response<OpenMeteoMinutely15Json>
 
 
     companion object {

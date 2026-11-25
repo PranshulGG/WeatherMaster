@@ -34,12 +34,14 @@ class SourceManager @Inject constructor(
         source: Source,
         airQualitySource: Source,
         alertSource: Source,
+        nowcastSource: Source,
         openMeteoModel: OpenMeteoModel
     ) {
         val updatedLocation = location.copy(
             source = source,
             airQualitySource = airQualitySource,
             alertSource = alertSource,
+            nowcastSource = nowcastSource,
             openMeteoModel = openMeteoModel
         )
 
@@ -48,6 +50,7 @@ class SourceManager @Inject constructor(
         weatherContextRepository.updateSourceForLocation(location.id, source)
         weatherContextRepository.updateAirQualitySourceForLocation(location.id, airQualitySource)
         weatherContextRepository.updateAlertSourceForLocation(location.id, alertSource)
+        weatherContextRepository.updateNowcastSourceForLocation(location.id, nowcastSource)
         weatherContextRepository.updateOpenMeteoModelForLocation(location.id, openMeteoModel)
 
         val forceRefreshForWeather = location.source != source

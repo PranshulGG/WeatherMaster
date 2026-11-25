@@ -19,6 +19,7 @@ data class Location(
     val isDeviceLocation: Boolean = false,
     val alertSource: Source = Source.NONE,
     val airQualitySource: Source = Source.OPEN_METEO,
+    val nowcastSource: Source = Source.NONE,
     val customName: String? = null,
     val openMeteoModel: OpenMeteoModel = OpenMeteoModel.BEST_MATCH,
     val alertsLastFetchedAt: Long? = null

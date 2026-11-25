@@ -218,6 +218,155 @@ object EditLocationBottomSheet {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
+    fun NowcastSourcesSheet(
+        show: Boolean,
+        sheetState: SheetState,
+        selectedSource: Source = Source.NONE,
+        onSave: (Source) -> Unit,
+        onDismiss: () -> Unit,
+        countryCode: String?,
+        onClickApiConfig: () -> Unit,
+        apiKeys: List<ApiKey>
+    ) {
+        if (show) {
+
+            var currentSelectedSource by remember(
+                show,
+                selectedSource
+            ) {
+                mutableStateOf(selectedSource)
+            }
+
+            val globalSources = getSourcesGlobal()
+
+            val sources = globalSources.filter {
+                Capability.RAIN_NOWCAST in it.capabilities
+            }
+
+            var recommendedSources = getSourcesForCountry(countryCode?.uppercase())
+
+            recommendedSources = recommendedSources.filter { Capability.RAIN_NOWCAST in it.capabilities }
+
+            val isApiKeyAvailable: (Source) -> Boolean = { source ->
+                if (source.requiresUserApiKey) {
+                    apiKeys.isNotEmpty()
+                            && apiKeys
+                        .any { it.source == source && !it.apiKey.isNullOrBlank() }
+                } else {
+                    true
+                }
+            }
+
+            val description: (Source) -> String? = {
+                if (it.requiresUserApiKey &&
+                    !isApiKeyAvailable(it)
+                ) "Requires API key" else null
+            }
+
+            val handeSelection: (Source) -> Boolean = { source ->
+                if (source.requiresUserApiKey && !isApiKeyAvailable(source)) {
+                    onClickApiConfig()
+                    true
+                } else {
+                    currentSelectedSource = source
+                    true
+                }
+            }
+
+            ActionBottomSheet(
+                sheetState = sheetState,
+                onCancel = { onDismiss() },
+                onConfirm = { onSave(currentSelectedSource) },
+                confirmText = stringResource(R.string.action_save),
+                cancelText = stringResource(R.string.action_cancel),
+                showActions = false,
+                removeBottomInset = true
+            ) { hide ->
+                Box(
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        Text(
+                            stringResource(R.string.nowcast_source_sheet_description),
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)
+                        )
+
+                        if (recommendedSources.isNotEmpty()) {
+
+                            SettingSection(
+                                title = stringResource(R.string.recommended_sources),
+                                tiles = recommendedSources.map { source ->
+                                    val isSelected = currentSelectedSource == source
+
+                                    val countryString = source.countryNameRes?.let {
+                                        " (${stringResource(it)})"
+                                    } ?: ""
+
+                                    SettingTile.ActionTile(
+                                        leading = {
+                                            if (isSelected) Symbol(
+                                                R.drawable.check_24px,
+                                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                                            )
+                                        },
+                                        title = source.displayName + countryString,
+                                        description = description(source),
+                                        colorDesc = MaterialTheme.colorScheme.error,
+                                        selected = isSelected,
+                                        onClick = {
+                                            if (handeSelection(source)) {
+                                                onSave(currentSelectedSource)
+                                                hide()
+                                            }
+                                        }
+                                    )
+                                }
+                            )
+                        }
+                        Gap(8.dp)
+                        SettingSection(
+                            title = stringResource(R.string.global_sources),
+                            tiles = sources.filter { it !in recommendedSources }
+                                .map { source ->
+                                    val isSelected = currentSelectedSource == source
+
+                                    SettingTile.ActionTile(
+                                        leading = {
+                                            if (isSelected) Symbol(
+                                                R.drawable.check_24px,
+                                                color = MaterialTheme.colorScheme.onSecondaryContainer
+                                            )
+                                        },
+                                        title = source.displayName,
+                                        description = description(source),
+                                        colorDesc = MaterialTheme.colorScheme.error,
+                                        selected = isSelected,
+                                        onClick = {
+                                            if (handeSelection(source)) {
+                                                onSave(currentSelectedSource)
+                                                hide()
+                                            }
+                                        }
+                                    )
+
+                                }
+                        )
+
+                        Gap(WindowInsets.systemBars.asPaddingValues().calculateBottomPadding())
+
+                    }
+                }
+            }
+        }
+    }
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    @Composable
     fun AirQualitySourcesSheet(
         show: Boolean,
         sheetState: SheetState,

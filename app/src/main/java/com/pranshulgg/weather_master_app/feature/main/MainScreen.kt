@@ -30,6 +30,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.toMessageRes
 import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherBlock
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
+import com.pranshulgg.weather_master_app.core.model.weather.rain.RainNowcast
 import com.pranshulgg.weather_master_app.core.prefs.LocalAppPrefs
 import com.pranshulgg.weather_master_app.core.prefs.helper.PreferencesHelper
 import com.pranshulgg.weather_master_app.core.ui.navigation.NavRoutes
@@ -46,6 +47,7 @@ import kotlinx.coroutines.launch
 data class MainScreenWeatherUiState(
     val weatherUnits: WeatherUnits = WeatherUnits.getDefault(),
     val blocks: List<WeatherBlock> = WeatherBlock.getDefault(),
+    val rainNowcast: RainNowcast? = null
 )
 
 data class MainScreenUiState(
@@ -185,14 +187,20 @@ fun MainScreen(navController: NavController, weatherViewModel: WeatherViewModel)
                 weatherBlocks = weatherBlocks,
                 onUpdateBlocks = {
                     viewModel.saveBlocks(it)
-                }
+                },
+                nowcast = weatherViewModel.uiState.value.rainNowcast
             )
         }
     )
 
 
     // WEATHER SOURCES INFO DIALOG
-    MainScreenBottomSheets.WeatherSourcesInfoForLocationSheet(viewModel, activeLocation, sheetState)
+    MainScreenBottomSheets.WeatherSourcesInfoForLocationSheet(
+        viewModel,
+        activeLocation,
+        sheetState,
+        nowcastProvider = weatherViewModel.uiState.value.rainNowcast?.providerName
+    )
 
 
     // SOURCE NOT AVAILABLE
