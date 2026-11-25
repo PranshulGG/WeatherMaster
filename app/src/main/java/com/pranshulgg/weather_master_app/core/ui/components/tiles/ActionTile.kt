@@ -10,6 +10,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.graphics.Color
 import com.pranshulgg.weather_master_app.core.ui.theme.ShapeRadius
 
@@ -44,9 +46,11 @@ fun ActionTile(
         shape = if (selected) RoundedCornerShape(ShapeRadius.Large) else shapes,
     ) {
         ListItem(
-            modifier = Modifier.clickable(
-                onClick = onClick
-            ),
+            modifier = Modifier
+                .clickable(
+                    onClick = onClick
+                )
+                .semantics { if (selected) this.selected = true },
             leadingContent = leading,
             colors = ListItemDefaults.colors(
                 containerColor = if (selected) MaterialTheme.colorScheme.secondaryContainer else if (danger) MaterialTheme.colorScheme.errorContainer else itemBgColor
