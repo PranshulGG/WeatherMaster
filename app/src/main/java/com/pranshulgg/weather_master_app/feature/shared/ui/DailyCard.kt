@@ -15,7 +15,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.pranshulgg.weather_master_app.R
@@ -23,6 +26,7 @@ import com.pranshulgg.weather_master_app.core.model.domain.weather.Weather
 import com.pranshulgg.weather_master_app.core.model.domain.weather.WeatherUnits
 import com.pranshulgg.weather_master_app.core.model.weather.TemperatureUnit
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
+import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.prefs.AppPrefsState
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
@@ -47,6 +51,7 @@ fun DailyCard(
 
 
     val daily = weather.daily
+    val context = LocalContext.current
 
     Surface(
         color = MaterialTheme.colorScheme.surface,
@@ -78,6 +83,7 @@ fun DailyCard(
                         item.temperatureMax,
                         item.temperatureMin,
                         item.weatherCondition.toIcon(targetTimeMilli = System.currentTimeMillis()) /* always use day icons */,
+                        item.weatherCondition.toLabel(context),
                         item.precipitationProbabilityMax,
                         units,
                         onDailyItemClick = {
@@ -106,6 +112,7 @@ private fun DailyItem(
     maxTemp: Double?,
     minTemp: Double?,
     icon: Int,
+    condition: String,
     precipitationProbability: Int?,
     units: WeatherUnits,
     onDailyItemClick: () -> Unit,
@@ -116,6 +123,16 @@ private fun DailyItem(
     val maxTemp = TemperatureUnit.CELSIUS.convert(maxTemp, units.tempUnit)?.roundToInt() ?: "-"
     val minTemp = TemperatureUnit.CELSIUS.convert(minTemp, units.tempUnit)?.roundToInt() ?: "-"
 
+    val description = listOfNotNull(
+        "$weekday $date",
+        condition,
+        stringResource(R.string.temp_max, "${maxTemp}°"),
+        stringResource(R.string.temp_min, "${minTemp}°"),
+        precipitationProbability?.let {
+            stringResource(R.string.weather_precipitation_probability, "$it%")
+        }
+    ).joinToString(", ")
+
     Surface(
         color = MaterialTheme.colorScheme.surfaceContainer,
         shape = CircleShape,
@@ -125,6 +142,7 @@ private fun DailyItem(
             Modifier
                 .heightIn(210.dp)
                 .width(65.dp)
+                .clearAndSetSemantics { contentDescription = description }
                 .padding(vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween

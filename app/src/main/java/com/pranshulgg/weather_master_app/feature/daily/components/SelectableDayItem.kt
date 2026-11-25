@@ -16,9 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.unit.dp
+import com.pranshulgg.weather_master_app.R
 import com.pranshulgg.weather_master_app.core.model.weather.WeatherCondition
 import com.pranshulgg.weather_master_app.core.model.weather.toIcon
+import com.pranshulgg.weather_master_app.core.model.weather.toLabel
 import com.pranshulgg.weather_master_app.core.ui.components.Gap
 import com.pranshulgg.weather_master_app.core.ui.components.WeatherIconBox
 
@@ -51,8 +57,16 @@ fun SelectableDayItem(
     val selectedOnSurfaceVariant =
         if (isSelected) MaterialTheme.colorScheme.onPrimary.copy(0.8f) else MaterialTheme.colorScheme.onSurfaceVariant
 
+    val description = listOf(
+        weekday,
+        conditions.toLabel(LocalContext.current),
+        stringResource(R.string.temp_max, "${maxTemp}°"),
+        stringResource(R.string.temp_min, "${minTemp}°")
+    ).joinToString(", ")
+
 
     Surface(
+        selected = isSelected,
         color = animatedColor,
         shape = RoundedCornerShape(animatedShape),
         onClick = onSelect
@@ -60,6 +74,7 @@ fun SelectableDayItem(
         Column(
             Modifier
                 .width(65.dp)
+                .clearAndSetSemantics { contentDescription = description }
                 .padding(vertical = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
