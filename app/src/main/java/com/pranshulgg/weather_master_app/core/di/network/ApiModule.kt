@@ -4,6 +4,7 @@ import com.pranshulgg.weather_master_app.core.network.github.GithubApi
 import com.pranshulgg.weather_master_app.core.network.sources.address.nominatim.NominatimApi
 import com.pranshulgg.weather_master_app.core.network.sources.airquality.moenv.MoenvApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.fpas.FpasApi
+import com.pranshulgg.weather_master_app.core.network.sources.alerts.metservicenz.MetserviceNzApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.weatherapi.AlertsWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.alerts.wmosevereweather.WmoSevereWeatherApi
 import com.pranshulgg.weather_master_app.core.network.sources.search.accu.AccuSearchApi
@@ -140,6 +141,10 @@ object ApiModule {
     @Provides
     @Singleton
     fun provideFpasAlertsApi(): FpasApi = FpasApi.create()
+
+    @Provides
+    @Singleton
+    fun provideMetserviceNzAlertsApi(): MetserviceNzApi = MetserviceNzApi.create()
 
     @Provides
     @Singleton
