@@ -7,4 +7,5 @@ data class MgmLocationJson(
     @SerializedName("merkezId") val currentStationId: Long?,
     @SerializedName("gunlukTahminIstNo") val dailyStationId: Long?,
     @SerializedName("saatlikTahminIstNo") val hourlyStationId: Long?,
+    @SerializedName("il") val province: String? = null,
 )
