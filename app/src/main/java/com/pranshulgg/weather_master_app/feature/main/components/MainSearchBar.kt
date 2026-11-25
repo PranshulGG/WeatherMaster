@@ -21,6 +21,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -86,12 +87,13 @@ fun MainSearchBar(
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            Tooltip("Show menu", preferredPosition = TooltipAnchorPosition.Below) {
+            Tooltip(stringResource(R.string.action_show_menu), preferredPosition = TooltipAnchorPosition.Below) {
                 IconButton(onClick = {
                     showDrawer()
                 }) {
                     Symbol(
                         R.drawable.menu_24px,
+                        desc = stringResource(R.string.action_show_menu),
                         color = if (isFroggyLayout) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
                     )
                 }
@@ -106,20 +108,22 @@ fun MainSearchBar(
                 overflow = TextOverflow.Ellipsis
             )
             Gap(horizontal = 4.dp)
-            Tooltip("Edit location", preferredPosition = TooltipAnchorPosition.Below) {
+            Tooltip(stringResource(R.string.location_edit), preferredPosition = TooltipAnchorPosition.Below) {
                 IconButton(onClick = onEditLocation) {
                     Symbol(
                         R.drawable.edit_24px,
+                        desc = stringResource(R.string.location_edit),
                         color = if (isFroggyLayout) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
-            Tooltip("Settings", preferredPosition = TooltipAnchorPosition.Below) {
+            Tooltip(stringResource(R.string.settings), preferredPosition = TooltipAnchorPosition.Below) {
                 IconButton(onClick = {
                     navController.navigate(NavRoutes.SETTINGS)
                 }) {
                     Symbol(
                         R.drawable.settings_24px,
+                        desc = stringResource(R.string.settings),
                         color = if (isFroggyLayout) MaterialTheme.colorScheme.onSurfaceVariant else MaterialTheme.colorScheme.onSurface
                     )
                 }
