@@ -26,6 +26,12 @@ interface MgmApi {
         @Query("boylam") longitude: Double,
     ): Response<MgmLocationJson>
 
+    /**
+     * The 81 province centres. Each one has an hourly forecast station, unlike most districts.
+     */
+    @GET("web/merkezler/iller")
+    suspend fun fetchProvinceCentres(): Response<List<MgmLocationJson>>
+
     @GET("web/sondurumlar")
     suspend fun fetchCurrent(
         @Query("merkezid") stationId: Long,

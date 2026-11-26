@@ -55,20 +55,8 @@ class MgmRepository @Inject constructor(
                 cacheModel: CacheModel
             ): WeatherDataPack {
 
-                val stationIds = locationKeysDao.getCityKeyForLocation(location.id)?.cityKey?.let {
-                    separateIds(it)
-                } ?: safeApiCall {
-                    api.fetchLocation(
-                        location.latitude,
-                        location.longitude
-                    )
-                }.getOrThrow().let {
-                    separateIds("${it.currentStationId}, ${it.hourlyStationId}, ${it.dailyStationId}")
-                }
-
-                val currentStationId = stationIds.first().id.toSafeDouble()?.toLong()
-                val hourlyStationId = stationIds[1].id.toSafeDouble()?.toLong()
-                val dailyStationId = stationIds[2].id.toSafeDouble()?.toLong()
+                val (currentStationId, hourlyStationId, dailyStationId) =
+                    resolveStationIds(location)
 
 
                 val current = currentStationId?.let {
@@ -77,11 +65,12 @@ class MgmRepository @Inject constructor(
                     }.getOrThrow()
                 } ?: throw AppException.EmptyResponseBody()
 
+                // No hourly station even after the province fallback: show the rest instead of failing
                 val hourly = hourlyStationId?.let {
                     safeApiCall {
                         api.fetchHourly(stationId = it)
                     }.getOrThrow()
-                } ?: throw AppException.EmptyResponseBody()
+                } ?: emptyList()
 
                 val daily = dailyStationId?.let {
                     safeApiCall {
@@ -89,13 +78,13 @@ class MgmRepository @Inject constructor(
                     }.getOrElse { emptyList() }
                 } ?: throw AppException.EmptyResponseBody()
 
-                if (hourly.firstOrNull() == null || daily.firstOrNull() == null) {
+                if (daily.firstOrNull() == null) {
                     throw AppException.EmptyResponseBody()
                 }
 
                 val final = MgmBundle(
                     current = current.firstOrNull(),
-                    hourly = hourly.first().forecast ?: emptyList(),
+                    hourly = hourly.firstOrNull()?.forecast ?: emptyList(),
                     daily = daily.first()
                 )
 
@@ -140,22 +129,10 @@ class MgmRepository @Inject constructor(
                 alertCacheModel: AlertCacheModel
             ): AlertsDataPack {
 
-                val stationIds = locationKeysDao.getCityKeyForLocation(location.id)?.cityKey?.let {
-                    separateIds(it)
-                } ?: safeApiCall {
-                    api.fetchLocation(
-                        location.latitude,
-                        location.longitude
-                    )
-                }.getOrThrow().let {
-                    separateIds("${it.currentStationId}, ${it.hourlyStationId}, ${it.dailyStationId}")
-                }
+                val (resolvedCurrentStationId, hourlyStationId, dailyStationId) =
+                    resolveStationIds(location)
 
-
-                val currentStationId =
-                    stationIds.first().id.toSafeDouble()?.toLong() ?: throw AppException.NotFound()
-                val hourlyStationId = stationIds[1].id.toSafeDouble()?.toLong()
-                val dailyStationId = stationIds[2].id.toSafeDouble()?.toLong()
+                val currentStationId = resolvedCurrentStationId ?: throw AppException.NotFound()
 
                 val today = "today"
                 val tomorrow = "tomorrow"
@@ -202,6 +179,45 @@ class MgmRepository @Inject constructor(
     }
 
     override fun airQualityCapability(): AirQualityCapability? = null
+
+    /**
+     * Returns the current, hourly and daily station IDs, from the saved key when it has an
+     * hourly station, otherwise from a fresh lookup.
+     *
+     * Most districts have no hourly station (`saatlikTahminIstNo` is null), so the
+     * province centre's hourly station is used for those. Keys saved before this fallback
+     * existed have "null" for hourly, so they get looked up again once.
+     */
+    private suspend fun resolveStationIds(location: Location): Triple<Long?, Long?, Long?> {
+        val cached = locationKeysDao.getCityKeyForLocation(location.id)?.cityKey?.let {
+            separateIds(it).map { id -> id.id.toSafeDouble()?.toLong() }
+        }
+
+        if (cached != null && cached[1] != null) {
+            return Triple(cached[0], cached[1], cached[2])
+        }
+
+        val lookup = safeApiCall {
+            api.fetchLocation(
+                location.latitude,
+                location.longitude
+            )
+        }.getOrThrow()
+
+        val hourlyStationId = lookup.hourlyStationId
+            ?: provinceHourlyStationId(lookup.province)
+
+        return Triple(lookup.currentStationId, hourlyStationId, lookup.dailyStationId)
+    }
+
+    private suspend fun provinceHourlyStationId(province: String?): Long? {
+        if (province.isNullOrBlank()) return null
+
+        return safeApiCall { api.fetchProvinceCentres() }
+            .getOrNull()
+            ?.firstOrNull { it.province == province }
+            ?.hourlyStationId
+    }
 }
 
 private fun separateIds(ids: String): List<ID> {
