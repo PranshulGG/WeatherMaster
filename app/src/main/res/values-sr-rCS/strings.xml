@@ -28,17 +28,17 @@
     <string name="search_provider">Dobavljač pretrage</string>
     <plurals name="time_minutes_ago">
         <item quantity="one">pre %d minut</item>
-        <item quantity="few">%d mins ago</item>
+        <item quantity="few">pre %d minuta</item>
         <item quantity="other">pre %d minuta</item>
     </plurals>
     <plurals name="time_hours_ago">
         <item quantity="one">pre %d h</item>
-        <item quantity="few">%d hrs ago</item>
+        <item quantity="few">pre %d h</item>
         <item quantity="other">pre %d h</item>
     </plurals>
     <plurals name="time_days_ago">
         <item quantity="one">pre %d dan</item>
-        <item quantity="few">%d days ago</item>
+        <item quantity="few">pre %d dana</item>
         <item quantity="other">pre %d dana</item>
     </plurals>
     <string name="time_just_now">Upravo sad</string>
@@ -61,7 +61,7 @@
     <string name="weather_no_condition">Nema prognoze</string>
     <string name="weather_uv_low">Nisko</string>
     <string name="weather_uv_moderate">Umereno</string>
-    <string name="weather_uv_high">Najviša</string>
+    <string name="weather_uv_high">Najviše</string>
     <string name="weather_uv_very_high">Veoma visoko</string>
     <string name="weather_uv_extreme">Ekstremno</string>
     <string name="setting_appearance">Izgled</string>
@@ -223,7 +223,7 @@
     <string name="setting_weather_sources_info">Preporučuje se korišćenje zasebnih izvora za svaki region, na osnovu pozivnog broja zemlje</string>
     <string name="setting_weather_animations">Animacije vremena</string>
     <string name="setting_weather_animations_secondary">Animacije koje se prilagođavaju trenutnom vremenu</string>
-    <string name="setting_froggy_layout">Froggy layout</string>
+    <string name="setting_froggy_layout">Stari dizajn sa žapcem</string>
     <string name="setting_froggy_layout_secondary">Prikaži klasičnu Google vremensku karticu. Isključite za noviji izgled kartice u Pixel Weather stilu</string>
     <string name="setting_layout">Izgled</string>
     <string name="setting_weather_based_theme">Tema koja prati vremenske uslove</string>
@@ -316,7 +316,7 @@
     <string name="summary_overview_template_day_condition">Tokom dana biće %1$s.</string>
     <string name="summary_overview_template_night_condition">Tokom noći vreme će biti %1$s.</string>
     <string name="gadgetbridge_not_available_error">Aplikacija Gadgetbridge nije instalirana</string>
-    <string name="settings_worker_info">Worker information</string>
+    <string name="settings_worker_info">Informacije o radu</string>
     <string name="settings_send_data_gadgetbridge">Prosledi podatke aplikaciji Gadgetbridge</string>
     <string name="aqi_PM25_full_label">Čestice u vazduhu manje od 2,5 mikrona</string>
     <string name="aqi_PM10_full_label">Čestice u vazduhu manje od 10 mikrona</string>
@@ -337,7 +337,7 @@
     <string name="location_info">Informacije o lokaciji</string>
     <string name="location_long_press_info">Zadržite prst na lokaciji da biste videli dodatne opcije</string>
     <string name="alert_severity_critical">Kritično</string>
-    <string name="alert_severity_high">Najviša</string>
+    <string name="alert_severity_high">Najviše</string>
     <string name="alert_severity_medium">Srednje</string>
     <string name="alert_severity_low">Nisko</string>
     <string name="alert_severity_unknown">Nepoznato</string>
